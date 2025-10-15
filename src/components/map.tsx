@@ -3,7 +3,7 @@ import { useGameStore } from '../state/gameStore';
 import styles from './Map.module.css'; // We will create this file
 import FleetIcon  from './icons/FleetIcon';
 
-function Map() {
+function Map({ selectedFleetId, setSelectedFleetId }) {
   // 1. Select the necessary data from the store.
   const systems = useGameStore(state => state.systems);
   const orgs = useGameStore(state => state.orgs);
@@ -77,6 +77,12 @@ function Map() {
               fleet={fleet}
               system={system}
               org={owner}
+              isSelected={selectedFleetId === fleet.id}
+              onClick={() => {
+                if (fleet.ownerNationId === 1) {
+                  setSelectedFleetId(fleet.id);
+                }
+              }}
            />
         );
       })}

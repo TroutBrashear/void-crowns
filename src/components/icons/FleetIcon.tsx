@@ -1,5 +1,4 @@
-import React from 'react';
-import type { Fleet, Org, StarSystem } from '../../types/gameState';
+import type { Fleet, Org, System } from '../../types/gameState';
 
 interface FleetIconProps {
   fleet: Fleet;
