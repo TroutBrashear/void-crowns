@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGameStore } from '../state/gameStore';
-import { System } from '../types/gameState'; // Import the type for clarity
+import type { System } from '../types/gameState'; // Import the type for clarity
 import styles from './Map.module.css'; // We will create this file
 
 function Map() {
@@ -14,7 +14,7 @@ function Map() {
     <svg className={styles.mapSvg} viewBox="0 0 1000 600">
       
       {/* 3. Render the "starlanes" (connections between systems) */}
-      {starSystems.ids.map(systemId => {
+      {systems.ids.map(systemId => {
         const system = systems.entities[systemId];
         // For each adjacent system, draw a line from this system to it.
         return system.adjacentSystemIds.map(adjacentId => {
@@ -37,13 +37,13 @@ function Map() {
       })}
 
       {/* 4. Render the star systems on top of the lanes. */}
-      {starSystems.ids.map(systemId => {
-        const system = starSystems.entities[systemId];
+      {systems.ids.map(systemId => {
+        const system = systems.entities[systemId];
         const owner = system.ownerNationId ? nations.entities[system.ownerNationId] : null;
 
         return (
           // Use a <g> tag to group the circle and text together
-          <g key={system.id} className={styles.starSystem}>
+          <g key={system.id} className={styles.system}>
             <circle
               cx={system.position.x}
               cy={system.position.y}

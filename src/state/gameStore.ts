@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { System, Fleet, Org } from '../types/gameState';
 import { normalize } from '../utils/normalize';
 
-import { initialOrgs, initialStarSystems, initialFleets } from '../data/scenarios/demo';
+import { initialOrgs, initialSystems, initialFleets } from '../data/scenarios/demo';
 
 interface EntitiesState<T> {
   entities: { [id: number]: T };
