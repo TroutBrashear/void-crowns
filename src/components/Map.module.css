@@ -1,0 +1,32 @@
+.mapSvg {
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a1a;
+}
+
+.starLane {
+  stroke: #444;
+  stroke-width: 2;
+}
+
+.starSystem {
+  cursor: pointer; /* Prepare for future interactivity */
+  transition: all 0.2s ease-in-out;
+}
+
+.systemBody {
+  stroke: #888;
+  stroke-width: 2;
+}
+
+.starSystem:hover .systemBody {
+  stroke: #fff;
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.systemLabel {
+  fill: #ccc;
+  font-size: 12px;
+  text-anchor: middle; /* Center the text horizontally */
+  pointer-events: none; /* Make text non-interactive */
+}
