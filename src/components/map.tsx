@@ -1,5 +1,5 @@
 import { useGameStore } from '../state/gameStore';
-import type { System } from '../types/gameState'; // Import the type for clarity
+//import type { System } from '../types/gameState'; // Import the type for clarity
 import styles from './Map.module.css'; // We will create this file
 
 function Map() {
