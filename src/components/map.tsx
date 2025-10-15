@@ -1,4 +1,3 @@
-import React from 'react';
 import { useGameStore } from '../state/gameStore';
 import type { System } from '../types/gameState'; // Import the type for clarity
 import styles from './Map.module.css'; // We will create this file
@@ -6,7 +5,7 @@ import styles from './Map.module.css'; // We will create this file
 function Map() {
   // 1. Select the necessary data from the store.
   const systems = useGameStore(state => state.systems);
-  const nations = useGameStore(state => state.nations);
+  const orgs = useGameStore(state => state.orgs);
 
   return (
     // 2. The root element is an <svg> tag.
