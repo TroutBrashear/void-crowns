@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { System, Fleet, Org } from '../types/gameState';
+import type { System, Fleet, Org } from '../types/gameState';
 import { normalize } from '../utils/normalize';
 
 import { initialOrgs, initialStarSystems, initialFleets } from '../data/scenarios/demo';
