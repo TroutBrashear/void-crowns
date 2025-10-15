@@ -1,11 +1,13 @@
 import { useGameStore } from '../state/gameStore';
 //import type { System } from '../types/gameState'; // Import the type for clarity
 import styles from './Map.module.css'; // We will create this file
+import FleetIcon  from './icons/FleetIcon';
 
 function Map() {
   // 1. Select the necessary data from the store.
   const systems = useGameStore(state => state.systems);
   const orgs = useGameStore(state => state.orgs);
+  const fleets = useGameStore(state => state.fleets);
 
   return (
     // 2. The root element is an <svg> tag.
@@ -62,6 +64,22 @@ function Map() {
       })}
 
       {/* We will render fleets here in a later step */}
+      {fleets.ids.map((fleetId: number) => {
+        const fleet = fleets.entities[fleetId];
+        const owner = orgs.entities[fleet.ownerNationId];
+        const system = systems.entities[fleet.locationSystemId];
+
+        if (!system || !owner || !fleet ) return null;
+
+        return (
+           <FleetIcon
+              key={fleet.id}
+              fleet={fleet}
+              system={system}
+              org={owner}
+           />
+        );
+      })}
 
     </svg>
   );
