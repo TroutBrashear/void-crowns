@@ -38,7 +38,7 @@ function Map() {
       {/* 4. Render the star systems on top of the lanes. */}
       {systems.ids.map((systemId: number) => {
         const system = systems.entities[systemId];
-        const owner = system.ownerNationId ? nations.entities[system.ownerNationId] : null;
+        const owner = system.ownerNationId ? orgs.entities[system.ownerNationId] : null;
 
         return (
           // Use a <g> tag to group the circle and text together
