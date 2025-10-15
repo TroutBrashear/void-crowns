@@ -10,13 +10,13 @@ interface EntitiesState<T> {
 }
 
 interface GameState {
-  starSystems: EntitiesState<System>;
+  systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
   orgs: EntitiesState<Org>;
 }
 
-export const useGameStore = create<GameState>((set, get) => ({
-  starSystems: normalize(initialSystems),
+export const useGameStore = create<GameState>((_set, _get) => ({
+  systems: normalize(initialSystems),
   fleets: normalize(initialFleets),
   orgs: normalize(initialOrgs),
 }));

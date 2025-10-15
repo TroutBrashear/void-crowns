@@ -14,10 +14,10 @@ function Map() {
     <svg className={styles.mapSvg} viewBox="0 0 1000 600">
       
       {/* 3. Render the "starlanes" (connections between systems) */}
-      {systems.ids.map(systemId => {
+      {systems.ids.map(systemId: number => {
         const system = systems.entities[systemId];
         // For each adjacent system, draw a line from this system to it.
-        return system.adjacentSystemIds.map(adjacentId => {
+        return system.adjacentSystemIds.map(adjacentId: number => {
           const adjacentSystem = systems.entities[adjacentId];
           // Simple check to avoid drawing lines twice
           if (system.id < adjacentSystem.id) {
@@ -37,7 +37,7 @@ function Map() {
       })}
 
       {/* 4. Render the star systems on top of the lanes. */}
-      {systems.ids.map(systemId => {
+      {systems.ids.map(systemId: number => {
         const system = systems.entities[systemId];
         const owner = system.ownerNationId ? nations.entities[system.ownerNationId] : null;
 
