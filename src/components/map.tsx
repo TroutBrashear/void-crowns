@@ -2,6 +2,7 @@ import { useGameStore } from '../state/gameStore';
 //import type { System } from '../types/gameState'; // Import the type for clarity
 import styles from './Map.module.css'; // We will create this file
 import FleetIcon  from './icons/FleetIcon';
+import { game } from '../engine/gameEngine';
 
 function Map({ selectedFleetId, setSelectedFleetId }) {
   // 1. Select the necessary data from the store.
@@ -51,6 +52,12 @@ function Map({ selectedFleetId, setSelectedFleetId }) {
               r={15} // Radius of the circle
               fill={owner ? owner.color : '#555'} // Use nation color or a default grey
               className={styles.systemBody}
+              onClick={() => {
+                if(selectedFleetId) {
+                  game.issueMoveOrder(selectedFleetId, system.id);
+                  setSelectedFleetId(null);
+                }
+              }}
             />
             <text
               x={system.position.x}
