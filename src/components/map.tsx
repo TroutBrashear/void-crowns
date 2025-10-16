@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useGameStore } from '../state/gameStore';
 //import type { System } from '../types/gameState'; // Import the type for clarity
 import styles from './Map.module.css'; // We will create this file
@@ -9,6 +10,31 @@ function Map({ selectedFleetId, setSelectedFleetId }) {
   const systems = useGameStore(state => state.systems);
   const orgs = useGameStore(state => state.orgs);
   const fleets = useGameStore(state => state.fleets);
+
+  const selectedFleet = selectedFleetId ? fleets.entities[selectedFleetId] : null;
+
+
+   const pathCoordinates = useMemo(() => {
+    if (!selectedFleet || selectedFleet.movementPath.length === 0) {
+      return []; // Return an empty array if no path
+    }
+
+    const coordinates = [];
+    const startSystem = systems.entities[selectedFleet.locationSystemId];
+    if (startSystem) {
+      coordinates.push(startSystem.position);
+    }
+
+    selectedFleet.movementPath.forEach((systemId: number) => {
+      const nextSystem = systems.entities[systemId];
+      if (nextSystem) {
+        coordinates.push(nextSystem.position);
+      }
+    });
+
+    return coordinates;
+  }, [selectedFleet, systems.entities]); // Re-calculate only when these change
+
 
   return (
     // 2. The root element is an <svg> tag.
@@ -92,6 +118,39 @@ function Map({ selectedFleetId, setSelectedFleetId }) {
               }}
            />
         );
+      })}
+
+      {fleets.ids.map(fleetId => {
+        const fleet = fleets.entities[fleetId];
+    
+        if (fleet.movementPath.length === 0) {
+          return null;
+        }
+
+        
+        const pathCoordinates = [];
+        const startSystem = systems.entities[fleet.locationSystemId];
+        if (startSystem) pathCoordinates.push(startSystem.position);
+        fleet.movementPath.forEach(systemId => {
+          const nextSystem = systems.entities[systemId];
+          if (nextSystem) pathCoordinates.push(nextSystem.position);
+        });
+
+        
+        return pathCoordinates.map((point, index) => {
+          if (index === 0) return null;
+          const prevPoint = pathCoordinates[index - 1];
+          return (
+            <line
+              key={`path-${fleet.id}-${index}`} 
+              x1={prevPoint.x} y1={prevPoint.y}
+              x2={point.x} y2={point.y}
+              stroke="yellow"
+              strokeWidth={2}
+              strokeDasharray="5,5"
+            />
+          );
+        });
       })}
 
     </svg>
