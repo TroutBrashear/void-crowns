@@ -19,3 +19,18 @@ export interface Org {
   name: string;
   color: string;
 }
+
+export interface EntitiesState<T> {
+  entities: { [id: number]: T };
+  ids: number[];
+}
+
+export interface GameState {
+  meta: {
+    turn: number;
+    activeOrgId: number;
+  };
+  systems: EntitiesState<System>;
+  fleets: EntitiesState<Fleet>;
+  orgs: EntitiesState<Org>;
+}

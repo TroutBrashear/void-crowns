@@ -3,13 +3,14 @@ import { useGameStore } from '../state/gameStore';
 //import type { System } from '../types/gameState'; // Import the type for clarity
 import styles from './Map.module.css'; // We will create this file
 import FleetIcon  from './icons/FleetIcon';
-import { game } from '../engine/gameEngine';
 
 function Map({ selectedFleetId, setSelectedFleetId }) {
   // 1. Select the necessary data from the store.
   const systems = useGameStore(state => state.systems);
   const orgs = useGameStore(state => state.orgs);
   const fleets = useGameStore(state => state.fleets);
+
+  const issueMoveOrder = useGameStore(state => state.issueMoveOrder);
 
   const selectedFleet = selectedFleetId ? fleets.entities[selectedFleetId] : null;
 
@@ -79,8 +80,9 @@ function Map({ selectedFleetId, setSelectedFleetId }) {
               fill={owner ? owner.color : '#555'} // Use nation color or a default grey
               className={styles.systemBody}
               onClick={() => {
-                if(selectedFleetId) {
-                  game.issueMoveOrder(selectedFleetId, system.id);
+                 if (selectedFleetId) {
+                  issueMoveOrder({ fleetId: selectedFleetId, targetSystemId: system.id });
+                  console.log(fleets.entities[selectedFleetId]);
                   setSelectedFleetId(null);
                 }
               }}
