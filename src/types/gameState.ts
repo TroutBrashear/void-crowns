@@ -34,6 +34,7 @@ export interface GameState {
   meta: {
     turn: number;
     activeOrgId: number;
+    isPaused: boolean;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
@@ -43,6 +44,7 @@ export interface GameState {
 export interface GameActions {
   issueMoveOrder: (payload: MoveOrderPayload) => void;
   tick: () => void;
+  playPause: () => void;
 }
 
 export type GameStoreState = GameState & GameActions;

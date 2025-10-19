@@ -15,6 +15,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   meta: {
     turn: 1, 
     activeOrgId: 1,
+    isPaused: false,
   },
   systems: normalize(initialSystems),
   fleets: normalize(initialFleets),
@@ -26,6 +27,21 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     
     set(nextState);
   },
+
+  playPause: () => {
+    set((state) => {
+      const currentStatus = state.meta.isPaused; 
+
+      return {
+        meta: {
+          ...state.meta,
+          isPaused: !currentStatus,
+        }
+      };
+    });
+  },
+  
+
   issueMoveOrder: (payload: MoveOrderPayload) => {
     const { fleetId, targetSystemId } = payload;
 
