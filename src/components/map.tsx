@@ -4,7 +4,12 @@ import { useGameStore } from '../state/gameStore';
 import styles from './Map.module.css'; // We will create this file
 import FleetIcon  from './icons/FleetIcon';
 
-function Map({ selectedFleetId, setSelectedFleetId }) {
+interface MapProps {
+  selectedFleetId: number | null;
+  setSelectedFleetId: (id: number | null) => void;
+}
+
+function Map({ selectedFleetId, setSelectedFleetId }: MapProps) {
   // 1. Select the necessary data from the store.
   const systems = useGameStore(state => state.systems);
   const orgs = useGameStore(state => state.orgs);
@@ -15,27 +20,7 @@ function Map({ selectedFleetId, setSelectedFleetId }) {
   const selectedFleet = selectedFleetId ? fleets.entities[selectedFleetId] : null;
 
 
-   const pathCoordinates = useMemo(() => {
-    if (!selectedFleet || selectedFleet.movementPath.length === 0) {
-      return []; // Return an empty array if no path
-    }
-
-    const coordinates = [];
-    const startSystem = systems.entities[selectedFleet.locationSystemId];
-    if (startSystem) {
-      coordinates.push(startSystem.position);
-    }
-
-    selectedFleet.movementPath.forEach((systemId: number) => {
-      const nextSystem = systems.entities[systemId];
-      if (nextSystem) {
-        coordinates.push(nextSystem.position);
-      }
-    });
-
-    return coordinates;
-  }, [selectedFleet, systems.entities]); // Re-calculate only when these change
-
+   
 
   return (
     // 2. The root element is an <svg> tag.

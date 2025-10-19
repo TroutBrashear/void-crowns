@@ -2,7 +2,7 @@ import type { Fleet, Org, System } from '../../types/gameState';
 
 interface FleetIconProps {
   fleet: Fleet;
-  system: StarSystem; // We need the system for its position
+  system: System; // We need the system for its position
   org: Org | null;
   isSelected: boolean;
   onClick: () => void;

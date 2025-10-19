@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import type { GameState } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload } from '../types/gameState';
 import type { Fleet } from '../types/gameState'; 
 
 import { processTick } from '../engine/tick';
@@ -9,12 +9,7 @@ import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets } from '../data/scenarios/demo';
 
 
-interface GameActions {
-  tick: () => void;
-  issueMoveOrder: (fleetId: number, targetSystemId: number) => void;
-}
-
-export const useGameStore = create<GameState & GameActions>((set, get) => ({
+export const useGameStore = create<GameStoreState>((set, get) => ({
 
 
   meta: {
@@ -31,7 +26,9 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
     
     set(nextState);
   },
-  issueMoveOrder: ({ fleetId, targetSystemId }: { fleetId: number; targetSystemId: number }) => {
+  issueMoveOrder: (payload: MoveOrderPayload) => {
+    const { fleetId, targetSystemId } = payload;
+
     const newPath = [targetSystemId];
     set((state) => {
       const fleetToUpdate = state.fleets.entities[fleetId];

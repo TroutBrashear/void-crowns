@@ -25,6 +25,11 @@ export interface EntitiesState<T> {
   ids: number[];
 }
 
+export interface MoveOrderPayload {
+  fleetId: number;
+  targetSystemId: number;
+}
+
 export interface GameState {
   meta: {
     turn: number;
@@ -34,3 +39,10 @@ export interface GameState {
   fleets: EntitiesState<Fleet>;
   orgs: EntitiesState<Org>;
 }
+
+export interface GameActions {
+  issueMoveOrder: (payload: MoveOrderPayload) => void;
+  processTickAction: () => void;
+}
+
+export type GameStoreState = GameState & GameActions;

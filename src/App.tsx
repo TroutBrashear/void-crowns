@@ -1,7 +1,7 @@
 import './App.css'
 import Map from './components/map';
 import { GameClock } from './components/GameClock';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 function App() {
 
