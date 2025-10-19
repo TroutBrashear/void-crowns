@@ -42,7 +42,7 @@ export interface GameState {
 
 export interface GameActions {
   issueMoveOrder: (payload: MoveOrderPayload) => void;
-  processTickAction: () => void;
+  tick: () => void;
 }
 
 export type GameStoreState = GameState & GameActions;

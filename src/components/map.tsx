@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React from 'react';
 import { useGameStore } from '../state/gameStore';
 //import type { System } from '../types/gameState'; // Import the type for clarity
 import styles from './Map.module.css'; // We will create this file
@@ -16,10 +16,6 @@ function Map({ selectedFleetId, setSelectedFleetId }: MapProps) {
   const fleets = useGameStore(state => state.fleets);
 
   const issueMoveOrder = useGameStore(state => state.issueMoveOrder);
-
-  const selectedFleet = selectedFleetId ? fleets.entities[selectedFleetId] : null;
-
-
    
 
   return (
@@ -115,7 +111,8 @@ function Map({ selectedFleetId, setSelectedFleetId }: MapProps) {
         }
 
         
-        const pathCoordinates = [];
+        const pathCoordinates: { x: number; y: number }[] = [];
+
         const startSystem = systems.entities[fleet.locationSystemId];
         if (startSystem) pathCoordinates.push(startSystem.position);
         fleet.movementPath.forEach(systemId => {
