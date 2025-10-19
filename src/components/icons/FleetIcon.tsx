@@ -21,7 +21,7 @@ function FleetIcon({ fleet, system, org, isSelected, onClick }: FleetIconProps) 
   `;
 
   return (
-    <g onClick={onClick} style={{ cursor: 'pointer' }}>
+    <g onClick={onClick} style={{ cursor: 'pointer' }}  data-fleet-id={fleet.id}>
       <path
         d={pathData}
         fill={org ? org.color : '#888'}
