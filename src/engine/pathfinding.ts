@@ -25,7 +25,7 @@ export function findPath(startingSystemId: number, endingSystemId: number, syste
 		}
 	}
 
-	if (!(endId in cameFrom)) {
+	if (!(endingSystemId in cameFrom)) {
     	return []; // No path exists
   	}
 

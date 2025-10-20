@@ -4,6 +4,7 @@ import type { GameStoreState, MoveOrderPayload } from '../types/gameState';
 import type { Fleet } from '../types/gameState'; 
 
 import { processTick } from '../engine/tick';
+import { findPath } from '../engine/pathfinding';
 
 import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets } from '../data/scenarios/demo';
@@ -43,11 +44,11 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   
 
   issueMoveOrder: (payload: MoveOrderPayload) => {
+    const currentState = get();
     const { fleetId, targetSystemId } = payload;
-
-    const newPath = [targetSystemId];
+    const fleetToUpdate = currentState.fleets.entities[fleetId];
+    const newPath = findPath(fleetToUpdate.locationSystemId , targetSystemId, currentState.systems);
     set((state) => {
-      const fleetToUpdate = state.fleets.entities[fleetId];
       const updatedFleet: Fleet = {
         ...fleetToUpdate,
         movementPath: newPath,
