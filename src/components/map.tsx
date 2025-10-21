@@ -1,14 +1,14 @@
 import { useGameStore } from '../state/gameStore';
-//import type { System } from '../types/gameState'; // Import the type for clarity
-import styles from './Map.module.css'; // We will create this file
+import type { Selection } from '../types/gameState'; 
+import styles from './Map.module.css'; 
 import FleetIcon  from './icons/FleetIcon';
 
 interface MapProps {
-  selectedFleetId: number | null;
-  setSelectedFleetId: (id: number | null) => void;
+  selection: Selection | null;
+  onSelect: (newSelection: Selection | null) => void;
 }
 
-function Map({ selectedFleetId, setSelectedFleetId }: MapProps) {
+function Map({ selection, onSelect }: MapProps) {
   // 1. Select the necessary data from the store.
   const systems = useGameStore(state => state.systems);
   const orgs = useGameStore(state => state.orgs);
@@ -60,10 +60,14 @@ function Map({ selectedFleetId, setSelectedFleetId }: MapProps) {
               fill={owner ? owner.color : '#555'} // Use nation color or a default grey
               className={styles.systemBody}
               onClick={() => {
-                 if (selectedFleetId) {
-                  issueMoveOrder({ fleetId: selectedFleetId, targetSystemId: system.id });
-                  console.log(fleets.entities[selectedFleetId]);
-                  setSelectedFleetId(null);
+                 if (selection?.type === 'fleet') {
+                  issueMoveOrder({ fleetId: selection.id, targetSystemId: system.id });
+                  console.log(fleets.entities[selection.id]);
+                  onSelect(null);
+                }
+                else
+                {
+                  onSelect({type: 'system', id: systemId});
                 }
               }}
             />
@@ -92,10 +96,10 @@ function Map({ selectedFleetId, setSelectedFleetId }: MapProps) {
               fleet={fleet}
               system={system}
               org={owner}
-              isSelected={selectedFleetId === fleet.id}
+              isSelected={selection?.id === fleet.id && selection.type === 'fleet'}
               onClick={() => {
                 if (fleet.ownerNationId === 1) {
-                  setSelectedFleetId(fleet.id);
+                  onSelect({type: 'fleet', id: fleet.id});
                 }
               }}
            />

@@ -25,6 +25,16 @@ export interface EntitiesState<T> {
   ids: number[];
 }
 
+//defines what users are allowed to select on the map.
+export type SelectableEntityType = 'fleet' | 'system';
+
+//the object for map selection state
+export interface Selection {
+  type: SelectableEntityType;
+  id: number;
+}
+
+
 export interface MoveOrderPayload {
   fleetId: number;
   targetSystemId: number;
