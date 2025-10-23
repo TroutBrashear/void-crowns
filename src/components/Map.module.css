@@ -35,3 +35,9 @@
   text-anchor: middle; /* Center the text horizontally */
   pointer-events: none; /* Make text non-interactive */
 }
+
+.mapWrapper,
+.mapWrapper > div {
+  width: 100% !important;
+  height: 100% !important;
+}

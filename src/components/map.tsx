@@ -3,6 +3,7 @@ import { useUiStore } from '../state/uiStore';
 import type { Selection } from '../types/gameState'; 
 import styles from './Map.module.css'; 
 import FleetIcon  from './icons/FleetIcon';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 interface MapProps {
   selection: Selection | null;
@@ -21,6 +22,8 @@ function Map({ onSelect }: MapProps) {
   return (
     // 2. The root element is an <svg> tag.
     //    `viewBox` defines the coordinate system. Think of it as the "camera."
+    <TransformWrapper initialScale={1} minScale={0.5} maxScale={5} limitToBounds={false} panning={{velocityDisabled: true}}>
+    <TransformComponent wrapperClass={styles.mapWrapper}>
     <svg className={styles.mapSvg} viewBox="0 0 1000 600">
       
       {systems.ids.map((systemId: number) => {
@@ -140,6 +143,8 @@ function Map({ onSelect }: MapProps) {
       })}
 
     </svg>
+    </TransformComponent>
+    </TransformWrapper>
   );
 }
 
