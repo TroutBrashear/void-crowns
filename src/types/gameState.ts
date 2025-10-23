@@ -4,6 +4,18 @@ export interface System {
   position: { x: number; y: number };
   adjacentSystemIds: number[];
   ownerNationId: number | null;
+  //planetoids: Planetoid[];
+}
+
+export type PlanetoidClassification = 'gravWell' | 'planet' | 'moon' | 'asteroid' | 'station';
+
+export interface Planetoid {
+  id: number;
+  parentPlanetoidId: number | null;
+  locationSystemId: number;
+  classification: PlanetoidClassification;
+  environment: string;
+  size: number;
 }
 
 export interface Fleet {
