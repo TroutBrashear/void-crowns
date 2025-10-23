@@ -24,7 +24,7 @@ function Map({ onSelect }: MapProps) {
     //    `viewBox` defines the coordinate system. Think of it as the "camera."
     <TransformWrapper initialScale={1} minScale={0.5} maxScale={5} limitToBounds={false} panning={{velocityDisabled: true}}>
     <TransformComponent wrapperClass={styles.mapWrapper}>
-    <svg className={styles.mapSvg} viewBox="0 0 1000 600">
+    <svg className={styles.mapSvg} viewBox="0 0 5000 1500">
       
       {systems.ids.map((systemId: number) => {
         const system = systems.entities[systemId];

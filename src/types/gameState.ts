@@ -4,13 +4,14 @@ export interface System {
   position: { x: number; y: number };
   adjacentSystemIds: number[];
   ownerNationId: number | null;
-  //planetoids: Planetoid[];
+  planetoids: number[]; //the ids of all planetoids in this system
 }
 
 export type PlanetoidClassification = 'gravWell' | 'planet' | 'moon' | 'asteroid' | 'station';
 
 export interface Planetoid {
   id: number;
+  name: string;
   parentPlanetoidId: number | null;
   locationSystemId: number;
   classification: PlanetoidClassification;
@@ -61,6 +62,7 @@ export interface GameState {
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
   orgs: EntitiesState<Org>;
+  planetoids: EntitiesState<Planetoid>;
 }
 
 export interface GameActions {

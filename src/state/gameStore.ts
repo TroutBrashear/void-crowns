@@ -7,7 +7,7 @@ import { processTick } from '../engine/tick';
 import { findPath } from '../engine/pathfinding';
 
 import { normalize } from '../utils/normalize';
-import { initialOrgs, initialSystems, initialFleets } from '../data/scenarios/demo';
+import { initialOrgs, initialSystems, initialFleets, initialPlanetoids} from '../data/scenarios/demo';
 
 
 export const useGameStore = create<GameStoreState>((set, get) => ({
@@ -21,6 +21,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   systems: normalize(initialSystems),
   fleets: normalize(initialFleets),
   orgs: normalize(initialOrgs),
+  planetoids: normalize(initialPlanetoids),
 
   tick: () => {
     const currentState = get();
