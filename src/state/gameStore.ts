@@ -25,7 +25,6 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   tick: () => {
     const currentState = get();
     const nextState = processTick(currentState);
-    
     set(nextState);
   },
 
@@ -68,5 +67,9 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       };
     });
   },
+
+
+  getFleetById: (id: number) => get().fleets.entities[id],
+  getSystemById: (id: number) => get().systems.entities[id],
 
 }));

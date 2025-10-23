@@ -1,4 +1,5 @@
 import { useGameStore } from '../state/gameStore';
+import { useUiStore } from '../state/uiStore';
 import type { Selection } from '../types/gameState'; 
 import styles from './Map.module.css'; 
 import FleetIcon  from './icons/FleetIcon';
@@ -8,21 +9,20 @@ interface MapProps {
   onSelect: (newSelection: Selection | null) => void;
 }
 
-function Map({ selection, onSelect }: MapProps) {
-  // 1. Select the necessary data from the store.
+function Map({ onSelect }: MapProps) {
   const systems = useGameStore(state => state.systems);
   const orgs = useGameStore(state => state.orgs);
   const fleets = useGameStore(state => state.fleets);
 
   const issueMoveOrder = useGameStore(state => state.issueMoveOrder);
    
+  const selection = useUiStore(state => state.selection);
 
   return (
     // 2. The root element is an <svg> tag.
     //    `viewBox` defines the coordinate system. Think of it as the "camera."
     <svg className={styles.mapSvg} viewBox="0 0 1000 600">
       
-      {/* 3. Render the "starlanes" (connections between systems) */}
       {systems.ids.map((systemId: number) => {
         const system = systems.entities[systemId];
         // For each adjacent system, draw a line from this system to it.
@@ -49,16 +49,15 @@ function Map({ selection, onSelect }: MapProps) {
       {systems.ids.map((systemId: number) => {
         const system = systems.entities[systemId];
         const owner = system.ownerNationId ? orgs.entities[system.ownerNationId] : null;
-
+        const isSelected = selection?.id === system.id && selection.type === 'system';
         return (
-          // Use a <g> tag to group the circle and text together
           <g key={system.id} className={styles.system}>
             <circle
               cx={system.position.x}
               cy={system.position.y}
-              r={15} // Radius of the circle
-              fill={owner ? owner.color : '#555'} // Use nation color or a default grey
-              className={styles.systemBody}
+              r={15}
+              fill={owner ? owner.color : '#555'} //default gray if no owner
+              className={`${styles.systemBody} ${isSelected ? styles.selected : ''}`}
               onClick={() => {
                  if (selection?.type === 'fleet') {
                   issueMoveOrder({ fleetId: selection.id, targetSystemId: system.id });

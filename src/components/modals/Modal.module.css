@@ -1,0 +1,21 @@
+.modal {
+  /* --- The "Floating" Properties (from your old code) --- */
+  position: fixed;
+  z-index: 1000; /* A high number to ensure it's on top */
+  
+  bottom: 20px; /* 20 pixels from the bottom of the screen */
+  right: 20px;  /* 20 pixels from the right of the screen */
+  
+  /* --- The "Sizing" Properties --- */
+  /* Let's aim for roughly an eighth of the screen. */
+  width: 350px;       /* A fixed width is often a good start. */
+  max-width: 25vw;    /* Or use viewport units: 25% of the viewport width. */
+  min-height: 200px;  /* Give it a minimum height. */
+  
+  /* --- The "Appearance" Properties --- */
+  background-color: rgba(30, 30, 30, 0.9); /* Dark, slightly transparent background */
+  border: 1px solid #555;
+  border-radius: 8px; /* Slightly rounded corners */
+  padding: 1rem;      /* Internal spacing */
+  color: #eee;         /* Light text color for contrast */
+}

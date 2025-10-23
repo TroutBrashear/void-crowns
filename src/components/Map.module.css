@@ -19,6 +19,11 @@
   stroke-width: 2;
 }
 
+.systemBody.selected {
+  stroke: white; 
+  stroke-width: 3px;
+}
+
 .starSystem:hover .systemBody {
   stroke: #fff;
   transform: scale(1.1); /* Slightly enlarge on hover */
