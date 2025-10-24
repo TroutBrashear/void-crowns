@@ -17,6 +17,7 @@ export interface Planetoid {
   classification: PlanetoidClassification;
   environment: string;
   size: number;
+  population: number;
 }
 
 export interface Fleet {
@@ -27,10 +28,15 @@ export interface Fleet {
   movesRemaining: number;
 }
 
+export interface Resources {
+  credits: number;
+}
+
 export interface Org {
   id: number;
   name: string;
   color: string;
+  resources: Resources;
 }
 
 export interface EntitiesState<T> {

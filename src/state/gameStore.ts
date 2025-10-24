@@ -5,6 +5,7 @@ import type { Fleet } from '../types/gameState';
 
 import { processTick } from '../engine/tick';
 import { findPath } from '../engine/pathfinding';
+import { processEconomy } from '../engine/economy';
 
 import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets, initialPlanetoids} from '../data/scenarios/demo';
@@ -26,7 +27,18 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
   tick: () => {
     const currentState = get();
-    const nextState = processTick(currentState);
+    let nextState = processTick(currentState);
+
+    if(currentState.meta.turn % 10 === 0){
+      nextState = processEconomy(nextState);
+    }
+    nextState = {
+      ...nextState,
+      meta: {
+        ...nextState.meta,
+        turn: nextState.meta.turn + 1,
+      },
+    }
     set(nextState);
   },
 

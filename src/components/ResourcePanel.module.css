@@ -1,0 +1,14 @@
+.resourcePanel {
+  display: flex;
+  gap: 1.5rem;
+  background-color: #111;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+}
+
+.resourceItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
