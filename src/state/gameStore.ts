@@ -23,6 +23,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   orgs: normalize(initialOrgs),
   planetoids: normalize(initialPlanetoids),
 
+
   tick: () => {
     const currentState = get();
     const nextState = processTick(currentState);
@@ -72,5 +73,5 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
   getFleetById: (id: number) => get().fleets.entities[id],
   getSystemById: (id: number) => get().systems.entities[id],
-
+  getPlanetoidById: (id: number) => get().planetoids.entities[id],
 }));
