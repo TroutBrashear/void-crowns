@@ -48,7 +48,7 @@ export interface charAssignment {
 export interface Character {
   id: number;
   name: string;
-  bornTurn: number;
+  bornTurn: number; //used to calculate age
   traits: string[];
   assignment: charAssignment;
 }
@@ -78,6 +78,7 @@ export interface GameState {
     turn: number;
     activeOrgId: number;
     isPaused: boolean;
+    lastFleetId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;

@@ -10,6 +10,7 @@ import { processEconomy } from '../engine/economy';
 import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets, initialPlanetoids} from '../data/scenarios/demo';
 
+const FLEET_COST = 10000;
 
 export const useGameStore = create<GameStoreState>((set, get) => ({
 
@@ -18,6 +19,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     turn: 1, 
     activeOrgId: 1,
     isPaused: false,
+    lastFleetId: 2,
   },
   systems: normalize(initialSystems),
   fleets: normalize(initialFleets),
@@ -82,8 +84,64 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     });
   },
 
+  buildFleet: (locationId: number) => {
+    set((state) => {
+      const buildSystem = state.systems.entities[locationId];
+      const newId = state.meta.lastFleetId + 1;
+      const ownerOrg = state.orgs.entities[buildSystem.ownerNationId];
 
+
+      //if the org can't afford the fleet, do nothing.
+      if(ownerOrg.resources.credits < FLEET_COST) {
+        return state; 
+      }
+
+      const newFleet = {
+        id: newId,
+        ownerNationId: buildSystem.ownerNationId,
+        locationSystemId: locationId,
+        movementPath: [],
+        movesRemaining: 3,
+      };
+
+      const updatedOrg = {
+        ...ownerOrg,
+        resources: {
+          ...ownerOrg.resources,
+          credits: ownerOrg.resources.credits - FLEET_COST,
+        }
+      };
+
+      return {
+        fleets: {
+          ...state.fleets,
+          entities: {
+            ...state.fleets.entities,
+            [newId]: newFleet,
+          },
+          ids: [...state.fleets.ids, newId],
+        },
+        orgs: {
+          ...state.orgs,
+          entities: {
+            ...state.orgs.entities,
+            [ownerOrg.id]: updatedOrg,
+          }
+        },
+        meta: {
+          ...state.meta,
+          lastFleetId: newId,
+        },
+      };
+    });
+  },
+
+
+
+  //getters
   getFleetById: (id: number) => get().fleets.entities[id],
   getSystemById: (id: number) => get().systems.entities[id],
   getPlanetoidById: (id: number) => get().planetoids.entities[id],
+
+  //create
 }));

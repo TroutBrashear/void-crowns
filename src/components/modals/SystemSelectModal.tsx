@@ -8,6 +8,7 @@ function SystemSelectModal() {
   
   const getSystemById = useGameStore(state => state.getSystemById);
   const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
+  const buildFleet = useGameStore(state => state.buildFleet);
 
   const systemToShow = 
     (selection?.type === 'system') 
@@ -24,6 +25,8 @@ function SystemSelectModal() {
   return (
     <div className={styles.modal}>
       <h2>System: {systemToShow.name}</h2>
+
+      {systemToShow.ownerNationId === 1 && <button onClick={() => buildFleet(systemToShow.id)}>Construct Fleet</button>}
 
       <h3>Planetoids</h3>
       <ul>
