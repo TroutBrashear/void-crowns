@@ -1,4 +1,4 @@
-import type { Resources } from '../types/gameState'; // We need the Resources blueprint
+import type { Resources } from '../types/gameState'; 
 import styles from './ResourcePanel.module.css';
 
 interface ResourcePanelProps {

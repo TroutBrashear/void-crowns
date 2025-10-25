@@ -39,6 +39,20 @@ export interface Org {
   resources: Resources;
 }
 
+//a helper that holds information about what a character is currently doing
+export interface charAssignment {
+  type: string;
+  id: number;
+}
+
+export interface Character {
+  id: number;
+  name: string;
+  bornTurn: number;
+  traits: string[];
+  assignment: charAssignment;
+}
+
 export interface EntitiesState<T> {
   entities: { [id: number]: T };
   ids: number[];
