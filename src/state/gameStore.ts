@@ -3,9 +3,11 @@ import { create } from 'zustand';
 import type { GameStoreState, MoveOrderPayload } from '../types/gameState';
 import type { Fleet } from '../types/gameState'; 
 
+//engine imports
 import { processTick } from '../engine/tick';
 import { findPath } from '../engine/pathfinding';
 import { processEconomy } from '../engine/economy';
+import { processCombat } from '../engine/combat';
 
 import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets, initialPlanetoids} from '../data/scenarios/demo';
@@ -34,6 +36,9 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     if(currentState.meta.turn % 10 === 0){
       nextState = processEconomy(nextState);
     }
+
+    nextState = processCombat(nextState);
+
     nextState = {
       ...nextState,
       meta: {
@@ -140,6 +145,10 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
   //getters
   getFleetById: (id: number) => get().fleets.entities[id],
+  getFleetsBySystem: (id: number) => { //good candidate for future optimization.
+    const allFleets = Object.values(get().fleets.entities);
+    return allFleets.filter(fleet => fleet.locationSystemId === id);
+  },
   getSystemById: (id: number) => get().systems.entities[id],
   getPlanetoidById: (id: number) => get().planetoids.entities[id],
 
