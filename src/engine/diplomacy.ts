@@ -4,8 +4,6 @@ import type { GameState, OrgRelation } from '../types/gameState';
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
 	const firstOrg = gameState.orgs.entities[firstOrgId];
 
-	let relations
-
 	if(firstOrg){
 		const relations = firstOrg.relations.find(rel => rel.targetOrgId === secondOrgId);
 
