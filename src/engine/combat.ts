@@ -1,4 +1,5 @@
 import type { GameState, Fleet } from '../types/gameState';
+import { getRelationship } from './diplomacy';
 
 function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] {
 	const allFleets = Object.values(currentState.fleets.entities);

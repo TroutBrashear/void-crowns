@@ -24,7 +24,9 @@ function SystemSelectModal() {
 
   const planetoidIds = systemToShow.planetoids;
   const systemPlanetoids = planetoidIds.map(id => getPlanetoidById(id)).filter(Boolean);
-  const systemOwnerOrg = getOrgById(systemToShow.ownerNationId);
+  const systemOwnerOrg = systemToShow.ownerNationId 
+  ? getOrgById(systemToShow.ownerNationId) 
+  : null;
 
   return (
     <div className={styles.modal}>

@@ -39,6 +39,8 @@ function OrgSelectModal() {
 						</li>);
 				})}
 			</ul>
+
+			<button onClick={closeModal}>Close</button>
 		</div>
 	);
 
