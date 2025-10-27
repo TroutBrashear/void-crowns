@@ -95,7 +95,10 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       const newId = state.meta.lastFleetId + 1;
       const ownerOrg = state.orgs.entities[buildSystem.ownerNationId];
 
-
+      if(!buildSystem || !buildSystem.ownerNationId)
+      {
+        return state;
+      }
       //if the org can't afford the fleet, do nothing.
       if(ownerOrg.resources.credits < FLEET_COST) {
         return state; 

@@ -32,11 +32,22 @@ export interface Resources {
   credits: number;
 }
 
+export interface OrgRelation {
+  targetOrgId: number;
+  status: 'peace' | 'war';
+  opinion: number;
+}
+
 export interface Org {
   id: number;
   name: string;
   color: string;
   resources: Resources;
+
+  parentId: number | null;
+  childIds: number[];
+
+  relations: OrgRelation[];
 }
 
 //a helper that holds information about what a character is currently doing

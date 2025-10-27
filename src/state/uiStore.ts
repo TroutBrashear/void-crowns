@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { UiStoreState } from '../types/uiState';
-import type { Selection } from './types/gameState'; 
+import type { Selection } from '../types/gameState'; 
 
 export const useUiStore = create<UiStoreState>((set, get) => ({
 
@@ -15,11 +15,11 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
   	
   	closeModal: () => {
   		set((state) => {
-  			return{ activeModal: null };
+  			return{ activeModal: null, selection: null };
   		});
   	},
 
-  	setSelection: (selection) => set({ 
+  	setSelection: (selection: Selection | null) => set({ 
   		selection: selection 
   	}),
 }));
