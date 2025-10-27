@@ -1,4 +1,4 @@
-import type { System } from '../types/gameState';
+import type { EntitiesState, System } from '../types/gameState';
 
 export function findPath(startingSystemId: number, endingSystemId: number, systems: EntitiesState<System>): number[] {
 	let finalPath: number[] = [];
@@ -13,6 +13,7 @@ export function findPath(startingSystemId: number, endingSystemId: number, syste
 
 		const currentSystemId = queue.shift()!; 
 		const currentSystem = systems.entities[currentSystemId];
+		if (!currentSystem) continue;
 		if(currentSystemId === endingSystemId){
 			break;
 		}

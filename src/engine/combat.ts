@@ -6,7 +6,7 @@ function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] 
 }
 
 
-function resolveBattle(currentState: GameState, systemId: number, fleetsInSystem: Fleet[]): GameState {
+function resolveBattle(currentState: GameState, fleetsInSystem: Fleet[]): GameState {
 	let fleetScore = new Map<number, number>();
 
 	for(const fleet of fleetsInSystem){
@@ -64,7 +64,7 @@ export function processCombat(currentState: GameState): GameState {
 		const uniqueOwnerIds = new Set(fleetsInSystem.map(f => f.ownerNationId));
 
 		if(uniqueOwnerIds.size > 1) {
-			nextState = resolveBattle(nextState, systemId, fleetsInSystem);
+			nextState = resolveBattle(nextState, fleetsInSystem);
 		}
 	}
 

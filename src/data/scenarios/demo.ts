@@ -1,8 +1,8 @@
 import type { System, Fleet, Org, Planetoid } from '../../types/gameState';
 
 export const initialOrgs: Org[] = [
-  { id: 1, name: 'Human Republic', color: '#3498db', resources: { credits: 100 }, parentId: null, childIds: [], relations: [{ targetId: 2, status: 'war', opinion: -100 }] },
-  { id: 2, name: 'Alien Imperium', color: '#e74c3c', resources: { credits: 100 }, parentId: null, childIds: [], relations: [{ targetId: 1, status: 'war', opinion: -100 }]},
+  { id: 1, name: 'Human Republic', color: '#3498db', resources: { credits: 100 }, parentId: null, childIds: [], relations: [{ targetOrgId: 2, status: 'war', opinion: -100 }] },
+  { id: 2, name: 'Alien Imperium', color: '#e74c3c', resources: { credits: 100 }, parentId: null, childIds: [], relations: [{ targetOrgId: 1, status: 'war', opinion: -100 }]},
 ];
 
 export const initialSystems: System[] = [

@@ -96,10 +96,10 @@ export interface GameState {
   orgs: EntitiesState<Org>;
   planetoids: EntitiesState<Planetoid>;
 
-  getFleetById: (number) => void;
-  getFleetsBySystem: (number) => void;
-  getSystembyId: (number) => void;
-  getPlanetoidById: (number) => void;
+  getFleetById: (id: number) => Fleet | undefined;
+  getFleetsBySystem: (id: number) => Fleets[] | undefined;
+  getSystemById: (id: number) => System | undefined;
+  getPlanetoidById: (id: number) => Planetoid | undefined;
 }
 
 export interface GameActions {

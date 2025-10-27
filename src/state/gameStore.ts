@@ -95,7 +95,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       const newId = state.meta.lastFleetId + 1;
       const ownerOrg = state.orgs.entities[buildSystem.ownerNationId];
 
-      if(!buildSystem || !buildSystem.ownerNationId)
+      if(!buildSystem || buildSystem.ownerNationId === null)
       {
         return state;
       }
