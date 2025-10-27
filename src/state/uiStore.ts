@@ -8,15 +8,11 @@ export const useUiStore = create<UiStoreState>((set) => ({
 	selection: null,
 
 	openModal: (modal: ModalType) => {
-		set((state) => {
-  			return{ activeModal: modal };
-  		});
+		set({ activeModal: modal });
 	},
   	
   	closeModal: () => {
-  		set((state) => {
-  			return{ activeModal: null, selection: null };
-  		});
+  		set({ activeModal: null, selection: null });
   	},
 
   	setSelection: (selection: Selection | null) => set({ 

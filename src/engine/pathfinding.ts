@@ -30,12 +30,11 @@ export function findPath(startingSystemId: number, endingSystemId: number, syste
     	return []; // No path exists
   	}
 
-  	let currentSystemId = endingSystemId;
-
-  	while(currentSystemId !== null){
-  		finalPath.push(currentSystemId);
-  		currentSystemId = cameFrom[currentSystemId];
-  	}
+  	let current: number | null = endingSystemId;
+	while (current !== null) {
+  		finalPath.push(current);
+  		current = cameFrom[current];
+	}
 
   	finalPath.reverse();
 

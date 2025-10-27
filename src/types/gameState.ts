@@ -22,6 +22,7 @@ export interface Planetoid {
 
 export interface Fleet {
   id: number;
+  name: string;
   ownerNationId: number;
   locationSystemId: number;
   movementPath: number[];
@@ -97,7 +98,7 @@ export interface GameState {
   planetoids: EntitiesState<Planetoid>;
 
   getFleetById: (id: number) => Fleet | undefined;
-  getFleetsBySystem: (id: number) => Fleets[] | undefined;
+  getFleetsBySystem: (id: number) => Fleet[] | undefined;
   getSystemById: (id: number) => System | undefined;
   getPlanetoidById: (id: number) => Planetoid | undefined;
 }
@@ -106,6 +107,7 @@ export interface GameActions {
   issueMoveOrder: (payload: MoveOrderPayload) => void;
   tick: () => void;
   playPause: () => void;
+  buildFleet: (locationId: number) => void;
 }
 
 export type GameStoreState = GameState & GameActions;

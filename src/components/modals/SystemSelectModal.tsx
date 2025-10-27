@@ -30,11 +30,13 @@ function SystemSelectModal() {
 
       <h3>Planetoids</h3>
       <ul>
-        {systemPlanetoids.map(planetoid => (
-          <li key={planetoid.id}>
-            {planetoid.name}
-          </li>  
-        ))}
+        {systemPlanetoids.map(planetoid => {
+          if (!planetoid) return null; 
+          return(
+            <li key={planetoid.id}>
+              {planetoid.name}
+           </li>);
+        })}
       </ul>
 
       <button onClick={closeModal}>Close</button>
