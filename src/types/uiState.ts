@@ -1,7 +1,7 @@
 import type { Selection } from './gameState'; 
 
 
-export type ModalType = "fleet_modal" | "system_modal"; 
+export type ModalType = "fleet_modal" | "system_modal" | "org_modal"; 
 
 export interface UiState {
   activeModal: ModalType | null;

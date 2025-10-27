@@ -71,7 +71,7 @@ export interface EntitiesState<T> {
 }
 
 //defines what users are allowed to select on the map.
-export type SelectableEntityType = 'fleet' | 'system';
+export type SelectableEntityType = 'fleet' | 'system' | 'org';
 
 //the object for map selection state
 export interface Selection {
@@ -101,6 +101,7 @@ export interface GameState {
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
   getSystemById: (id: number) => System | undefined;
   getPlanetoidById: (id: number) => Planetoid | undefined;
+  getOrgById: (id: number) => Org | undefined;
 }
 
 export interface GameActions {

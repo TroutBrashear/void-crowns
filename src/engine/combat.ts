@@ -66,7 +66,30 @@ export function processCombat(currentState: GameState): GameState {
 		const uniqueOwnerIds = new Set(fleetsInSystem.map(f => f.ownerNationId));
 
 		if(uniqueOwnerIds.size > 1) {
-			nextState = resolveBattle(nextState, fleetsInSystem);
+			//Check diplomatic status
+			const orgsInSystem = [...uniqueOwnerIds];
+			let isBattle = false;
+
+			for(let i = 0; i < orgsInSystem.length; i++) {
+				for(let j = i + 1; j < orgsInSystem.length; j++) {
+					const firstOrgId = orgsInSystem[i];
+					const secondOrgId = orgsInSystem[j];
+
+					const relationship = getRelationship(nextState, firstOrgId, secondOrgId);
+
+					if(relationship.status === 'war'){
+						isBattle = true;
+						break;
+					}
+				}
+
+				if (isBattle) {
+					break;
+				}
+			}
+			if(isBattle){
+				nextState = resolveBattle(nextState, fleetsInSystem);
+			}
 		}
 	}
 
