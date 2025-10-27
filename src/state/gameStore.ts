@@ -108,6 +108,7 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
       const newFleet = {
         id: newId,
+        fleet: "new Fleet",
         ownerNationId: buildSystem.ownerNationId,
         locationSystemId: locationId,
         movementPath: [],

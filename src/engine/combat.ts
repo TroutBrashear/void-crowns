@@ -10,13 +10,13 @@ function resolveBattle(currentState: GameState, fleetsInSystem: Fleet[]): GameSt
 	let fleetScore = new Map<number, number>();
 
 	for(const fleet of fleetsInSystem){
-		if (!fleet) continue;
-		
-		if(!fleetScore.has(fleet.ownerNationId)) {
-			fleetScore.set(fleet.ownerNationId, 0);
+		if (!fleet) {
+			continue;
 		}
 
-		let updateScore = fleetScore.get(fleet.ownerNationId) + Math.floor(Math.random() * 20);
+		const currentScore = fleetScore.get(fleet.ownerNationId) || 0;
+
+		let updateScore = currentScore + Math.floor(Math.random() * 20);
 
 		fleetScore.set(fleet.ownerNationId, updateScore);
 	}
