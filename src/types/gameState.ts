@@ -97,7 +97,7 @@ export interface GameState {
   planetoids: EntitiesState<Planetoid>;
 
   getFleetById: (number) => void;
-  getFleetsBySystem (number) => void;
+  getFleetsBySystem: (number) => void;
   getSystembyId: (number) => void;
   getPlanetoidById: (number) => void;
 }
