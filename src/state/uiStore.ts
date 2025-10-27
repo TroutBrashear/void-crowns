@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { UiStoreState } from '../types/uiState';
 import type { Selection } from '../types/gameState'; 
 
-export const useUiStore = create<UiStoreState>((set, get) => ({
+export const useUiStore = create<UiStoreState>((set) => ({
 
 	activeModal: null,
 	selection: null,

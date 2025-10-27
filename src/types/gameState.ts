@@ -95,6 +95,11 @@ export interface GameState {
   fleets: EntitiesState<Fleet>;
   orgs: EntitiesState<Org>;
   planetoids: EntitiesState<Planetoid>;
+
+  getFleetById: (number) => void;
+  getFleetsBySystem (number) => void;
+  getSystembyId: (number) => void;
+  getPlanetoidById: (number) => void;
 }
 
 export interface GameActions {

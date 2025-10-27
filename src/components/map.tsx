@@ -6,7 +6,8 @@ import FleetIcon  from './icons/FleetIcon';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 interface MapProps {
-  selection: Selection | null;
+  //selection is now direct from store
+  //selection: Selection | null;
   onSelect: (newSelection: Selection | null) => void;
 }
 
@@ -48,7 +49,6 @@ function Map({ onSelect }: MapProps) {
         });
       })}
 
-      {/* 4. Render the star systems on top of the lanes. */}
       {systems.ids.map((systemId: number) => {
         const system = systems.entities[systemId];
         const owner = system.ownerNationId ? orgs.entities[system.ownerNationId] : null;
