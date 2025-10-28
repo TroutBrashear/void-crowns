@@ -8,6 +8,7 @@ import { processTick } from '../engine/tick';
 import { findPath } from '../engine/pathfinding';
 import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
+import { processAiTurn } from '../engine/ai';
 
 import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets, initialPlanetoids} from '../data/scenarios/demo';
@@ -73,6 +74,12 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     }
 
     nextState = processCombat(nextState);
+
+    for(const orgId of nextState.orgs.ids){
+      if(orgId !== 1){
+        nextState = processAiTurn(nextState, orgId);
+      }
+    }
 
     nextState = {
       ...nextState,
