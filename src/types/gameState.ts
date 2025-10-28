@@ -85,6 +85,11 @@ export interface MoveOrderPayload {
   targetSystemId: number;
 }
 
+export interface DiploStatusPayload {
+  actorId: number; 
+  targetId: number;
+}
+
 export interface GameState {
   meta: {
     turn: number;
@@ -109,6 +114,8 @@ export interface GameActions {
   tick: () => void;
   playPause: () => void;
   buildFleet: (locationId: number) => void;
+  declareWar: (payload: DiplomaticActionPayload) => void;
+  declarePeace: (payload: DiplomaticActionPayload) => void;
 }
 
 export type GameStoreState = GameState & GameActions;

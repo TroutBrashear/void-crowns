@@ -14,9 +14,44 @@ import { initialOrgs, initialSystems, initialFleets, initialPlanetoids} from '..
 
 const FLEET_COST = 10000;
 
-export const useGameStore = create<GameStoreState>((set, get) => ({
+export const useGameStore = create<GameStoreState>((set, get) => {
 
 
+  const updateBilateralRelation = (firstOrgId: number, secondOrgId: number, newStatus: 'war' | 'peace') => {
+    set((state) => {
+        const firstOrg = state.orgs.entities[firstOrgId];
+        const secondOrg = state.orgs.entities[secondOrgId];
+
+        if (!firstOrg || !secondOrg){
+          return state;
+        }
+
+        const firstUpdatedRel = firstOrg.relations.map(rel => 
+          rel.targetOrgId === secondOrgId ? { ...rel, status: newStatus } : rel
+        ); 
+
+        const secondUpdatedRel = secondOrg.relations.map(rel => 
+          rel.targetOrgId === firstOrgId ? { ...rel, status: newStatus } : rel
+        );
+
+        const updatedFirstOrg = { ...firstOrg, relations: firstUpdatedRel };
+        const updatedSecondOrg = { ...secondOrg, relations: secondUpdatedRel };
+
+        console.log(updatedFirstOrg);
+        return {
+          orgs: {
+            ...state.orgs,
+            entities: {
+              ...state.orgs.entities,
+              [firstOrgId]: updatedFirstOrg,
+              [secondOrgId]: updatedSecondOrg,
+          },
+        },
+      };
+    });
+  };
+
+  return {
   meta: {
     turn: 1, 
     activeOrgId: 1,
@@ -147,6 +182,13 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     });
   },
 
+   declareWar: ({ actorId, targetId }) => {
+    updateBilateralRelation(actorId, targetId, 'war');
+  },
+
+  declarePeace: ({ actorId, targetId }) => {
+    updateBilateralRelation(actorId, targetId, 'peace');
+  },
 
 
   //getters
@@ -159,5 +201,5 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   getPlanetoidById: (id: number) => get().planetoids.entities[id],
   getOrgById: (id: number) => get().orgs.entities[id],
 
-  //create
-}));
+  };
+});
