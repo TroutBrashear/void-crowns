@@ -1,4 +1,4 @@
-import type { GameState } from '../types/GameState';
+import type { GameState } from '../../types/gameState';
 import { findPath } from '../pathfinding';
 
 export function processAiFleetMoves(currentState: GameState, orgId: number): GameState {

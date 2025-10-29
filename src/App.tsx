@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import type { Selection } from './types/gameState'; 
 import { useUiStore } from './state/uiStore';
 import { ModalManager } from './components/modals/ModalManager';
+import { Notification } from './components/Notification';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
       <Header />
       <Map onSelect={handleSelection} />
 
+      <Notification />
       <ModalManager />
     </div>
   )
