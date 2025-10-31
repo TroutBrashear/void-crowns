@@ -1,6 +1,7 @@
 import { create } from 'zustand';
+import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, GameEvent } from '../types/gameState';
 import type { Fleet } from '../types/gameState'; 
 
 //engine imports
@@ -68,18 +69,39 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   tick: () => {
     const currentState = get();
     let nextState = processTick(currentState);
+    let tickEvents: GameEvent[] = [];
 
     if(currentState.meta.turn % 10 === 0){
       nextState = processEconomy(nextState);
     }
 
-    nextState = processCombat(nextState);
+    const combatResults = processCombat(nextState);
+    nextState = combatResults.newState;
+    tickEvents.push(...combatResults.events);
 
     for(const orgId of nextState.orgs.ids){
       if(orgId !== 1){
         nextState = processAiTurn(nextState, orgId);
       }
     }
+    console.log(tickEvents);
+
+    const playerEvents = tickEvents.filter(event => { 
+        console.log(`Filtering event. Message: "${event.message}". isPlayerVisible: ${event.isPlayerVisible}. Type: ${typeof event.isPlayerVisible}`);
+
+        return event.isPlayerVisible});
+    console.log(playerEvents);
+    //display some notifications based on things that occured this tick
+    if(playerEvents.length > 0) {
+      const { showNotification } = useUiStore.getState();
+      console.log("notification triggered!");
+      showNotification({
+        type: 'info',
+        message: playerEvents[0].message,
+      })
+
+    }
+
 
     nextState = {
       ...nextState,

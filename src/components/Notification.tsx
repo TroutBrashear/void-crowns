@@ -1,14 +1,11 @@
 import React from 'react';
 import { useUiStore } from '../state/uiStore';
 import styles from './Notification.module.css';
-
+import { shallow } from 'zustand/shallow';
 
 function Notification() {
-	const { notification, hideNotification } = useUiStore(
-   	 (state) => ({
-   	   notification: state.notification,
-   	   hideNotification: state.hideNotification,
-   	 }));
+	const notification = useUiStore((state) => state.notification);
+	const hideNotification = useUiStore((state) => state.hideNotification);
 
 
 	if(!notification.isOpen)

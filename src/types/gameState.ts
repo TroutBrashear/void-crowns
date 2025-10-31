@@ -90,6 +90,29 @@ export interface DiploStatusPayload {
   targetId: number;
 }
 
+
+//definitions for game events 
+export type GameEventType = 'battle_result' | 'construction_complete' | 'insufficient_resources';
+
+xport interface GameEvent {
+  type: GameEventType;
+  message: string;
+  
+  //WHO should get the message
+  involvedOrgIds: number[];
+  isPlayerVisible: boolean; 
+
+  //supplementary info may be needed later
+  locationId?: number;
+}
+
+//return from game engine functions - supports notification through GameEvent[]
+export interface EngineResult {
+  newState: GameState;
+  events: GameEvent[];
+}
+
+
 export interface GameState {
   meta: {
     turn: number;

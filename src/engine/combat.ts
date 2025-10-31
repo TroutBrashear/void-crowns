@@ -1,4 +1,4 @@
-import type { GameState, Fleet } from '../types/gameState';
+import type { GameState, Fleet, GameEvent, EngineResult } from '../types/gameState';
 import { getRelationship } from './diplomacy';
 
 function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] {
@@ -7,8 +7,9 @@ function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] 
 }
 
 
-function resolveBattle(currentState: GameState, fleetsInSystem: Fleet[]): GameState {
+function resolveBattle(currentState: GameState, fleetsInSystem: Fleet[]): EngineResult {
 	let fleetScore = new Map<number, number>();
+
 
 	for(const fleet of fleetsInSystem){
 		if (!fleet) {
@@ -31,7 +32,7 @@ function resolveBattle(currentState: GameState, fleetsInSystem: Fleet[]): GameSt
 			winnerScore = score; 
 		}
 	}
-
+	
 	const remainingFleetIds = fleetsInSystem.filter(fleet => fleet.ownerNationId === winnerId).map(fleet => fleet.id);
 
 	const fleetEntities = { ...currentState.fleets.entities };
@@ -43,18 +44,40 @@ function resolveBattle(currentState: GameState, fleetsInSystem: Fleet[]): GameSt
 		}
 	}
 
-	return {
+	//newState to be returned
+	const newState = {
 		...currentState,
 		fleets: {
 			entities: fleetEntities,
 			ids: fleetIds,
 		}
 	};
+	
+	//collect info to build result event
+    const participatingFactions = Array.from(fleetScore.keys());
+    const winnerOrg = currentState.orgs.entities[winnerId];
+	const events: GameEvent[] = [];
+
+	const battleResultEvent: GameEvent = {
+    	type: 'battle_result',
+    	message: `Battle concluded! The ${winnerOrg.name} forces are victorious.`,
+    	locationId: fleetsInSystem[0]?.locationSystemId, 
+    	involvedOrgIds: participatingFactions,
+    	isPlayerVisible: participatingFactions.includes(1),
+ 	};
+
+  	events.push(battleResultEvent);
+  	return { 
+  		newState: newState,
+  		events: events,
+  	};
 }
 
-export function processCombat(currentState: GameState): GameState {
+export function processCombat(currentState: GameState): EngineResult {
 
 	let nextState = currentState;
+	const allCombatEvents: GameEvent[] = [];
+
 
 	for(const systemId of currentState.systems.ids) {
 		const fleetsInSystem = getFleetsInSystem(currentState, systemId);
@@ -88,12 +111,17 @@ export function processCombat(currentState: GameState): GameState {
 					break;
 				}
 			}
+			//resolve the battle in this system
 			if(isBattle){
-				nextState = resolveBattle(nextState, fleetsInSystem);
+				const battleResult = resolveBattle(nextState, fleetsInSystem);
+				nextState = battleResult.newState;
+				allCombatEvents.push(...battleResult.events);
 			}
 		}
 	}
 
-	return nextState;
-
+	return {
+    	newState: nextState,
+    	events: allCombatEvents,
+    };
 }

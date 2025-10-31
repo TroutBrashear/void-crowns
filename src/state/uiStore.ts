@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { UiStoreState, ModalType, ShowNotificationPayload } from '../types/uiState';
 import type { Selection } from '../types/gameState'; 
 
-export const useUiStore = create<UiStoreState>((set) => ({
+export const useUiStore = create<UiStoreState>((set, get) => ({
 
 	activeModal: null,
 	selection: null,
@@ -11,7 +11,7 @@ export const useUiStore = create<UiStoreState>((set) => ({
   		notificationMessage: null,
   		isOpen: false,
   		timeOutId: null,
-	}
+	},
 
 	openModal: (modal: ModalType) => {
 		set({ activeModal: modal });
@@ -29,10 +29,6 @@ export const useUiStore = create<UiStoreState>((set) => ({
 		const { notification } = get(); 
 		if (notification.timeoutId) {
   			clearTimeout(notification.timeoutId);
-		}
-
-		if(timeoutId) {
-			clearTimeout(timeoutId);
 		}
 
 		const newTimeoutId = setTimeout(() => {

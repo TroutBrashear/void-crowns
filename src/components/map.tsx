@@ -64,7 +64,6 @@ function Map({ onSelect }: MapProps) {
               onClick={() => {
                  if (selection?.type === 'fleet') {
                   issueMoveOrder({ fleetId: selection.id, targetSystemId: system.id });
-                  console.log(fleets.entities[selection.id]);
                   onSelect(null);
                 }
                 else
