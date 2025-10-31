@@ -94,7 +94,7 @@ export interface DiploStatusPayload {
 //definitions for game events 
 export type GameEventType = 'battle_result' | 'construction_complete' | 'insufficient_resources';
 
-xport interface GameEvent {
+export interface GameEvent {
   type: GameEventType;
   message: string;
   
