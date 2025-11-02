@@ -29,6 +29,17 @@ export interface Fleet {
   movesRemaining: number;
 }
 
+export type ShipType = 'colony_ship';
+
+export interface Ship {
+  id: number;
+  name: string;
+  type: ShipType;
+  ownerNationId: number;
+  locationSystemId: number;
+  movementPath: number[];
+}
+
 export interface Resources {
   credits: number;
 }
@@ -71,7 +82,7 @@ export interface EntitiesState<T> {
 }
 
 //defines what users are allowed to select on the map.
-export type SelectableEntityType = 'fleet' | 'system' | 'org';
+export type SelectableEntityType = 'fleet' | 'system' | 'org' | 'ship';
 
 //the object for map selection state
 export interface Selection {
@@ -119,11 +130,13 @@ export interface GameState {
     activeOrgId: number;
     isPaused: boolean;
     lastFleetId: number;
+    lastShipId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
   orgs: EntitiesState<Org>;
   planetoids: EntitiesState<Planetoid>;
+  ships: EntitiesState<Ship>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
@@ -137,6 +150,7 @@ export interface GameActions {
   tick: () => void;
   playPause: () => void;
   buildFleet: (locationId: number) => void;
+  buildShip: (payload: { locationId: number, shipType: ShipType }) => void;
   declareWar: (payload: DiploStatusPayload) => void;
   declarePeace: (payload: DiploStatusPayload) => void;
 }

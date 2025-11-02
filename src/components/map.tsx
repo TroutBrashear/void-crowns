@@ -2,7 +2,10 @@ import { useGameStore } from '../state/gameStore';
 import { useUiStore } from '../state/uiStore';
 import type { Selection } from '../types/gameState'; 
 import styles from './Map.module.css'; 
+
 import FleetIcon  from './icons/FleetIcon';
+import { ShipIcon } from './icons/ShipIcon';
+
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 interface MapProps {
@@ -15,6 +18,8 @@ function Map({ onSelect }: MapProps) {
   const systems = useGameStore(state => state.systems);
   const orgs = useGameStore(state => state.orgs);
   const fleets = useGameStore(state => state.fleets);
+  const ships = useGameStore(state => state.ships);
+
 
   const issueMoveOrder = useGameStore(state => state.issueMoveOrder);
    
@@ -83,7 +88,6 @@ function Map({ onSelect }: MapProps) {
         );
       })}
 
-      {/* We will render fleets here in a later step */}
       {fleets.ids.map((fleetId: number) => {
         const fleet = fleets.entities[fleetId];
         const owner = orgs.entities[fleet.ownerNationId];
@@ -107,6 +111,8 @@ function Map({ onSelect }: MapProps) {
         );
       })}
 
+      
+
       {fleets.ids.map(fleetId => {
         const fleet = fleets.entities[fleetId];
     
@@ -120,6 +126,61 @@ function Map({ onSelect }: MapProps) {
         const startSystem = systems.entities[fleet.locationSystemId];
         if (startSystem) pathCoordinates.push(startSystem.position);
         fleet.movementPath.forEach(systemId => {
+          const nextSystem = systems.entities[systemId];
+          if (nextSystem) pathCoordinates.push(nextSystem.position);
+        });
+
+        
+        return pathCoordinates.map((point, index) => {
+          if (index === 0) return null;
+          const prevPoint = pathCoordinates[index - 1];
+          return (
+            <line
+              key={`path-${fleet.id}-${index}`} 
+              x1={prevPoint.x} y1={prevPoint.y}
+              x2={point.x} y2={point.y}
+              stroke="yellow"
+              strokeWidth={2}
+              strokeDasharray="5,5"
+            />
+          );
+        });
+      })}
+
+      {ships.ids.map(shipId => {
+        const ship = ships.entities[shipId];
+        const owner = orgs.entities[ship.ownerNationId];
+        const system = systems.entities[ship.locationSystemId];
+
+        if (!ship || !owner || !system) {
+          return null;
+        }
+
+        return (
+          <ShipIcon
+            key={`ship-${ship.id}`} 
+            ship={ship}
+            position={system.position} 
+            org={owner}
+            isSelected={selection?.type === 'ship' && selection.id === ship.id}
+            onClick={() => onSelect({ type: 'ship', id: ship.id })}
+          />
+        );
+      })}
+
+      {ships.ids.map(shipId => {
+        const ship = ships.entities[shipId];
+    
+        if (ship.movementPath.length === 0) {
+          return null;
+        }
+
+        
+        const pathCoordinates: { x: number; y: number }[] = [];
+
+        const startSystem = systems.entities[ship.locationSystemId];
+        if (startSystem) pathCoordinates.push(startSystem.position);
+        ship.movementPath.forEach(systemId => {
           const nextSystem = systems.entities[systemId];
           if (nextSystem) pathCoordinates.push(nextSystem.position);
         });

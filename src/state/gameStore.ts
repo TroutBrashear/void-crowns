@@ -12,9 +12,10 @@ import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 
 import { normalize } from '../utils/normalize';
-import { initialOrgs, initialSystems, initialFleets, initialPlanetoids} from '../data/scenarios/demo';
+import { initialOrgs, initialSystems, initialFleets, initialPlanetoids, initialShips } from '../data/scenarios/demo';
 
 const FLEET_COST = 10000;
+const COL_SHIP_COST = 15000;
 
 export const useGameStore = create<GameStoreState>((set, get) => {
 
@@ -59,11 +60,13 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     activeOrgId: 1,
     isPaused: false,
     lastFleetId: 2,
+    lastShipId: 0,
   },
   systems: normalize(initialSystems),
   fleets: normalize(initialFleets),
   orgs: normalize(initialOrgs),
   planetoids: normalize(initialPlanetoids),
+  ships: normalize(initialShips),
 
 
   tick: () => {
@@ -206,6 +209,72 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         meta: {
           ...state.meta,
           lastFleetId: newId,
+        },
+      };
+    });
+  },
+
+  buildShip: (payload: { locationId: number, shipType: ShipType }) => {
+    set((state) => {
+      const buildSystem = state.systems.entities[payload.locationId];
+
+      if(!buildSystem || buildSystem.ownerNationId === null)
+      {
+        return state;
+      }
+      const newId = state.meta.lastShipId + 1;
+      const ownerOrg = state.orgs.entities[buildSystem.ownerNationId];
+
+      let cost: number = 0;
+
+      switch(payload.shipType){
+        case 'colony_ship':
+          cost = COL_SHIP_COST;
+          break;
+      }
+
+
+      //if the org can't afford the fleet, do nothing.
+      if(ownerOrg.resources.credits < cost) {
+        return state; 
+      }
+
+      const newShip = {
+        id: newId,
+        name: "new Ship",
+        type: payload.shipType,
+        ownerNationId: buildSystem.ownerNationId,
+        locationSystemId: payload.locationId,
+        movementPath: [],
+        };
+
+      const updatedOrg = {
+        ...ownerOrg,
+        resources: {
+          ...ownerOrg.resources,
+          credits: ownerOrg.resources.credits - cost,
+        }
+      };
+
+      return {
+        ships: {
+          ...state.ships,
+          entities: {
+            ...state.ships.entities,
+            [newId]: newShip,
+          },
+          ids: [...state.ships.ids, newId],
+        },
+        orgs: {
+          ...state.orgs,
+          entities: {
+            ...state.orgs.entities,
+            [ownerOrg.id]: updatedOrg,
+          }
+        },
+        meta: {
+          ...state.meta,
+          lastShipId: newId,
         },
       };
     });

@@ -41,7 +41,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
         		isOpen: true,
         		notificationType: payload.type, 
         		notificationMessage: payload.message,
-        		timeoutId: newTimeoutId,
+        		timeOutId: newTimeoutId,
      		}
     	}));
 	},
@@ -49,8 +49,8 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 	hideNotification: () => {
 		const notification = get().notification;
  
-		if (notification.timeoutId) {
-  			clearTimeout(notification.timeoutId);
+		if (notification.timeOutId) {
+  			clearTimeout(notification.timeOutId);
 		}
 
 		set((state) => ({
@@ -59,7 +59,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
         		isOpen: false,
         		notificationMessage: null,
         		notificationType: null,
-        		timeoutId: null,
+        		timeOutId: null,
       		}
     	}));
 	},
