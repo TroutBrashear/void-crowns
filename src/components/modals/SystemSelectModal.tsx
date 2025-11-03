@@ -12,6 +12,7 @@ function SystemSelectModal() {
   const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
   const getOrgById = useGameStore(state => state.getOrgById);
   const buildFleet = useGameStore(state => state.buildFleet);
+  const buildShip = useGameStore(state => state.buildShip);
 
   const systemToShow = 
     (selection?.type === 'system') 
@@ -33,6 +34,8 @@ function SystemSelectModal() {
       <h2>System: {systemToShow.name}</h2>
       {systemOwnerOrg && <button onClick={() => {setSelection({type: 'org', id: systemOwnerOrg.id}); openModal('org_modal'); }}>{systemOwnerOrg.name}</button>}
       {systemToShow.ownerNationId === 1 && <button onClick={() => buildFleet(systemToShow.id)}>Construct Fleet</button>}
+
+      {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'colony_ship'})}>Construct Colony Ship</button>}
 
       <h3>Planetoids</h3>
       <ul>

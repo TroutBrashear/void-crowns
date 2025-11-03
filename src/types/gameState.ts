@@ -96,6 +96,11 @@ export interface MoveOrderPayload {
   targetSystemId: number;
 }
 
+export interface ShipMoveOrderPayload {
+  shipId: number;
+  targetSystemId: number;
+}
+
 export interface DiploStatusPayload {
   actorId: number; 
   targetId: number;
@@ -147,6 +152,7 @@ export interface GameState {
 
 export interface GameActions {
   issueMoveOrder: (payload: MoveOrderPayload) => void;
+  issueShipMoveOrder: (payload: ShipMoveOrderPayload) => void;
   tick: () => void;
   playPause: () => void;
   buildFleet: (locationId: number) => void;

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, GameEvent } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent } from '../types/gameState';
 import type { Fleet } from '../types/gameState'; 
 
 //engine imports
@@ -150,6 +150,29 @@ export const useGameStore = create<GameStoreState>((set, get) => {
           entities: {
             ...state.fleets.entities,
             [fleetId]: updatedFleet,
+          },
+        },
+      };
+    });
+  },
+
+  issueShipMoveOrder: (payload: ShipMoveOrderPayload) => {
+    const currentState = get();
+    const { shipId, targetSystemId } = payload;
+    const shipToUpdate = currentState.ships.entities[shipId];
+    const newPath = findPath(shipToUpdate.locationSystemId , targetSystemId, currentState.systems);
+    set((state) => {
+      const updatedShip: Ship = {
+        ...shipToUpdate,
+        movementPath: newPath,
+      };
+
+      return {
+        ships: {
+          ...state.ships,
+          entities: {
+            ...state.ships.entities,
+            [shipId]: updatedShip,
           },
         },
       };

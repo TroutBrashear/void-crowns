@@ -22,22 +22,19 @@ function Map({ onSelect }: MapProps) {
 
 
   const issueMoveOrder = useGameStore(state => state.issueMoveOrder);
+  const issueShipMoveOrder = useGameStore(state => state.issueShipMoveOrder);
    
   const selection = useUiStore(state => state.selection);
 
   return (
-    // 2. The root element is an <svg> tag.
-    //    `viewBox` defines the coordinate system. Think of it as the "camera."
     <TransformWrapper initialScale={1} minScale={0.5} maxScale={5} limitToBounds={false} panning={{velocityDisabled: true}}>
     <TransformComponent wrapperClass={styles.mapWrapper}>
     <svg className={styles.mapSvg} viewBox="0 0 5000 1500">
       
       {systems.ids.map((systemId: number) => {
         const system = systems.entities[systemId];
-        // For each adjacent system, draw a line from this system to it.
         return system.adjacentSystemIds.map((adjacentId: number) => {
           const adjacentSystem = systems.entities[adjacentId];
-          // Simple check to avoid drawing lines twice
           if (system.id < adjacentSystem.id) {
             return (
               <line
@@ -69,6 +66,10 @@ function Map({ onSelect }: MapProps) {
               onClick={() => {
                  if (selection?.type === 'fleet') {
                   issueMoveOrder({ fleetId: selection.id, targetSystemId: system.id });
+                  onSelect(null);
+                }
+                else if (selection?.type === 'ship') {
+                  issueShipMoveOrder({ shipId: selection.id, targetSystemId: system.id});
                   onSelect(null);
                 }
                 else
@@ -191,7 +192,7 @@ function Map({ onSelect }: MapProps) {
           const prevPoint = pathCoordinates[index - 1];
           return (
             <line
-              key={`path-${fleet.id}-${index}`} 
+              key={`path-${ship.id}-${index}`} 
               x1={prevPoint.x} y1={prevPoint.y}
               x2={point.x} y2={point.y}
               stroke="yellow"
