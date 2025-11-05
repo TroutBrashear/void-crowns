@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload } from '../types/gameState';
 import type { Fleet } from '../types/gameState'; 
 
 //engine imports
@@ -311,6 +311,54 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     updateBilateralRelation(actorId, targetId, 'peace');
   },
 
+  colonizePlanetoid: (payload: ColonizePayload) => {
+    set((state) => {
+      const planetoid = state.planetoids.entities[payload.planetoidId]; //the target planetoid (will receive population update - for now, an onwed system disables colonization within that system.)
+      const ship = state.ships.entities[payload.shipId]; //the colony ship will be used up and removed from the game
+      const system = state.systems.entities[planetoid.locationSystemId]; //we may return the system with a new onwer
+
+      if(!planetoid) {
+        return state;
+      }
+
+      const updatedSystem = {
+        ...system,
+        ownerNationId: ship.ownerNationId,
+      }; 
+
+      const updatedPlanetoid = {
+        ...planetoid,
+        population: 200000,
+      };
+
+      const shipEntities = { ...state.ships.entities };
+      const shipIds = [...state.ships.ids];
+      delete shipEntities[ship.id];
+      shipIds.splice(shipIds.indexOf(ship.id), 1);
+
+      return  {
+        planetoids: {
+          ...state.planetoids,
+          entities: {
+            ...state.planetoids.entities,
+            [payload.planetoidId]: updatedPlanetoid,
+          },
+        },
+        systems: {
+          ...state.systems,
+          entities: {
+            ...state.systems.entities,
+            [planetoid.locationSystemId]: updatedSystem,
+          },
+        },
+        ships: {
+          entities: shipEntities,
+          ids: shipIds,
+        }
+      };     
+    });
+  },
+
 
   //getters
   getFleetById: (id: number) => get().fleets.entities[id],
@@ -321,6 +369,29 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   getSystemById: (id: number) => get().systems.entities[id],
   getPlanetoidById: (id: number) => get().planetoids.entities[id],
   getOrgById: (id: number) => get().orgs.entities[id],
+  getShipById: (id: number) => get().ships.entities[id],
+
+  getHabitablesInSystem: (id: number) => {
+    const state = get();
+    const system = state.systems.entities[id];
+    console.log(system);
+    if(!system) {
+      return [];
+    }
+
+     if (system.ownerNationId !== null) {
+      return [];
+    }
+
+    return system.planetoids.map(planetoidId => state.planetoids.entities[planetoidId]).filter(planetoid => {
+      if(planetoid.environment !== 'Barren'){
+        return planetoid;
+      }
+    })
+  },
+
+
+  //removers
 
   };
 });

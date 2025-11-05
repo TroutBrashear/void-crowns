@@ -27,6 +27,9 @@ function App() {
         case 'system':
           openModal('system_modal');
           break;
+        case 'ship':
+          openModal('ship_modal');
+          break;
         default:
           break;
       }

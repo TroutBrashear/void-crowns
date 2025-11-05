@@ -106,6 +106,11 @@ export interface DiploStatusPayload {
   targetId: number;
 }
 
+export interface ColonizePayload {
+  shipId: number;
+  planetoidId: number;
+}
+
 
 //definitions for game events 
 export type GameEventType = 'battle_result' | 'construction_complete' | 'insufficient_resources';
@@ -146,8 +151,10 @@ export interface GameState {
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
   getSystemById: (id: number) => System | undefined;
+  getHabitablesInSystem: (id: number) => Planetoid[];
   getPlanetoidById: (id: number) => Planetoid | undefined;
   getOrgById: (id: number) => Org | undefined;
+  getShipById: (id: number) => Ship | undefined;
 }
 
 export interface GameActions {
@@ -159,6 +166,7 @@ export interface GameActions {
   buildShip: (payload: { locationId: number, shipType: ShipType }) => void;
   declareWar: (payload: DiploStatusPayload) => void;
   declarePeace: (payload: DiploStatusPayload) => void;
+  colonizePlanetoid: (payload: ColonizePayload) => void;
 }
 
 export type GameStoreState = GameState & GameActions;

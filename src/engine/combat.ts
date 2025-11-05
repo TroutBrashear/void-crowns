@@ -40,7 +40,7 @@ function resolveBattle(currentState: GameState, fleetsInSystem: Fleet[]): Engine
 	for(const fleet of fleetsInSystem){
 		if(!remainingFleetIds.includes(fleet.id)){
 			delete fleetEntities[fleet.id];
-			fleetIds.splice(fleetIds.indexOf(fleet.id), 1)
+			fleetIds.splice(fleetIds.indexOf(fleet.id), 1);
 		}
 	}
 
