@@ -27,12 +27,12 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 
   	showNotification: (payload: ShowNotificationPayload) => {
 		const { notification } = get(); 
-		if (notification.timeoutId) {
-  			clearTimeout(notification.timeoutId);
+		if (notification.timeOutId) {
+  			clearTimeout(notification.timeOutId);
 		}
 
 		const newTimeoutId = setTimeout(() => {
-			set({isOpen:false, timeoutId: null});
+			set({isOpen:false, timeOutId: null});
 		}, 4000);
 
 		set((state) => ({

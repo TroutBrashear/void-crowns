@@ -1,7 +1,5 @@
-import React from 'react';
 import { useUiStore } from '../state/uiStore';
 import styles from './Notification.module.css';
-import { shallow } from 'zustand/shallow';
 
 function Notification() {
 	const notification = useUiStore((state) => state.notification);

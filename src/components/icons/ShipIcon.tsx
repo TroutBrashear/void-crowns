@@ -2,7 +2,6 @@ import type { Ship, Org } from '../../types/gameState';
 
 // Define the props the component needs
 interface ShipIconProps {
-  ship: Ship;
   position: { x: number; y: number };
   org: Org;
   isSelected: boolean;

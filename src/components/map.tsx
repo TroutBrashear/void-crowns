@@ -160,7 +160,6 @@ function Map({ onSelect }: MapProps) {
         return (
           <ShipIcon
             key={`ship-${ship.id}`} 
-            ship={ship}
             position={system.position} 
             org={owner}
             isSelected={selection?.type === 'ship' && selection.id === ship.id}
