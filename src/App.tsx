@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Header } from './components/Header';
 import type { Selection } from './types/gameState'; 
 import { useUiStore } from './state/uiStore';
+import { useGameStore } from './state/gameStore';
 import { ModalManager } from './components/modals/ModalManager';
 import Notification  from './components/Notification';
 
@@ -12,6 +13,9 @@ function App() {
 
   const setSelection = useUiStore(state => state.setSelection);
   const openModal = useUiStore(state => state.openModal);
+
+  const initializeNewGame = useGameStore(state => state.initializeNewGame);
+
 
   const [appState, setAppState] = useState<'main_menu' | 'in_game'>('main_menu');
 
@@ -39,6 +43,7 @@ function App() {
 
   const startGame = () => {
     setAppState('in_game');
+    initializeNewGame();
   };
 
 

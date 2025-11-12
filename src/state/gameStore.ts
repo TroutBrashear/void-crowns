@@ -10,6 +10,7 @@ import { findPath } from '../engine/pathfinding';
 import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
+import { generateGalaxy } from '../engine/galaxyGeneration';
 
 import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets, initialPlanetoids, initialShips } from '../data/scenarios/demo';
@@ -18,6 +19,7 @@ const FLEET_COST = 10000;
 const COL_SHIP_COST = 15000;
 
 export const useGameStore = create<GameStoreState>((set, get) => {
+  //initial setup
 
 
   const updateBilateralRelation = (firstOrgId: number, secondOrgId: number, newStatus: 'war' | 'peace') => {
@@ -55,18 +57,19 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   };
 
   return {
-  meta: {
-    turn: 1, 
-    activeOrgId: 1,
-    isPaused: false,
-    lastFleetId: 2,
-    lastShipId: 0,
-  },
-  systems: normalize(initialSystems),
-  fleets: normalize(initialFleets),
-  orgs: normalize(initialOrgs),
-  planetoids: normalize(initialPlanetoids),
-  ships: normalize(initialShips),
+    //this is now initialized empty because we start on the main menu.
+    meta: {
+     turn: 0,
+     activeOrgId: 0,
+     isPaused: true,
+     lastFleetId: 0,
+     lastShipId: 0,
+    },
+    systems: { entities: {}, ids: [] }, 
+    fleets: { entities: {}, ids: [] },   
+    orgs: normalize(initialOrgs),       
+    planetoids: { entities: {}, ids: [] },
+    fleetLocationIndex: {},   
 
 
   tick: () => {
@@ -359,6 +362,28 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     });
   },
 
+  initializeNewGame: () => {
+    const systems = generateGalaxy(2000);
+
+    systems[0].ownerNationId = 1;
+
+
+    set({
+      meta: {
+        turn: 1,
+        activeOrgId: 1,
+        isPaused: false, 
+        lastFleetId: initialFleets.length,
+        lastShipId: 0,
+      },
+      systems: normalize(systems),
+      fleets: { entities: {}, ids: [] },   
+      ships: { entities: {}, ids: [] },
+      planetoids: { entities: {}, ids: [] },
+      //TODO: planetoids generation
+      //TODO: org generation
+    });
+  },
 
   //getters
   getFleetById: (id: number) => get().fleets.entities[id],

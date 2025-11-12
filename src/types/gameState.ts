@@ -167,6 +167,7 @@ export interface GameActions {
   declareWar: (payload: DiploStatusPayload) => void;
   declarePeace: (payload: DiploStatusPayload) => void;
   colonizePlanetoid: (payload: ColonizePayload) => void;
+  initializeNewGame: () => void;
 }
 
 export type GameStoreState = GameState & GameActions;
