@@ -1,4 +1,6 @@
 import type { System } from '../types/gameState';
+import { shuffle } from '../utils/shuffle';
+
 
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
 const WIDTH_DEFAULT = 5000;
@@ -40,9 +42,23 @@ export function generateGalaxy (numSystems: number ): System[] {
 	for(const focusSystem of newGalaxy) {
 		const systemDistances = newGalaxy.filter(system => system.id !== focusSystem.id).map(adjSystem => ({id: adjSystem.id, distance: calcDistance(focusSystem, adjSystem)}));
 
-		const neighbors = systemDistances.filter(sysDis => sysDis.distance < 200);
+		let neighbors = systemDistances.filter(sysDis => sysDis.distance < 200);
+
+		neighbors = shuffle(neighbors);
+
+		neighbors = neighbors.slice(0, 2);
 
 		focusSystem.adjacentSystemIds = neighbors.map(nSystem => nSystem.id);
+	}
+
+	//make sure adjacencies reciprocate
+	for(const focusSystem of newGalaxy) {
+		for(const neighborId of focusSystem.adjacentSystemIds) {
+			let neighborSystem = newGalaxy.find(system => system.id === neighborId);
+			if(neighborSystem && !neighborSystem.adjacentSystemIds.includes(focusSystem.id)) {
+				neighborSystem.adjacentSystemIds.push(focusSystem.id);
+			}
+		}
 	}
 
 	return newGalaxy;

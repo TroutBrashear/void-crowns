@@ -363,10 +363,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   initializeNewGame: () => {
-    const systems = generateGalaxy(2000);
+    const systems = generateGalaxy(500);
 
     systems[0].ownerNationId = 1;
-
+    systems[1].ownerNationId = 2;
 
     set({
       meta: {
