@@ -1,6 +1,6 @@
 import type { System } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
-
+import { findPath } from './pathfinding';
 
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
 const WIDTH_DEFAULT = 5000;
@@ -12,6 +12,7 @@ function calcDistance(systemA: System, systemB: System): number {
   const dy = systemA.position.y - systemB.position.y;
   return Math.sqrt(dx * dx + dy * dy);
 }
+
 
 export function generateGalaxy (numSystems: number ): System[] {
 	let newGalaxy: System[] = [];
@@ -60,6 +61,56 @@ export function generateGalaxy (numSystems: number ): System[] {
 			}
 		}
 	}
+
+	//ensure everything is connected
+  let disconnectedSystems: System[];
+
+  while(true){
+  	//temp normalization so we can use pathfinding
+		const tempSystemEntities: { [id: number]: System } = {};
+  	for (const system of newGalaxy) {
+  		tempSystemEntities[system.id] = system;
+  	}
+  	const tempSystems: { entities: { [id: number]: System }, ids: number[] } = {
+  	  entities: tempSystemEntities,
+  	  ids: newGalaxy.map(s => s.id),
+	  };
+
+	  disconnectedSystems = newGalaxy.filter(system => {
+      if (system.id === 1) return false;
+      console.log(tempSystems);
+      const pathToSystem1 = findPath(system.id, 1, tempSystems);
+      return pathToSystem1.length === 0;
+    });
+
+    if (disconnectedSystems.length === 0) {
+      console.log("Galaxy is fully connected!");
+      break;
+    }
+
+  	const connectedSystems = newGalaxy.filter(s => !disconnectedSystems.includes(s));
+
+  	const currentOrphan = disconnectedSystems[0];
+
+  	let minDistance = 1000000;
+  	let closestSystem: System | null = null;
+
+  	for(const connectedSystem of connectedSystems){
+  		const distance = calcDistance(currentOrphan, connectedSystem);
+
+  		if(distance < minDistance) {
+  			minDistance = distance;
+  			closestSystem = connectedSystem
+  		}
+  	}
+
+  	if(closestSystem){
+  		currentOrphan.adjacentSystemIds.push(closestSystem.id);
+  		closestSystem.adjacentSystemIds.push(currentOrphan.id);
+
+  	}
+  }
+
 
 	return newGalaxy;
 }
