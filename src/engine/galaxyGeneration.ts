@@ -1,4 +1,4 @@
-import type { System } from '../types/gameState';
+import type { System, Planetoid } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { findPath } from './pathfinding';
 
@@ -14,9 +14,10 @@ function calcDistance(systemA: System, systemB: System): number {
 }
 
 
-export function generateGalaxy (numSystems: number ): System[] {
+export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[]} {
 	let newGalaxy: System[] = [];
-
+	let newPlanetoids: Planetoid[] = [];
+	let nextPlanId = 0;
 
 	for(let i = 0; i < numSystems; i++){
 		const nextSystem: System = {
@@ -32,12 +33,67 @@ export function generateGalaxy (numSystems: number ): System[] {
 			adjacentSystemIds: [],
 			ownerNationId: null,
 
-			//TODO: populate with planetoids
 			planetoids: [],
-		};
+			};
 
-		newGalaxy.push(nextSystem);
-	}
+
+			//give the system some planetoids
+			const systemPlanetoids: Planetoid[] = [];
+
+
+			//set up one star. TODO: allow for binary systems?
+			const star: Planetoid = {
+				id: nextPlanId++,
+				name: `Star ${nextSystem.name}`,
+				parentPlanetoidId: null,
+				locationSystemId: nextSystem.id,
+				classification: 'gravWell',
+				environment: 'star',
+				size: 80,
+				population: 0,
+			};
+
+			systemPlanetoids.push(star);
+
+			//add planets
+			const numPlanetoids = Math.floor((Math.random() * 6) + (Math.random() * 4));
+			for(let j = 0; j < numPlanetoids; j++){
+				const planet: Planetoid = {
+    			id: nextPlanId++,
+    			name: `${nextSystem.name} ${j + 1}`, //probably will have a naming algorithm using both presets and derived names like this
+    			parentPlanetoidId: star.id,
+    			locationSystemId: nextSystem.id,
+   			 	classification: 'planet',
+    			environment: 'barren', 
+   				size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
+    			population: 0,
+  			};
+
+  			systemPlanetoids.push(planet);
+
+  			const numMoons = Math.floor(Math.random() * 6 * 2) - 6;
+
+  			for(let k = 0; k < numMoons; k++){
+  				const moon: Planetoid = {
+  					id: nextPlanId++,
+    				name: `${planet.name} ${k + 1}`, 
+    				parentPlanetoidId: planet.id,
+    				locationSystemId: nextSystem.id,
+   				 	classification: 'moon',
+    				environment: 'barren', 
+   					size: 2 + Math.floor(Math.random() * 5),
+    				population: 0,
+  				};
+
+	  			systemPlanetoids.push(moon);
+  			}
+	  	}
+
+			nextSystem.planetoids = systemPlanetoids.map(p => p.id);
+			newPlanetoids.push(...systemPlanetoids);
+
+			newGalaxy.push(nextSystem);
+		}
 
 	//set initial adjacencies
 	for(const focusSystem of newGalaxy) {
@@ -112,5 +168,5 @@ export function generateGalaxy (numSystems: number ): System[] {
   }
 
 
-	return newGalaxy;
+	return {systems: newGalaxy, planetoids: newPlanetoids};
 }

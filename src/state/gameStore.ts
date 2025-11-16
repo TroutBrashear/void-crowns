@@ -363,7 +363,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   initializeNewGame: () => {
-    const systems = generateGalaxy(500);
+    const { systems, planetoids } = generateGalaxy(500);
 
     systems[0].ownerNationId = 1;
     systems[1].ownerNationId = 2;
@@ -379,7 +379,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       systems: normalize(systems),
       fleets: { entities: {}, ids: [] },   
       ships: { entities: {}, ids: [] },
-      planetoids: { entities: {}, ids: [] },
+      planetoids: normalize(planetoids),
       //TODO: planetoids generation
       //TODO: org generation
     });
