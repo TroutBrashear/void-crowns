@@ -6,11 +6,32 @@ import { findPath } from './pathfinding';
 const WIDTH_DEFAULT = 5000;
 const HEIGHT_DEFAULT = 1500;
 
+//TODO: Create tags that can be added to systems/planetoids and alter their generation behavior
+
 
 function calcDistance(systemA: System, systemB: System): number {
   const dx = systemA.position.x - systemB.position.x;
   const dy = systemA.position.y - systemB.position.y;
   return Math.sqrt(dx * dx + dy * dy);
+}
+
+function planetEnvironment(): string {
+	const envDieRoll = Math.random() * 100;
+	if(envDieRoll < 45){
+		return 'Barren';
+	}
+	else if(envDieRoll < 60){
+		return 'Gaseous';
+	}
+	else if(envDieRoll < 70){
+		return 'Frozen';
+	}
+	else if(envDieRoll < 80){
+		return 'Temperate';
+	}
+	else{
+		return 'Molten';
+	}
 }
 
 
@@ -36,10 +57,8 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			planetoids: [],
 			};
 
-
 			//give the system some planetoids
-			const systemPlanetoids: Planetoid[] = [];
-
+			const systemPlanetoids: Planetoid[] = []; //we'll stack them all up before pushing to system's object
 
 			//set up one star. TODO: allow for binary systems?
 			const star: Planetoid = {
@@ -64,14 +83,20 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
     			parentPlanetoidId: star.id,
     			locationSystemId: nextSystem.id,
    			 	classification: 'planet',
-    			environment: 'barren', 
+    			environment: planetEnvironment(),
    				size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
     			population: 0,
   			};
 
   			systemPlanetoids.push(planet);
 
-  			const numMoons = Math.floor(Math.random() * 6 * 2) - 6;
+  			let numMoons;
+  			if(planet.environment === 'Gaseous'){
+  				numMoons = Math.floor(Math.random() * 8);
+  			}
+  			else {
+  				numMoons = Math.floor(Math.random() * 8) - 5;
+  			}
 
   			for(let k = 0; k < numMoons; k++){
   				const moon: Planetoid = {
@@ -99,11 +124,21 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 	for(const focusSystem of newGalaxy) {
 		const systemDistances = newGalaxy.filter(system => system.id !== focusSystem.id).map(adjSystem => ({id: adjSystem.id, distance: calcDistance(focusSystem, adjSystem)}));
 
-		let neighbors = systemDistances.filter(sysDis => sysDis.distance < 200);
+		let neighbors = systemDistances.filter(sysDis => sysDis.distance < 150);
 
 		neighbors = shuffle(neighbors);
 
-		neighbors = neighbors.slice(0, 2);
+		//add some systems with slightly more/less expected connections
+		const densityRoll = Math.floor(Math.random() * 20);
+		if(densityRoll === 1){
+			neighbors = neighbors.slice(0, 1);
+		}
+		if(densityRoll === 2){
+			neighbors = neighbors.slice(0, 3);
+		}
+		else{
+			neighbors = neighbors.slice(0, 2);
+		}
 
 		focusSystem.adjacentSystemIds = neighbors.map(nSystem => nSystem.id);
 	}
@@ -156,14 +191,13 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 
   		if(distance < minDistance) {
   			minDistance = distance;
-  			closestSystem = connectedSystem
+  			closestSystem = connectedSystem;
   		}
   	}
 
   	if(closestSystem){
   		currentOrphan.adjacentSystemIds.push(closestSystem.id);
   		closestSystem.adjacentSystemIds.push(currentOrphan.id);
-
   	}
   }
 

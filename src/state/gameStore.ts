@@ -365,7 +365,21 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   initializeNewGame: () => {
     const { systems, planetoids } = generateGalaxy(500);
 
+
+    //later this will iterate through generated orgs.
     systems[0].ownerNationId = 1;
+    const playerHomeId = systems[0].planetoids.find(p => {
+      const planetoidCandidate = planetoids.find(planetoid => planetoid.id === p);
+      return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'Barren';
+    });
+    const playerHome = planetoids.find(p => {
+      return p.id === playerHomeId;
+    });
+    if(playerHome){
+      playerHome.population = 8000000;
+    }
+
+
     systems[1].ownerNationId = 2;
 
     set({
