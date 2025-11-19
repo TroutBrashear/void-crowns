@@ -11,10 +11,13 @@ import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { generateGalaxy } from '../engine/galaxyGeneration';
+import { engineBuildFleet } from '../engine/building';
 
 import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets, initialPlanetoids, initialShips } from '../data/scenarios/demo';
 
+
+//global unit costs
 const FLEET_COST = 10000;
 const COL_SHIP_COST = 15000;
 
@@ -183,61 +186,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   buildFleet: (locationId: number) => {
-    set((state) => {
-      const buildSystem = state.systems.entities[locationId];
-
-      if(!buildSystem || buildSystem.ownerNationId === null)
-      {
-        return state;
-      }
-      const newId = state.meta.lastFleetId + 1;
-      const ownerOrg = state.orgs.entities[buildSystem.ownerNationId];
-
-      
-      //if the org can't afford the fleet, do nothing.
-      if(ownerOrg.resources.credits < FLEET_COST) {
-        return state; 
-      }
-
-      const newFleet = {
-        id: newId,
-        name: "new Fleet",
-        ownerNationId: buildSystem.ownerNationId,
-        locationSystemId: locationId,
-        movementPath: [],
-        movesRemaining: 3,
-      };
-
-      const updatedOrg = {
-        ...ownerOrg,
-        resources: {
-          ...ownerOrg.resources,
-          credits: ownerOrg.resources.credits - FLEET_COST,
-        }
-      };
-
-      return {
-        fleets: {
-          ...state.fleets,
-          entities: {
-            ...state.fleets.entities,
-            [newId]: newFleet,
-          },
-          ids: [...state.fleets.ids, newId],
-        },
-        orgs: {
-          ...state.orgs,
-          entities: {
-            ...state.orgs.entities,
-            [ownerOrg.id]: updatedOrg,
-          }
-        },
-        meta: {
-          ...state.meta,
-          lastFleetId: newId,
-        },
-      };
-    });
+      set(engineBuildFleet(get(), locationId));
   },
 
   buildShip: (payload: { locationId: number, shipType: ShipType }) => {
@@ -376,11 +325,21 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       return p.id === playerHomeId;
     });
     if(playerHome){
-      playerHome.population = 8000000;
+      playerHome.population = 8000000000;
     }
 
 
     systems[1].ownerNationId = 2;
+    const oppHomeId = systems[0].planetoids.find(p => {
+      const planetoidCandidate = planetoids.find(planetoid => planetoid.id === p);
+      return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'Barren';
+    });
+    const oppHome = planetoids.find(p => {
+      return p.id === oppHomeId;
+    });
+    if(oppHome){
+      oppHome.population = 8000000000;
+    }
 
     set({
       meta: {
@@ -394,7 +353,6 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       fleets: { entities: {}, ids: [] },   
       ships: { entities: {}, ids: [] },
       planetoids: normalize(planetoids),
-      //TODO: planetoids generation
       //TODO: org generation
     });
   },
