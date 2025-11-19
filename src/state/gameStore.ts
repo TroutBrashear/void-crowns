@@ -11,7 +11,7 @@ import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { generateGalaxy } from '../engine/galaxyGeneration';
-import { engineBuildFleet } from '../engine/building';
+import { engineBuildFleet, engineBuildShip } from '../engine/building';
 
 import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets, initialPlanetoids, initialShips } from '../data/scenarios/demo';
@@ -135,7 +135,6 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     });
   },
   
-
   issueMoveOrder: (payload: MoveOrderPayload) => {
     const currentState = get();
     const { fleetId, targetSystemId } = payload;
@@ -186,73 +185,11 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   buildFleet: (locationId: number) => {
-      set(engineBuildFleet(get(), locationId));
+    set(engineBuildFleet(get(), locationId));
   },
 
   buildShip: (payload: { locationId: number, shipType: ShipType }) => {
-    set((state) => {
-      const buildSystem = state.systems.entities[payload.locationId];
-
-      if(!buildSystem || buildSystem.ownerNationId === null)
-      {
-        return state;
-      }
-      const newId = state.meta.lastShipId + 1;
-      const ownerOrg = state.orgs.entities[buildSystem.ownerNationId];
-
-      let cost: number = 0;
-
-      switch(payload.shipType){
-        case 'colony_ship':
-          cost = COL_SHIP_COST;
-          break;
-      }
-
-
-      //if the org can't afford the fleet, do nothing.
-      if(ownerOrg.resources.credits < cost) {
-        return state; 
-      }
-
-      const newShip = {
-        id: newId,
-        name: "new Ship",
-        type: payload.shipType,
-        ownerNationId: buildSystem.ownerNationId,
-        locationSystemId: payload.locationId,
-        movementPath: [],
-        };
-
-      const updatedOrg = {
-        ...ownerOrg,
-        resources: {
-          ...ownerOrg.resources,
-          credits: ownerOrg.resources.credits - cost,
-        }
-      };
-
-      return {
-        ships: {
-          ...state.ships,
-          entities: {
-            ...state.ships.entities,
-            [newId]: newShip,
-          },
-          ids: [...state.ships.ids, newId],
-        },
-        orgs: {
-          ...state.orgs,
-          entities: {
-            ...state.orgs.entities,
-            [ownerOrg.id]: updatedOrg,
-          }
-        },
-        meta: {
-          ...state.meta,
-          lastShipId: newId,
-        },
-      };
-    });
+    set(engineBuildShip(get(), payload.locationId, payload.shipType));
   },
 
    declareWar: ({ actorId, targetId }) => {

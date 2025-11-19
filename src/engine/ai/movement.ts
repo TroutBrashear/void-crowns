@@ -59,3 +59,48 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 
   	return currentState;
 }
+
+export function processAiShipMoves(currentState: GameState, orgId: number): GameState {
+	const allShips = Object.values(currentState.ships.entities);
+	const orgShips = allShips.filter(ship => ship.ownerNationId === orgId);
+
+	const idleShips = orgShips.filter(ship => ship.movementPath.length === 0);
+
+	if (idleShips.length === 0) {
+    	return currentState;
+  	}
+
+	const newShipEntities = { ...currentState.ships.entities };
+  	let hasMadeChanges = false;
+
+  	for (const ship of idleShips) {
+  		const currentSystem = currentState.systems.entities[ship.locationSystemId];
+    	if (!currentSystem) {
+     		continue;
+    	}
+
+    	const targetSystemId = currentSystem.adjacentSystemIds.find(id => {
+     		const system = currentState.systems.entities[id];
+      		const isTargeted = Object.values(newShipEntities).some(s => 
+        		s.movementPath.includes(id) && s.ownerNationId === orgId
+      		);
+      		return system && system.ownerNationId === null && !isTargeted;
+    	});
+
+    	if (targetSystemId) {
+      		const newPath = findPath(
+        		ship.locationSystemId,
+        		targetSystemId,
+        		currentState.systems
+      		);
+
+      		const updatedShip = {
+        		...ship,
+      			movementPath: newPath,
+      		};
+      
+     		newShipEntities[ship.id] = updatedShip;
+    		hasMadeChanges = true;
+    	}
+  	}
+}
