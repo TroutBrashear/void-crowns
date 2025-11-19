@@ -330,7 +330,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
 
     systems[1].ownerNationId = 2;
-    const oppHomeId = systems[0].planetoids.find(p => {
+    const oppHomeId = systems[1].planetoids.find(p => {
       const planetoidCandidate = planetoids.find(planetoid => planetoid.id === p);
       return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'Barren';
     });
