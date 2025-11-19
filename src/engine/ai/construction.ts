@@ -1,5 +1,5 @@
 import type { GameState } from '../../types/gameState';
-import { engineBuildFleet } from '../building';
+import { engineBuildFleet, engineBuildShip } from '../building';
 
 
 
@@ -12,8 +12,11 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 
 	console.log(thinkingOrg.resources.credits);
 	
-	if(thinkingOrg.resources.credits > 20000){
+	if(thinkingOrg.resources.credits > 16000){
 		//build a colony ship
+		const buildLocation = ownedSystems[Math.floor(Math.random() * ownedSystems.length)].id;
+
+		nextState = engineBuildShip(nextState, buildLocation, 'colony_ship');
 	}
 
 	if(thinkingOrg.resources.credits > 10000){
@@ -22,8 +25,6 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 
 		nextState = engineBuildFleet(nextState, buildLocation);
 	}
-
-
 
 	return nextState;
 }
