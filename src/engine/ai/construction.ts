@@ -7,6 +7,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 
 	let nextState = currentState;
 
+	console.log(currentState.orgs);
 	const thinkingOrg = currentState.orgs.entities[orgId];
 	const ownedSystems = currentState.systems.ids.map(id => currentState.systems.entities[id]).filter(system => system && system.ownerNationId === orgId);
 

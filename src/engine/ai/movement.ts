@@ -103,4 +103,17 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
     		hasMadeChanges = true;
     	}
   	}
+
+
+	if (hasMadeChanges) {
+	   	return {
+	      ...currentState,
+    	  ships: {
+    	    ...currentState.ships,
+    	    entities: newShipEntities, 
+      	  },
+    	};
+  	}
+
+  	return currentState;
 }

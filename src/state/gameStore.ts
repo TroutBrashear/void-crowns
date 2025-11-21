@@ -12,6 +12,7 @@ import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { generateGalaxy } from '../engine/galaxyGeneration';
 import { engineBuildFleet, engineBuildShip } from '../engine/building';
+import { colonizePlanetoid } from '../engine/colonization';
 
 import { normalize } from '../utils/normalize';
 import { initialOrgs, initialSystems, initialFleets, initialPlanetoids, initialShips } from '../data/scenarios/demo';
@@ -201,51 +202,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   colonizePlanetoid: (payload: ColonizePayload) => {
-    set((state) => {
-      const planetoid = state.planetoids.entities[payload.planetoidId]; //the target planetoid (will receive population update - for now, an onwed system disables colonization within that system.)
-      const ship = state.ships.entities[payload.shipId]; //the colony ship will be used up and removed from the game
-      const system = state.systems.entities[planetoid.locationSystemId]; //we may return the system with a new onwer
-
-      if(!planetoid) {
-        return state;
-      }
-
-      const updatedSystem = {
-        ...system,
-        ownerNationId: ship.ownerNationId,
-      }; 
-
-      const updatedPlanetoid = {
-        ...planetoid,
-        population: 200000,
-      };
-
-      const shipEntities = { ...state.ships.entities };
-      const shipIds = [...state.ships.ids];
-      delete shipEntities[ship.id];
-      shipIds.splice(shipIds.indexOf(ship.id), 1);
-
-      return  {
-        planetoids: {
-          ...state.planetoids,
-          entities: {
-            ...state.planetoids.entities,
-            [payload.planetoidId]: updatedPlanetoid,
-          },
-        },
-        systems: {
-          ...state.systems,
-          entities: {
-            ...state.systems.entities,
-            [planetoid.locationSystemId]: updatedSystem,
-          },
-        },
-        ships: {
-          entities: shipEntities,
-          ids: shipIds,
-        }
-      };     
-    });
+    set(colonizePlanetoid(get(), payload));
   },
 
   initializeNewGame: () => {
