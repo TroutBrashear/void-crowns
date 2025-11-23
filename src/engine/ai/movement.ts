@@ -1,5 +1,6 @@
 import type { GameState } from '../../types/gameState';
 import { findPath } from '../pathfinding';
+import { getHabitablesInSystem, colonizePlanetoid } from '../colonization';
 
 export function processAiFleetMoves(currentState: GameState, orgId: number): GameState {
 	
@@ -61,26 +62,51 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 }
 
 export function processAiShipMoves(currentState: GameState, orgId: number): GameState {
-	const allShips = Object.values(currentState.ships.entities);
-	const orgShips = allShips.filter(ship => ship.ownerNationId === orgId);
+	let nextState = currentState;
 
-	const idleShips = orgShips.filter(ship => ship.movementPath.length === 0);
+	let allShips = Object.values(currentState.ships.entities);
+	let orgShips = allShips.filter(ship => ship.ownerNationId === orgId);
+	let idleShips = orgShips.filter(ship => ship.movementPath.length === 0);
 
 	if (idleShips.length === 0) {
     	return currentState;
   	}
 
-	const newShipEntities = { ...currentState.ships.entities };
   	let hasMadeChanges = false;
 
+  	//loop for idle ships to take actions if necessary. Right now, this means a colony ship is in a target system and colonizes a world.
+  	for(const ship of idleShips) {
+  		if(ship.type !== 'colony_ship') {
+  			continue;
+  		}
+
+  		const locationSystem = nextState.systems.entities[ship.locationSystemId];
+  		if(locationSystem.ownerNationId !== null){
+  			continue;
+  		}
+
+  		const habitableWorlds = getHabitablesInSystem(nextState, locationSystem.id);
+  		if(habitableWorlds.length > 0){
+  			nextState = colonizePlanetoid(nextState, { shipId: ship.id, planetoidId: habitableWorlds[0].id });
+  			hasMadeChanges = true;
+  		}
+  	}
+
+  	const newShipEntities = { ...currentState.ships.entities };
+
+
+	allShips = Object.values(nextState.ships.entities);
+	orgShips = allShips.filter(ship => ship.ownerNationId === orgId);
+	idleShips = orgShips.filter(ship => ship.movementPath.length === 0);
+
   	for (const ship of idleShips) {
-  		const currentSystem = currentState.systems.entities[ship.locationSystemId];
+  		const currentSystem = nextState.systems.entities[ship.locationSystemId];
     	if (!currentSystem) {
      		continue;
     	}
 
     	const targetSystemId = currentSystem.adjacentSystemIds.find(id => {
-     		const system = currentState.systems.entities[id];
+     		const system = nextState.systems.entities[id];
       		const isTargeted = Object.values(newShipEntities).some(s => 
         		s.movementPath.includes(id) && s.ownerNationId === orgId
       		);
@@ -91,7 +117,7 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
       		const newPath = findPath(
         		ship.locationSystemId,
         		targetSystemId,
-        		currentState.systems
+        		nextState.systems
       		);
 
       		const updatedShip = {
@@ -107,9 +133,9 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 
 	if (hasMadeChanges) {
 	   	return {
-	      ...currentState,
+	      ...nextState,
     	  ships: {
-    	    ...currentState.ships,
+    	    ...nextState.ships,
     	    entities: newShipEntities, 
       	  },
     	};
