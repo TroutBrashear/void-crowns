@@ -1,7 +1,15 @@
 import type { GameState } from '../types/gameState';
 
+function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
+	//TODO: can add modifiers based on planet environment, owning org, etc.
+	let finalGrowth = targetPlanetoid.population * 0.001;
+	return finalGrowth;
+}
+
 export function processEconomy(currentState: GameState): GameState {
 	const newOrgs = { ...currentState.orgs.entities };
+
+  	const newPlanetoidEntities = { ...currentState.planetoids.entities };
 
 	for(const systemId of currentState.systems.ids) {
 		const currentSystem = currentState.systems.entities[systemId];
@@ -11,11 +19,16 @@ export function processEconomy(currentState: GameState): GameState {
 			let systemIncome = 0;
 
 			for(const planetoidId of currentSystem.planetoids){
-				const currentPlanetoid = currentState.planetoids.entities[planetoidId];
+				let currentPlanetoid = currentState.planetoids.entities[planetoidId];
 
 				if(currentPlanetoid.population > 0)
 				{
 					systemIncome += Math.ceil(currentPlanetoid.population / 1000000);
+					console.log(currentPlanetoid.population);
+
+					//update Planetoid population
+					currentPlanetoid.population += calcPopulationGrowth(currentPlanetoid);
+					newPlanetoidEntities[currentPlanetoid.id] = currentPlanetoid;
 				}
 			}
 
@@ -39,5 +52,9 @@ export function processEconomy(currentState: GameState): GameState {
 			...currentState.orgs,
 			entities: newOrgs,
 		},
+		planetoids: {
+			...currentState.planetoids,
+			entities: newPlanetoidEntities
+		}
 	};
 }
