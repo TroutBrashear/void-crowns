@@ -10,7 +10,7 @@ import { findPath } from '../engine/pathfinding';
 import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
-import { generateGalaxy } from '../engine/galaxyGeneration';
+import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
 import { engineBuildFleet, engineBuildShip } from '../engine/building';
 import { colonizePlanetoid } from '../engine/colonization';
 
@@ -206,33 +206,25 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   initializeNewGame: () => {
+    //currently, generate functions are using a set value. This will later be based on game settings.
     const { systems, planetoids } = generateGalaxy(500);
+    const orgs = generateStartingOrgs(4);
 
 
-    //later this will iterate through generated orgs.
-    systems[0].ownerNationId = 1;
-    const playerHomeId = systems[0].planetoids.find(p => {
-      const planetoidCandidate = planetoids.find(planetoid => planetoid.id === p);
-      return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'Barren';
-    });
-    const playerHome = planetoids.find(p => {
-      return p.id === playerHomeId;
-    });
-    if(playerHome){
-      playerHome.population = 8000000000;
-    }
+    for(const currentOrg of orgs) {
+      //temp solution, can randomize later
+      systems[currentOrg.id].ownerNationId = currentOrg.id; 
 
-
-    systems[1].ownerNationId = 2;
-    const oppHomeId = systems[1].planetoids.find(p => {
-      const planetoidCandidate = planetoids.find(planetoid => planetoid.id === p);
-      return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'Barren';
-    });
-    const oppHome = planetoids.find(p => {
-      return p.id === oppHomeId;
-    });
-    if(oppHome){
-      oppHome.population = 8000000000;
+      const homeId = systems[currentOrg.id].planetoids.find(p => {
+       const planetoidCandidate = planetoids.find(planetoid => planetoid.id === p);
+       return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'Barren';
+      });
+      const home = planetoids.find(p => {
+        return p.id === homeId;
+      });
+      if(home){
+        home.population = 8000000000;
+      }
     }
 
     set({
@@ -247,7 +239,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       fleets: { entities: {}, ids: [] },   
       ships: { entities: {}, ids: [] },
       planetoids: normalize(planetoids),
-      //TODO: org generation
+      orgs: normalize(orgs),
     });
   },
 

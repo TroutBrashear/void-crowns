@@ -1,5 +1,6 @@
-import type { System, Planetoid } from '../types/gameState';
+import type { System, Planetoid, Org } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
+import { colorPicker } from '../utils/colors';
 import { findPath } from './pathfinding';
 
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
@@ -169,7 +170,6 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 
 	  disconnectedSystems = newGalaxy.filter(system => {
       if (system.id === 1) return false;
-      console.log(tempSystems);
       const pathToSystem1 = findPath(system.id, 1, tempSystems);
       return pathToSystem1.length === 0;
     });
@@ -203,4 +203,42 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 
 
 	return {systems: newGalaxy, planetoids: newPlanetoids};
+}
+
+export function generateStartingOrgs(numOrgs: number): Org[] {
+	let newOrgs: Org[] = [];
+
+	for(let i = 0; i < numOrgs; i++){
+		let nextOrg: Org = {
+			id: i + 1,
+			name:`Nation ${i+1}`,
+			color: colorPicker(),
+			resources: { credits: 0 },
+			parentId: null,
+			childIds: [],
+			relations: [],
+		};
+
+		newOrgs.push(nextOrg);
+	}
+
+	//iterate through and set relations
+	for(const org of newOrgs){
+
+		for(const targetOrg of newOrgs){
+			if(org.id === targetOrg.id){
+				continue;
+			}
+
+			let relation = {
+				targetOrgId: targetOrg.id,
+				status: 'peace',
+				opinion: 0,
+			};
+
+			org.relations.push(relation);
+		}
+	}
+
+	return newOrgs;
 }
