@@ -7,6 +7,19 @@ export interface System {
   planetoids: number[]; //the ids of all planetoids in this system
 }
 
+
+export interface Process {
+  input: Resources[];
+  output: Resources[];
+}
+
+export interface Building {
+  id: number;
+  type: string;
+  process: Process[];
+  //todo: likely have flags for abilities enabled on a planet - ie: fleet building.
+}
+
 export type PlanetoidClassification = 'gravWell' | 'planet' | 'moon' | 'asteroid' | 'station';
 
 export interface Planetoid {

@@ -37,13 +37,13 @@ function SystemSelectModal() {
 
       {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'colony_ship'})}>Construct Colony Ship</button>}
 
-      <h3>Planetoids</h3>
+      <h3>Planetoids:</h3>
       <ul>
         {systemPlanetoids.map(planetoid => {
           if (!planetoid) return null; 
           return(
             <li key={planetoid.id}>
-              {planetoid.name}
+              <button onClick={() => {setSelection({type: 'planetoid', id: planetoid.id}); openModal('planet_modal'); }}>{planetoid.name}</button>
            </li>);
         })}
       </ul>
