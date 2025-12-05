@@ -6,7 +6,7 @@ import styles from './Modal.module.css';
 function PlanetoidSelectModal() {
 	const selection = useUiStore(state => state.selection);
     const setSelection = useUiStore(state => state.setSelection);
-    const openModal = useUiStore(state => state.openModal);
+    const backModal = useUiStore(state => state.backModal);
     const closeModal = useUiStore(state => state.closeModal);
 
     const getSystemById = useGameStore(state => state.getSystemById);
@@ -31,6 +31,8 @@ function PlanetoidSelectModal() {
       	  <h3>In the System: {parentSystem.name}</h3>
 
       	  <h4>Buildings:</h4>
+
+      	  <button onClick={backModal}>Back</button>
       	  <button onClick={closeModal}>Close</button>
     	</div>
 	);

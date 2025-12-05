@@ -5,7 +5,7 @@ import styles from './Modal.module.css';
 function SystemSelectModal() {
   const selection = useUiStore(state => state.selection);
   const setSelection = useUiStore(state => state.setSelection);
-  const openModal = useUiStore(state => state.openModal);
+  const changeModal = useUiStore(state => state.changeModal);
   const closeModal = useUiStore(state => state.closeModal);
   
   const getSystemById = useGameStore(state => state.getSystemById);
@@ -32,7 +32,7 @@ function SystemSelectModal() {
   return (
     <div className={styles.modal}>
       <h2>System: {systemToShow.name}</h2>
-      {systemOwnerOrg && <button onClick={() => {setSelection({type: 'org', id: systemOwnerOrg.id}); openModal('org_modal'); }}>{systemOwnerOrg.name}</button>}
+      {systemOwnerOrg && <button onClick={() => {changeModal('org_modal', {type: 'org', id: systemOwnerOrg.id}); }}>{systemOwnerOrg.name}</button>}
       {systemToShow.ownerNationId === 1 && <button onClick={() => buildFleet(systemToShow.id)}>Construct Fleet</button>}
 
       {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'colony_ship'})}>Construct Colony Ship</button>}
@@ -43,7 +43,7 @@ function SystemSelectModal() {
           if (!planetoid) return null; 
           return(
             <li key={planetoid.id}>
-              <button onClick={() => {setSelection({type: 'planetoid', id: planetoid.id}); openModal('planet_modal'); }}>{planetoid.name}</button>
+              <button onClick={() => {changeModal('planet_modal', {type: 'planetoid', id: planetoid.id}); }}>{planetoid.name}</button>
            </li>);
         })}
       </ul>

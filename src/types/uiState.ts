@@ -24,11 +24,18 @@ export interface ShowNotificationPayload {
 
 export interface UiStoreMethods {
   openModal: (modal: ModalType) => void;
+  changeModal: (modal: ModalType) => void;
   closeModal: () => void;
+  backModal: () => void;
   setSelection: (selection: Selection | null) => void;
 
   showNotification: (payload: ShowNotificationPayload) => void;
   hideNotification: () => void;
+}
+
+export interface HistoryStep {
+  selection: Selection | null;
+  activeModal: string | null;
 }
 
 export type UiStoreState = UiState & UiStoreMethods;

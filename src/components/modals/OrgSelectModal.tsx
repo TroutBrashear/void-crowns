@@ -6,6 +6,8 @@ import styles from './Modal.module.css';
 function OrgSelectModal() {
 	const selection = useUiStore(state => state.selection);
 	const closeModal = useUiStore(state => state.closeModal);
+	const backModal = useUiStore(state => state.backModal);
+
 
 
 	const getOrgById = useGameStore(state => state.getOrgById);
@@ -49,6 +51,7 @@ function OrgSelectModal() {
 					})}
 				</ul>
 
+				<button onClick={backModal}>Back</button>
 				<button onClick={closeModal}>Close</button>
 			</div>
 		);
@@ -83,7 +86,7 @@ function OrgSelectModal() {
 			</ul>
 
 
-
+			<button onClick={backModal}>Back</button>
 			<button onClick={closeModal}>Close</button>
 		</div>
 	);

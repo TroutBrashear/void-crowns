@@ -1,11 +1,14 @@
 import { create } from 'zustand';
-import type { UiStoreState, ModalType, ShowNotificationPayload } from '../types/uiState';
+import type { UiStoreState, ModalType, ShowNotificationPayload, HistoryStep } from '../types/uiState';
 import type { Selection } from '../types/gameState'; 
 
 export const useUiStore = create<UiStoreState>((set, get) => ({
 
 	activeModal: null,
 	selection: null,
+	navStack: [],
+
+	//logic for notifications
 	notification: {
 		notificationType: null,
   		notificationMessage: null,
@@ -13,12 +16,47 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
   		timeOutId: null,
 	},
 
+
 	openModal: (modal: ModalType) => {
 		set({ activeModal: modal });
 	},
+
+	changeModal: (modal: ModalType, newSelection: Selection) => {
+		const { activeModal, selection, navStack } = get();
+
+		if(activeModal){
+			set({
+                navStack: [...navStack, { modal: activeModal, selection: selection }],
+                activeModal: modal,
+                selection: newSelection
+            });
+		}
+		else{
+			set({ activeModal: modal, selection: newSelection });
+		}
+	},
   	
   	closeModal: () => {
-  		set({ activeModal: null, selection: null });
+  		set({ activeModal: null, selection: null, navStack: [] });
+  	},
+
+  	backModal: () => {
+  		const { navStack } = get();
+
+  		//top of stack, just exit modal
+  		if(navStack.length === 0){
+  			set({ activeModal: null, selection: null });
+  			return;
+  		}
+
+  		const previousModal = navStack[navStack.length - 1];
+        const newStack = navStack.slice(0, -1);
+
+        set({
+            selection: previousModal.selection,
+            activeModal: previousModal.modal,
+            navStack: newStack
+        });
   	},
 
   	setSelection: (selection: Selection | null) => set({ 
@@ -32,7 +70,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 		}
 
 		const newTimeoutId = setTimeout(() => {
-			set({isOpen:false, timeOutId: null});
+			set({notification: { ...state.notification, isOpen:false, timeOutId: null}});
 		}, 4000);
 
 		set((state) => ({

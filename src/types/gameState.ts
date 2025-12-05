@@ -95,7 +95,7 @@ export interface EntitiesState<T> {
 }
 
 //defines what users are allowed to select on the map.
-export type SelectableEntityType = 'fleet' | 'system' | 'org' | 'ship';
+export type SelectableEntityType = 'fleet' | 'system' | 'org' | 'ship' | 'planetoid';
 
 //the object for map selection state
 export interface Selection {
