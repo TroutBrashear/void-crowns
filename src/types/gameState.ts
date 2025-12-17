@@ -13,10 +13,11 @@ export interface Process {
   output: Resources[];
 }
 
+
 export interface Building {
   id: number;
   type: string;
-  process: Process[];
+  ownerNationId: number;
   //todo: likely have flags for abilities enabled on a planet - ie: fleet building.
 }
 
@@ -31,6 +32,7 @@ export interface Planetoid {
   environment: string;
   size: number;
   population: number;
+  buildings: Building[];
 }
 
 export interface Fleet {
@@ -55,6 +57,7 @@ export interface Ship {
 
 export interface Resources {
   credits: number;
+  rocks: number;
 }
 
 export interface OrgRelation {
@@ -154,6 +157,7 @@ export interface GameState {
     isPaused: boolean;
     lastFleetId: number;
     lastShipId: number;
+	lastBuildingId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;

@@ -11,7 +11,7 @@ import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
-import { engineBuildFleet, engineBuildShip } from '../engine/building';
+import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engine/building';
 import { colonizePlanetoid } from '../engine/colonization';
 
 import { normalize } from '../utils/normalize';
@@ -192,6 +192,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   buildShip: (payload: { locationId: number, shipType: ShipType }) => {
     set(engineBuildShip(get(), payload.locationId, payload.shipType));
   },
+  
+  constructBuilding: (payload) => {
+	set(state => engineBuildBuilding(state, payload.planetoidId, payload.buildingType));
+  },
 
    declareWar: ({ actorId, targetId }) => {
     updateBilateralRelation(actorId, targetId, 'war');
@@ -234,6 +238,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         isPaused: false, 
         lastFleetId: initialFleets.length,
         lastShipId: 0,
+		lastBuildingId: 0,
       },
       systems: normalize(systems),
       fleets: { entities: {}, ids: [] },   

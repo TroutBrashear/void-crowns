@@ -1,4 +1,5 @@
-import type { GameState, Ship, ShipType } from '../../types/gameState';
+import type { GameState, Ship, ShipType, Building, BuildingClass } from '../../types/gameState';
+import { BUILDING_CATALOG } from '../data/buildings';
 
 //global unit costs
 const FLEET_COST = 10000;
@@ -125,4 +126,53 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
           lastShipId: newId,
         },
       };
+}
+
+export function canBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, orgId: number){
+
+	return true; //currently a rubber stamp - later use to filter what building options are displayed
+}
+
+export function engineBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, orgId: number){
+  const planetoid = currentState.planetoids.entities[planetoidId];
+  const system = currentState.systems.entities[planetoid.locationSystemId];
+  const ownerId = system.ownerNationId; 
+  const org = currentState.orgs.entities[ownerId];
+  const bDefinition = BUILDING_CATALOG[buildingClass];
+  const newId = currentState.meta.lastbuildingId + 1;
+
+  const newBuilding: Building = {
+    id: newId, 
+    type: buildingClass,
+    ownerNationId: ownerId
+  };
+  
+  const updatedPlanetoid = {
+    ...planetoid,
+    buildings: [...planetoid.buildings, newBuilding]
+  };
+  
+  const updatedOrg = {
+    ...org,
+    resources: {
+      credits: org.resources.credits - bDefinition.cost.credits,
+      rocks: org.resources.rocks - bDefinition.cost.rocks,
+    }
+  };
+  
+  return {
+    ...currentState,
+    planetoids: {
+      ...currentState.planetoids,
+      entities: { ...currentState.planetoids.entities, [planetoidId]: updatedPlanetoid }
+    },
+    orgs: {
+      ...currentState.orgs,
+      entities: { ...currentState.orgs.entities, [org.id]: updatedOrg }
+    },
+	meta: {
+        ...currentState.meta,
+        lastBuildingId: newId,
+ 	},
+  };
 }

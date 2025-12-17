@@ -30,7 +30,10 @@ function PlanetoidSelectModal() {
     	  <h2>Planetoid: {planetToShow.name}</h2>
       	  <h3>In the System: {parentSystem.name}</h3>
 
+		  <button>Construct Building</button>
       	  <h4>Buildings:</h4>
+		  
+		  
 
       	  <button onClick={backModal}>Back</button>
       	  <button onClick={closeModal}>Close</button>
