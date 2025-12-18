@@ -1,4 +1,4 @@
-import type { GameState, Fleet } from '../types/gameState';
+import type { GameState, Fleet, Ship } from '../types/gameState';
 
 export function processTick(currentState: GameState): GameState {
   console.log('tick');

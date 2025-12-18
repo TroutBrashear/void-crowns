@@ -216,7 +216,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			id: i + 1,
 			name:`Nation ${i+1}`,
 			color: colorPicker(),
-			resources: { credits: 0 },
+			resources: { credits: 0, rocks: 0 },
 			parentId: null,
 			childIds: [],
 			relations: [],

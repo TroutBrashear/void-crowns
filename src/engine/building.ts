@@ -1,4 +1,4 @@
-import type { GameState, Ship, ShipType, Building, BuildingClass } from '../../types/gameState';
+import type { GameState, ShipType, Building, BuildingClass } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 
 //global unit costs

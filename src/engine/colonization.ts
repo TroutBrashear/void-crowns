@@ -1,4 +1,4 @@
-import type { GameState, ColonizePayload } from '../../types/gameState';
+import type { GameState, ColonizePayload, planetoid } from '../../types/gameState';
 
 export function colonizePlanetoid(currentState: GameState, payload: ColonizePayload ): GameState {
 
