@@ -139,7 +139,7 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
   const ownerId = system.ownerNationId; 
   const org = currentState.orgs.entities[ownerId];
   const bDefinition = BUILDING_CATALOG[buildingClass];
-  const newId = currentState.meta.lastbuildingId + 1;
+  const newId = currentState.meta.lastBuildingId + 1;
 
   const newBuilding: Building = {
     id: newId, 

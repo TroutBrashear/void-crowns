@@ -15,12 +15,10 @@ import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engin
 import { colonizePlanetoid } from '../engine/colonization';
 
 import { normalize } from '../utils/normalize';
-import { initialOrgs, initialSystems, initialFleets, initialPlanetoids, initialShips } from '../data/scenarios/demo';
-
 
 //global unit costs
-const FLEET_COST = 10000;
-const COL_SHIP_COST = 15000;
+//const FLEET_COST = 10000;
+//const COL_SHIP_COST = 15000;
 
 export const useGameStore = create<GameStoreState>((set, get) => {
   //initial setup
@@ -68,11 +66,12 @@ export const useGameStore = create<GameStoreState>((set, get) => {
      isPaused: true,
      lastFleetId: 0,
      lastShipId: 0,
+	 lastBuildingId: 0,
     },
     systems: { entities: {}, ids: [] }, 
 	ships: { entities: {}, ids: [] },
     fleets: { entities: {}, ids: [] },   
-    orgs: normalize(initialOrgs),       
+    orgs: {entities: {}, ids: []},       
     planetoids: { entities: {}, ids: [] },
     fleetLocationIndex: {},   
 
@@ -237,7 +236,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         turn: 1,
         activeOrgId: 1,
         isPaused: false, 
-        lastFleetId: initialFleets.length,
+        lastFleetId: 0,
         lastShipId: 0,
 		lastBuildingId: 0,
       },
