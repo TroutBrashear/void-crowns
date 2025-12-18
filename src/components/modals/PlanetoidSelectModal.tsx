@@ -1,7 +1,10 @@
 import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
+import { canBuildBuilding } from '../../engine/building';
+import type { BuildingClass, Building } from '../../types/gameState';
+import { BUILDING_CATALOG } from '../../data/buildings';
 import styles from './Modal.module.css';
-
+import { useState } from 'react';
 
 function PlanetoidSelectModal() {
 	const selection = useUiStore(state => state.selection);
@@ -12,6 +15,9 @@ function PlanetoidSelectModal() {
     const getSystemById = useGameStore(state => state.getSystemById);
     const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
     const getOrgById = useGameStore(state => state.getOrgById);
+	const constructBuilding = useGameStore(state => state.constructBuilding);
+
+	const [selectedBuilding, setSelectedBuilding] = useState<BuildingClass | null>(null);
 
     const planetToShow = 
     (selection?.type === 'planetoid') 
@@ -23,17 +29,47 @@ function PlanetoidSelectModal() {
   	}
 
   	const parentSystem = getSystemById(planetToShow.locationSystemId);
-
+	
+	//prepare list of potential buildings
+	const buildingOptions = (Object.keys(BUILDING_CATALOG) as BuildingClass[]).map(bKey => {
+		const definition = BUILDING_CATALOG[bKey];
+		
+		//TODO: filter out ineligible buildings
+		
+		return {
+			type: definition.type,
+		};
+	});
 
 	return (
 		<div className={styles.modal}>
     	  <h2>Planetoid: {planetToShow.name}</h2>
       	  <h3>In the System: {parentSystem.name}</h3>
 
-		  <button>Construct Building</button>
+		  <select name="constructionTarget" value={selectedBuilding || ''} onChange={(e) => setSelectedBuilding(e.target.value as BuildingClass)}>
+			{buildingOptions.map(building => {
+            if (!building) return null; 
+              return(
+              <option value={building.type}>
+                {building.type}
+             </option>);
+            })}
+          </select>
+		  <button onClick={() => {if(selectedBuilding){ 
+            constructBuilding({planetoidId: planetToShow.id, buildingType: selectedBuilding, orgId: parentSystem.ownerNationId}); closeModal();}
+          }}>Construct Building</button>
+		  
       	  <h4>Buildings:</h4>
-		  
-		  
+		  <ul>
+			{planetToShow.buildings.map(building => {
+				if (!building) return null; 
+				return(
+					<li key={building.id}>
+						<p>{building.type}</p>
+					</li>
+				);
+			})}
+      </ul>
 
       	  <button onClick={backModal}>Back</button>
       	  <button onClick={closeModal}>Close</button>

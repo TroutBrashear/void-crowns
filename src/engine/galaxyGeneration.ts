@@ -205,7 +205,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
   }
 
 
-	return {systems: newGalaxy, planetoids: newPlanetoids};
+  return {systems: newGalaxy, planetoids: newPlanetoids};
 }
 
 export function generateStartingOrgs(numOrgs: number): Org[] {

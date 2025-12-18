@@ -13,10 +13,11 @@ export interface Process {
   output: Resources[];
 }
 
+export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase';
 
 export interface Building {
   id: number;
-  type: string;
+  type: BuildingClass;
   ownerNationId: number;
   //todo: likely have flags for abilities enabled on a planet - ie: fleet building.
 }

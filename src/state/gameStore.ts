@@ -193,8 +193,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     set(engineBuildShip(get(), payload.locationId, payload.shipType));
   },
   
-  constructBuilding: (payload) => {
-	set(state => engineBuildBuilding(state, payload.planetoidId, payload.buildingType));
+  constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => {
+	set(state => engineBuildBuilding(get(), payload.planetoidId, payload.buildingType, payload.orgId));
   },
 
    declareWar: ({ actorId, targetId }) => {
