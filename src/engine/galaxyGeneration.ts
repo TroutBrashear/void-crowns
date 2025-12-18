@@ -71,6 +71,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 				environment: 'star',
 				size: 80,
 				population: 0,
+				buildings: [],
 			};
 
 			systemPlanetoids.push(star);
@@ -87,6 +88,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
     			environment: planetEnvironment(),
    				size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
     			population: 0,
+				buildings: [],
   			};
 
   			systemPlanetoids.push(planet);
@@ -109,6 +111,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
     				environment: 'barren', 
    					size: 2 + Math.floor(Math.random() * 5),
     				population: 0,
+					buildings: [],
   				};
 
 	  			systemPlanetoids.push(moon);
