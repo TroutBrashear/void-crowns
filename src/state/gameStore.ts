@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, BuildingClass } from '../types/gameState';
 import type { Fleet } from '../types/gameState'; 
 
 //engine imports
@@ -70,6 +70,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
      lastShipId: 0,
     },
     systems: { entities: {}, ids: [] }, 
+	ships: { entities: {}, ids: [] },
     fleets: { entities: {}, ids: [] },   
     orgs: normalize(initialOrgs),       
     planetoids: { entities: {}, ids: [] },
@@ -194,7 +195,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
   
   constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => {
-	set(state => engineBuildBuilding(get(), payload.planetoidId, payload.buildingType, payload.orgId));
+	set(engineBuildBuilding(get(), payload.planetoidId, payload.buildingType, payload.orgId));
   },
 
    declareWar: ({ actorId, targetId }) => {
