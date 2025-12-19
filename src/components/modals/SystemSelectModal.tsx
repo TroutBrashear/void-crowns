@@ -4,7 +4,7 @@ import styles from './Modal.module.css';
 
 function SystemSelectModal() {
   const selection = useUiStore(state => state.selection);
-  const setSelection = useUiStore(state => state.setSelection);
+  //const setSelection = useUiStore(state => state.setSelection);
   const changeModal = useUiStore(state => state.changeModal);
   const closeModal = useUiStore(state => state.closeModal);
   

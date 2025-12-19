@@ -1,4 +1,4 @@
-import type { System, Planetoid, Org } from '../types/gameState';
+import type { System, Planetoid, Org, OrgRelation } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { colorPicker } from '../utils/colors';
 import { findPath } from './pathfinding';

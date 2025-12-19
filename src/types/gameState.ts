@@ -182,6 +182,7 @@ export interface GameActions {
   playPause: () => void;
   buildFleet: (locationId: number) => void;
   buildShip: (payload: { locationId: number, shipType: ShipType }) => void;
+  constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => void;
   declareWar: (payload: DiploStatusPayload) => void;
   declarePeace: (payload: DiploStatusPayload) => void;
   colonizePlanetoid: (payload: ColonizePayload) => void;

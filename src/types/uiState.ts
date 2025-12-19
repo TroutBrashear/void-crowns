@@ -1,7 +1,7 @@
 import type { Selection } from './gameState'; 
 
 
-export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_modal"; 
+export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_modal" | "planet_modal"; 
 
 
 export interface NotificationData {
@@ -24,7 +24,7 @@ export interface ShowNotificationPayload {
 
 export interface UiStoreMethods {
   openModal: (modal: ModalType) => void;
-  changeModal: (modal: ModalType) => void;
+  changeModal: (modal: ModalType, newSelection: Selection) => void;
   closeModal: () => void;
   backModal: () => void;
   setSelection: (selection: Selection | null) => void;

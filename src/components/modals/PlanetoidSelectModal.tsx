@@ -7,6 +7,8 @@ import styles from './Modal.module.css';
 import { useState } from 'react';
 
 function PlanetoidSelectModal() {
+    const gameState = useGameStore(state => state); 
+	
 	const selection = useUiStore(state => state.selection);
     const setSelection = useUiStore(state => state.setSelection);
     const backModal = useUiStore(state => state.backModal);
@@ -29,12 +31,18 @@ function PlanetoidSelectModal() {
   	}
 
   	const parentSystem = getSystemById(planetToShow.locationSystemId);
+	if (!parentSystem) {
+  	  return null; 
+  	}
 	
 	//prepare list of potential buildings
-	const buildingOptions = (Object.keys(BUILDING_CATALOG) as BuildingClass[]).map(bKey => {
+	const allBuildingTypes = (Object.keys(BUILDING_CATALOG) as BuildingClass[]);
+	const buildableTypes = allBuildingTypes.filter(type => {
+		return canBuildBuilding(gameState, planetToShow.id, type, 1); //1 is currently hardcoded player ID.
+	});
+	const buildingOptions = buildableTypes.map(bKey => {
 		const definition = BUILDING_CATALOG[bKey];
-		
-		//TODO: filter out ineligible buildings
+
 		
 		return {
 			type: definition.type,

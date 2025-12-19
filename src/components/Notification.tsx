@@ -6,7 +6,7 @@ function Notification() {
 	const hideNotification = useUiStore((state) => state.hideNotification);
 
 
-	if(!notification.isOpen)
+	if(!notification.isOpen || !notification.notificationType)
 	{
 		return null;
 	}
