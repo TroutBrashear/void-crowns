@@ -1,4 +1,4 @@
-import type { GameState } from '../types/gameState';
+import type { GameState, Planetoid } from '../types/gameState';
 
 function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
 	//TODO: can add modifiers based on planet environment, owning org, etc.

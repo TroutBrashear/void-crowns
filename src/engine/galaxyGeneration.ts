@@ -233,7 +233,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				continue;
 			}
 
-			let relation = {
+			let relation: OrgRelation = {
 				targetOrgId: targetOrg.id,
 				status: 'peace',
 				opinion: 0,

@@ -128,16 +128,28 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
       };
 }
 
-export function canBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, orgId: number){
+export function canBuildBuilding(_currentState: GameState, _planetoidId: number, _buildingClass: BuildingClass, _orgId: number){
 
 	return true; //currently a rubber stamp - later use to filter what building options are displayed
 }
 
-export function engineBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, orgId: number){
+export function engineBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, _orgId: number){
+
+  
   const planetoid = currentState.planetoids.entities[planetoidId];
+  if (planetoid === null || planetoid === undefined) {
+    return currentState; 
+  }
   const system = currentState.systems.entities[planetoid.locationSystemId];
-  const ownerId = system.ownerNationId; 
+  const ownerId = system.ownerNationId;
+  if (ownerId === null || ownerId === undefined) {
+    return currentState; 
+  }
+  
   const org = currentState.orgs.entities[ownerId];
+  if (org === null || org === undefined) {
+    return currentState; 
+  }
   const bDefinition = BUILDING_CATALOG[buildingClass];
   const newId = currentState.meta.lastBuildingId + 1;
 
