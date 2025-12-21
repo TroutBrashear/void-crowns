@@ -54,7 +54,8 @@ function PlanetoidSelectModal() {
     	  <h2>Planetoid: {planetToShow.name}</h2>
       	  <h3>In the System: {parentSystem.name}</h3>
 
-		  <select name="constructionTarget" value={selectedBuilding || ''} onChange={(e) => setSelectedBuilding(e.target.value as BuildingClass)}>
+		  {parentSystem.ownerNationId === 1 && (<>
+			<select name="constructionTarget" value={selectedBuilding || ''} onChange={(e) => setSelectedBuilding(e.target.value as BuildingClass)}>
 			{buildingOptions.map(building => {
             if (!building) return null; 
               return(
@@ -64,8 +65,9 @@ function PlanetoidSelectModal() {
             })}
           </select>
 		  <button onClick={() => {if(selectedBuilding){ 
-            constructBuilding({planetoidId: planetToShow.id!, buildingType: selectedBuilding, orgId: parentSystem.ownerNationId}); closeModal();}
+            constructBuilding({planetoidId: planetToShow.id, buildingType: selectedBuilding, orgId: parentSystem.ownerNationId}); closeModal();}
           }}>Construct Building</button>
+		  </>)}
 		  
       	  <h4>Buildings:</h4>
 		  <ul>
