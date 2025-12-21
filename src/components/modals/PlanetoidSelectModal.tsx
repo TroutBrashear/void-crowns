@@ -65,7 +65,7 @@ function PlanetoidSelectModal() {
             })}
           </select>
 		  <button onClick={() => {if(selectedBuilding){ 
-            constructBuilding({planetoidId: planetToShow.id, buildingType: selectedBuilding, orgId: parentSystem.ownerNationId}); closeModal();}
+            constructBuilding({planetoidId: planetToShow.id, buildingType: selectedBuilding, orgId: parentSystem.ownerNationId!}); closeModal();}
           }}>Construct Building</button>
 		  </>)}
 		  
