@@ -6,10 +6,9 @@ interface ShipIconProps {
   org: Org;
   isSelected: boolean;
   onClick: () => void;
-  ship: Ship;
 }
 
-export function ShipIcon({ _ship, position, org, isSelected, onClick }: ShipIconProps) {
+export function ShipIcon({ position, org, isSelected, onClick }: ShipIconProps) {
   const { x, y } = position;
   
   const sizeX = 8;  

@@ -15,6 +15,7 @@ export interface UiState {
   activeModal: ModalType | null;
   selection: Selection | null;
   notification: NotificationData;
+  navStack: HistoryStep[];
 }
 
 export interface ShowNotificationPayload {

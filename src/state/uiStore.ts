@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { UiStoreState, ModalType, ShowNotificationPayload, HistoryStep } from '../types/uiState';
+import type { UiStoreState, ModalType, ShowNotificationPayload } from '../types/uiState';
 import type { Selection } from '../types/gameState'; 
 
 export const useUiStore = create<UiStoreState>((set, get) => ({
@@ -25,14 +25,19 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 		const { activeModal, selection, navStack } = get();
 
 		if(activeModal){
-			set({
-                navStack: [...navStack, { modal: activeModal, selection: selection }],
-                activeModal: modal,
-                selection: newSelection
-            });
+			set((state) => ({
+				...state,
+				navStack: [...state.navStack, { modal: activeModal, selection: selection }],
+				activeModal: modal,
+				selection: newSelection
+			}));
 		}
 		else{
-			set({ activeModal: modal, selection: newSelection });
+			set((state) => ({ 
+				...state,
+				activeModal: modal, 
+				selection: newSelection
+			}));
 		}
 	},
   	
@@ -70,7 +75,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 		}
 
 		const newTimeoutId = setTimeout(() => {
-			set({notification: { ...state.notification, isOpen:false, timeOutId: null}});
+			get().hideNotification();
 		}, 4000);
 
 		set((state) => ({

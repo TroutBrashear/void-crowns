@@ -1,7 +1,7 @@
 import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
 import { canBuildBuilding } from '../../engine/building';
-import type { BuildingClass, Building } from '../../types/gameState';
+import type { BuildingClass } from '../../types/gameState';
 import { BUILDING_CATALOG } from '../../data/buildings';
 import styles from './Modal.module.css';
 import { useState } from 'react';
@@ -10,13 +10,13 @@ function PlanetoidSelectModal() {
     const gameState = useGameStore(state => state); 
 	
 	const selection = useUiStore(state => state.selection);
-    const setSelection = useUiStore(state => state.setSelection);
+    //const setSelection = useUiStore(state => state.setSelection);
     const backModal = useUiStore(state => state.backModal);
     const closeModal = useUiStore(state => state.closeModal);
 
     const getSystemById = useGameStore(state => state.getSystemById);
     const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
-    const getOrgById = useGameStore(state => state.getOrgById);
+    //const getOrgById = useGameStore(state => state.getOrgById);
 	const constructBuilding = useGameStore(state => state.constructBuilding);
 
 	const [selectedBuilding, setSelectedBuilding] = useState<BuildingClass | null>(null);
