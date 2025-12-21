@@ -27,7 +27,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 		if(activeModal){
 			set((state) => ({
 				...state,
-				navStack: [...state.navStack, { modal: activeModal, selection: selection }],
+				navStack: [...state.navStack, { activeModal: activeModal, selection: selection }],
 				activeModal: modal,
 				selection: newSelection
 			}));
@@ -59,7 +59,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 
         set({
             selection: previousModal.selection,
-            activeModal: previousModal.modal,
+            activeModal: previousModal.activeModal,
             navStack: newStack
         });
   	},
