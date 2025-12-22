@@ -128,9 +128,20 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
       };
 }
 
-export function canBuildBuilding(_currentState: GameState, _planetoidId: number, _buildingClass: BuildingClass, _orgId: number){
-
-	return true; //currently a rubber stamp - later use to filter what building options are displayed
+export function canBuildBuilding(currentState: GameState, _planetoidId: number, buildingClass: BuildingClass, orgId: number){
+	const bDefinition = BUILDING_CATALOG[buildingClass];
+	const org = currentState.orgs.entities[orgId];
+	
+	if (!org) {
+        return false;
+    }
+	
+	//check cost - can org afford the Building
+	if((org.resources.credits < bDefinition.cost.credits )){
+		return false;
+	}
+	
+	return true; 
 }
 
 export function engineBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, _orgId: number){
