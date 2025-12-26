@@ -12,6 +12,8 @@ export function ResourcePanel({ resources }: ResourcePanelProps) {
 			<div className={styles.resourceItem}>
 				<span>Credits: </span>
 				<span>{resources.credits}</span>
+				<span>Rocks: </span>
+				<span>{resources.rocks}</span>
 			</div>
 		</div>
 	);
