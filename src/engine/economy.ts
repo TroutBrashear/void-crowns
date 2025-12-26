@@ -1,4 +1,5 @@
 import type { GameState, Planetoid } from '../types/gameState';
+import { BUILDING_CATALOG } from '../data/buildings';
 
 function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
 	//TODO: can add modifiers based on planet environment, owning org, etc.
@@ -16,29 +17,42 @@ export function processEconomy(currentState: GameState): GameState {
 		const systemOwner = currentSystem.ownerNationId;
 
 		if(systemOwner) {
-			let systemIncome = 0;
+			let systemCreditIncome = 0;
+			let systemRockIncome = 0;
 
 			for(const planetoidId of currentSystem.planetoids){
 				let currentPlanetoid = currentState.planetoids.entities[planetoidId];
 
-				if(currentPlanetoid.population > 0)
-				{
-					systemIncome += Math.ceil(currentPlanetoid.population / 1000000);
+				//check population for credits income
+				if(currentPlanetoid.population > 0){
+					systemCreditIncome += Math.ceil(currentPlanetoid.population / 1000000);
 					console.log(currentPlanetoid.population);
 
 					//update Planetoid population
 					currentPlanetoid.population += calcPopulationGrowth(currentPlanetoid);
 					newPlanetoidEntities[currentPlanetoid.id] = currentPlanetoid;
 				}
+				
+				//check buildings for processes
+				if(currentPlanetoid.buildings.length > 0){
+					for(const building of currentPlanetoid.buildings){
+						//processes are in building definition
+						const bDefinition = BUILDING_CATALOG[building.type];
+						
+						systemCreditIncome = systemCreditIncome - bDefinition.process.input.credits + bDefinition.process.output.credits;
+						systemRockIncome = systemRockIncome - bDefinition.process.input.rocks + bDefinition.process.output.rocks;
+					}
+				}
 			}
 
-			if(systemIncome > 0){
+			if(systemCreditIncome > 0){
 				const currentOrg = newOrgs[systemOwner];
 				newOrgs[systemOwner] = {
 					...currentOrg,
 					resources: {
 						...currentOrg.resources,
-						credits: currentOrg.resources.credits + systemIncome,
+						credits: currentOrg.resources.credits + systemCreditIncome,
+						rocks: currentOrg.resources.rocks + systemRockIncome,
 					}
 				};
 			}
