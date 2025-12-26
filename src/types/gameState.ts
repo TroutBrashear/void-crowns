@@ -9,8 +9,8 @@ export interface System {
 
 
 export interface Process {
-  input: Resources[];
-  output: Resources[];
+  input: Resources;
+  output: Resources;
 }
 
 export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase';
