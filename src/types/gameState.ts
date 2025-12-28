@@ -90,7 +90,7 @@ export interface Character {
   name: string;
   age: number; 
   traits: string[];
-  assignment: charAssignment;
+  assignment: charAssignment | null;
 }
 
 export interface EntitiesState<T> {

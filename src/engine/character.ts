@@ -1,9 +1,18 @@
-import type { GameState } from '../types/gameState';
-
+import type { GameState, Character } from '../types/gameState';
 
  
-
-
+export function generateCharacter(nextId: number): Character {
+	let newCharacter = {
+		id: nextId,
+		name: "new character",
+		age: 25,
+		traits: [],
+		assignment: null,
+	};
+	
+	return newCharacter; 
+}
+ 
 //processCharacterCycles will be a function handling: ensuring that orgs have pools of eligible characters, and that characters age and die.
 export function processCharacterCycles(currentState: GameState): GameState {
 	const newCharacters = { ...currentState.characters.entities };
