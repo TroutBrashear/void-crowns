@@ -88,7 +88,7 @@ export interface charAssignment {
 export interface Character {
   id: number;
   name: string;
-  bornTurn: number; //used to calculate age
+  age: number; 
   traits: string[];
   assignment: charAssignment;
 }
@@ -165,6 +165,7 @@ export interface GameState {
   orgs: EntitiesState<Org>;
   planetoids: EntitiesState<Planetoid>;
   ships: EntitiesState<Ship>;
+  characters: EntitiesState<Character>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
