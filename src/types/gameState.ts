@@ -72,6 +72,9 @@ export interface Org {
   name: string;
   color: string;
   resources: Resources;
+  characters: {
+	characterPool: number[]; //ids in a pool for character recruitment
+  }
 
   parentId: number | null;
   childIds: number[];
@@ -159,6 +162,7 @@ export interface GameState {
     lastFleetId: number;
     lastShipId: number;
 	lastBuildingId: number;
+	lastCharacterId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;

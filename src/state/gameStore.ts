@@ -10,6 +10,7 @@ import { findPath } from '../engine/pathfinding';
 import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
+import { processCharacterCycles } from '../engine/character';
 import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
 import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engine/building';
 import { colonizePlanetoid } from '../engine/colonization';
@@ -67,6 +68,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
      lastFleetId: 0,
      lastShipId: 0,
 	 lastBuildingId: 0,
+	 lastCharacterId: 0,
     },
     systems: { entities: {}, ids: [] }, 
 	ships: { entities: {}, ids: [] },
@@ -89,6 +91,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     const combatResults = processCombat(nextState);
     nextState = combatResults.newState;
     tickEvents.push(...combatResults.events);
+
+	nextState = processCharacterCycles(nextState);
 
     for(const orgId of nextState.orgs.ids){
       if(orgId !== 1){
@@ -240,6 +244,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         lastFleetId: 0,
         lastShipId: 0,
 		lastBuildingId: 0,
+		lastCharacterId:0,
       },
       systems: normalize(systems),
       fleets: { entities: {}, ids: [] },   
