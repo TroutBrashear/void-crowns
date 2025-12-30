@@ -60,7 +60,7 @@ function resolveBattle(currentState: GameState, fleetsInSystem: Fleet[]): Engine
 
 	const battleResultEvent: GameEvent = {
     	type: 'battle_result',
-    	message: `Battle concluded! The ${winnerOrg.name} forces are victorious.`,
+    	message: `Battle concluded! The ${winnerOrg.flavor.name} forces are victorious.`,
     	locationId: fleetsInSystem[0]?.locationSystemId, 
     	involvedOrgIds: participatingFactions,
     	isPlayerVisible: participatingFactions.includes(1),
