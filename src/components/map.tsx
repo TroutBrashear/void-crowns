@@ -61,7 +61,7 @@ function Map({ onSelect }: MapProps) {
               cx={system.position.x}
               cy={system.position.y}
               r={15}
-              fill={owner ? owner.color : '#555'} //default gray if no owner
+              fill={owner ? owner.flavor.color : '#555'} //default gray if no owner
               className={`${styles.systemBody} ${isSelected ? styles.selected : ''}`}
               onClick={() => {
                  if (selection?.type === 'fleet') {

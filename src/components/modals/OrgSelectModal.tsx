@@ -34,7 +34,7 @@ function OrgSelectModal() {
 	if(orgToShow.id === 1){
 		return (
 			<div className={styles.modal}>
-				<h2>{orgToShow.name}</h2>
+				<h2>{orgToShow.flavor.name}</h2>
 				<h3>International Relations:</h3>
 				<ul>
 					{orgRelations.map(relation => {
@@ -46,7 +46,7 @@ function OrgSelectModal() {
 						}
 						return(
 							<li key={relation.targetOrgId}>
-								{relation.status} with {targetOrg.name} ({relation.opinion})
+								{relation.status} with {targetOrg.flavor.name} ({relation.opinion})
 							</li>);
 					})}
 				</ul>
@@ -65,7 +65,7 @@ function OrgSelectModal() {
 
 	return (
 		<div className={styles.modal}>
-			<h2>{orgToShow.name}</h2>
+			<h2>{orgToShow.flavor.name}</h2>
 			<h3>Your current status: {currentStatus}</h3>
 			{currentStatus === 'war' ? <button onClick={() => declarePeace({actorId: 1, targetId: orgToShow.id})}>Offer Peace</button> 
 				: <button onClick={() => declareWar({actorId: 1, targetId: orgToShow.id})}>Declare War</button>}
@@ -80,7 +80,7 @@ function OrgSelectModal() {
 					}
 					return(
 						<li key={relation.targetOrgId}>
-							{relation.status} with {targetOrg.name} ({relation.opinion})
+							{relation.status} with {targetOrg.flavor.name} ({relation.opinion})
 						</li>);
 				})}
 			</ul>

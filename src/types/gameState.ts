@@ -69,8 +69,11 @@ export interface OrgRelation {
 
 export interface Org {
   id: number;
-  name: string;
-  color: string;
+  flavor:{
+	name: string;
+	color: string;
+	nameList: string;
+  }
   resources: Resources;
   characters: {
 	characterPool: number[]; //ids in a pool for character recruitment

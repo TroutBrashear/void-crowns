@@ -31,7 +31,7 @@ export function ShipIcon({ position, org, isSelected, onClick }: ShipIconProps) 
     >
       <polygon
         points={points}
-        fill={org.color}
+        fill={org.flavor.color}
         stroke={isSelected ? 'white' : '#ccc'}
         strokeWidth={isSelected ? 2 : 1}
       />

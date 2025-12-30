@@ -214,8 +214,11 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 	for(let i = 0; i < numOrgs; i++){
 		let nextOrg: Org = {
 			id: i + 1,
-			name:`Nation ${i+1}`,
-			color: colorPicker(),
+			flavor: {
+				name:`Nation ${i+1}`,
+				color: colorPicker(),
+				nameList: 'default',
+			},
 			resources: { credits: 0, rocks: 0 },
 			characters: {
 				characterPool: [],
