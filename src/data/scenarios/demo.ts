@@ -1,7 +1,7 @@
 import type { System, Fleet, Org, Planetoid, Ship } from '../../types/gameState';
 
 export const initialOrgs: Org[] = [
-  { id: 1, name: flavor: { 'Human Republic', color: '#3498db'}, resources: { credits: 100, rocks: 0 }, characters: {characterPool: []}, parentId: null, childIds: [], relations: [{ targetOrgId: 2, status: 'war', opinion: -100 }] },
+  { id: 1,  flavor: { name: 'Human Republic', color: '#3498db'}, resources: { credits: 100, rocks: 0 }, characters: {characterPool: []}, parentId: null, childIds: [], relations: [{ targetOrgId: 2, status: 'war', opinion: -100 }] },
   { id: 2, flavor: { name: 'Alien Imperium', color: '#e74c3c'}, resources: { credits: 100, rocks: 0 }, characters: {characterPool: []}, parentId: null, childIds: [], relations: [{ targetOrgId: 1, status: 'war', opinion: -100 }]},
 ];
 

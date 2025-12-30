@@ -1,10 +1,17 @@
 import type { GameState, Character } from '../types/gameState';
+import { NAME_LISTS } from '../data/names';
 
- 
-export function generateCharacter(nextId: number): Character {
+
+export function generateCharacter(nextId: number, nameListId: string): Character {
+	
+	const nameList = NAME_LISTS[nameListId];
+	
+	let firstName = nameList.firstNames[Math.floor(Math.random()* nameList.firstNames.length)];
+	let lastName = nameList.lastNames[Math.floor(Math.random()* nameList.lastNames.length)];
+	
 	let newCharacter = {
 		id: nextId,
-		name: "new character",
+		name: `${firstName} ${lastName}`,
 		age: 25,
 		traits: [],
 		assignment: null,
@@ -56,8 +63,8 @@ export function processCharacterCycles(currentState: GameState): GameState {
 			
 			while(updatedOrg.characters.characterPool.length < 4){
 				nextCId++;
-				let newCharacter = generateCharacter(nextCId);
-				
+				let newCharacter = generateCharacter(nextCId, updatedOrg.flavor.nameList);
+				console.log(newCharacter.name);
 				newIds.push(nextCId);
 				updatedOrg.characters.characterPool.push(nextCId);
 				newCharacters[nextCId] = newCharacter;
