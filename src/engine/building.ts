@@ -1,4 +1,4 @@
-import type { GameState, ShipType, Building, BuildingClass, EngineResult } from '../types/gameState';
+import type { GameState, ShipType, Building, BuildingClass, EngineResult, GameEvent } from '../types/gameState';
 
 import { BUILDING_CATALOG } from '../data/buildings';
 import { NAME_LISTS } from '../data/names';
@@ -155,7 +155,10 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
   
   const planetoid = currentState.planetoids.entities[planetoidId];
   if (planetoid === null || planetoid === undefined) {
-    return currentState; 
+    return { 
+		newState: currentState,
+		events: [],
+	};  
   }
   const system = currentState.systems.entities[planetoid.locationSystemId];
   const ownerId = system.ownerNationId;
@@ -195,7 +198,7 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
     }
   };
   
-  const buildEvent = {
+  const buildEvent: GameEvent = {
 	type: 'construction_complete',
 	message: `${buildingClass} constructed on ${planetoid.name}`,
 	involvedOrgIds: [ownerId],
