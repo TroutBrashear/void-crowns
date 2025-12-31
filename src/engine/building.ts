@@ -1,4 +1,5 @@
-import type { GameState, ShipType, Building, BuildingClass } from '../types/gameState';
+import type { GameState, ShipType, Building, BuildingClass, EngineResult } from '../types/gameState';
+
 import { BUILDING_CATALOG } from '../data/buildings';
 import { NAME_LISTS } from '../data/names';
 
@@ -149,7 +150,7 @@ export function canBuildBuilding(currentState: GameState, _planetoidId: number, 
 	return true; 
 }
 
-export function engineBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, _orgId: number){
+export function engineBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, _orgId: number): EngineResult {
 
   
   const planetoid = currentState.planetoids.entities[planetoidId];
@@ -159,12 +160,18 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
   const system = currentState.systems.entities[planetoid.locationSystemId];
   const ownerId = system.ownerNationId;
   if (ownerId === null || ownerId === undefined) {
-    return currentState; 
+    return { 
+		newState: currentState,
+		events: [],
+	}; 
   }
   
   const org = currentState.orgs.entities[ownerId];
   if (org === null || org === undefined) {
-    return currentState; 
+    return { 
+		newState: currentState,
+		events: [],
+	}; 
   }
   const bDefinition = BUILDING_CATALOG[buildingClass];
   const newId = currentState.meta.lastBuildingId + 1;
@@ -188,19 +195,30 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
     }
   };
   
+  const buildEvent = {
+	type: 'construction_complete',
+	message: `${buildingClass} constructed on ${planetoid.name}`,
+	involvedOrgIds: [ownerId],
+	isPlayerVisible: ownerId===1, 
+	locationId: planetoid.locationSystemId,
+  };
+  
   return {
-    ...currentState,
-    planetoids: {
-      ...currentState.planetoids,
-      entities: { ...currentState.planetoids.entities, [planetoidId]: updatedPlanetoid }
-    },
-    orgs: {
-      ...currentState.orgs,
-      entities: { ...currentState.orgs.entities, [org.id]: updatedOrg }
-    },
-	meta: {
-        ...currentState.meta,
-        lastBuildingId: newId,
- 	},
+	newState: {
+		...currentState,
+		planetoids: {
+			...currentState.planetoids,
+			entities: { ...currentState.planetoids.entities, [planetoidId]: updatedPlanetoid }
+		},
+		orgs: {
+			...currentState.orgs,
+			entities: { ...currentState.orgs.entities, [org.id]: updatedOrg }
+		},
+		meta: {
+			...currentState.meta,
+			lastBuildingId: newId,
+		},
+	},
+	events: [buildEvent],
   };
 }

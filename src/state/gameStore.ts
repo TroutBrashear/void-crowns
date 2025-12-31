@@ -99,21 +99,18 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         nextState = processAiTurn(nextState, orgId);
       }
     }
-    console.log(tickEvents);
 
     const playerEvents = tickEvents.filter(event => { 
         console.log(`Filtering event. Message: "${event.message}". isPlayerVisible: ${event.isPlayerVisible}. Type: ${typeof event.isPlayerVisible}`);
 
         return event.isPlayerVisible});
-    console.log(playerEvents);
     //display some notifications based on things that occured this tick
     if(playerEvents.length > 0) {
       const { showNotification } = useUiStore.getState();
-      console.log("notification triggered!");
       showNotification({
         type: 'info',
         message: playerEvents[0].message,
-      })
+      });
 
     }
 
@@ -199,7 +196,19 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
   
   constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => {
-	set(engineBuildBuilding(get(), payload.planetoidId, payload.buildingType, payload.orgId));
+	const buildResults = engineBuildBuilding(get(), payload.planetoidId, payload.buildingType, payload.orgId);
+	
+	set(buildResults.newState);
+	
+	const buildEvent = buildResults.events[0];
+	
+	if(buildEvent && buildEvent.isPlayerVisible){
+		const { showNotification } = useUiStore.getState();
+        showNotification({
+          type: 'info',
+          message: buildEvent.message,
+        });
+	}
   },
 
    declareWar: ({ actorId, targetId }) => {
