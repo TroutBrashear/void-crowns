@@ -83,6 +83,10 @@ export interface Org {
   childIds: number[];
 
   relations: OrgRelation[];
+  
+  contextHistory: {
+	previousIncome: Resources;
+  }
 }
 
 //a helper that holds information about what a character is currently doing

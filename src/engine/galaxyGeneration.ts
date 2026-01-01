@@ -226,6 +226,9 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			parentId: null,
 			childIds: [],
 			relations: [],
+			contextHistory: {
+				previousIncome: { credits: 0, rocks: 0 },
+			},
 		};
 
 		newOrgs.push(nextOrg);
