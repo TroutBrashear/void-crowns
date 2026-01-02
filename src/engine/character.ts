@@ -2,6 +2,54 @@ import type { GameState, Character } from '../types/gameState';
 import { NAME_LISTS } from '../data/names';
 
 
+export function engineAssignCharacter(currentState: GameState, charId: number, assignmentTargetId: number, assignmentType: string): GameState {
+
+	//address character first
+	let newCharacters = { ...currentState.characters.entities };
+	let updatedCharacter = newCharacters[charId];
+	
+	if(!updatedCharacter){
+		return currentState;
+	}
+	
+	updatedCharacter.assignment = { type: assignmentType, id: assignmentTargetId };
+	
+	newCharacters[charId] = updatedCharacter;
+	
+	//then the other way from target
+	let newFleets = { ...currentState.fleets.entities };
+	let newSystems = { ...currentState.systems.entities };
+	if(assignmentType === 'fleet'){
+		let updatedFleet = newFleets[assignmentTargetId];
+		updatedFleet.assignedCharacter = charId;
+		newFleets[assignmentTargetId] = updatedFleet;
+	}
+	else if(assignmentType === 'system'){
+		let updatedSystem = newSystems[assignmentTargetId];
+		updatedSystem.assignedCharacter = charId;
+		newSystems[assignmentTargetId] = updatedSystem;
+	}
+	else{
+		return currentState;
+	}
+	
+	return {
+		...currentState,
+		characters: {
+			...currentState.characters,
+			entities: newCharacters,
+		},
+		fleets: {
+			...currentState.fleets,
+			entities: newFleets,
+		},
+		systems: {
+			...currentState.systems,
+			entities: newSystems,
+		},
+	};
+}
+
 export function generateCharacter(nextId: number, nameListId: string): Character {
 	
 	const nameList = NAME_LISTS[nameListId];
