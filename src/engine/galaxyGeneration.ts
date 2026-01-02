@@ -56,7 +56,8 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			ownerNationId: null,
 
 			planetoids: [],
-			};
+			assignedCharacter: null, 
+		};
 
 			//give the system some planetoids
 			const systemPlanetoids: Planetoid[] = []; //we'll stack them all up before pushing to system's object

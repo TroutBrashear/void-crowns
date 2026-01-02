@@ -5,6 +5,7 @@ export interface System {
   adjacentSystemIds: number[];
   ownerNationId: number | null;
   planetoids: number[]; //the ids of all planetoids in this system
+  assignedCharacter: number | null;
 }
 
 
@@ -41,8 +42,9 @@ export interface Fleet {
   name: string;
   ownerNationId: number;
   locationSystemId: number;
-  movementPath: number[];
+  movementPath: number[]; //ids of systems in order of movement
   movesRemaining: number;
+  assignedCharacter: number | null;
 }
 
 export type ShipType = 'colony_ship';

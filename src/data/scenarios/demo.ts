@@ -6,10 +6,10 @@ export const initialOrgs: Org[] = [
 ];
 
 export const initialSystems: System[] = [
-  { id: 1, name: 'Sol', position: { x: 100, y: 300 }, adjacentSystemIds: [2], ownerNationId: 1, planetoids: [101, 102, 103, 104, 105] },
-  { id: 2, name: 'Alpha Centauri', position: { x: 250, y: 350 }, adjacentSystemIds: [1, 3], ownerNationId: null, planetoids: [201, 202, 203, 204] },
-  { id: 3, name: 'Sirius', position: { x: 400, y: 300 }, adjacentSystemIds: [2, 4], ownerNationId: null, planetoids: [301, 302, 303, 304] },
-  { id: 4, name: 'Procyon', position: { x: 550, y: 350 }, adjacentSystemIds: [3], ownerNationId: 2, planetoids: [401, 402, 403] },
+  { id: 1, name: 'Sol', position: { x: 100, y: 300 }, adjacentSystemIds: [2], ownerNationId: 1, planetoids: [101, 102, 103, 104, 105], assignedCharacter: null },
+  { id: 2, name: 'Alpha Centauri', position: { x: 250, y: 350 }, adjacentSystemIds: [1, 3], ownerNationId: null, planetoids: [201, 202, 203, 204], assignedCharacter: null },
+  { id: 3, name: 'Sirius', position: { x: 400, y: 300 }, adjacentSystemIds: [2, 4], ownerNationId: null, planetoids: [301, 302, 303, 304], assignedCharacter: null },
+  { id: 4, name: 'Procyon', position: { x: 550, y: 350 }, adjacentSystemIds: [3], ownerNationId: 2, planetoids: [401, 402, 403], assignedCharacter: null },
 ];
 
 export const initialPlanetoids: Planetoid[] = [
@@ -39,8 +39,8 @@ export const initialPlanetoids: Planetoid[] = [
 ];
 
 export const initialFleets: Fleet[] = [
-  { id: 1, name: "human fleet", ownerNationId: 1, locationSystemId: 1, movementPath: [], movesRemaining: 3 },
-  { id: 2, name: "alien fleet", ownerNationId: 2, locationSystemId: 4, movementPath: [], movesRemaining: 3 },
+  { id: 1, name: "human fleet", ownerNationId: 1, locationSystemId: 1, movementPath: [], movesRemaining: 3, assignedCharacter: null },
+  { id: 2, name: "alien fleet", ownerNationId: 2, locationSystemId: 4, movementPath: [], movesRemaining: 3, assignedCharacter: null },
 ];
 
 export const initialShips: Ship[] = [];
