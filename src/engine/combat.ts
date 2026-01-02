@@ -29,7 +29,7 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 	 const participatingFactions = [fleetsInSystemFactionA[0].ownerNationId, fleetsInSystemFactionB[0].ownerNationId];
 
 	let winnerId = -1;
-	let winnerScore = 0;
+	//let winnerScore = 0;
 	//determine winner
 	if(fleetScoreA > fleetScoreB){
 		winnerId = fleetsInSystemFactionA[0].ownerNationId;
