@@ -202,6 +202,7 @@ export interface GameActions {
   declarePeace: (payload: DiploStatusPayload) => void;
   colonizePlanetoid: (payload: ColonizePayload) => void;
   initializeNewGame: () => void;
+  assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: string}) => void;
 }
 
 export type GameStoreState = GameState & GameActions;

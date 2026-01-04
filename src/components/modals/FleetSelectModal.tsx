@@ -26,7 +26,7 @@ function FleetSelectModal() {
   
   //we need the org to access character pool
   const fleetOwnerOrg = fleetToShow.ownerNationId 
-  ? getOrgById(systemToShow.ownerNationId) 
+  ? getOrgById(fleetToShow.ownerNationId) 
   : null;
   
  const poolCharacters = fleetOwnerOrg?.characters.characterPool.map(characterId => getCharacterById(characterId));
@@ -41,7 +41,7 @@ function FleetSelectModal() {
       <h2>Fleet: {fleetToShow.name}</h2>
       <p>Location: System {fleetToShow.locationSystemId}</p>
        {comCharacter && <p>Commander: { comCharacter.name} </p>}
-	    {(systemToShow.ownerNationId === 1 && poolCharacters) && <div>
+	    {(fleetToShow.ownerNationId === 1 && poolCharacters) && <div>
 		<select name="characterTarget" value={selectedCharacter || ''} onChange={(e) => setSelectedCharacter(Number(e.target.value))}>
 			{poolCharacters.map(character => {
 				if (!character) return null; 
