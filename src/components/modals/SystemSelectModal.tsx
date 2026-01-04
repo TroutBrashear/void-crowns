@@ -1,5 +1,6 @@
 import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
+import { useState } from 'react';
 import styles from './Modal.module.css';
 
 function SystemSelectModal() {
@@ -14,6 +15,9 @@ function SystemSelectModal() {
   const getOrgById = useGameStore(state => state.getOrgById);
   const buildFleet = useGameStore(state => state.buildFleet);
   const buildShip = useGameStore(state => state.buildShip);
+  const assignCharacter = useGameStore(state => state.assignCharacter);
+  
+  const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
 
   const systemToShow = 
     (selection?.type === 'system') 
@@ -33,7 +37,8 @@ function SystemSelectModal() {
   const govCharacter = systemToShow.assignedCharacter 
   ? getCharacterById(systemToShow.assignedCharacter) 
   : null;
-  
+
+  const poolCharacters = systemOwnerOrg?.characters.characterPool.map(characterId => getCharacterById(characterId));
   
 
   return (
@@ -45,6 +50,20 @@ function SystemSelectModal() {
       {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'colony_ship'})}>Construct Colony Ship</button>}
 
 	  {govCharacter && <p>Governor: { govCharacter.name} </p>}
+	  {(systemToShow.ownerNationId === 1 && poolCharacters) && <div>
+		<select name="characterTarget" value={selectedCharacter || ''} onChange={(e) => setSelectedCharacter(Number(e.target.value))}>
+			{poolCharacters.map(character => {
+				if (!character) return null; 
+				return(
+				<option value={character.id}>
+					{character.name}
+				</option>);
+			})}
+		</select>
+		<button onClick={() => {if(selectedCharacter){
+			assignCharacter({charId: selectedCharacter, assignmentTargetId: systemToShow.id, assignmentType: "system"});}}}>Assign Governor</button>
+		</div>
+	  }
       <h3>Planetoids:</h3>
       <ul>
         {systemPlanetoids.map(planetoid => {

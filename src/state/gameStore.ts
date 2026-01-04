@@ -14,6 +14,7 @@ import { processCharacterCycles } from '../engine/character';
 import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
 import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engine/building';
 import { colonizePlanetoid } from '../engine/colonization';
+import { engineAssignCharacter } from '../engine/character';
 
 import { normalize } from '../utils/normalize';
 
@@ -221,6 +222,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
   colonizePlanetoid: (payload: ColonizePayload) => {
     set(colonizePlanetoid(get(), payload));
+  },
+  
+  assignCharacter: ({ charId, assignmentTargetId, assignmentType }) => {
+	set(engineAssignCharacter(get(), charId, assignmentTargetId, assignmentType));
   },
 
   initializeNewGame: () => {
