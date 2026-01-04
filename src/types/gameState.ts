@@ -187,6 +187,7 @@ export interface GameState {
   getPlanetoidById: (id: number) => Planetoid | undefined;
   getOrgById: (id: number) => Org | undefined;
   getShipById: (id: number) => Ship | undefined;
+  getCharacterById: (id: number) => Character | undefined;
 }
 
 export interface GameActions {

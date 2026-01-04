@@ -273,6 +273,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   getPlanetoidById: (id: number) => get().planetoids.entities[id],
   getOrgById: (id: number) => get().orgs.entities[id],
   getShipById: (id: number) => get().ships.entities[id],
+  getCharacterById: (id: number) => get().characters.entities[id],
 
   getHabitablesInSystem: (id: number) => {
     const state = get();

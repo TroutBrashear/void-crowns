@@ -10,6 +10,7 @@ function SystemSelectModal() {
   
   const getSystemById = useGameStore(state => state.getSystemById);
   const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
+  const getCharacterById = useGameStore(state => state.getCharacterById);
   const getOrgById = useGameStore(state => state.getOrgById);
   const buildFleet = useGameStore(state => state.buildFleet);
   const buildShip = useGameStore(state => state.buildShip);
@@ -28,6 +29,12 @@ function SystemSelectModal() {
   const systemOwnerOrg = systemToShow.ownerNationId 
   ? getOrgById(systemToShow.ownerNationId) 
   : null;
+  
+  const govCharacter = systemToShow.assignedCharacter 
+  ? getCharacterById(systemToShow.assignedCharacter) 
+  : null;
+  
+  
 
   return (
     <div className={styles.modal}>
@@ -37,6 +44,7 @@ function SystemSelectModal() {
 
       {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'colony_ship'})}>Construct Colony Ship</button>}
 
+	  {govCharacter && <p>Governor: { govCharacter.name} </p>}
       <h3>Planetoids:</h3>
       <ul>
         {systemPlanetoids.map(planetoid => {
