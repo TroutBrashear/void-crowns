@@ -3,35 +3,78 @@ import { NAME_LISTS } from '../data/names';
 
 
 export function engineAssignCharacter(currentState: GameState, charId: number, assignmentTargetId: number, assignmentType: string): GameState {
+	
+	let functionState = engineUnassignCharacter(currentState, charId);
+
 
 	//address character first
-	let newCharacters = { ...currentState.characters.entities };
+	let newCharacters = { ...functionState.characters.entities };
 	let updatedCharacter = newCharacters[charId];
 	
 	if(!updatedCharacter){
-		return currentState;
+		return functionState;
 	}
 	
 	updatedCharacter.assignment = { type: assignmentType, id: assignmentTargetId };
-	
-	newCharacters[charId] = updatedCharacter;
-	
+
 	//then the other way from target
-	let newFleets = { ...currentState.fleets.entities };
-	let newSystems = { ...currentState.systems.entities };
+	let newFleets = { ...functionState.fleets.entities };
+	let newSystems = { ...functionState.systems.entities };
 	if(assignmentType === 'fleet'){
 		let updatedFleet = newFleets[assignmentTargetId];
 		updatedFleet.assignedCharacter = charId;
-		newFleets[assignmentTargetId] = updatedFleet;
 	}
 	else if(assignmentType === 'system'){
 		let updatedSystem = newSystems[assignmentTargetId];
 		updatedSystem.assignedCharacter = charId;
-		newSystems[assignmentTargetId] = updatedSystem;
+	}
+	else{
+		return functionState;
+	}
+	
+	return {
+		...functionState,
+		characters: {
+			...functionState.characters,
+			entities: newCharacters,
+		},
+		fleets: {
+			...functionState.fleets,
+			entities: newFleets,
+		},
+		systems: {
+			...functionState.systems,
+			entities: newSystems,
+		},
+	};
+}
+
+//unassign Character, mirroring assign Character...
+export function engineUnassignCharacter(currentState: GameState, charId: number): GameState {
+	let newCharacters = { ...currentState.characters.entities };
+	let updatedCharacter = newCharacters[charId];
+	
+	if(!updatedCharacter || !updatedCharacter.assignment){
+		return currentState;
+	}
+	
+	let newFleets = { ...currentState.fleets.entities };
+	let newSystems = { ...currentState.systems.entities };
+	if(updatedCharacter.assignment.type === 'fleet'){
+		let updatedFleet = newFleets[updatedCharacter.assignment.id];
+		updatedFleet.assignedCharacter = null;
+	}
+	else if(updatedCharacter.assignment.type === 'system'){
+		let updatedSystem = newSystems[updatedCharacter.assignment.id];
+		updatedSystem.assignedCharacter = null;
 	}
 	else{
 		return currentState;
 	}
+	
+	
+	//do this last, as we needed to reference assignment above
+	updatedCharacter.assignment = null;
 	
 	return {
 		...currentState,
@@ -70,14 +113,16 @@ export function generateCharacter(nextId: number, nameListId: string): Character
  
 //processCharacterCycles will be a function handling: ensuring that orgs have pools of eligible characters, and that characters age and die.
 export function processCharacterCycles(currentState: GameState): GameState {
-	const newCharacters = { ...currentState.characters.entities };
-	const characterIds = currentState.characters.ids;
+	let functionState = { ...currentState };
+	
+	const newCharacters = { ...functionState.characters.entities };
+	const characterIds = functionState.characters.ids;
 	const newIds: number[] = [];
 	
-	const newOrgs = { ...currentState.orgs.entities };
-	const orgIds = currentState.orgs.ids;
+	const newOrgs = { ...functionState.orgs.entities };
+	const orgIds = functionState.orgs.ids;
 	
-	let nextCId = currentState.meta.lastCharacterId;
+	let nextCId = functionState.meta.lastCharacterId;
 	
 	//step 1: process each character, advancing age, evaluating deaths
 	for(const charId of characterIds){
@@ -85,10 +130,11 @@ export function processCharacterCycles(currentState: GameState): GameState {
 		if(currentCharacter){
 
 			let newAge = currentCharacter.age;
-			if(currentState.meta.turn % 50 === 0) {
+			if(functionState.meta.turn % 50 === 0) {
 				newAge +=1;
 			}
 			if(newAge >= 100){
+				functionState = engineUnassignCharacter(functionState, charId);
 				delete newCharacters[charId];
 				continue;
 			}
@@ -124,19 +170,19 @@ export function processCharacterCycles(currentState: GameState): GameState {
 	
 	
 	return {
-		...currentState,
+		...functionState,
 		meta: {
-			...currentState.meta,
+			...functionState.meta,
 			lastCharacterId: nextCId,
 		},
 		characters: {
-			...currentState.characters,
+			...functionState.characters,
 			entities: newCharacters,
 			ids: newIds,
 		},
 		orgs: { 
-            ...currentState.orgs,
+            ...functionState.orgs,
             entities: newOrgs,
-        }
+        },
 	};
 }
