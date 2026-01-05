@@ -88,6 +88,7 @@ export interface Org {
   
   contextHistory: {
 	previousIncome: Resources;
+	buildPlan: BuildingClass[];
   }
 }
 
