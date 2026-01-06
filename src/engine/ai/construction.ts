@@ -1,8 +1,6 @@
 import type { GameState } from '../../types/gameState';
 import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../building';
 
-
-
 export function processAiConstruction(currentState: GameState, orgId: number): GameState {
 
 	let nextState = currentState;
@@ -11,18 +9,13 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 	const ownedSystems = currentState.systems.ids.map(id => currentState.systems.entities[id]).filter(system => system && system.ownerNationId === orgId);
 	
 	//thinkingBlock
-	let militaryPriority = false;
-	let colonyPriority = false;
-	
-	
-	if(thinkingOrg.contextHistory.credits < 10000){
-		colonyPriority = true;
-	}
+	//let militaryPriority = false;
+	//let colonyPriority = false;
 	
 	
 	
 	//ships
-	if(thinkingOrg.resources.credits > 16000 && colonyPriority){
+	if(thinkingOrg.resources.credits > 16000){
 		//build a colony ship
 		const buildLocation = ownedSystems[Math.floor(Math.random() * ownedSystems.length)].id;
 
@@ -38,7 +31,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 	}
 	
 	//buildings
-	if(thinkingOrg.resources.credits > 5000 && !colonyPriority){
+	if(thinkingOrg.resources.credits > 5000){
 		//build... something.
 		
 		const buildSystemId = ownedSystems[Math.floor(Math.random() * ownedSystems.length)].id;

@@ -229,6 +229,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			relations: [],
 			contextHistory: {
 				previousIncome: { credits: 0, rocks: 0 },
+				buildPlan: [],
 			},
 		};
 
