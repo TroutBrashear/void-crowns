@@ -9,24 +9,22 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 
 	//address character first
 	let newCharacters = { ...functionState.characters.entities };
-	let updatedCharacter = newCharacters[charId];
 	
-	if(!updatedCharacter){
+	if(!newCharacters[charId]){
 		return functionState;
 	}
 	
-	updatedCharacter.assignment = { type: assignmentType, id: assignmentTargetId };
+	newCharacters[charId] = { ...newCharacters[charId], assignment: { type: assignmentType, id: assignmentTargetId }};
+
 
 	//then the other way from target
 	let newFleets = { ...functionState.fleets.entities };
 	let newSystems = { ...functionState.systems.entities };
 	if(assignmentType === 'fleet'){
-		let updatedFleet = newFleets[assignmentTargetId];
-		updatedFleet.assignedCharacter = charId;
+		newFleets[assignmentTargetId] = { ...newFleets[assignmentTargetId], assignedCharacter: charId };
 	}
 	else if(assignmentType === 'system'){
-		let updatedSystem = newSystems[assignmentTargetId];
-		updatedSystem.assignedCharacter = charId;
+		newSystems[assignmentTargetId] = { ...newSystems[assignmentTargetId], assignedCharacter: charId };
 	}
 	else{
 		return functionState;
@@ -52,21 +50,18 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 //unassign Character, mirroring assign Character...
 export function engineUnassignCharacter(currentState: GameState, charId: number): GameState {
 	let newCharacters = { ...currentState.characters.entities };
-	let updatedCharacter = newCharacters[charId];
 	
-	if(!updatedCharacter || !updatedCharacter.assignment){
+	if(!newCharacters[charId] || !newCharacters[charId].assignment){
 		return currentState;
 	}
 	
 	let newFleets = { ...currentState.fleets.entities };
 	let newSystems = { ...currentState.systems.entities };
-	if(updatedCharacter.assignment.type === 'fleet'){
-		let updatedFleet = newFleets[updatedCharacter.assignment.id];
-		updatedFleet.assignedCharacter = null;
+	if(newCharacters[charId].assignment.type === 'fleet'){
+		newFleets[newCharacters[charId].assignment.id] = { ...newFleets[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
-	else if(updatedCharacter.assignment.type === 'system'){
-		let updatedSystem = newSystems[updatedCharacter.assignment.id];
-		updatedSystem.assignedCharacter = null;
+	else if(newCharacters[charId].assignment.type === 'system'){
+		newSystems[newCharacters[charId].assignment.id] = { ...newSystems[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else{
 		return currentState;
@@ -74,7 +69,8 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	
 	
 	//do this last, as we needed to reference assignment above
-	updatedCharacter.assignment = null;
+	
+	newCharacters[charId] = { ...newCharacters[charId], assignment: null} 
 	
 	return {
 		...currentState,
@@ -122,11 +118,11 @@ export function processCharacterCycles(currentState: GameState): GameState {
 	const newOrgs = { ...functionState.orgs.entities };
 	const orgIds = functionState.orgs.ids;
 	
-	let nextCId = functionState.meta.lastCharacterId;
+	let nextCId = functionState.meta.lastCharacterId ;
 	
 	//step 1: process each character, advancing age, evaluating deaths
 	for(const charId of characterIds){
-		let currentCharacter = newCharacters[charId];
+		let currentCharacter = { ...newCharacters[charId] };
 		if(currentCharacter){
 
 			let newAge = currentCharacter.age;
@@ -150,21 +146,23 @@ export function processCharacterCycles(currentState: GameState): GameState {
 	
 	//step 2: process each org character pool, making sure they have enough options for orgs to employ
 	for(const orgId of orgIds){
-		let currentOrg = newOrgs[orgId];
+		let currentOrg = { ...newOrgs[orgId]};
 		
 		if(currentOrg){
-			let updatedOrg = { ...currentOrg };
 			
-			while(updatedOrg.characters.characterPool.length < 4){
+			
+			while(currentOrg.characters.characterPool.length < 4){
 				nextCId++;
-				let newCharacter = generateCharacter(nextCId, updatedOrg.flavor.nameList);
+				let newCharacter = generateCharacter(nextCId, currentOrg.flavor.nameList);
 				console.log(newCharacter.name);
 				newIds.push(nextCId);
-				updatedOrg.characters.characterPool.push(nextCId);
+				let newPool = [...currentOrg.characters.characterPool];
+				newPool.push(nextCId);
+				currentOrg = { ...currentOrg, characters: { ...currentOrg.characters, characterPool: newPool } };
 				newCharacters[nextCId] = newCharacter;
 			}
-			console.log(updatedOrg.characters.characterPool);
-			newOrgs[orgId] = updatedOrg;
+			console.log(currentOrg.characters.characterPool);
+			newOrgs[orgId] = currentOrg;
 		}
 	}
 	
