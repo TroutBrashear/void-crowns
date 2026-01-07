@@ -5,7 +5,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 
 	let nextState = currentState;
 
-	const thinkingOrg = currentState.orgs.entities[orgId];
+	let thinkingOrg = nextState.orgs.entities[orgId];
 	const ownedSystems = currentState.systems.ids.map(id => currentState.systems.entities[id]).filter(system => system && system.ownerNationId === orgId);
 	
 	//thinkingBlock
@@ -20,6 +20,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 		const buildLocation = ownedSystems[Math.floor(Math.random() * ownedSystems.length)].id;
 
 		nextState = engineBuildShip(nextState, buildLocation, 'colony_ship');
+		thinkingOrg = nextState.orgs.entities[orgId];
 	}
 	
 	//fleets
@@ -28,6 +29,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 		const buildLocation = ownedSystems[Math.floor(Math.random() * ownedSystems.length)].id;
 
 		nextState = engineBuildFleet(nextState, buildLocation);
+		thinkingOrg = nextState.orgs.entities[orgId];
 	}
 	
 	//buildings
@@ -42,6 +44,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 		const buildResult = engineBuildBuilding(nextState, buildPlanet, 'mine', orgId);
 		
 		nextState = buildResult.newState;
+		thinkingOrg = nextState.orgs.entities[orgId];
 	}
 
 	return nextState;
