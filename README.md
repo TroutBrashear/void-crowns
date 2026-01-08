@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# VOID CROWNS: A browser strategy game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Access at 
 
-Currently, two official plugins are available:
+## Void Crowns is 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+**Advanced State Management:** Uses a database-like structure in Zustand state to achieve lookup of specific entities  in O(1), allowing representation of thousands of game entities.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Procedural Galaxy Generation:** Developed a custom algorithm to generate unique, functional, and coherant star maps (graphs).
 
-## Expanding the ESLint configuration
+**Personnel Management System:** Created system to handle creation and destruction of 'character' entities automatically.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+To run this project locally, follow these steps:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1.  **Prerequisites:** Ensure you have Node.js (v18 or later) and `npm` installed.
+2.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/TroutBrashear/void-crowns.git
+    cd void-crowns
+    ```
+3.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+4.  **Run the development server:**
+    The project uses the Vercel CLI for local development to emulate the serverless environment.
+    ```bash
+    npm install -g vercel
+    vercel link
+    vercel dev
+    ```
+5.  Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Technology Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*   **Frontend:** React, Vite, CSS Modules
+*   **State Management:** Zustand
+*   **Deployment:** Vercel (with CI/CD)
