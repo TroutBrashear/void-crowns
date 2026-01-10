@@ -14,6 +14,8 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
     	return currentState;
   	}
 
+	
+
   	const newFleetEntities = { ...currentState.fleets.entities };
   	let hasMadeChanges = false;
 
@@ -38,15 +40,18 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
         		currentState.systems
       		);
 
+
       		const updatedFleet = {
         		...fleet,
       			movementPath: newPath,
       		};
       
      		newFleetEntities[fleet.id] = updatedFleet;
+
     		hasMadeChanges = true;
     	}
   	}
+	console.log(hasMadeChanges);
 
 	if (hasMadeChanges) {
 	   	return {

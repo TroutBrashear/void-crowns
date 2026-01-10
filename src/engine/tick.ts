@@ -11,7 +11,7 @@ export function processTick(currentState: GameState): GameState {
 
   for (const fleetId of currentState.fleets.ids) {
     const fleet = currentState.fleets.entities[fleetId];
-
+	console.log(fleet);
     //is the fleet moving?
     if (fleet.movementPath.length > 0) {
       hasChanges = true; 
