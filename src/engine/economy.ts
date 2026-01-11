@@ -20,6 +20,13 @@ export function processEconomy(currentState: GameState): GameState {
 			let systemCreditIncome = 0;
 			let systemRockIncome = 0;
 
+			if(currentSystem.assignedCharacter){
+				let governor = currentState.characters.entities[currentSystem.assignedCharacter];
+				if(governor){
+					systemCreditIncome += 100 * governor.skills.administration;
+				}
+			}
+
 			for(const planetoidId of currentSystem.planetoids){
 				let currentPlanetoid = currentState.planetoids.entities[planetoidId];
 
