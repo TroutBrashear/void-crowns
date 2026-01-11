@@ -16,9 +16,12 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 			continue;
 		}
 		fleetScoreA += Math.floor(Math.random() * 20 + Math.random() * 20 + Math.random() * 20);
+		
 		if(fleet.assignedCharacter){
-			//todo: modify based on character skill
-			fleetScoreA += Math.floor(Math.random() * 6);
+			let admiral = currentState.characters.entities[fleet.assignedCharacter];
+			if(admiral){
+				fleetScoreA += Math.floor(Math.random() * 4) * admiral.skills.fleetCombat;
+			}
 		}
 	}
 	for(const fleet of fleetsInSystemFactionB){
@@ -26,9 +29,12 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 			continue;
 		}
 		fleetScoreB += Math.floor(Math.random() * 20 + Math.random() * 20 + Math.random() * 20);
+		
 		if(fleet.assignedCharacter){
-			//todo: modify based on character skill
-			fleetScoreB += Math.floor(Math.random() * 6);
+			let admiral = currentState.characters.entities[fleet.assignedCharacter];
+			if(admiral){
+				fleetScoreB += Math.floor(Math.random() * 4) * admiral.skills.fleetCombat;
+			}
 		}
 	}
 	

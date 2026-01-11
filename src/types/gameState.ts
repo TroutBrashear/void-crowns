@@ -105,7 +105,7 @@ export interface Character {
   name: string;
   age: number; 
   traits: string[];
-  skills: Record<Skillname, number>;
+  skills: Record<SkillName, number>;
   assignment: charAssignment | null;
 }
 

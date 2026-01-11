@@ -103,8 +103,8 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 		traits: [],
 		assignment: null,
 		skills: {
-			administration: 0,
-			navalCombat: 0,
+			administration: Math.floor(Math.random()*6),
+			navalCombat: Math.floor(Math.random()*6),
 		},
 	};
 	
