@@ -98,11 +98,14 @@ export interface charAssignment {
   id: number;
 }
 
+export type SkillName = 'navalCombat' | 'administration';
+
 export interface Character {
   id: number;
   name: string;
   age: number; 
   traits: string[];
+  skills: Record<Skillname, number>;
   assignment: charAssignment | null;
 }
 

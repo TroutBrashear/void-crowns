@@ -102,6 +102,10 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 		age: 25,
 		traits: [],
 		assignment: null,
+		skills: {
+			administration: 0,
+			navalCombat: 0,
+		},
 	};
 	
 	return newCharacter; 
