@@ -14,6 +14,13 @@ export interface Process {
   output: Resources;
 }
 
+export interface CharProcess {
+	addSkill?: Record<SkillName, number>;
+	reduceSkill?: Record<SkillName, number>;
+	addTrait?: string[];
+	reduceTrait?: string[];
+}
+
 export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase';
 
 export interface Building {
