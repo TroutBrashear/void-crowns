@@ -10,8 +10,8 @@ export interface System {
 
 
 export interface Process {
-  input: Resources;
-  output: Resources;
+  input?: Resources;
+  output?: Resources;
 }
 
 export interface CharProcess {

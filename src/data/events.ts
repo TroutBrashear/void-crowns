@@ -1,6 +1,6 @@
 //definitions for all events. currently, this is just CharacterEvents
 
-import type { CharProcess } from '../types/gameState';
+import type { CharProcess, Process } from '../types/gameState';
 
 export type EventType = 'character' | 'org';
 
