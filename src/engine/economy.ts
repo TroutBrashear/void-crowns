@@ -46,8 +46,14 @@ export function processEconomy(currentState: GameState): GameState {
 						//processes are in building definition
 						const bDefinition = BUILDING_CATALOG[building.type];
 						
-						systemCreditIncome = systemCreditIncome - bDefinition.process.input.credits + bDefinition.process.output.credits;
-						systemRockIncome = systemRockIncome - bDefinition.process.input.rocks + bDefinition.process.output.rocks;
+						if(bDefinition.process.output){
+							systemCreditIncome = systemCreditIncome + bDefinition.process.output.credits;
+							systemRockIncome = systemRockIncome + bDefinition.process.output.rocks;
+						}
+						if(bDefinition.process.input){
+							systemCreditIncome = systemCreditIncome - bDefinition.process.input.credits;
+							systemRockIncome = systemRockIncome - bDefinition.process.input.rocks;
+						}
 					}
 				}
 			}
