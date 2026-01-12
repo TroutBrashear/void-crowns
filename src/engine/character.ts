@@ -1,5 +1,48 @@
-import type { GameState, Character } from '../types/gameState';
+import type { GameState, Character, SkillName, CharProcess } from '../types/gameState';
 import { NAME_LISTS } from '../data/names';
+
+
+export function engineApplyCharacterProcess(currentState: GameState, charId: number, process: CharProcess): GameState {
+	let currentCharacter = { ...currentState.characters.entities[charId] };
+	let nextSkills = { ...currentCharacter.skills };
+	
+	
+	if(process.addSkill){
+		for(const skillType of Object.keys(process.addSkill) as SkillName[]){
+			nextSkills[skillType] = nextSkills[skillType] + process.addSkill[skillType];
+		}
+	}
+	if(process.reduceSkill){
+		for(const skillType of Object.keys(process.reduceSkill) as SkillName[]){
+			nextSkills[skillType] = nextSkills[skillType] - process.reduceSkill[skillType];
+		}
+	}
+	
+	let nextTraits = [...currentCharacter.traits];
+	
+	if(process.addTrait){
+		for(const trait of process.addTrait){
+			nextTraits.push(trait);
+		}
+	}
+	if(process.removeTrait){
+		nextTraits = nextTraits.filter(trait => {
+			!process.removeTrait.includes(trait);
+		});
+	}
+	
+	let newCharacters = { ...currentState.characters.entities };
+	newCharacters[charId] = { ...newCharacters[charid], skills: nextSkills, traits: nextTraits };
+	
+	
+	return {
+		...currentState,
+		characters: {
+			...currentState.characters,
+			entities: newCharacters
+		}
+	}
+}
 
 
 export function engineAssignCharacter(currentState: GameState, charId: number, assignmentTargetId: number, assignmentType: string): GameState {

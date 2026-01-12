@@ -18,7 +18,7 @@ export interface CharProcess {
 	addSkill?: Record<SkillName, number>;
 	reduceSkill?: Record<SkillName, number>;
 	addTrait?: string[];
-	reduceTrait?: string[];
+	removeTrait?: string[];
 }
 
 export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase';
