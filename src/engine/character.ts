@@ -28,12 +28,12 @@ export function engineApplyCharacterProcess(currentState: GameState, charId: num
 	}
 	if(process.removeTrait){
 		nextTraits = nextTraits.filter(trait => {
-			!process.removeTrait.includes(trait);
+			!process.removeTrait!.includes(trait);
 		});
 	}
 	
 	let newCharacters = { ...currentState.characters.entities };
-	newCharacters[charId] = { ...newCharacters[charid], skills: nextSkills, traits: nextTraits };
+	newCharacters[charId] = { ...newCharacters[charId], skills: nextSkills, traits: nextTraits };
 	
 	
 	return {
@@ -54,7 +54,7 @@ export function engineRunCharacterEvent(currentState: GameState, charId: number,
 	}
 	
 	//automatically apply initial process
-	let nextState =  engineApplyCharacterProcess(currentState, charId, eventDefinition.effect);
+	let nextState =  engineApplyCharacterProcess(currentState, charId, eventDefinition.effect as CharProcess);
 	
 	
 	//handle potential choices
@@ -62,7 +62,7 @@ export function engineRunCharacterEvent(currentState: GameState, charId: number,
 		//todo choice weighting
 		let decision = Math.floor(Math.random()*eventDefinition.choices.length);
 		
-		nextState = engineApplyCharacterProcess(currentState, charId, eventDefinition.choices[decision].effect);
+		nextState = engineApplyCharacterProcess(currentState, charId, eventDefinition.choices[decision].effect as CharProcess);
 	}
 
 	return nextState;
