@@ -1,5 +1,6 @@
 import type { GameState, Character, SkillName, CharProcess } from '../types/gameState';
 import { NAME_LISTS } from '../data/names';
+import { CHARACTER_EVENTS } from '../data/events';
 
 
 export function engineApplyCharacterProcess(currentState: GameState, charId: number, process: CharProcess): GameState {
@@ -42,6 +43,29 @@ export function engineApplyCharacterProcess(currentState: GameState, charId: num
 			entities: newCharacters
 		}
 	}
+}
+
+
+export function engineRunCharacterEvent(currentState: GameState, charId: number, eventId: number): GameState {
+	let eventDefinition = CHARACTER_EVENTS[eventId];
+	
+	if(!eventDefinition){
+		return currentState;
+	}
+	
+	//automatically apply initial process
+	let nextState =  engineApplyCharacterProcess(currentState, charId, eventDefinition.effect);
+	
+	
+	//handle potential choices
+	if(eventDefinition.choices){
+		//todo choice weighting
+		let decision = Math.floor(Math.random()*eventDefinition.choices.length);
+		
+		nextState = engineApplyCharacterProcess(currentState, charId, eventDefinition.choices[decision].effect);
+	}
+
+	return nextState;
 }
 
 
