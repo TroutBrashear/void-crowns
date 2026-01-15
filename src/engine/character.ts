@@ -27,9 +27,7 @@ export function engineApplyCharacterProcess(currentState: GameState, charId: num
 		}
 	}
 	if(process.removeTrait){
-		nextTraits = nextTraits.filter(trait => {
-			!process.removeTrait!.includes(trait);
-		});
+		nextTraits = nextTraits.filter(trait => !process.removeTrait!.includes(trait));
 	}
 	
 	let newCharacters = { ...currentState.characters.entities };
@@ -182,7 +180,7 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 export function processCharacterCycles(currentState: GameState): GameState {
 	let functionState = { ...currentState };
 	
-	const newCharacters = { ...functionState.characters.entities };
+	let newCharacters = { ...functionState.characters.entities };
 	const characterIds = functionState.characters.ids;
 	const newIds: number[] = [];
 	
@@ -202,6 +200,9 @@ export function processCharacterCycles(currentState: GameState): GameState {
 			}
 			if(newAge >= 100){
 				functionState = engineUnassignCharacter(functionState, charId);
+				
+				newCharacters = { ...functionState.characters.entities };
+				
 				delete newCharacters[charId];
 				continue;
 			}
@@ -212,6 +213,17 @@ export function processCharacterCycles(currentState: GameState): GameState {
 					age: newAge,
 				};
 			}
+			
+			functionState = { ...functionState, characters: { ...functionState.characters, entities: newCharacters }};
+			
+			//does the character get a random event
+			if(Math.floor(Math.random() * 5) > 3){
+				let eventId = 1; //todo: actually random
+				
+				functionState = engineRunCharacterEvent(functionState, charId, eventId);
+			}
+			
+			newCharacters = { ...functionState.characters.entities };
 		}
 	}
 	
