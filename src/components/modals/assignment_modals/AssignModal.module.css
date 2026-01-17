@@ -1,0 +1,23 @@
+.assignModal {
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+
+    z-index: 2000;
+
+
+    width: 400px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+
+    background-color: rgba(20, 20, 20, 0.95);
+    border: 2px solid #777;
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: #eee;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}

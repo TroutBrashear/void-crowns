@@ -4,22 +4,38 @@ import SystemSelectModal from './SystemSelectModal';
 import OrgSelectModal from './OrgSelectModal';
 import ShipSelectModal from './ShipSelectModal';
 import PlanetoidSelectModal from './PlanetoidSelectModal';
+import CharacterAssignModal from './assignment_modals/CharacterAssignModal';
 
 export function ModalManager() {
 	const activeModal = useUiStore(state => state.activeModal);
+	const childAssignModal = useUiStore(state => state.childAssignModal);
+
+	let modal = null;
 
 	switch(activeModal){
 		case 'fleet_modal':
-			return <FleetSelectModal />
+			modal = <FleetSelectModal/>; break;
 		case 'system_modal':
-			return <SystemSelectModal />
+			modal = <SystemSelectModal/>; break;
 		case 'org_modal':
-			return <OrgSelectModal />
+			modal = <OrgSelectModal/>; break;
 		case 'ship_modal':
-			return <ShipSelectModal />
+			modal = <ShipSelectModal/>; break;
 		case 'planet_modal':
-			return <PlanetoidSelectModal />
-		default:
-			return null;
+			modal = <PlanetoidSelectModal/>; break;
 	}
+
+	let assignModal = null;
+
+	switch(childAssignModal){
+		case 'assign_character':
+			assignModal = <CharacterAssignModal/>; break;
+	}
+
+	return(
+		<div>
+			{modal}
+			{assignModal}
+		</div>
+	);
 }
