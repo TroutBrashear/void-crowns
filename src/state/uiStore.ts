@@ -1,12 +1,14 @@
 import { create } from 'zustand';
-import type { UiStoreState, ModalType, ShowNotificationPayload } from '../types/uiState';
+import type { UiStoreState, ModalType, AssignType, ShowNotificationPayload } from '../types/uiState';
 import type { Selection } from '../types/gameState'; 
 
 export const useUiStore = create<UiStoreState>((set, get) => ({
 
 	activeModal: null,
+	childAssignModal: null,
 	selection: null,
 	navStack: [],
+
 
 	//logic for notifications
 	notification: {
@@ -18,7 +20,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 
 
 	openModal: (modal: ModalType) => {
-		set({ activeModal: modal });
+		set({ activeModal: modal, childAssignModal: null });
 	},
 
 	changeModal: (modal: ModalType, newSelection: Selection) => {
@@ -29,21 +31,31 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 				...state,
 				navStack: [...state.navStack, { activeModal: activeModal, selection: selection }],
 				activeModal: modal,
-				selection: newSelection
+				selection: newSelection,
+				childAssignModal: null
 			}));
 		}
 		else{
 			set((state) => ({ 
 				...state,
 				activeModal: modal, 
-				selection: newSelection
+				selection: newSelection,
+				childAssignModal: null
 			}));
 		}
 	},
   	
   	closeModal: () => {
-  		set({ activeModal: null, selection: null, navStack: [] });
+  		set({ activeModal: null, selection: null, navStack: [], childAssignModal: null });
   	},
+
+	openAssignModal: (modal: AssignType) => {
+			set({childAssignModal: modal });
+	},
+
+	closeAssignModal: () => {
+		set({childAssignModal: null });
+	},
 
   	backModal: () => {
   		const { navStack } = get();
@@ -60,7 +72,8 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
         set({
             selection: previousModal.selection,
             activeModal: previousModal.activeModal as ModalType,
-            navStack: newStack
+            navStack: newStack,
+			childAssignModal: null
         });
   	},
 

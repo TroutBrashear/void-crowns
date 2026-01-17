@@ -3,6 +3,7 @@ import type { Selection } from './gameState';
 
 export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_modal" | "planet_modal"; 
 
+export type AssignType = "assign_character";
 
 export interface NotificationData {
   notificationType: string | null;
@@ -13,6 +14,7 @@ export interface NotificationData {
 
 export interface UiState {
   activeModal: ModalType | null;
+  childAssignModal: AssignType | null;
   selection: Selection | null;
   notification: NotificationData;
   navStack: HistoryStep[];
@@ -29,6 +31,9 @@ export interface UiStoreMethods {
   closeModal: () => void;
   backModal: () => void;
   setSelection: (selection: Selection | null) => void;
+
+  openAssignModal: (modal: AssignType) => void;
+  closeAssignModal: () => void;
 
   showNotification: (payload: ShowNotificationPayload) => void;
   hideNotification: () => void;
