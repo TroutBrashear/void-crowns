@@ -29,7 +29,7 @@ function FleetSelectModal() {
   ? getOrgById(fleetToShow.ownerNationId) 
   : null;
   
- const poolCharacters = fleetOwnerOrg?.characters.characterPool.map(characterId => getCharacterById(characterId));
+  const poolCharacters = fleetOwnerOrg?.characters.characterPool.map(characterId => getCharacterById(characterId));
 
   
   const comCharacter = fleetToShow.assignedCharacter 
