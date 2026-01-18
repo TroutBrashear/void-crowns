@@ -91,12 +91,16 @@ export interface Org {
   parentId: number | null;
   childIds: number[];
 
-  relations: OrgRelation[];
-  
+  diplomacy: {
+    relations: OrgRelation[];
+    incomingRequests: DiploRequest[];
+  }
+
   contextHistory: {
 	previousIncome: Resources;
 	buildPlan: BuildingClass[];
   }
+
 }
 
 //a helper that holds information about what a character is currently doing
@@ -151,6 +155,13 @@ export interface ColonizePayload {
   planetoidId: number;
 }
 
+export type DiploType = 'war' | 'peace';
+
+export interface DiploRequest {
+  id: number;
+  type: DiploType;
+  originOrgId: number;
+}
 
 //definitions for game events 
 export type GameEventType = 'battle_result' | 'construction_complete' | 'insufficient_resources';
@@ -183,6 +194,7 @@ export interface GameState {
     lastShipId: number;
 	lastBuildingId: number;
 	lastCharacterId: number;
+    lastDiploId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
@@ -211,6 +223,7 @@ export interface GameActions {
   constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => void;
   declareWar: (payload: DiploStatusPayload) => void;
   declarePeace: (payload: DiploStatusPayload) => void;
+  sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploRequest }) => void;
   colonizePlanetoid: (payload: ColonizePayload) => void;
   initializeNewGame: () => void;
   assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: string}) => void;

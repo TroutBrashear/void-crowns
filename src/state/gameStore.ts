@@ -35,16 +35,16 @@ export const useGameStore = create<GameStoreState>((set, get) => {
           return state;
         }
 
-        const firstUpdatedRel = firstOrg.relations.map(rel => 
+        const firstUpdatedRel = firstOrg.diplomacy.relations.map(rel =>
           rel.targetOrgId === secondOrgId ? { ...rel, status: newStatus } : rel
         ); 
 
-        const secondUpdatedRel = secondOrg.relations.map(rel => 
+        const secondUpdatedRel = secondOrg.diplomacy.relations.map(rel =>
           rel.targetOrgId === firstOrgId ? { ...rel, status: newStatus } : rel
         );
 
-        const updatedFirstOrg = { ...firstOrg, relations: firstUpdatedRel };
-        const updatedSecondOrg = { ...secondOrg, relations: secondUpdatedRel };
+        const updatedFirstOrg = { ...firstOrg, diplomacy: { ...firstOrg.diplomacy, relations: firstUpdatedRel }};
+        const updatedSecondOrg = { ...secondOrg, diplomacy: { ...secondOrg.diplomacy, relations: secondUpdatedRel }};
 
         console.log(updatedFirstOrg);
         return {
@@ -220,6 +220,46 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     updateBilateralRelation(actorId, targetId, 'peace');
   },
 
+  sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType }) => {
+    set((state) => {
+      let targetOrg = state.orgs.entities[payload.targetOrgId];
+      if(!targetOrg){
+        return state;
+      }
+      const nextDiploId = lastDiploId + 1;
+      const request = {
+        id: nextDiploId,
+        type: payload.requestType,
+        originOrgId: payload.originOrgId,
+      };
+
+      targetOrg = {
+        ...targetOrg,
+        diplomacy: {
+          ...targetOrg.diplomacy,
+          incomingRequests: [...targetOrg.diplomacy.incomingRequests, request],
+        },
+      };
+
+      return {
+        ...state,
+        meta: {
+          ...state.meta,
+          lastDiploId: nextDiploId,
+        },
+        orgs: {
+          ...state.orgs,
+          entities: {
+            ...state.orgs.entities,
+            [payload.targetOrgId]: targetOrg,
+          }
+        }
+      };
+    });
+
+  },
+
+
   colonizePlanetoid: (payload: ColonizePayload) => {
     set(colonizePlanetoid(get(), payload));
   },
@@ -259,6 +299,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         lastShipId: 0,
 		lastBuildingId: 0,
 		lastCharacterId:0,
+        lastDiploId:0,
       },
       systems: normalize(systems),
       fleets: { entities: {}, ids: [] },   

@@ -27,7 +27,7 @@ function OrgSelectModal() {
  	 }
 
 
-    const orgRelations = orgToShow.relations;
+    const orgRelations = orgToShow.diplomacy.relations;
 
 
     //if this is the player org, no need to render diplo options

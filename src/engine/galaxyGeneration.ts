@@ -226,7 +226,10 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			},
 			parentId: null,
 			childIds: [],
-			relations: [],
+			diplomacy: {
+				relations: [],
+				incomingRequests: [],
+			},
 			contextHistory: {
 				previousIncome: { credits: 0, rocks: 0 },
 				buildPlan: [],
@@ -250,7 +253,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				opinion: 0,
 			};
 
-			org.relations.push(relation);
+			org.diplomacy.relations.push(relation);
 		}
 	}
 

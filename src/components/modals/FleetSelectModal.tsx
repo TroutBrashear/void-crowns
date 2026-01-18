@@ -6,7 +6,7 @@ function FleetSelectModal() {
   const selection = useUiStore(state => state.selection);
   const closeModal = useUiStore(state => state.closeModal);
 
-  const getOrgById = useGameStore(state => state.getOrgById);
+
   const getFleetById = useGameStore(state => state.getFleetById);
   const getCharacterById = useGameStore(state => state.getCharacterById);
   const openAssignModal = useUiStore(state => state.openAssignModal);
@@ -20,11 +20,7 @@ function FleetSelectModal() {
   if (!fleetToShow) {
     return null; 
   }
-  
-  //we need the org to access character pool
-  const fleetOwnerOrg = fleetToShow.ownerNationId 
-  ? getOrgById(fleetToShow.ownerNationId) 
-  : null;
+
   
   const comCharacter = fleetToShow.assignedCharacter 
 		? getCharacterById(fleetToShow.assignedCharacter) 
