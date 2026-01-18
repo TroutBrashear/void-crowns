@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, BuildingClass } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, BuildingClass, DiploType } from '../types/gameState';
 import type { Fleet } from '../types/gameState'; 
 
 //engine imports
@@ -226,7 +226,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       if(!targetOrg){
         return state;
       }
-      const nextDiploId = lastDiploId + 1;
+      const nextDiploId = state.meta.lastDiploId + 1;
       const request = {
         id: nextDiploId,
         type: payload.requestType,
