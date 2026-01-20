@@ -13,8 +13,7 @@ function OrgSelectModal() {
 	const getOrgById = useGameStore(state => state.getOrgById);
 
 	//diplo actions
-	const declareWar = useGameStore(state => state.declareWar);
-  	const declarePeace = useGameStore(state => state.declarePeace);
+	const sendDiploRequest = useGameStore(state => state.sendDiploRequest);
 
 	const orgToShow = useGameStore(state => 
     	(selection?.type === 'org')
@@ -67,8 +66,8 @@ function OrgSelectModal() {
 		<div className={styles.modal}>
 			<h2>{orgToShow.flavor.name}</h2>
 			<h3>Your current status: {currentStatus}</h3>
-			{currentStatus === 'war' ? <button onClick={() => declarePeace({actorId: 1, targetId: orgToShow.id})}>Offer Peace</button> 
-				: <button onClick={() => declareWar({actorId: 1, targetId: orgToShow.id})}>Declare War</button>}
+			{currentStatus === 'war' ? <button onClick={() => sendDiploRequest({targetOrgId: orgToShow.id, originOrgId: 1, requestType: 'peace' })}>Offer Peace</button>
+				: <button onClick={() => sendDiploRequest({targetOrgId: orgToShow.id, originOrgId: 1, requestType: 'war' })}>Declare War</button>}
 			<h3>International Relations:</h3>
 			<ul>
 				{orgRelations.map(relation => {

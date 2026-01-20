@@ -81,7 +81,7 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 			}
 		}
 
-		let updatedOrg = { ...nextState.orgs.entities[orgId], diplomacy: {...nextState.orgs.entities[orgId], incomingRequests: [] }};
+		let updatedOrg = { ...nextState.orgs.entities[orgId], diplomacy: {...nextState.orgs.entities[orgId].diplomacy, incomingRequests: [] }};
 		updatedOrgs[orgId] = { ...updatedOrg };
 	}
 

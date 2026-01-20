@@ -11,6 +11,7 @@ import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
+import { processDiplomacy } from '../engine/diplomacy';
 import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
 import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engine/building';
 import { colonizePlanetoid } from '../engine/colonization';
@@ -95,6 +96,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     tickEvents.push(...combatResults.events);
 
 	nextState = processCharacterCycles(nextState);
+
+    const diploResults = processDiplomacy(nextState);
+    nextState = diploResults.newState;
+    tickEvents.push(...diploResults.events);
 
     for(const orgId of nextState.orgs.ids){
       if(orgId !== 1){
