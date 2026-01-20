@@ -164,7 +164,7 @@ export interface DiploRequest {
 }
 
 //definitions for game events 
-export type GameEventType = 'battle_result' | 'construction_complete' | 'insufficient_resources';
+export type GameEventType = 'battle_result' | 'construction_complete' | 'insufficient_resources' | 'diplo_result';
 
 export interface GameEvent {
   type: GameEventType;

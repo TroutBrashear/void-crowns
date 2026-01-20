@@ -70,6 +70,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
      lastShipId: 0,
 	 lastBuildingId: 0,
 	 lastCharacterId: 0,
+     lastDiploId: 0,
     },
     systems: { entities: {}, ids: [] }, 
 	ships: { entities: {}, ids: [] },
