@@ -1,4 +1,4 @@
-import type { GameState, Fleet, Ship } from '../types/gameState';
+import type { GameState, Fleet, Ship, IntelStatus } from '../types/gameState';
 
 
 
