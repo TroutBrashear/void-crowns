@@ -7,16 +7,14 @@ export function evaluateDiploRequest(currentState: GameState, orgId: number, req
         return true;
     }
 
-    const evaluatingOrg = currentState.orgs.entities[orgId];
-    const originOrg = currentState.orgs.entities[request.originOrgId];
-
-    if(!evaluatingOrg || ! originOrg){
-        return false;
-    }
-
 
     if(request.type == 'peace'){
-        return true; //todo: consult actual logic
+        if(currentState.intelligence.trueStatus[orgId].militaryStrength < 0.75 * currentState.intelligence.trueStatus[request.originOrgId].militaryStrength){ //todo: base this on receiver's PERCEPTION of originOrg rather than ground truth.
+            return true; //accept peace
+        }
+        else{
+            return false;
+        }
     }
 
     else{

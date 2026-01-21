@@ -1,5 +1,5 @@
 import type { GameState, OrgRelation, EngineResult, GameEvent } from '../types/gameState';
-
+import { evaluateDiploRequest } from './ai/diplomacy';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
 	const firstOrg = gameState.orgs.entities[firstOrgId];
@@ -64,11 +64,19 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 	let updatedOrgs = { ...nextState.orgs.entities };
 	//iterate through orgs. Iterate through their incoming diplomacy requests for evaluation
 	for(const orgId of nextState.orgs.ids){
+		if(orgId == 1){
+			continue;
+		}
+
+
 		let currentOrg = nextState.orgs.entities[orgId];
+
 
 		for(const request of currentOrg.diplomacy.incomingRequests){
 			if(request.type == 'war' || request.type == 'peace'){
-				nextState = engineUpdateRelationship(nextState, orgId, request.originOrgId, request.type);
+				if(evaluateDiploRequest(nextState, orgId, request)){
+					nextState = engineUpdateRelationship(nextState, orgId, request.originOrgId, request.type);
+				}
 				const evaluatePlayerVisible = (orgId == 1 || request.originOrgId == 1);
 				const diploEvent: GameEvent = {
 					type: 'diplo_result',
