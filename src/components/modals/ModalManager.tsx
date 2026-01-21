@@ -9,6 +9,7 @@ import CharacterAssignModal from './assignment_modals/CharacterAssignModal';
 export function ModalManager() {
 	const activeModal = useUiStore(state => state.activeModal);
 	const childAssignModal = useUiStore(state => state.childAssignModal);
+	const activePanel = useUiStore(state => state.activePanel);
 
 	let modal = null;
 
@@ -32,10 +33,18 @@ export function ModalManager() {
 			assignModal = <CharacterAssignModal/>; break;
 	}
 
+	let panel = null;
+
+	switch(activePanel){
+		case 'diplomacy_panel':
+			panel = <DiplomacyPanel/>; break;
+	}
+
 	return(
 		<div>
 			{modal}
 			{assignModal}
+			{panel}
 		</div>
 	);
 }

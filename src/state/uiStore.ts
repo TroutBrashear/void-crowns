@@ -1,14 +1,17 @@
 import { create } from 'zustand';
-import type { UiStoreState, ModalType, AssignType, ShowNotificationPayload } from '../types/uiState';
+import type { UiStoreState, ModalType, AssignType, ShowNotificationPayload, PanelType } from '../types/uiState';
 import type { Selection } from '../types/gameState'; 
 
 export const useUiStore = create<UiStoreState>((set, get) => ({
 
 	activeModal: null,
-	childAssignModal: null,
+
 	selection: null,
 	navStack: [],
 
+	childAssignModal: null,
+
+	activePanel: null,
 
 	//logic for notifications
 	notification: {
@@ -50,11 +53,19 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
   	},
 
 	openAssignModal: (modal: AssignType) => {
-			set({childAssignModal: modal });
+		set({childAssignModal: modal });
 	},
 
 	closeAssignModal: () => {
 		set({childAssignModal: null });
+	},
+
+	openPanel: (panel: PanelType) => {
+		set({activePanel: panel });
+	},
+
+	closePanel: () => {
+		set({activePanel: null });
 	},
 
   	backModal: () => {

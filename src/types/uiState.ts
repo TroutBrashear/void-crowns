@@ -5,6 +5,8 @@ export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_mod
 
 export type AssignType = "assign_character";
 
+export type PanelType = "diplomacy_panel";
+
 export interface NotificationData {
   notificationType: string | null;
   notificationMessage: string | null;
@@ -15,6 +17,7 @@ export interface NotificationData {
 export interface UiState {
   activeModal: ModalType | null;
   childAssignModal: AssignType | null;
+  activePanel: PanelType | null;
   selection: Selection | null;
   notification: NotificationData;
   navStack: HistoryStep[];
@@ -34,6 +37,9 @@ export interface UiStoreMethods {
 
   openAssignModal: (modal: AssignType) => void;
   closeAssignModal: () => void;
+
+  openPanel: (panel: PanelType) => void;
+  closePanel: () => void;
 
   showNotification: (payload: ShowNotificationPayload) => void;
   hideNotification: () => void;
