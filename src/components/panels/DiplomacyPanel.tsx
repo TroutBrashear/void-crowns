@@ -4,10 +4,33 @@ import styles from './Panel.module.css';
 
 function DiplomacyPanel() {
 
+    const closePanel = useUiStore(state => state.closePanel);
+
+    const getOrgById = useGameStore(state => state.getOrgById);
+
+    const playerOrg = getOrgById(1);
+
+    //something is seriously wrong in this case...
+    if(!playerOrg){
+        return null;
+    }
+
+    const incomingRequests = playerOrg.diplomacy.incomingRequests;
 
     return (
-        <div>
+        <div className={styles.panel}>
+            <h1>Diplomacy</h1>
+            <button onClick={() => closePanel()}>Close</button>
 
+            <h3>Incoming requests:</h3>
+            {incomingRequests.map(request => { return(
+                <div key={request.id}>
+                    <p>{getOrgById(request.originOrgId).flavor.name} is requesting {request.type}</p>
+                    <button>Accept</button>
+                    <button>Decline</button>
+                </div>
+                )
+            })}
         </div>
     );
 

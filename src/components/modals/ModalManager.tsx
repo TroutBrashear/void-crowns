@@ -4,7 +4,10 @@ import SystemSelectModal from './SystemSelectModal';
 import OrgSelectModal from './OrgSelectModal';
 import ShipSelectModal from './ShipSelectModal';
 import PlanetoidSelectModal from './PlanetoidSelectModal';
+
 import CharacterAssignModal from './assignment_modals/CharacterAssignModal';
+
+import DiplomacyPanel from '../panels/DiplomacyPanel';
 
 export function ModalManager() {
 	const activeModal = useUiStore(state => state.activeModal);

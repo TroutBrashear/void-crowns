@@ -226,6 +226,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     updateBilateralRelation(actorId, targetId, 'peace');
   },
 
+
   sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType }) => {
     set((state) => {
       let targetOrg = state.orgs.entities[payload.targetOrgId];
