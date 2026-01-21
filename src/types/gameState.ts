@@ -8,7 +8,6 @@ export interface System {
   assignedCharacter: number | null;
 }
 
-
 export interface Process {
   input?: Resources;
   output?: Resources;
@@ -120,6 +119,16 @@ export interface Character {
   assignment: charAssignment | null;
 }
 
+//types related to intelligence, fog of war, stength calculations
+export interface IntelStatus {
+  militaryStrength: number;
+}
+
+
+export interface IntelOverall {
+  trueStatus: Record<number, IntelStatus>;
+}
+
 export interface EntitiesState<T> {
   entities: { [id: number]: T };
   ids: number[];
@@ -133,6 +142,7 @@ export interface Selection {
   type: SelectableEntityType;
   id: number;
 }
+
 
 
 export interface MoveOrderPayload {
@@ -211,6 +221,8 @@ export interface GameState {
   getOrgById: (id: number) => Org | undefined;
   getShipById: (id: number) => Ship | undefined;
   getCharacterById: (id: number) => Character | undefined;
+
+  intelligence: IntelOverall;
 }
 
 export interface GameActions {

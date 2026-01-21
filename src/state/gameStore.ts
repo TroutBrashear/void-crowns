@@ -80,7 +80,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     planetoids: { entities: {}, ids: [] },
 	characters: { entities: {}, ids: [] },
     fleetLocationIndex: {},   
-
+    intelligence: { trueStatus: {}},
 
   tick: () => {
     const currentState = get();

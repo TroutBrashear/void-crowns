@@ -1,9 +1,41 @@
 import type { GameState, Fleet, Ship } from '../types/gameState';
 
+
+
+function evaluateIntelStatus(currentState: GameState): GameState {
+  let newIntelStatus: Record<number, IntelStatus> = {};
+  const fleets = Object.values(currentState.fleets.entities);
+
+  let fleetStrength: Record<number, number> = {};
+
+  for(const orgId of currentState.orgs.ids){
+    fleetStrength[orgId] = 0;
+  }
+
+  for(const fleet of fleets){
+    fleetStrength[fleet.ownerNationId] =  fleetStrength[fleet.ownerNationId] + 1;
+  }
+
+  for(const orgId of currentState.orgs.ids){
+    newIntelStatus[orgId] = {
+      militaryStrength: 20 * fleetStrength[orgId],
+      };
+  }
+
+  return {
+    ...currentState,
+    intelligence: {
+      ...currentState.intelligence,
+      trueStatus: newIntelStatus,
+    }
+  }
+}
+
+
 export function processTick(currentState: GameState): GameState {
   console.log('tick');
 
-
+  let nextState =  evaluateIntelStatus(currentState);
 
   //Process Fleet movements
   const updatedFleetEntities: { [id: number]: Fleet } = {};
@@ -55,26 +87,28 @@ export function processTick(currentState: GameState): GameState {
   }
 
   if (!hasChanges) {
-    return currentState;
+    return nextState;
   }
 
-  const newState: GameState = {
-    ...currentState, 
+   nextState = {
+    ...nextState,
     fleets: {
-      ...currentState.fleets, 
+      ...nextState.fleets,
       entities: {
-        ...currentState.fleets.entities, 
+        ...nextState.fleets.entities,
         ...updatedFleetEntities,
       },
     },
     ships: {
-      ...currentState.ships,
+      ...nextState.ships,
       entities: {
-        ...currentState.ships.entities,
+        ...nextState.ships.entities,
         ...updatedShipEntities,
       },
     },
   };
 
-  return newState;
+
+
+  return nextState;
 }
