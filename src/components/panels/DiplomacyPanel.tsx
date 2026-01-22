@@ -7,6 +7,7 @@ function DiplomacyPanel() {
     const closePanel = useUiStore(state => state.closePanel);
 
     const getOrgById = useGameStore(state => state.getOrgById);
+    const processPlayerDiplo = useGameStore(state => state.processPlayerDiplo);
 
     const playerOrg = getOrgById(1);
 
@@ -26,8 +27,8 @@ function DiplomacyPanel() {
             {incomingRequests.map(request => { return(
                 <div key={request.id}>
                     <p>{getOrgById(request.originOrgId).flavor.name} is requesting {request.type}</p>
-                    <button>Accept</button>
-                    <button>Decline</button>
+                    <button onClick = {() => processPlayerDiplo({request: request, accepted: true})} >Accept</button>
+                    <button onClick = {() => processPlayerDiplo({request: request, accepted: false})}>Decline</button>
                 </div>
                 )
             })}
