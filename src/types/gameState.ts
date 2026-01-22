@@ -235,6 +235,7 @@ export interface GameActions {
   constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => void;
   declareWar: (payload: DiploStatusPayload) => void;
   declarePeace: (payload: DiploStatusPayload) => void;
+  processPlayerDiplo: (payload: { request: DiploRequest, accepted: boolean }) => void;
   sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType }) => void;
   colonizePlanetoid: (payload: ColonizePayload) => void;
   initializeNewGame: () => void;

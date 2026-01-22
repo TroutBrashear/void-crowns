@@ -11,7 +11,7 @@ import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
-import { processDiplomacy } from '../engine/diplomacy';
+import { processDiplomacy, enginePlayerDiploResponse} from '../engine/diplomacy';
 import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
 import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engine/building';
 import { colonizePlanetoid } from '../engine/colonization';
@@ -226,6 +226,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     updateBilateralRelation(actorId, targetId, 'peace');
   },
 
+  processPlayerDiplo: (payload: { request: DiploRequest, accepted: boolean }) => {
+      set(enginePlayerDiploResponse(get(), request, accepted));
+  },
 
   sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType }) => {
     set((state) => {

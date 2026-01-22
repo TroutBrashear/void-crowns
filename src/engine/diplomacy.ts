@@ -53,7 +53,37 @@ export function engineUpdateRelationship(currentState: GameState, firstOrgId: nu
 			},
 		},
 	};
-};
+}
+
+
+export function enginePlayerDiploResponse(currentState: GameState, request: DiploRequest, accepted: boolean): GameState {
+	let nextState = { ...currentState };
+
+	if(accepted){
+		nextState = engineUpdateRelationship(nextState, 1, request.originOrgId, request.type);
+	}
+
+	let playerRequests = nextState.orgs.entities[1].diplomacy.incomingRequests;
+
+	playerRequests = playerRequests.filter(req => req.id !== request.id);
+
+	return {
+		...nextState,
+		orgs: {
+			...nextState.orgs,
+			entities: {
+				...nextState.orgs.entities,
+				[1]:{
+					...nextState.orgs.entities[1],
+					diplomacy: {
+						...nextState.orgs.entities[1].diplomacy,
+						incomingRequests: playerRequests,
+					}
+				}
+			}
+		}
+	}
+}
 
 
 export function processDiplomacy(currentState: GameState): EngineResult {
