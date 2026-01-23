@@ -31,9 +31,9 @@ function DiplomacyPanel() {
                 }
                 return(
                     <div key={request.id}>
-                        <p>{getOrgById(request.originOrgId).flavor.name} is requesting {request.type}</p>
-                        <button onClick = {() => processPlayerDiplo({request: request.id, accepted: true})} >Accept</button>
-                        <button onClick = {() => processPlayerDiplo({request: request.id, accepted: false})}>Decline</button>
+                        <p>{originOrg.flavor.name} is requesting {request.type}</p>
+                        <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: true})} >Accept</button>
+                        <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: false})}>Decline</button>
                     </div>
                 )
             })}
