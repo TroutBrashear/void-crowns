@@ -24,12 +24,17 @@ function DiplomacyPanel() {
             <button onClick={() => closePanel()}>Close</button>
 
             <h3>Incoming requests:</h3>
-            {incomingRequests.map(request => { return(
-                <div key={request.id}>
-                    <p>{getOrgById(request.originOrgId).flavor.name} is requesting {request.type}</p>
-                    <button onClick = {() => processPlayerDiplo({request: request, accepted: true})} >Accept</button>
-                    <button onClick = {() => processPlayerDiplo({request: request, accepted: false})}>Decline</button>
-                </div>
+            {incomingRequests.map(request => {
+                let originOrg = getOrgById(request.originOrgId);
+                if(!originOrg){
+                    return null;
+                }
+                return(
+                    <div key={request.id}>
+                        <p>{getOrgById(request.originOrgId).flavor.name} is requesting {request.type}</p>
+                        <button onClick = {() => processPlayerDiplo({request: request.id, accepted: true})} >Accept</button>
+                        <button onClick = {() => processPlayerDiplo({request: request.id, accepted: false})}>Decline</button>
+                    </div>
                 )
             })}
         </div>

@@ -226,8 +226,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     updateBilateralRelation(actorId, targetId, 'peace');
   },
 
-  processPlayerDiplo: (payload: { request: DiploRequest, accepted: boolean }) => {
-      set(enginePlayerDiploResponse(get(), request, accepted));
+  processPlayerDiplo: (payload: { requestId: number, accepted: boolean }) => {
+      set(enginePlayerDiploResponse(get(), payload.requestId, payload.accepted));
   },
 
   sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType }) => {

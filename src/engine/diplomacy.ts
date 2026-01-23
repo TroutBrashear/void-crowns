@@ -56,12 +56,19 @@ export function engineUpdateRelationship(currentState: GameState, firstOrgId: nu
 }
 
 
-export function enginePlayerDiploResponse(currentState: GameState, request: DiploRequest, accepted: boolean): GameState {
+export function enginePlayerDiploResponse(currentState: GameState, requestId: number, accepted: boolean): GameState {
 	let nextState = { ...currentState };
+
+	let request = nextState.orgs.entities[1].diplomacy.incomingRequests[requestId];
+
+	if(!request){
+		return nextState;
+	}
 
 	if(accepted){
 		nextState = engineUpdateRelationship(nextState, 1, request.originOrgId, request.type);
 	}
+
 
 	let playerRequests = nextState.orgs.entities[1].diplomacy.incomingRequests;
 
