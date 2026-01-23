@@ -1,5 +1,5 @@
 import type { GameState, OrgRelation, EngineResult, GameEvent } from '../types/gameState';
-import { evaluateDiploRequest } from './ai/diplomacy';
+import { evaluateDiploRequest, evaluateAiRelations } from './ai/diplomacy';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
 	const firstOrg = gameState.orgs.entities[firstOrgId];
@@ -135,16 +135,16 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 	let allDiploEvents: GameEvent[] = [];
 
 	let updatedOrgs = { ...nextState.orgs.entities };
-	//iterate through orgs. Iterate through their incoming diplomacy requests for evaluation
+
 	for(const orgId of nextState.orgs.ids){
 		if(orgId == 1){
 			continue;
 		}
 
-
 		let currentOrg = nextState.orgs.entities[orgId];
 
 
+		//INCOMING REQUESTS. loop handles all incoming requests an org might have, giving each a response.
 		for(const request of currentOrg.diplomacy.incomingRequests){
 			if(request.type == 'war' || request.type == 'peace'){
 				if(evaluateDiploRequest(nextState, orgId, request)){
@@ -173,6 +173,32 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 			entities: updatedOrgs,
 		}
 	};
+
+	for(const orgId of nextState.orgs.ids){
+		if(orgId == 1){
+			continue;
+		}
+
+		//OUTBOUND REQUESTS. loop evaluates diplo status for every other org, determining if change is needed.
+		for(const targetOrgId of nextState.orgs.ids){
+			if(targetOrgId == orgId){
+				continue;
+			}
+
+			const diploIntent = evaluateAiRelations(nextState, orgId, targetOrgId);
+			if(!diploIntent){
+				continue;
+			}
+			else if(diploIntent == 'war'){
+				nextState = sendDiploRequest(nextState, targetOrgId, orgId, 'war');
+			}
+			else if(diploIntent == 'peace'){
+				nextState = sendDiploRequest(nextState, targetOrgId, orgId, 'peace');
+			}
+		}
+	}
+
+
 	return {
 		newState: nextState,
 		events: allDiploEvents,
