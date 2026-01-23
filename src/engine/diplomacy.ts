@@ -92,6 +92,42 @@ export function enginePlayerDiploResponse(currentState: GameState, requestId: nu
 	}
 }
 
+export function sendDiploRequest(currentState: GameState, targetOrgId: number, originOrgId: number, requestType: DiploType): GameState {
+	let targetOrg = currentState.orgs.entities[targetOrgId];
+	if(!targetOrg){
+		return currentState;
+	}
+	const nextDiploId = currentState.meta.lastDiploId + 1;
+	const request = {
+		id: nextDiploId,
+		type: requestType,
+		originOrgId: originOrgId,
+	};
+
+	targetOrg = {
+		...targetOrg,
+		diplomacy: {
+			...targetOrg.diplomacy,
+			incomingRequests: [...targetOrg.diplomacy.incomingRequests, request],
+		},
+	};
+
+	return {
+		...currentState,
+		meta: {
+			...currentState.meta,
+			lastDiploId: nextDiploId,
+		},
+		orgs: {
+			...currentState.orgs,
+			entities: {
+				...currentState.orgs.entities,
+				[targetOrgId]: targetOrg,
+			}
+		}
+	};
+}
+
 
 export function processDiplomacy(currentState: GameState): EngineResult {
 	let nextState = { ...currentState };
