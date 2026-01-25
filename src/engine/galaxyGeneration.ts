@@ -18,17 +18,20 @@ function calcDistance(systemA: System, systemB: System): number {
 
 function planetEnvironment(): string {
 	const envDieRoll = Math.random() * 100;
-	if(envDieRoll < 45){
+	if(envDieRoll < 35){
 		return 'Barren';
 	}
-	else if(envDieRoll < 60){
+	else if(envDieRoll < 50){
 		return 'Gaseous';
 	}
-	else if(envDieRoll < 70){
+	else if(envDieRoll < 65){
 		return 'Frozen';
 	}
-	else if(envDieRoll < 80){
+	else if(envDieRoll < 75){
 		return 'Temperate';
+	}
+	else if(envDieRoll < 90){
+		return 'Humid';
 	}
 	else{
 		return 'Molten';
@@ -233,6 +236,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			contextHistory: {
 				previousIncome: { credits: 0, rocks: 0 },
 				buildPlan: [],
+				targetSystems: [],
 			},
 		};
 

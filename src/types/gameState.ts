@@ -98,6 +98,7 @@ export interface Org {
   contextHistory: {
 	previousIncome: Resources;
 	buildPlan: BuildingClass[];
+    targetSystems: number[];
   }
 
 }
@@ -216,6 +217,7 @@ export interface GameState {
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
   getSystemById: (id: number) => System | undefined;
+  getSystemsByOrg: (id: number) => System[] | undefined;
   getHabitablesInSystem: (id: number) => Planetoid[];
   getPlanetoidById: (id: number) => Planetoid | undefined;
   getOrgById: (id: number) => Org | undefined;

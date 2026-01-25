@@ -326,6 +326,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     return allFleets.filter(fleet => fleet.locationSystemId === id);
   },
   getSystemById: (id: number) => get().systems.entities[id],
+
+  getSystemsByOrg: (id: number) => Object.values(get().systems.entities).filter(system => system.ownerNationId === id),
+
   getPlanetoidById: (id: number) => get().planetoids.entities[id],
   getOrgById: (id: number) => get().orgs.entities[id],
   getShipById: (id: number) => get().ships.entities[id],
