@@ -1,4 +1,4 @@
-import type { GameState, OrgRelation, EngineResult, GameEvent } from '../types/gameState';
+import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType } from '../types/gameState';
 import { evaluateDiploRequest, evaluateAiRelations } from './ai/diplomacy';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {

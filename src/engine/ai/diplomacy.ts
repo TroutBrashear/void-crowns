@@ -28,6 +28,10 @@ export function evaluateAiRelations(currentState: GameState, currentOrgId: numbe
 
     const currentRelations = currentOrg.diplomacy.relations.find(rel => rel.targetOrgId === targetOrgId);
 
+    if(!currentRelations){
+        return null;
+    }
+
     //does the org want peace?
     if(currentRelations.status == 'war'){
         if((currentState.intelligence.trueStatus[currentOrgId].militaryStrength < 0.75 * currentState.intelligence.trueStatus[targetOrgId].militaryStrength) || !currentOrg.contextHistory.targetSystems.some(systemId => currentState.systems.entities[systemId].ownerNationId === targetOrgId)){

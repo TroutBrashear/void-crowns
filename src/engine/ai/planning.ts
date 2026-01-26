@@ -1,4 +1,4 @@
-import type { GameState, System } from '../../types/gameState';
+import type { GameState } from '../../types/gameState';
 
 
 export function processAiBuildPlanning(currentState: GameState, orgId: number): GameState {
