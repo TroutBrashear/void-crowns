@@ -1,5 +1,43 @@
 import type { GameState, ColonizePayload, Planetoid } from '../types/gameState';
 
+export function evaluatePlanetoidValue(planetoid: Planetoid): number {
+
+  if(planetoid.classification === 'gravWell'){
+    return 0;
+  }
+
+  let planetoidValue = 0;
+
+  switch(planetoid.environment){
+    case "Frozen":
+      planetoidValue = 10; break;
+    case "Temperate":
+      planetoidValue = 50; break;
+    case "Humid":
+      planetoidValue = 40; break;
+  }
+
+  planetoidValue = planetoidValue + planetoid.size;
+
+  return planetoidValue;
+}
+
+export function evaluateSystemValue(currentState: GameState, systemId: number): number {
+  let systemValue = 0;
+
+  const system = currentState.systems.entities[systemId];
+
+  for(const planetoidId of system.planetoids){
+    let planetoid = currentState.planetoids.entities[planetoidId];
+
+    if(planetoid){
+      systemValue += evaluatePlanetoidValue(planetoid);
+    }
+  }
+
+  return systemValue;
+}
+
 export function colonizePlanetoid(currentState: GameState, payload: ColonizePayload ): GameState {
 
 	console.log(payload.planetoidId);
@@ -58,12 +96,8 @@ export function getHabitablesInSystem(currentState: GameState, systemId: number)
       return [];
     }
 
-     if (system.ownerNationId !== null) {
-      return [];
-    }
-
     return system.planetoids.map(planetoidId => currentState.planetoids.entities[planetoidId]).filter(planetoid => {
-      if(planetoid.environment !== 'Barren'){
+      if(planetoid.environment !== 'Barren' || planetoid.environment !== 'Molten'){
         return planetoid;
       }
     });
