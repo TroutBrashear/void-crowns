@@ -30,7 +30,7 @@ export function evaluateAiRelations(currentState: GameState, currentOrgId: numbe
 
     //does the org want peace?
     if(currentRelations.status == 'war'){
-        if(currentState.intelligence.trueStatus[currentOrgId].militaryStrength < 0.75 * currentState.intelligence.trueStatus[targetOrgId].militaryStrength){ //todo: this logic will lead to infinity wars right now
+        if((currentState.intelligence.trueStatus[currentOrgId].militaryStrength < 0.75 * currentState.intelligence.trueStatus[targetOrgId].militaryStrength) || !currentOrg.contextHistory.targetSystems.some(systemId => currentState.systems.entities[systemId].ownerNationId === targetOrgId)){
             return 'peace';
         }
     }
@@ -38,7 +38,9 @@ export function evaluateAiRelations(currentState: GameState, currentOrgId: numbe
     //does the org want war?
     if(currentRelations.status == 'peace'){
         if(currentState.intelligence.trueStatus[currentOrgId].militaryStrength > 1.2 * currentState.intelligence.trueStatus[targetOrgId].militaryStrength){
-            return 'war';
+            if(currentOrg.contextHistory.targetSystems.some(systemId => currentState.systems.entities[systemId].ownerNationId === targetOrgId)){
+                return 'war';
+            }
         }
     }
 

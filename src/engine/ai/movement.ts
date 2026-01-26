@@ -14,7 +14,12 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
     	return currentState;
   	}
 
-	
+	let atWar = false;
+	const thinkingOrg = currentState.orgs.entities[orgId];
+	if(thinkingOrg.diplomacy.relations.some(relation => relation.status === 'war')){
+		atWar = true;
+	}
+
 
   	const newFleetEntities = { ...currentState.fleets.entities };
   	let hasMadeChanges = false;
@@ -27,9 +32,12 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 
     	const targetSystemId = currentSystem.adjacentSystemIds.find(id => {
      		const system = currentState.systems.entities[id];
-      		const isTargeted = Object.values(newFleetEntities).some(f => 
+      		const isTargeted = Object.values(newFleetEntities).some(f =>
         		f.movementPath.includes(id) && f.ownerNationId === orgId
       		);
+			if(!atWar){
+				return system && system.ownerNationId === orgId && !isTargeted;
+			}
       		return system && system.ownerNationId === null && !isTargeted;
     	});
 
@@ -39,7 +47,6 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
         		targetSystemId,
         		currentState.systems
       		);
-
 
       		const updatedFleet = {
         		...fleet,
@@ -73,10 +80,12 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 	let orgShips = allShips.filter(ship => ship.ownerNationId === orgId);
 	let idleShips = orgShips.filter(ship => ship.movementPath.length === 0);
 
+
 	if (idleShips.length === 0) {
     	return currentState;
   	}
 
+  	const thinkingOrg = currentState.orgs.entities[orgId];
   	let hasMadeChanges = false;
 
   	//loop for idle ships to take actions if necessary. Right now, this means a colony ship is in a target system and colonizes a world.
@@ -97,7 +106,7 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
   		}
   	}
 
-  	const newShipEntities = { ...currentState.ships.entities };
+  	const newShipEntities = { ...nextState.ships.entities };
 
 
 	allShips = Object.values(nextState.ships.entities);
@@ -110,7 +119,7 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
      		continue;
     	}
 
-    	const targetSystemId = currentSystem.adjacentSystemIds.find(id => {
+    	const targetSystemId = thinkingOrg.contextHistory.targetSystems.find(id => {
      		const system = nextState.systems.entities[id];
       		const isTargeted = Object.values(newShipEntities).some(s => 
         		s.movementPath.includes(id) && s.ownerNationId === orgId
@@ -146,5 +155,5 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
     	};
   	}
 
-  	return currentState;
+  	return nextState;
 }
