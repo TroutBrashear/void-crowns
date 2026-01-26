@@ -297,6 +297,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       });
       if(home){
         home.population = 8000000000;
+        home.ownerNationId = currentOrg.id;
       }
     }
 

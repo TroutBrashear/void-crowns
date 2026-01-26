@@ -41,6 +41,7 @@ export interface Planetoid {
   size: number;
   population: number;
   buildings: Building[];
+  ownerNationId: number;
 }
 
 export interface Fleet {

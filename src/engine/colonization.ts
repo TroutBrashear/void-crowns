@@ -19,6 +19,7 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
 
       const updatedPlanetoid = {
         ...planetoid,
+        ownerNationId: ship.ownerNationId,
         population: 200000,
       };
 
