@@ -1,6 +1,7 @@
 import type { System, Planetoid, Org, OrgRelation } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { colorPicker } from '../utils/colors';
+import { PLANETOID_TAGS } from '../data/tags';
 import { findPath } from './pathfinding';
 
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
@@ -44,6 +45,9 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 	let newPlanetoids: Planetoid[] = [];
 	let nextPlanId = 0;
 
+	//tag dicts
+	let planetoidTagKeys = Object.keys(PLANETOID_TAGS);
+
 	for(let i = 0; i < numSystems; i++){
 		const nextSystem: System = {
 			id: i + 1,
@@ -59,7 +63,8 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			ownerNationId: null,
 
 			planetoids: [],
-			assignedCharacter: null, 
+			assignedCharacter: null,
+			tags: [],
 		};
 
 			//give the system some planetoids
@@ -86,18 +91,25 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			const numPlanetoids = Math.floor((Math.random() * 6) + (Math.random() * 4));
 			for(let j = 0; j < numPlanetoids; j++){
 				const planet: Planetoid = {
-    			id: nextPlanId++,
-    			name: `${nextSystem.name} ${j + 1}`, //probably will have a naming algorithm using both presets and derived names like this
-    			parentPlanetoidId: star.id,
-    			locationSystemId: nextSystem.id,
-   			 	classification: 'planet',
-    			environment: planetEnvironment(),
-    			ownerNationId: null,
-   				size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
-    			population: 0,
-				buildings: [],
-				tags: [],
-  			};
+					id: nextPlanId++,
+					name: `${nextSystem.name} ${j + 1}`, //probably will have a naming algorithm using both presets and derived names like this
+					parentPlanetoidId: star.id,
+					locationSystemId: nextSystem.id,
+					classification: 'planet',
+					environment: planetEnvironment(),
+					ownerNationId: null,
+					size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
+					population: 0,
+					buildings: [],
+					tags: [],
+				};
+
+			//apply potential tag(s)
+			if(Math.floor(Math.random()*20) < 2){
+				const chosenTag = planetoidTagKeys[Math.floor(Math.random() * planetoidTagKeys.length)];
+
+				planet.tags.push(chosenTag);
+			}
 
   			systemPlanetoids.push(planet);
 
@@ -116,7 +128,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
     				parentPlanetoidId: planet.id,
     				locationSystemId: nextSystem.id,
    				 	classification: 'moon',
-    				environment: 'barren',
+    				environment: 'Barren',
 					ownerNationId: null,
    					size: 2 + Math.floor(Math.random() * 5),
     				population: 0,
