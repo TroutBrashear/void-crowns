@@ -1,7 +1,8 @@
 import type { System, Planetoid, Org, OrgRelation } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { colorPicker } from '../utils/colors';
-import { PLANETOID_TAGS, PlanetoidGenerationProcess } from '../data/tags';
+import { PLANETOID_TAGS } from '../data/tags';
+import type { PlanetoidGenerationProcess } from '../data/tags';
 import { findPath } from './pathfinding';
 
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
