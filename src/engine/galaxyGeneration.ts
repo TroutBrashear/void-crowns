@@ -1,7 +1,7 @@
 import type { System, Planetoid, Org, OrgRelation } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { colorPicker } from '../utils/colors';
-import { PLANETOID_TAGS } from '../data/tags';
+import { PLANETOID_TAGS, PlanetoidGenerationProcess } from '../data/tags';
 import { findPath } from './pathfinding';
 
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
@@ -40,6 +40,19 @@ function planetEnvironment(): string {
 }
 
 
+//TAG EFFECTS
+function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, planetoid: Planetoid): Planetoid {
+	const updatedPlanetoid = planetoid;
+
+	if(process.size !== undefined){
+		updatedPlanetoid.size += process.size;
+	}
+
+	return updatedPlanetoid;
+}
+
+
+
 export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[]} {
 	let newGalaxy: System[] = [];
 	let newPlanetoids: Planetoid[] = [];
@@ -71,7 +84,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			const systemPlanetoids: Planetoid[] = []; //we'll stack them all up before pushing to system's object
 
 			//set up one star. TODO: allow for binary systems?
-			const star: Planetoid = {
+			let star: Planetoid = {
 				id: nextPlanId++,
 				name: `Star ${nextSystem.name}`,
 				parentPlanetoidId: null,
@@ -90,7 +103,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			//add planets
 			const numPlanetoids = Math.floor((Math.random() * 6) + (Math.random() * 4));
 			for(let j = 0; j < numPlanetoids; j++){
-				const planet: Planetoid = {
+				let planet: Planetoid = {
 					id: nextPlanId++,
 					name: `${nextSystem.name} ${j + 1}`, //probably will have a naming algorithm using both presets and derived names like this
 					parentPlanetoidId: star.id,
@@ -106,9 +119,15 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 
 			//apply potential tag(s)
 			if(Math.floor(Math.random()*20) < 2){
-				const chosenTag = planetoidTagKeys[Math.floor(Math.random() * planetoidTagKeys.length)];
+				const chosenTagId = planetoidTagKeys[Math.floor(Math.random() * planetoidTagKeys.length)];
 
-				planet.tags.push(chosenTag);
+				const chosenTag = PLANETOID_TAGS[chosenTagId];
+
+				if(chosenTag.generationEffects){
+					planet = applyPlanetoidGenerationProcess(chosenTag.generationEffects, planet);
+				}
+
+				planet.tags.push(chosenTagId);
 			}
 
   			systemPlanetoids.push(planet);
@@ -122,7 +141,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
   			}
 
   			for(let k = 0; k < numMoons; k++){
-  				const moon: Planetoid = {
+  				let moon: Planetoid = {
   					id: nextPlanId++,
     				name: `${planet.name} ${k + 1}`, 
     				parentPlanetoidId: planet.id,
