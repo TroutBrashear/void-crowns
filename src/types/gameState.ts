@@ -6,6 +6,7 @@ export interface System {
   ownerNationId: number | null;
   planetoids: number[]; //the ids of all planetoids in this system
   assignedCharacter: number | null;
+  tags: string[];
 }
 
 export interface Process {
@@ -42,6 +43,7 @@ export interface Planetoid {
   population: number;
   buildings: Building[];
   ownerNationId: number | null;
+  tags: string[];
 }
 
 export interface Fleet {
