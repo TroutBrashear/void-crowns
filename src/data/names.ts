@@ -14,3 +14,32 @@ export const NAME_LISTS: Record<string, NameList> = {
 		fleetNames: ['Task Force 2', 'Local Defense Fleet'],
 	}
 }
+
+
+
+
+
+
+
+
+
+export const SYSTEM_NAMES: string[] = [
+	"'Anaq", "'Uqdah", "'Awa",
+	"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib",
+	"Bayd", "Bari'",
+	"Dabaran", "Dhanab", "Dubb",
+	"Firk", "Fard", "Fakkah", "Farrud", "Fakhidh",
+    "Ghul", "Gumaysa", "Ghafar",
+	"Haddar", "Humam", "Haqa'ah",
+	"Jabbar", "Jabhah", "Jathi", "Jubhah",
+	"Kawkab", "Khaytan",
+	"Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Maghriz", "Minkhar", "Maqbudah", "Maraq", "Muqadam",
+	"Najmah", "Natah", "Nasaqan",
+	"Qafzah", "Qaws", "Qayd", "Qurhah", "Qanturus", "Qalab",
+	"Risha", "Rijl",
+	"Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Surrat", "Samak",
+	"Ta'ir", "Tays", "Thu'ban", "Tarf", "Turafah", "Tuwayba'", "Thuraya",
+	"Waqi'", "Wazn",
+	"Yad",
+	"Zawiyah", "Zawraq", "Zubana"
+];

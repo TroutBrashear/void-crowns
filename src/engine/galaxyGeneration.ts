@@ -1,15 +1,14 @@
 import type { System, Planetoid, Org, OrgRelation } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
+import { findPath } from './pathfinding';
 import { colorPicker } from '../utils/colors';
 import { PLANETOID_TAGS } from '../data/tags';
 import type { PlanetoidGenerationProcess } from '../data/tags';
-import { findPath } from './pathfinding';
+import { SYSTEM_NAMES } from '../data/names';
 
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
 const WIDTH_DEFAULT = 5000;
 const HEIGHT_DEFAULT = 1500;
-
-//TODO: Create tags that can be added to systems/planetoids and alter their generation behavior
 
 
 function calcDistance(systemA: System, systemB: System): number {
@@ -62,11 +61,23 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 	//tag dicts
 	let planetoidTagKeys = Object.keys(PLANETOID_TAGS);
 
+	//naming dicts
+	let availableSystemNames = shuffle([...SYSTEM_NAMES]);
+
 	for(let i = 0; i < numSystems; i++){
+		let systemName: string;
+
+		if(availableSystemNames.length > 0){
+			systemName = availableSystemNames.pop();
+		}
+		else{
+			systemName = `System ${i+1}`;
+		}
+
 		const nextSystem: System = {
 			id: i + 1,
 			//TODO: choose random names from a bank of premade names.
-			name:`System ${i+1}`,
+			name:systemName,
 
 			position: {
 				x: Math.random() * WIDTH_DEFAULT,
