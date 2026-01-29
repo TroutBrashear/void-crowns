@@ -65,7 +65,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 	let availableSystemNames = shuffle([...SYSTEM_NAMES]);
 
 	for(let i = 0; i < numSystems; i++){
-		let systemName: string;
+		let systemName: string | undefined;
 
 		if(availableSystemNames.length > 0){
 			systemName = availableSystemNames.pop();

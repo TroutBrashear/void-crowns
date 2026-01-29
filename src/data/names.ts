@@ -34,7 +34,7 @@ export const SYSTEM_NAMES: string[] = [
 	"Jabbar", "Jabhah", "Jathi", "Jubhah",
 	"Kawkab", "Khaytan",
 	"Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Maghriz", "Minkhar", "Maqbudah", "Maraq", "Muqadam",
-	"Najmah", "Natah", "Nasaqan",
+	"Najmah", "Natah", "Nasaqan", "Narakh",
 	"Qafzah", "Qaws", "Qayd", "Qurhah", "Qanturus", "Qalab",
 	"Risha", "Rijl",
 	"Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Surrat", "Samak",
