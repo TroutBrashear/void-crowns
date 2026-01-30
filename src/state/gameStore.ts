@@ -281,7 +281,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   initializeNewGame: () => {
     //currently, generate functions are using a set value. This will later be based on game settings.
     const { systems, planetoids } = generateGalaxy(500);
-    const orgs = generateStartingOrgs(4);
+    const orgs = generateStartingOrgs(6);
 
 
     for(const currentOrg of orgs) {

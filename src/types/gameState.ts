@@ -88,6 +88,8 @@ export interface Org {
   resources: Resources;
   characters: {
 	characterPool: number[]; //ids in a pool for character recruitment
+
+	leaderId: number | null; //id for leader character
   }
 
   parentId: number | null;

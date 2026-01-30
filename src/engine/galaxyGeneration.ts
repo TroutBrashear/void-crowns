@@ -248,7 +248,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 		}
 	}
 
-  	if(closestSystem){
+  	if(closestSystem && closestOrphan){
   		closestOrphan.adjacentSystemIds.push(closestSystem.id);
   		closestSystem.adjacentSystemIds.push(closestOrphan.id);
   	}
@@ -272,6 +272,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			resources: { credits: 0, rocks: 0 },
 			characters: {
 				characterPool: [],
+				leaderId: null,
 			},
 			parentId: null,
 			childIds: [],
