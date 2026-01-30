@@ -71,7 +71,6 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 
 		const nextSystem: System = {
 			id: i + 1,
-			//TODO: choose random names from a bank of premade names.
 			name:systemName,
 
 			position: {
@@ -210,7 +209,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 
   while(true){
   	//temp normalization so we can use pathfinding
-		const tempSystemEntities: { [id: number]: System } = {};
+	const tempSystemEntities: { [id: number]: System } = {};
   	for (const system of newGalaxy) {
   		tempSystemEntities[system.id] = system;
   	}
@@ -219,7 +218,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
   	  ids: newGalaxy.map(s => s.id),
 	  };
 
-	  disconnectedSystems = newGalaxy.filter(system => {
+	disconnectedSystems = newGalaxy.filter(system => {
       if (system.id === 1) return false;
       const pathToSystem1 = findPath(system.id, 1, tempSystems);
       return pathToSystem1.length === 0;
@@ -232,23 +231,26 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 
   	const connectedSystems = newGalaxy.filter(s => !disconnectedSystems.includes(s));
 
-  	const currentOrphan = disconnectedSystems[0];
 
   	let minDistance = 1000000;
   	let closestSystem: System | null = null;
+	let closestOrphan: System | null = null;
 
-  	for(const connectedSystem of connectedSystems){
-  		const distance = calcDistance(currentOrphan, connectedSystem);
+	for(const currentOrphan of disconnectedSystems){
+		for(const connectedSystem of connectedSystems){
+			const distance = calcDistance(currentOrphan, connectedSystem);
 
-  		if(distance < minDistance) {
-  			minDistance = distance;
-  			closestSystem = connectedSystem;
-  		}
-  	}
+			if(distance < minDistance) {
+				minDistance = distance;
+				closestSystem = connectedSystem;
+				closestOrphan = currentOrphan;
+			}
+		}
+	}
 
   	if(closestSystem){
-  		currentOrphan.adjacentSystemIds.push(closestSystem.id);
-  		closestSystem.adjacentSystemIds.push(currentOrphan.id);
+  		closestOrphan.adjacentSystemIds.push(closestSystem.id);
+  		closestSystem.adjacentSystemIds.push(closestOrphan.id);
   	}
   }
 

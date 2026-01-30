@@ -24,7 +24,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 
 
 export const SYSTEM_NAMES: string[] = [
-	"'Anaq", "'Uqdah", "'Awa",
+	"'Anaq", "'Uqdah", "'Awa", "'Aqiq",
 	"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib",
 	"Bayd", "Bari'",
 	"Dabaran", "Dhanab", "Dubb",
@@ -40,6 +40,6 @@ export const SYSTEM_NAMES: string[] = [
 	"Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Surrat", "Samak",
 	"Ta'ir", "Tays", "Thu'ban", "Tarf", "Turafah", "Tuwayba'", "Thuraya",
 	"Waqi'", "Wazn",
-	"Yad",
+	"Yad", "Yaqut",
 	"Zawiyah", "Zawraq", "Zubana"
 ];
