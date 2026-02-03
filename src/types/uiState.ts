@@ -5,7 +5,7 @@ export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_mod
 
 export type AssignType = "assign_character";
 
-export type PanelType = "diplomacy_panel";
+export type PanelType = "diplomacy_panel" | "politics_panel";
 
 export interface NotificationData {
   notificationType: string | null;

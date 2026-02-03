@@ -8,6 +8,7 @@ import PlanetoidSelectModal from './PlanetoidSelectModal';
 import CharacterAssignModal from './assignment_modals/CharacterAssignModal';
 
 import DiplomacyPanel from '../panels/DiplomacyPanel';
+import PoliticsPanel from '../panels/PoliticsPanel';
 
 export function ModalManager() {
 	const activeModal = useUiStore(state => state.activeModal);
@@ -41,6 +42,8 @@ export function ModalManager() {
 	switch(activePanel){
 		case 'diplomacy_panel':
 			panel = <DiplomacyPanel/>; break;
+		case 'politics_panel':
+			panel = <PoliticsPanel/>; break;
 	}
 
 	return(

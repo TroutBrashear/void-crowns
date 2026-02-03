@@ -15,6 +15,7 @@ export function Header() {
       <div className={styles.controls}>
         <TimeControls />
         <button onClick = {() => openPanel("diplomacy_panel")}>Diplomacy</button>
+        <button onClick = {() => openPanel("politics_panel")}>Politics</button>
       </div>
        <ResourcePanel resources={playerOrg.resources}/>
     </header>
