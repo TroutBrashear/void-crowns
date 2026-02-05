@@ -7,6 +7,8 @@ export type AssignType = "assign_character";
 
 export type PanelType = "diplomacy_panel" | "politics_panel";
 
+export type AppState = 'main_menu' | 'org_creation' | 'in_game';
+
 export interface NotificationData {
   notificationType: string | null;
   notificationMessage: string | null;
@@ -15,6 +17,7 @@ export interface NotificationData {
 }
 
 export interface UiState {
+  appState: AppState;
   activeModal: ModalType | null;
   childAssignModal: AssignType | null;
   activePanel: PanelType | null;
@@ -29,6 +32,8 @@ export interface ShowNotificationPayload {
 }
 
 export interface UiStoreMethods {
+  setAppState: (appState: AppState) => void;
+
   openModal: (modal: ModalType) => void;
   changeModal: (modal: ModalType, newSelection: Selection) => void;
   closeModal: () => void;

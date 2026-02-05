@@ -4,6 +4,8 @@ import type { Selection } from '../types/gameState';
 
 export const useUiStore = create<UiStoreState>((set, get) => ({
 
+	appState: 'main_menu',
+
 	activeModal: null,
 
 	selection: null,
@@ -21,6 +23,10 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
   		timeOutId: null,
 	},
 
+
+	setAppState: (appState: AppState) => {
+			set({appState: appState});
+	},
 
 	openModal: (modal: ModalType) => {
 		set({ activeModal: modal, childAssignModal: null });

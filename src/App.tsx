@@ -5,8 +5,10 @@ import { useState } from 'react';
 import { Header } from './components/Header';
 import type { Selection } from './types/gameState'; 
 import { useUiStore } from './state/uiStore';
+import type { AppState } from './state/uiState';
 import { useGameStore } from './state/gameStore';
 import { ModalManager } from './components/modals/ModalManager';
+import { OrgCreation } from './components/OrgCreation';
 import Notification  from './components/Notification';
 
 function App() {
@@ -17,8 +19,8 @@ function App() {
   const initializeNewGame = useGameStore(state => state.initializeNewGame);
 
 
-  const [appState, setAppState] = useState<'main_menu' | 'in_game'>('main_menu');
-
+  const appState = useUiStore(state => state.appState);
+  const setAppState = useUiStore(state => state.setAppState);
 
   const handleSelection = (newSelection: Selection | null) => {
       setSelection(newSelection);
@@ -41,6 +43,10 @@ function App() {
       }
   };
 
+  const initOrg = () => {
+    setAppState('org_creation');
+  };
+
   const startGame = () => {
     setAppState('in_game');
     initializeNewGame();
@@ -51,8 +57,13 @@ function App() {
     return (
       <div>
         <h1>VOID CROWNS (Main Menu)</h1>
-        <button onClick={startGame}>Start New Game</button>
+        <button onClick= {startGame}>Start New Game</button>
       </div>
+    );
+  }
+  else if(appState === 'org_creation') {
+    return (
+      <OrgCreation/>
     );
   }
 

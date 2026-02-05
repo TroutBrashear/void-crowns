@@ -9,6 +9,7 @@ function PoliticsPanel() {
     const getOrgById = useGameStore(state => state.getOrgById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
 
+    const setSelection = useUiStore(state => state.setSelection);
 
     const playerOrg = getOrgById(1);
 
