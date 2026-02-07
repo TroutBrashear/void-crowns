@@ -47,17 +47,14 @@ function App() {
     setAppState('org_creation');
   };
 
-  const startGame = () => {
-    setAppState('in_game');
-    initializeNewGame();
-  };
+
 
 
    if (appState === 'main_menu') {
     return (
       <div>
         <h1>VOID CROWNS (Main Menu)</h1>
-        <button onClick= {startGame}>Start New Game</button>
+        <button onClick= {initOrg}>Start New Game</button>
       </div>
     );
   }
