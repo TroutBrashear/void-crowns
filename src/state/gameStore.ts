@@ -278,11 +278,13 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 	set(engineAssignCharacter(get(), charId, assignmentTargetId, assignmentType));
   },
 
-  initializeNewGame: () => {
+  initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string }) => {
     //currently, generate functions are using a set value. This will later be based on game settings.
     const { systems, planetoids } = generateGalaxy(500);
-    const orgs = generateStartingOrgs(6);
+    let orgs = generateStartingOrgs(6);
 
+    orgs[0].flavor.name = payload.playerOrgName;
+    orgs[0].flavor.color = payload.playerOrgColor;
 
     for(const currentOrg of orgs) {
       //temp solution, can randomize later

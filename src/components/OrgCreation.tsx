@@ -12,8 +12,8 @@ export function OrgCreation() {
 
 
     const startGame = () => {
+        initializeNewGame({playerOrgName: name, playerOrgColor: color});
         setAppState('in_game');
-        initializeNewGame();
     };
 
     return (

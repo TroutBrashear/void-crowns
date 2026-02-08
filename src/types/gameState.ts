@@ -245,7 +245,7 @@ export interface GameActions {
   processPlayerDiplo: (payload: { requestId: number, accepted: boolean }) => void;
   sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType }) => void;
   colonizePlanetoid: (payload: ColonizePayload) => void;
-  initializeNewGame: () => void;
+  initializeNewGame: (payload: {playerOrgName: string, playerOrgColor: string} ) => void;
   assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: string}) => void;
 }
 
