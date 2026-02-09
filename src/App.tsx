@@ -4,7 +4,6 @@ import { GameClock } from './components/GameClock';
 import { Header } from './components/Header';
 import type { Selection } from './types/gameState'; 
 import { useUiStore } from './state/uiStore';
-import { useGameStore } from './state/gameStore';
 import { ModalManager } from './components/modals/ModalManager';
 import { OrgCreation } from './components/OrgCreation';
 import Notification  from './components/Notification';
