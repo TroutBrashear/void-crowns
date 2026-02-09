@@ -9,11 +9,20 @@ function PoliticsPanel() {
     const getOrgById = useGameStore(state => state.getOrgById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
 
-    const setSelection = useUiStore(state => state.setSelection);
-
     const playerOrg = getOrgById(1);
 
-    let leaderChar = getCharacterById(playerOrg.characters.leaderId);
+    //something is seriously wrong in this case...
+    if(!playerOrg){
+      return null;
+    }
+
+
+
+    let leaderChar;
+    if(playerOrg.characters.leaderId){
+      leaderChar = getCharacterById(playerOrg.characters.leaderId);
+    }
+
 
     return (
       <div className={styles.panel}>

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { UiStoreState, ModalType, AssignType, ShowNotificationPayload, PanelType } from '../types/uiState';
+import type { UiStoreState, ModalType, AssignType, ShowNotificationPayload, PanelType, AppState } from '../types/uiState';
 import type { Selection } from '../types/gameState'; 
 
 export const useUiStore = create<UiStoreState>((set, get) => ({
@@ -25,7 +25,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 
 
 	setAppState: (appState: AppState) => {
-			set({appState: appState});
+		set({appState: appState});
 	},
 
 	openModal: (modal: ModalType) => {

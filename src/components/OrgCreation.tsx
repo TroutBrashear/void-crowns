@@ -5,7 +5,7 @@ import { useGameStore } from '../state/gameStore';
 export function OrgCreation() {
 
     const [name, setName] = useState('');
-    const [color, setColor] = useState([]);
+    const [color, setColor] = useState('#ff0000');
 
     const setAppState = useUiStore(state => state.setAppState);
     const initializeNewGame = useGameStore(state => state.initializeNewGame);
