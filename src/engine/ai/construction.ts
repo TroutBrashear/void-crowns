@@ -7,12 +7,15 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 
 	let thinkingOrg = nextState.orgs.entities[orgId];
 	const ownedSystems = currentState.systems.ids.map(id => currentState.systems.entities[id]).filter(system => system && system.ownerNationId === orgId);
-	
+	const ownedFleets = currentState.fleets.ids.map(id => currentState.fleets.entities[id]).filter(fleet => fleet && fleet.ownerNationId === orgId);
+
 	//thinkingBlock
-	//let militaryPriority = false;
+	let militaryPriority = false;
 	//let colonyPriority = false;
 	
-	
+	if(ownedFleets.length < (ownedSystems.length / 5)){
+		militaryPriority = true;
+	}
 	
 	//ships
 	if(thinkingOrg.resources.credits > 16000){
@@ -24,7 +27,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 	}
 	
 	//fleets
-	if(thinkingOrg.resources.credits > 10000){
+	if(thinkingOrg.resources.credits > 10000 && militaryPriority){
 		//build a fleet
 		const buildLocation = ownedSystems[Math.floor(Math.random() * ownedSystems.length)].id;
 

@@ -1,11 +1,9 @@
 import './App.css'
 import Map from './components/map';
 import { GameClock } from './components/GameClock';
-import { useState } from 'react';
 import { Header } from './components/Header';
 import type { Selection } from './types/gameState'; 
 import { useUiStore } from './state/uiStore';
-import type { AppState } from './state/uiState';
 import { useGameStore } from './state/gameStore';
 import { ModalManager } from './components/modals/ModalManager';
 import { OrgCreation } from './components/OrgCreation';
@@ -15,8 +13,6 @@ function App() {
 
   const setSelection = useUiStore(state => state.setSelection);
   const openModal = useUiStore(state => state.openModal);
-
-  const initializeNewGame = useGameStore(state => state.initializeNewGame);
 
 
   const appState = useUiStore(state => state.appState);
