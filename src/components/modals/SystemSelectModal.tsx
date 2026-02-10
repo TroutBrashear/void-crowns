@@ -17,6 +17,9 @@ function SystemSelectModal() {
   const buildFleet = useGameStore(state => state.buildFleet);
   const buildShip = useGameStore(state => state.buildShip);
 
+  if (!selection) {
+    return null;
+  }
 
   const systemToShow =
   (selection?.type === 'system')

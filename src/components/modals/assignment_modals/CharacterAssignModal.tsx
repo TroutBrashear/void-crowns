@@ -23,14 +23,14 @@ function CharacterAssignModal() {
     if(characterAssignTarget?.position === 'admiral'){
         targetEntity = getFleetById(characterAssignTarget.targetId);
         if(targetEntity){
-            targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : null;
+            targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
             targetName = targetEntity.name;
         }
     }
     else if(characterAssignTarget?.position === 'governor'){
         targetEntity = getSystemById(characterAssignTarget.targetId);
         if(targetEntity){
-            targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : null;
+            targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
             targetName = targetEntity.name;
         }
     }

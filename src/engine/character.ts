@@ -93,7 +93,7 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 		newSystems[assignmentTargetId] = { ...newSystems[assignmentTargetId], assignedCharacter: charId };
 	}
 	else if(assignmentType === 'leader'){
-		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], characters: { ...newOrgs[assignmentTargetId], leader: charId }};
+		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], characters: { ...newOrgs[assignmentTargetId], leaderId: charId }};
 	}
 	else{
 		return functionState;
@@ -130,7 +130,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	
 	let newFleets = { ...currentState.fleets.entities };
 	let newSystems = { ...currentState.systems.entities };
-	let newOrgs = { ...functionState.orgs.entities };
+	let newOrgs = { ...currentState.orgs.entities };
 	if(newCharacters[charId].assignment.type === 'admiral'){
 		newFleets[newCharacters[charId].assignment.id] = { ...newFleets[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
@@ -138,7 +138,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 		newSystems[newCharacters[charId].assignment.id] = { ...newSystems[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else if(newCharacters[charId].assignment.type === 'leader'){
-		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], characters: { ...newOrgs[assignmentTargetId], leader: null }};
+		newOrgs[newCharacters[charId].assignment.id] = { ...newOrgs[newCharacters[charId].assignment.id], characters: { ...newOrgs[newCharacters[charId].assignment.id], leaderId: null }};
 	}
 	else{
 		return currentState;
@@ -162,6 +162,10 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 		systems: {
 			...currentState.systems,
 			entities: newSystems,
+		},
+		orgs: {
+			...functionState.orgs,
+			entities: newOrgs,
 		},
 	};
 }

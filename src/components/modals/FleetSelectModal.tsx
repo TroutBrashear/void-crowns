@@ -11,6 +11,9 @@ function FleetSelectModal() {
   const getCharacterById = useGameStore(state => state.getCharacterById);
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
+  if (!selection) {
+    return null;
+  }
 
   const fleetToShow = 
     (selection?.type === 'fleet') 
