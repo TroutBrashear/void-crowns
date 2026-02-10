@@ -5,6 +5,8 @@ import styles from './Panel.module.css';
 function PoliticsPanel() {
 
     const closePanel = useUiStore(state => state.closePanel);
+    const openAssignModal = useUiStore(state => state.openAssignModal);
+
 
     const getOrgById = useGameStore(state => state.getOrgById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
@@ -32,6 +34,7 @@ function PoliticsPanel() {
 
         <h3>Leader:</h3>
         {leaderChar ? <p>{leaderChar.name}</p> : <p>Vacant</p>}
+        <button onClick={() => openAssignModal("assign_character", {targetId: 1, position: 'leader'})}>Assign new Leader</button>
       </div>
     );
 

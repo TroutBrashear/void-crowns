@@ -93,7 +93,7 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 		newSystems[assignmentTargetId] = { ...newSystems[assignmentTargetId], assignedCharacter: charId };
 	}
 	else if(assignmentType === 'leader'){
-		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], characters: { ...newOrgs[assignmentTargetId], leaderId: charId }};
+		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], characters: { ...newOrgs[assignmentTargetId].characters, leaderId: charId }};
 	}
 	else{
 		return functionState;
@@ -138,15 +138,14 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 		newSystems[newCharacters[charId].assignment.id] = { ...newSystems[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else if(newCharacters[charId].assignment.type === 'leader'){
-		newOrgs[newCharacters[charId].assignment.id] = { ...newOrgs[newCharacters[charId].assignment.id], characters: { ...newOrgs[newCharacters[charId].assignment.id], leaderId: null }};
+		newOrgs[newCharacters[charId].assignment.id] = { ...newOrgs[newCharacters[charId].assignment.id], characters: { ...newOrgs[newCharacters[charId].assignment.id].characters, leaderId: null }};
 	}
 	else{
 		return currentState;
 	}
 	
 	
-	//do this last, as we needed to reference assignment above
-	
+	//do this last, as we needed to reference the assignment above
 	newCharacters[charId] = { ...newCharacters[charId], assignment: null} 
 	
 	return {
@@ -164,7 +163,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 			entities: newSystems,
 		},
 		orgs: {
-			...functionState.orgs,
+			...currentState.orgs,
 			entities: newOrgs,
 		},
 	};
