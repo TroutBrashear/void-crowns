@@ -1,12 +1,12 @@
 import { useUiStore } from '../../../state/uiStore';
 import { useGameStore } from '../../../state/gameStore';
 import { useState } from 'react';
-import type { Fleet, System } from '../../../types/gameState';
+import type { Fleet, System, Org } from '../../../types/gameState';
 import styles from './AssignModal.module.css';
 
 
 function CharacterAssignModal() {
-    const selection = useUiStore(state => state.selection);
+    const characterAssignTarget = useUiStore(state => state.characterAssignTarget);
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
     const getOrgById = useGameStore(state => state.getOrgById);
@@ -17,13 +17,29 @@ function CharacterAssignModal() {
 
     const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
 
-    let targetEntity: Fleet | System | undefined;
-
-    if(selection?.type === 'fleet'){
-        targetEntity = getFleetById(selection.id);
+    let targetEntity: Fleet | System | Org | undefined;
+    let targetOwnerOrg: Org | undefined;
+    let targetName: string | undefined;
+    if(characterAssignTarget?.position === 'admiral'){
+        targetEntity = getFleetById(characterAssignTarget.targetId);
+        if(targetEntity){
+            targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : null;
+            targetName = targetEntity.name;
+        }
     }
-    else if(selection?.type === 'system'){
-        targetEntity = getSystemById(selection.id);
+    else if(characterAssignTarget?.position === 'governor'){
+        targetEntity = getSystemById(characterAssignTarget.targetId);
+        if(targetEntity){
+            targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : null;
+            targetName = targetEntity.name;
+        }
+    }
+    else if(characterAssignTarget?.position === 'leader'){
+        targetEntity = getOrgById(characterAssignTarget.targetId);
+        if(targetEntity){
+            targetOwnerOrg = targetEntity;
+            targetName = targetEntity.flavor.name;
+        }
     }
     else{
         return null;
@@ -33,7 +49,6 @@ function CharacterAssignModal() {
         return null;
     }
 
-    const targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : null;
 
     if(!targetOwnerOrg){
         return null;
@@ -44,7 +59,7 @@ function CharacterAssignModal() {
 
     return(
         <div className={styles.assignModal}>
-            <h3>Assigning Character to {targetEntity.name}</h3>
+            <h3>Assigning Character to {targetName}</h3>
 
             <div>
                 {poolCharacters.map(character => {
@@ -57,7 +72,7 @@ function CharacterAssignModal() {
             </div>
 
             <button onClick={() => {if(selectedCharacter){
-                assignCharacter({charId: selectedCharacter, assignmentTargetId: targetEntity.id, assignmentType: selection.type}); closeAssignModal();}}}>Assign </button>
+                assignCharacter({charId: selectedCharacter, assignmentTargetId: targetEntity.id, assignmentType: characterAssignTarget.position}); closeAssignModal();}}}>Assign </button>
 
             <button onClick={closeAssignModal}>Close</button>
         </div>

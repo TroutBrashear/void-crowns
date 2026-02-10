@@ -12,6 +12,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 	navStack: [],
 
 	childAssignModal: null,
+	characterAssignTarget: null,
 
 	activePanel: null,
 
@@ -58,8 +59,8 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
   		set({ activeModal: null, selection: null, navStack: [], childAssignModal: null });
   	},
 
-	openAssignModal: (modal: AssignType) => {
-		set({childAssignModal: modal });
+	openAssignModal: (modal: AssignType, target: CharacterAssignTarget) => {
+		set({childAssignModal: modal, characterAssignTarget: target });
 	},
 
 	closeAssignModal: () => {

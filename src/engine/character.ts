@@ -85,11 +85,15 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	//then the other way from target
 	let newFleets = { ...functionState.fleets.entities };
 	let newSystems = { ...functionState.systems.entities };
-	if(assignmentType === 'fleet'){
+	let newOrgs = { ...functionState.orgs.entities };
+	if(assignmentType === 'admiral'){
 		newFleets[assignmentTargetId] = { ...newFleets[assignmentTargetId], assignedCharacter: charId };
 	}
-	else if(assignmentType === 'system'){
+	else if(assignmentType === 'governor'){
 		newSystems[assignmentTargetId] = { ...newSystems[assignmentTargetId], assignedCharacter: charId };
+	}
+	else if(assignmentType === 'leader'){
+		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], characters: { ...newOrgs[assignmentTargetId], leader: charId }};
 	}
 	else{
 		return functionState;
@@ -109,6 +113,10 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 			...functionState.systems,
 			entities: newSystems,
 		},
+		orgs: {
+			...functionState.orgs,
+			entities: newOrgs,
+		},
 	};
 }
 
@@ -122,11 +130,15 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	
 	let newFleets = { ...currentState.fleets.entities };
 	let newSystems = { ...currentState.systems.entities };
-	if(newCharacters[charId].assignment.type === 'fleet'){
+	let newOrgs = { ...functionState.orgs.entities };
+	if(newCharacters[charId].assignment.type === 'admiral'){
 		newFleets[newCharacters[charId].assignment.id] = { ...newFleets[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
-	else if(newCharacters[charId].assignment.type === 'system'){
+	else if(newCharacters[charId].assignment.type === 'governor'){
 		newSystems[newCharacters[charId].assignment.id] = { ...newSystems[newCharacters[charId].assignment.id], assignedCharacter: null };
+	}
+	else if(newCharacters[charId].assignment.type === 'leader'){
+		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], characters: { ...newOrgs[assignmentTargetId], leader: null }};
 	}
 	else{
 		return currentState;

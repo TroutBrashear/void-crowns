@@ -5,6 +5,8 @@ export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_mod
 
 export type AssignType = "assign_character";
 
+export type CharacterAssignments = "leader" | "admiral" | "governor";
+
 export type PanelType = "diplomacy_panel" | "politics_panel";
 
 export type AppState = 'main_menu' | 'org_creation' | 'in_game';
@@ -16,10 +18,16 @@ export interface NotificationData {
   timeOutId: number | null;
 }
 
+export interface CharacterAssignTarget {
+  targetId: number;
+  position: CharacterAssignments;
+}
+
 export interface UiState {
   appState: AppState;
   activeModal: ModalType | null;
   childAssignModal: AssignType | null;
+  characterAssignTarget: CharacterAssignTarget | null;
   activePanel: PanelType | null;
   selection: Selection | null;
   notification: NotificationData;
@@ -40,7 +48,7 @@ export interface UiStoreMethods {
   backModal: () => void;
   setSelection: (selection: Selection | null) => void;
 
-  openAssignModal: (modal: AssignType) => void;
+  openAssignModal: (modal: AssignType, target: CharacterAssignTarget) => void;
   closeAssignModal: () => void;
 
   openPanel: (panel: PanelType) => void;
