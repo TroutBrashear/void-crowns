@@ -65,16 +65,16 @@ function CharacterAssignModal() {
                 {poolCharacters.map(character => {
                     if (!character) return null;
                     return(
-                        <button key={character.id} onClick={() => setSelectedCharacter(character.id)}>
+                        <button key={character.id} className={`${styles.characterButton} ${character.id === selectedCharacter ? styles.selected : ''}`} onClick={() => setSelectedCharacter(character.id)}>
                         {character.name}
                         </button>);
                 })}
             </div>
 
-            <button onClick={() => {if(selectedCharacter){
+            <button  disabled={!selectedCharacter} className={styles.characterButton} onClick={() => {if(selectedCharacter){
                 assignCharacter({charId: selectedCharacter, assignmentTargetId: targetEntity.id, assignmentType: characterAssignTarget.position}); closeAssignModal();}}}>Assign </button>
 
-            <button onClick={closeAssignModal}>Close</button>
+            <button className={styles.characterButton} onClick={closeAssignModal}>Close</button>
         </div>
     );
 }
