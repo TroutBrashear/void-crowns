@@ -58,17 +58,15 @@ export function processEconomy(currentState: GameState): GameState {
 				}
 			}
 
-			if(systemCreditIncome > 0){
-				const currentOrg = newOrgs[systemOwner];
-				newOrgs[systemOwner] = {
-					...currentOrg,
-					resources: {
-						...currentOrg.resources,
-						credits: currentOrg.resources.credits + systemCreditIncome,
-						rocks: currentOrg.resources.rocks + systemRockIncome,
-					}
-				};
-			}
+			const currentOrg = newOrgs[systemOwner];
+			newOrgs[systemOwner] = {
+				...currentOrg,
+				resources: {
+					...currentOrg.resources,
+					credits: currentOrg.resources.credits + systemCreditIncome,
+					rocks: currentOrg.resources.rocks + systemRockIncome,
+				}
+			};
 		}
 
 	}
