@@ -14,18 +14,18 @@ export const BUILDING_CATALOG: Record<BuildingClass, BuildingDefinition> = {
 	type: 'mine',
 	cost: { credits: 500, rocks: 0 },
 	process: 
-		{ input: { credits: 0, rocks: 0 }, output: { credits: 0, rocks: 100 } } 
+		{ output: { rocks: 100 } }
   },
   powerPlant: {
     type: 'powerPlant',
     cost: { credits: 300, rocks: 0 },
     process: 
-      { input: { credits: 0, rocks: 0 }, output: { credits: 50, rocks: 0 } }
+      { output: { credits: 50 } }
   },
   militaryBase: {
     type: 'militaryBase',
     cost: { credits: 1000, rocks: 0 },
     process: 
-		{ input: { credits: 0, rocks: 0 }, output: { credits: 0, rocks: 0 } }
+		{ }
   }
 }
