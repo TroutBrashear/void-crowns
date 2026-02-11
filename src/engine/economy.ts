@@ -46,6 +46,8 @@ export function processEconomy(currentState: GameState): GameState {
 						//processes are in building definition
 						const bDefinition = BUILDING_CATALOG[building.type];
 						
+
+						//processes now have Partial<Resources>, so any of these may be undefined
 						//output processing
 						systemCreditIncome += bDefinition.process.output?.credits ?? 0;
 						systemRockIncome += bDefinition.process.output?.rocks ?? 0;
