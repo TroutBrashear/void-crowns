@@ -5,7 +5,9 @@ import { processAiBuildPlanning } from './ai/planning';
 
 export function processAiTurn(currentState: GameState, orgId: number): GameState {
 
-  let nextState = processAiBuildPlanning(currentState, orgId)
+  let nextState = processAiBuildPlanning(currentState, orgId);
+
+
   
   nextState = processAiFleetMoves(nextState, orgId);
   nextState = processAiShipMoves(nextState, orgId);

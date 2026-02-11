@@ -1,5 +1,37 @@
-import type { GameState } from '../../types/gameState';
+import type { GameState, Character } from '../../types/gameState';
+import { evaluateSystemValue } from '../colonization';
 
+export function evaluateBestCandidate(assignmentType: string, characters: Character[]): Character {
+	let bestCandidate = Character;
+
+	for(character of characters){
+		bestCandidate = character;
+	}
+
+	return bestCandidate;
+}
+
+export function processAiCharacterManagement(currentState: GameState, orgId: number): GameState {
+	let newOrgs = { ...currentState.orgs.entities };
+	let thinkingOrg = { ...currentState.orgs.entities[orgId]};
+
+	let characterPool = thinkingOrg.characters.characterPool.map(characterId => currentState.characters.entities[characterId]);
+
+	let nextState = { ...currentState };
+
+	if(!thinkingOrg){
+		return currentState;
+	}
+
+	if(!thinkingOrg.characters.leader){
+		let bestCandidateId = evaluateBestCandidate('leader', characterPool).id;
+		nextState = engineAssignCharacter(nextState, bestCandidateId, orgId, 'leader');
+	}
+
+	return {
+		...currentState
+	}
+}
 
 export function processAiBuildPlanning(currentState: GameState, orgId: number): GameState {
 	let newOrgs = { ...currentState.orgs.entities };
@@ -17,7 +49,9 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	});
 	const frontierSystems = Array.from(neighborIds).filter(id => currentState.systems.entities[id].ownerNationId !== orgId);
 
+	const weightedSystems = frontierSystems.map(system => ({system, valueScore: evaluateSystemValue(currentState, system)})).sort((a,b) => b.valueScore - a.valueScore);
 
+	const finalTargets = weightedSystems.slice(0,3).map(object => object.system);
 
 	let newBuildPlan =  [...thinkingOrg.contextHistory.buildPlan];
 	
@@ -25,8 +59,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 		newBuildPlan.push('mine');
 	}
 	
-	
-	newOrgs[orgId] = { ...thinkingOrg, contextHistory: { ...thinkingOrg.contextHistory, buildPlan: newBuildPlan, targetSystems: frontierSystems }};
+	newOrgs[orgId] = { ...thinkingOrg, contextHistory: { ...thinkingOrg.contextHistory, buildPlan: newBuildPlan, targetSystems: finalTargets }};
 	
 	return {
 		...currentState,
