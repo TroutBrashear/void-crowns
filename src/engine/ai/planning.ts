@@ -1,10 +1,11 @@
 import type { GameState, Character } from '../../types/gameState';
 import { evaluateSystemValue } from '../colonization';
+import { engineAssignCharacter } from '../character';
 
 export function evaluateBestCandidate(assignmentType: string, characters: Character[]): Character {
-	let bestCandidate = Character;
+	let bestCandidate = null;
 
-	for(character of characters){
+	for(const character of characters){
 		bestCandidate = character;
 	}
 
@@ -12,7 +13,6 @@ export function evaluateBestCandidate(assignmentType: string, characters: Charac
 }
 
 export function processAiCharacterManagement(currentState: GameState, orgId: number): GameState {
-	let newOrgs = { ...currentState.orgs.entities };
 	let thinkingOrg = { ...currentState.orgs.entities[orgId]};
 
 	let characterPool = thinkingOrg.characters.characterPool.map(characterId => currentState.characters.entities[characterId]);
@@ -23,7 +23,7 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 		return currentState;
 	}
 
-	if(!thinkingOrg.characters.leader){
+	if(!thinkingOrg.characters.leaderId){
 		let bestCandidateId = evaluateBestCandidate('leader', characterPool).id;
 		nextState = engineAssignCharacter(nextState, bestCandidateId, orgId, 'leader');
 	}

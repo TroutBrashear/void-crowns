@@ -28,7 +28,7 @@ export function processEconomy(currentState: GameState): GameState {
 			}
 
 			for(const planetoidId of currentSystem.planetoids){
-				let currentPlanetoid = currentState.planetoids.entities[planetoidId];
+				let currentPlanetoid = { ...currentState.planetoids.entities[planetoidId]};
 
 				//check population for credits income
 				if(currentPlanetoid.population > 0){
