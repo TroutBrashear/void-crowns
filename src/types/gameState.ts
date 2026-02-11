@@ -1,5 +1,5 @@
 export interface System {
-  id: number;
+  readonly id: number;
   name: string;
   position: { x: number; y: number };
   adjacentSystemIds: number[];
@@ -24,7 +24,7 @@ export interface CharProcess {
 export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase';
 
 export interface Building {
-  id: number;
+  readonly id: number;
   type: BuildingClass;
   ownerNationId: number;
   //todo: likely have flags for abilities enabled on a planet - ie: fleet building.
@@ -33,7 +33,7 @@ export interface Building {
 export type PlanetoidClassification = 'gravWell' | 'planet' | 'moon' | 'asteroid' | 'station';
 
 export interface Planetoid {
-  id: number;
+  readonly id: number;
   name: string;
   parentPlanetoidId: number | null;
   locationSystemId: number;
@@ -47,7 +47,7 @@ export interface Planetoid {
 }
 
 export interface Fleet {
-  id: number;
+  readonly id: number;
   name: string;
   ownerNationId: number;
   locationSystemId: number;
@@ -59,7 +59,7 @@ export interface Fleet {
 export type ShipType = 'colony_ship';
 
 export interface Ship {
-  id: number;
+  readonly id: number;
   name: string;
   type: ShipType;
   ownerNationId: number;
@@ -79,7 +79,7 @@ export interface OrgRelation {
 }
 
 export interface Org {
-  id: number;
+  readonly id: number;
   flavor:{
 	name: string;
 	color: string;
@@ -117,7 +117,7 @@ export interface charAssignment {
 export type SkillName = 'navalCombat' | 'administration';
 
 export interface Character {
-  id: number;
+  readonly id: number;
   name: string;
   age: number; 
   traits: string[];
