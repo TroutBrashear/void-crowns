@@ -4,9 +4,19 @@ import { engineAssignCharacter } from '../character';
 
 export function evaluateBestCandidate(assignmentType: string, characters: Character[]): Character {
 	let bestCandidate = null;
+	let winningScore = -1;
 
 	for(const character of characters){
-		bestCandidate = character;
+		let characterScore = 0;
+
+		if(assignmentType === 'leader'){
+			characterScore += character.skills.navalCombat + character.skills.administration*2;
+		}
+
+		if(characterScore > winningScore){
+			bestCandidate = character;
+			winningScore = characterScore;
+		}
 	}
 
 	return bestCandidate;

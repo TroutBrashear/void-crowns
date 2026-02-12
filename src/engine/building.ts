@@ -144,7 +144,7 @@ export function canBuildBuilding(currentState: GameState, _planetoidId: number, 
     }
 	
 	//check cost - can org afford the Building
-	if((org.resources.credits < bDefinition.cost.credits || org.resources.rocks < bDefinition.cost.credits)){
+	if((org.resources.credits < bDefinition.cost.credits || org.resources.rocks < bDefinition.cost.rocks)){
 		return false;
 	}
 	
