@@ -276,6 +276,6 @@ export function processCharacterCycles(currentState: GameState): GameState {
 		orgs: { 
             ...functionState.orgs,
             entities: newOrgs,
-        },d
+        },
 	};
 }
