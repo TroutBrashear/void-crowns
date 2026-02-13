@@ -91,7 +91,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	if(thinkingOrg.contextHistory.previousIncome.rocks < 300){
 		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);
 		let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
-		newBuildPlan.push({buildingType: 'mine', location: targetPlanetoid });
+		newBuildPlan.push({buildingType: 'mine', location: targetPlanetoid.id });
 	}
 	
 	newOrgs[orgId] = { ...thinkingOrg, contextHistory: { ...thinkingOrg.contextHistory, buildPlan: newBuildPlan, targetSystems: finalTargets }};
