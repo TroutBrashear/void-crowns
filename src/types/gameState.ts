@@ -1,3 +1,5 @@
+import type { BuildingIntent } from './aiState';
+
 export interface System {
   readonly id: number;
   name: string;
@@ -102,7 +104,7 @@ export interface Org {
 
   contextHistory: {
 	previousIncome: Resources;
-	buildPlan: BuildingClass[];
+	buildPlan: BuildingIntent[];
     targetSystems: number[];
   }
 

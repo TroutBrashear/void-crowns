@@ -1,7 +1,7 @@
 import type { BuildingClass } from './gameState';
 
 
-export interface buildingIntent {
+export interface BuildingIntent {
     location: number; //the ID of a planetoid
     buildingType: BuildingClass;
 }
