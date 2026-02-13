@@ -12,6 +12,12 @@ export function evaluateBestCandidate(assignmentType: string, characters: Charac
 		if(assignmentType === 'leader'){
 			characterScore += character.skills.navalCombat + character.skills.administration*2;
 		}
+		else if(assignmentType === 'admiral'){
+			characterScore += character.skills.navalCombat;
+		}
+		else if(assignmentType === 'governor'){
+			characterScore += character.skills.administration;
+		}
 
 		if(characterScore > winningScore){
 			bestCandidate = character;
@@ -43,7 +49,7 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 	}
 }
 
-export function evaluateBuildLocation(buildingType: BuildingClass, locations: Planetoid[]): Planetoid {
+export function evaluateBuildLocation(buildingType: BuildingClass, locations: Planetoid[]): Planetoid | null {
 	if (locations.length === 0){
 		return null;
 	}
@@ -53,7 +59,6 @@ export function evaluateBuildLocation(buildingType: BuildingClass, locations: Pl
 
 	for(const location of locations){
 		let locationScore = 0;
-
 
 		locationScore += (location.size / 2) - (location.buildings.length);
 
