@@ -3,7 +3,7 @@ import { findPath } from '../pathfinding';
 import { getHabitablesInSystem, colonizePlanetoid } from '../colonization';
 
 export function processAiFleetMoves(currentState: GameState, orgId: number): GameState {
-	
+
 	const allFleets = Object.values(currentState.fleets.entities);
 	const orgFleets = allFleets.filter(fleet => fleet.ownerNationId === orgId);
 
@@ -52,7 +52,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
         		...fleet,
       			movementPath: newPath,
       		};
-      
+
      		newFleetEntities[fleet.id] = updatedFleet;
 
     		hasMadeChanges = true;
@@ -65,7 +65,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 	      ...currentState,
     	  fleets: {
     	    ...currentState.fleets,
-    	    entities: newFleetEntities, 
+    	    entities: newFleetEntities,
       	  },
     	};
   	}
@@ -119,9 +119,12 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
      		continue;
     	}
 
+		console.log(thinkingOrg.contextHistory.targetSystems);
+
     	const targetSystemId = thinkingOrg.contextHistory.targetSystems.find(id => {
      		const system = nextState.systems.entities[id];
-      		const isTargeted = Object.values(newShipEntities).some(s => 
+
+      		const isTargeted = Object.values(newShipEntities).some(s =>
         		s.movementPath.includes(id) && s.ownerNationId === orgId
       		);
       		return system && system.ownerNationId === null && !isTargeted;
@@ -138,7 +141,7 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
         		...ship,
       			movementPath: newPath,
       		};
-      
+
      		newShipEntities[ship.id] = updatedShip;
     		hasMadeChanges = true;
     	}
@@ -150,7 +153,7 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 	      ...nextState,
     	  ships: {
     	    ...nextState.ships,
-    	    entities: newShipEntities, 
+    	    entities: newShipEntities,
       	  },
     	};
   	}

@@ -39,11 +39,15 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 	}
 
 	return {
-		...currentState
+		...nextState
 	}
 }
 
 export function evaluateBuildLocation(buildingType: BuildingClass, locations: Planetoid[]): Planetoid {
+	if (locations.length === 0){
+		return null;
+	}
+
 	let bestLocation = locations[0];
 	let winningScore = -1;
 
@@ -91,7 +95,9 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	if(thinkingOrg.contextHistory.previousIncome.rocks < 300){
 		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);
 		let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
-		newBuildPlan.push({buildingType: 'mine', location: targetPlanetoid.id });
+		if(targetPlanetoid){
+			newBuildPlan.push({buildingType: 'mine', location: targetPlanetoid.id });
+		}
 	}
 	
 	newOrgs[orgId] = { ...thinkingOrg, contextHistory: { ...thinkingOrg.contextHistory, buildPlan: newBuildPlan, targetSystems: finalTargets }};

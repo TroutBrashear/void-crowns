@@ -71,7 +71,6 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	
 	let functionState = engineUnassignCharacter(currentState, charId);
 
-
 	//address character first
 	let newCharacters = { ...functionState.characters.entities };
 	
@@ -127,7 +126,6 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	if(!newCharacters[charId] || !newCharacters[charId].assignment){
 		return currentState;
 	}
-	
 	let newFleets = { ...currentState.fleets.entities };
 	let newSystems = { ...currentState.systems.entities };
 	let newOrgs = { ...currentState.orgs.entities };
@@ -259,7 +257,6 @@ export function processCharacterCycles(currentState: GameState): GameState {
 				currentOrg = { ...currentOrg, characters: { ...currentOrg.characters, characterPool: newPool } };
 				newCharacters[nextCId] = newCharacter;
 			}
-			console.log(currentOrg.characters.characterPool);
 			newOrgs[orgId] = currentOrg;
 		}
 	}
