@@ -1,9 +1,9 @@
-import type { GameState, Character } from '../../types/gameState';
+import type { GameState, Character, BuildingClass, Planetoid } from '../../types/gameState';
 import { evaluateSystemValue } from '../colonization';
 import { engineAssignCharacter } from '../character';
 
 export function evaluateBestCandidate(assignmentType: string, characters: Character[]): Character {
-	let bestCandidate = null;
+	let bestCandidate = characters[0];
 	let winningScore = -1;
 
 	for(const character of characters){
@@ -43,6 +43,29 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 	}
 }
 
+export function evaluateBuildLocation(buildingType: BuildingClass, locations: Planetoid[]): Planetoid {
+	let bestLocation = locations[0];
+	let winningScore = -1;
+
+	for(const location of locations){
+		let locationScore = 0;
+
+
+		locationScore += (location.size / 2) - (location.buildings.length);
+
+		if(buildingType === 'mine' && location.environment === 'barren'){
+			locationScore += 5;
+		}
+
+		if(locationScore > winningScore){
+			bestLocation = location;
+			winningScore = locationScore;
+		}
+	}
+
+	return bestLocation;
+}
+
 export function processAiBuildPlanning(currentState: GameState, orgId: number): GameState {
 	let newOrgs = { ...currentState.orgs.entities };
 	let thinkingOrg = { ...currentState.orgs.entities[orgId]};
@@ -67,8 +90,8 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	
 	if(thinkingOrg.contextHistory.previousIncome.rocks < 300){
 		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);
-		let targetPlanetoid = Math.floor(Math.random() * orgPlanetoids.length);
-		newBuildPlan.push({buildingType: 'mine', location: orgPlanetoids[targetPlanetoid].id });
+		let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
+		newBuildPlan.push({buildingType: 'mine', location: targetPlanetoid });
 	}
 	
 	newOrgs[orgId] = { ...thinkingOrg, contextHistory: { ...thinkingOrg.contextHistory, buildPlan: newBuildPlan, targetSystems: finalTargets }};
