@@ -1,4 +1,4 @@
-import type { GameState, Planetoid } from '../types/gameState';
+import type { GameState, Planetoid, Resources } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 
 function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
@@ -86,15 +86,15 @@ export function processEconomy(currentState: GameState): GameState {
 		}
 	}
 
-	const orgArray = Object.keys(roundIncome);
+	const orgArray = Object.entries(roundIncome);
 
-	for(const org of orgArray){
-		newOrgs[org] = {
-			...newOrgs[org],
+	for(const [id, income] of orgArray){
+		newOrgs[id] = {
+			...newOrgs[id],
 			resources: {
-				...newOrgs[org].resources,
-				credits: newOrgs[org].resources.credits + roundIncome[org].credits,
-				rocks: newOrgs[org].resources.rocks + roundIncome[org].rocks,
+				...newOrgs[id].resources,
+				credits: newOrgs[id].resources.credits + income.credits,
+				rocks: newOrgs[id].resources.rocks + income.rocks,
 			}
 		};
 	}
