@@ -89,12 +89,14 @@ export function processEconomy(currentState: GameState): GameState {
 	const orgArray = Object.entries(roundIncome);
 
 	for(const [id, income] of orgArray){
-		newOrgs[id] = {
-			...newOrgs[id],
+		const orgId = Number(id);
+
+		newOrgs[orgId] = {
+			...newOrgs[orgId],
 			resources: {
-				...newOrgs[id].resources,
-				credits: newOrgs[id].resources.credits + income.credits,
-				rocks: newOrgs[id].resources.rocks + income.rocks,
+				...newOrgs[orgId].resources,
+				credits: newOrgs[orgId].resources.credits + income.credits,
+				rocks: newOrgs[orgId].resources.rocks + income.rocks,
 			}
 		};
 	}
