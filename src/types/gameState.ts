@@ -59,7 +59,7 @@ export interface Fleet {
   assignedCharacter: number | null;
 }
 
-export type ShipType = 'colony_ship';
+export type ShipType = 'colony_ship' | 'survey_ship';
 
 export interface Ship {
   readonly id: number;
@@ -67,7 +67,11 @@ export interface Ship {
   type: ShipType;
   ownerNationId: number;
   locationSystemId: number;
+
   movementPath: number[];
+
+  //survey_ship has an assignmentTargetId pointing to the Planetoid it is surveying
+  assignmentTargetId?: number;
 }
 
 export interface Resources {
