@@ -102,6 +102,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 				population: 0,
 				buildings: [],
 				tags: [],
+				deposits: [],
 			};
 
 			systemPlanetoids.push(star);
@@ -121,6 +122,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 					population: 0,
 					buildings: [],
 					tags: [],
+					deposits: [],
 				};
 
 			//apply potential tag(s)
@@ -159,6 +161,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
     				population: 0,
 					buildings: [],
 					tags: [],
+					deposits: [],
   				};
 
 	  			systemPlanetoids.push(moon);

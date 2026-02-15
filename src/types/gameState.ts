@@ -46,6 +46,7 @@ export interface Planetoid {
   buildings: Building[];
   ownerNationId: number | null;
   tags: string[];
+  deposits: Deposit[];
 }
 
 export interface Fleet {
@@ -72,6 +73,13 @@ export interface Ship {
 export interface Resources {
   credits: number;
   rocks: number;
+}
+
+export interface Deposit {
+  type: string;
+  amount: number;
+  isVisible: boolean;
+  difficulty: number; //an org needs to beat difficulty with a dice roll to reveal the Deposit. Some will be generated with a number higher than can be rolled - can be beaten with tech bonuses later.
 }
 
 export interface OrgRelation {

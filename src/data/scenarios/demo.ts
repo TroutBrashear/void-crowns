@@ -14,28 +14,28 @@ export const initialSystems: System[] = [
 
 export const initialPlanetoids: Planetoid[] = [
   // === Sol System (ID: 1) ===
-  { id: 101, name: 'Sol', parentPlanetoidId: null, locationSystemId: 1, classification: 'gravWell', environment: 'Star', size: 100, population: 0, ownerNationId: 0, buildings: [], tags: []},
-  { id: 102, name: 'Earth', parentPlanetoidId: 101, locationSystemId: 1, classification: 'planet', environment: 'Terran', size: 5, population: 8000000000, ownerNationId: 1, buildings: [], tags: [] },
-  { id: 103, name: 'Luna', parentPlanetoidId: 102, locationSystemId: 1, classification: 'moon', environment: 'Barren', size: 1, population: 0, ownerNationId: 0, buildings: [], tags: [] },
-  { id: 104, name: 'Mars', parentPlanetoidId: 101, locationSystemId: 1, classification: 'planet', environment: 'Arid', size: 4, population: 0, ownerNationId: 0, buildings: [], tags: [] },
-  { id: 105, name: 'Gagarin Station', parentPlanetoidId: 102, locationSystemId: 1, classification: 'station', environment: 'Orbital', size: 2, population: 0, ownerNationId: 0, buildings: [], tags: [] },
+  { id: 101, name: 'Sol', parentPlanetoidId: null, locationSystemId: 1, classification: 'gravWell', environment: 'Star', size: 100, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: []},
+  { id: 102, name: 'Earth', parentPlanetoidId: 101, locationSystemId: 1, classification: 'planet', environment: 'Terran', size: 5, population: 8000000000, ownerNationId: 1, buildings: [], tags: [], deposits: [] },
+  { id: 103, name: 'Luna', parentPlanetoidId: 102, locationSystemId: 1, classification: 'moon', environment: 'Barren', size: 1, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
+  { id: 104, name: 'Mars', parentPlanetoidId: 101, locationSystemId: 1, classification: 'planet', environment: 'Arid', size: 4, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
+  { id: 105, name: 'Gagarin Station', parentPlanetoidId: 102, locationSystemId: 1, classification: 'station', environment: 'Orbital', size: 2, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
   
   // === Alpha Centauri System (ID: 2) ===
-  { id: 201, name: 'Alpha Centauri', parentPlanetoidId: null, locationSystemId: 2, classification: 'gravWell', environment: 'Star', size: 90, population: 0, ownerNationId: 0, buildings: [], tags: [] },
-  { id: 202, name: 'Proxima b', parentPlanetoidId: 201, locationSystemId: 2, classification: 'planet', environment: 'Volcanic', size: 6, population: 0, ownerNationId: 0, buildings: [], tags: [] },
-  { id: 203, name: 'Mining Outpost Delta', parentPlanetoidId: 202, locationSystemId: 2, classification: 'station', environment: 'Orbital', size: 1, population: 0, ownerNationId: 0, buildings: [], tags: [] },
-  { id: 204, name: 'The Void', parentPlanetoidId: 201, locationSystemId: 2, classification: 'asteroid', environment: 'Asteroid Belt', size: 3, population: 0, ownerNationId: 0, buildings: [], tags: [] },
+  { id: 201, name: 'Alpha Centauri', parentPlanetoidId: null, locationSystemId: 2, classification: 'gravWell', environment: 'Star', size: 90, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
+  { id: 202, name: 'Proxima b', parentPlanetoidId: 201, locationSystemId: 2, classification: 'planet', environment: 'Volcanic', size: 6, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
+  { id: 203, name: 'Mining Outpost Delta', parentPlanetoidId: 202, locationSystemId: 2, classification: 'station', environment: 'Orbital', size: 1, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
+  { id: 204, name: 'The Void', parentPlanetoidId: 201, locationSystemId: 2, classification: 'asteroid', environment: 'Asteroid Belt', size: 3, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
   
   // === Sirius System (ID: 3) ===
-  { id: 301, name: 'Sirius', parentPlanetoidId: null, locationSystemId: 3, classification: 'gravWell', environment: 'Star', size: 120, population: 0, ownerNationId: 0, buildings: [], tags: [] },
-  { id: 302, name: 'Aethel', parentPlanetoidId: 301, locationSystemId: 3, classification: 'planet', environment: 'Gas Giant', size: 20, population: 0, ownerNationId: 0, buildings: [], tags: [] },
-  { id: 303, name: 'Aethel I', parentPlanetoidId: 302, locationSystemId: 3, classification: 'moon', environment: 'Frozen', size: 2, population: 0, ownerNationId: 0, buildings: [], tags: [] },
-  { id: 304, name: 'Aethel II', parentPlanetoidId: 302, locationSystemId: 3, classification: 'moon', environment: 'Frozen', size: 2, population: 0, ownerNationId: 0, buildings: [], tags: [] },
+  { id: 301, name: 'Sirius', parentPlanetoidId: null, locationSystemId: 3, classification: 'gravWell', environment: 'Star', size: 120, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
+  { id: 302, name: 'Aethel', parentPlanetoidId: 301, locationSystemId: 3, classification: 'planet', environment: 'Gas Giant', size: 20, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
+  { id: 303, name: 'Aethel I', parentPlanetoidId: 302, locationSystemId: 3, classification: 'moon', environment: 'Frozen', size: 2, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
+  { id: 304, name: 'Aethel II', parentPlanetoidId: 302, locationSystemId: 3, classification: 'moon', environment: 'Frozen', size: 2, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
 
   // === Procyon System (ID: 4) ===
-  { id: 401, name: 'Procyon', parentPlanetoidId: null, locationSystemId: 4, classification: 'gravWell', environment: 'Star', size: 80, population: 10000000000, ownerNationId: 2, buildings: [], tags: [] },
-  { id: 402, name: 'Xylos', parentPlanetoidId: 401, locationSystemId: 4, classification: 'planet', environment: 'Jungle', size: 7, population: 0, ownerNationId: 0, buildings: [], tags: [] },
-  { id: 403, name: 'Imperial Citadel', parentPlanetoidId: 402, locationSystemId: 4, classification: 'station', environment: 'Orbital Citadel', size: 5, population: 0, ownerNationId: 0, buildings: [], tags: [] },
+  { id: 401, name: 'Procyon', parentPlanetoidId: null, locationSystemId: 4, classification: 'gravWell', environment: 'Star', size: 80, population: 10000000000, ownerNationId: 2, buildings: [], tags: [], deposits: [] },
+  { id: 402, name: 'Xylos', parentPlanetoidId: 401, locationSystemId: 4, classification: 'planet', environment: 'Jungle', size: 7, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
+  { id: 403, name: 'Imperial Citadel', parentPlanetoidId: 402, locationSystemId: 4, classification: 'station', environment: 'Orbital Citadel', size: 5, population: 0, ownerNationId: 0, buildings: [], tags: [], deposits: [] },
 ];
 
 export const initialFleets: Fleet[] = [

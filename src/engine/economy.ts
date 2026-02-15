@@ -35,8 +35,6 @@ export function processEconomy(currentState: GameState): GameState {
 			}
 		}
 
-
-
 		for(const planetoidId of currentSystem.planetoids){
 			let currentPlanetoid = { ...currentState.planetoids.entities[planetoidId]};
 			let planetoidOwner = currentPlanetoid.ownerNationId;
