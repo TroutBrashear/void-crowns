@@ -1,4 +1,4 @@
-import type { System, Planetoid, Org, OrgRelation } from '../types/gameState';
+import type { System, Planetoid, Org, OrgRelation, Deposit } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { findPath } from './pathfinding';
 import { colorPicker } from '../utils/colors';
@@ -51,7 +51,23 @@ function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, pl
 	return updatedPlanetoid;
 }
 
+export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
+	let newDeposits: Deposit[] = [];
 
+	let numRockDeposits = Math.floor((Math.random() * 10) + (Math.random() * planetoid.size));
+	for(let i = 0; i < numRockDeposits; i++){
+		let newDeposit: Deposit = {
+			type: 'rocks',
+			amount: Math.floor((Math.random() * 10) + 2) * 10000),
+			isVisible: true, //TODO: all visible for now until survey/discovery mechanics and techs are implemented
+			difficulty: Math.floor((Math.random() * 6)),
+		};
+
+		newDeposits.push(newDeposit);
+	}
+
+	return newDeposits;
+}
 
 export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[]} {
 	let newGalaxy: System[] = [];
@@ -125,48 +141,52 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 					deposits: [],
 				};
 
-			//apply potential tag(s)
-			if(Math.floor(Math.random()*20) < 2){
-				const chosenTagId = planetoidTagKeys[Math.floor(Math.random() * planetoidTagKeys.length)];
+				//apply potential tag(s)
+				if(Math.floor(Math.random()*20) < 2){
+					const chosenTagId = planetoidTagKeys[Math.floor(Math.random() * planetoidTagKeys.length)];
 
-				const chosenTag = PLANETOID_TAGS[chosenTagId];
+					const chosenTag = PLANETOID_TAGS[chosenTagId];
 
-				if(chosenTag.generationEffects){
-					planet = applyPlanetoidGenerationProcess(chosenTag.generationEffects, planet);
+					if(chosenTag.generationEffects){
+						planet = applyPlanetoidGenerationProcess(chosenTag.generationEffects, planet);
+					}
+
+					planet.tags.push(chosenTagId);
 				}
 
-				planet.tags.push(chosenTagId);
+				planet.deposits = generatePlanetoidDeposits(planet);
+
+				systemPlanetoids.push(planet);
+
+				let numMoons;
+				if(planet.environment === 'Gaseous'){
+					numMoons = Math.floor(Math.random() * 8);
+				}
+				else {
+					numMoons = Math.floor(Math.random() * 8) - 5;
+				}
+
+				for(let k = 0; k < numMoons; k++){
+					let moon: Planetoid = {
+						id: nextPlanId++,
+						name: `${planet.name} ${k + 1}`,
+						parentPlanetoidId: planet.id,
+						locationSystemId: nextSystem.id,
+						classification: 'moon',
+						environment: 'Barren',
+						ownerNationId: null,
+						size: 2 + Math.floor(Math.random() * 5),
+						population: 0,
+						buildings: [],
+						tags: [],
+						deposits: [],
+					};
+
+					moon.deposits = generatePlanetoidDeposits(moon);
+
+					systemPlanetoids.push(moon);
+				}
 			}
-
-  			systemPlanetoids.push(planet);
-
-  			let numMoons;
-  			if(planet.environment === 'Gaseous'){
-  				numMoons = Math.floor(Math.random() * 8);
-  			}
-  			else {
-  				numMoons = Math.floor(Math.random() * 8) - 5;
-  			}
-
-  			for(let k = 0; k < numMoons; k++){
-  				let moon: Planetoid = {
-  					id: nextPlanId++,
-    				name: `${planet.name} ${k + 1}`, 
-    				parentPlanetoidId: planet.id,
-    				locationSystemId: nextSystem.id,
-   				 	classification: 'moon',
-    				environment: 'Barren',
-					ownerNationId: null,
-   					size: 2 + Math.floor(Math.random() * 5),
-    				population: 0,
-					buildings: [],
-					tags: [],
-					deposits: [],
-  				};
-
-	  			systemPlanetoids.push(moon);
-  			}
-	  	}
 
 			nextSystem.planetoids = systemPlanetoids.map(p => p.id);
 			newPlanetoids.push(...systemPlanetoids);
