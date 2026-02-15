@@ -62,8 +62,12 @@ export function evaluateBuildLocation(buildingType: BuildingClass, locations: Pl
 
 		locationScore += (location.size / 2) - (location.buildings.length);
 
-		if(buildingType === 'mine' && location.environment === 'barren'){
-			locationScore += 5;
+		if(buildingType === 'mine'){
+			for(const deposit of location.deposits){
+				if(deposit.type === 'rocks' && deposit.type.isVisible){
+					locationScore += 1;
+				}
+			}
 		}
 
 		if(locationScore > winningScore){

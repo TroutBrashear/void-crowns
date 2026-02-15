@@ -17,6 +17,12 @@ export function evaluatePlanetoidValue(planetoid: Planetoid): number {
       planetoidValue = 40; break;
   }
 
+  for(const deposit of planetoid.deposits){
+    if(deposit.isVisible){
+      planetoidValue += 2;
+    }
+  }
+
   planetoidValue = planetoidValue + planetoid.size;
 
   return planetoidValue;

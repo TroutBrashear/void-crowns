@@ -76,6 +76,7 @@ export interface Resources {
 }
 
 export interface Deposit {
+  id: number;
   type: string;
   amount: number;
   isVisible: boolean;

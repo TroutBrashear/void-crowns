@@ -79,7 +79,19 @@ function PlanetoidSelectModal() {
 					</li>
 				);
 			})}
-      </ul>
+		  </ul>
+		  <h4>Known Deposits:</h4>
+		  <ul>
+			{planetToShow.deposits.map((deposit, index) => {
+				if (!deposit) return null;
+				if (!deposit.isVisible) return null;
+				return(
+					<li key={`Deposit${deposit.id}`}>
+						<p>{deposit.type} : {deposit.amount}</p>
+					</li>
+				);
+			})}
+		  </ul>
 
       	  <button onClick={backModal}>Back</button>
       	  <button onClick={closeModal}>Close</button>

@@ -11,6 +11,10 @@ const WIDTH_DEFAULT = 5000;
 const HEIGHT_DEFAULT = 1500;
 
 
+
+let lastDepositId = 0;
+
+
 function calcDistance(systemA: System, systemB: System): number {
   const dx = systemA.position.x - systemB.position.x;
   const dy = systemA.position.y - systemB.position.y;
@@ -56,7 +60,9 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 
 	let numRockDeposits = Math.floor((Math.random() * 10) + (Math.random() * planetoid.size));
 	for(let i = 0; i < numRockDeposits; i++){
+		lastDepositId += 1;
 		let newDeposit: Deposit = {
+			id: lastDepositId,
 			type: 'rocks',
 			amount: Math.floor(((Math.random() * 10) + 2) * 10000),
 			isVisible: true, //TODO: all visible for now until survey/discovery mechanics and techs are implemented
