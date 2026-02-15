@@ -38,6 +38,7 @@ export function processEconomy(currentState: GameState): GameState {
 		for(const planetoidId of currentSystem.planetoids){
 			let currentPlanetoid = { ...currentState.planetoids.entities[planetoidId]};
 			let planetoidOwner = currentPlanetoid.ownerNationId;
+			let planetoidDeposits = [...currentPlanetoid.deposits];
 
 			if(planetoidOwner){
 				if(!roundIncome[planetoidOwner]){
@@ -53,7 +54,7 @@ export function processEconomy(currentState: GameState): GameState {
 
 					//update Planetoid population
 					currentPlanetoid.population += calcPopulationGrowth(currentPlanetoid);
-					newPlanetoidEntities[currentPlanetoid.id] = currentPlanetoid;
+
 				}
 			}
 
@@ -74,13 +75,30 @@ export function processEconomy(currentState: GameState): GameState {
 					//processes now have Partial<Resources>, so any of these may be undefined
 					//output processing
 					roundIncome[buildingOwner].credits += bDefinition.process.output?.credits ?? 0;
-					roundIncome[buildingOwner].rocks += bDefinition.process.output?.rocks ?? 0;
+					if(bDefinition.process.output?.rocks){
+						let depositIndex = planetoidDeposits.findIndex(deposit => deposit.isVisible && deposit.type === 'rocks' && deposit.amount > 0);
+
+						if(planetoidDeposits[depositIndex]){
+							let extractionAmount = Math.min(bDefinition.process.output.rocks, planetoidDeposits[depositIndex].amount);
+							roundIncome[buildingOwner].rocks += extractionAmount;
+							planetoidDeposits[depositIndex] = {
+								...planetoidDeposits[depositIndex],
+								amount: planetoidDeposits[depositIndex].amount - extractionAmount
+							};
+						}
+
+
+					}
+
 
 					//input processing
 					roundIncome[buildingOwner].credits -= bDefinition.process.input?.credits ?? 0;
 					roundIncome[buildingOwner].rocks -= bDefinition.process.input?.rocks ?? 0;
 				}
 			}
+
+			currentPlanetoid.deposits = planetoidDeposits;
+			newPlanetoidEntities[currentPlanetoid.id] = currentPlanetoid;
 		}
 	}
 

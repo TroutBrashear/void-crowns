@@ -58,7 +58,7 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	for(let i = 0; i < numRockDeposits; i++){
 		let newDeposit: Deposit = {
 			type: 'rocks',
-			amount: Math.floor((Math.random() * 10) + 2) * 10000),
+			amount: Math.floor(((Math.random() * 10) + 2) * 10000),
 			isVisible: true, //TODO: all visible for now until survey/discovery mechanics and techs are implemented
 			difficulty: Math.floor((Math.random() * 6)),
 		};
