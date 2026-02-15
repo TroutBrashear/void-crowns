@@ -64,7 +64,7 @@ export function evaluateBuildLocation(buildingType: BuildingClass, locations: Pl
 
 		if(buildingType === 'mine'){
 			for(const deposit of location.deposits){
-				if(deposit.type === 'rocks' && deposit.type.isVisible){
+				if(deposit.type === 'rocks' && deposit.isVisible){
 					locationScore += 1;
 				}
 			}

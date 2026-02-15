@@ -82,7 +82,7 @@ function PlanetoidSelectModal() {
 		  </ul>
 		  <h4>Known Deposits:</h4>
 		  <ul>
-			{planetToShow.deposits.map((deposit, index) => {
+			{planetToShow.deposits.map(deposit => {
 				if (!deposit) return null;
 				if (!deposit.isVisible) return null;
 				return(
