@@ -65,6 +65,8 @@ export function processTick(currentState: GameState): GameState {
   //Process Ship Movements
   const updatedShipEntities: { [id: number]: Ship } = {};
 
+  let updatedPlanetoidEntities = { ...currentState.planetoids.entities };
+
   for (const shipId of currentState.ships.ids) {
     const ship = currentState.ships.entities[shipId];
 
@@ -83,6 +85,32 @@ export function processTick(currentState: GameState): GameState {
       };
 
       updatedShipEntities[shipId] = updatedShip;
+    }
+    else{ //evaluate certain Ship assignments
+      //evaluate an ongoing survey
+      if(ship.type === 'survey_ship' && ship.assignmentTargetId){
+        let targetPlanetoid =  updatedPlanetoidEntities[ship.assignmentTargetId];
+        if(targetPlanetoid.locationSystemId === ship.locationSystemId){
+
+          const surveyRoll = Math.random() * 6;
+
+          const depositIndex = targetPlanetoid.deposits.findIndex(deposit => !deposit.isVisible && deposit.difficulty < surveyRoll);
+
+          if(depositIndex !== -1){
+            hasChanges = true;
+            let newDeposits = [ ...targetPlanetoid.deposits ];
+            newDeposits[depositIndex] = {
+              ...newDeposits[depositIndex],
+              isVisible: true,
+            }
+
+            updatedPlanetoidEntities[ship.assignmentTargetId] = {
+              ...updatedPlanetoidEntities[ship.assignmentTargetId],
+              deposits: newDeposits,
+            },
+          };
+        }
+      }
     }
   }
 
@@ -106,6 +134,10 @@ export function processTick(currentState: GameState): GameState {
         ...updatedShipEntities,
       },
     },
+    planetoids: {
+      ...nextState.planetoids,
+      entities: updatedPlanetoidEntities,
+    }
   };
 
 
