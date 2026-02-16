@@ -71,7 +71,7 @@ export interface Ship {
   movementPath: number[];
 
   //survey_ship has an assignmentTargetId pointing to the Planetoid it is surveying
-  assignmentTargetId?: number;
+  assignmentTargetId?: number | null;
 }
 
 export interface Resources {
@@ -239,6 +239,7 @@ export interface GameState {
   getSystemById: (id: number) => System | undefined;
   getSystemsByOrg: (id: number) => System[] | undefined;
   getHabitablesInSystem: (id: number) => Planetoid[];
+  getPlanetoidsBySystem: (id: number) => Planetoid[];
   getPlanetoidById: (id: number) => Planetoid | undefined;
   getOrgById: (id: number) => Org | undefined;
   getShipById: (id: number) => Ship | undefined;

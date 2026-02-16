@@ -6,6 +6,7 @@ import { NAME_LISTS } from '../data/names';
 //global unit costs
 const FLEET_COST = 10000;
 const COL_SHIP_COST = 15000;
+const SUR_SHIP_COST = 4000;
 
 export function engineBuildFleet(currentState: GameState, locationId: number): GameState {
 
@@ -86,6 +87,9 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
       case 'colony_ship':
         cost = COL_SHIP_COST;
         break;
+      case 'survey_ship':
+        cost = SUR_SHIP_COST;
+        break;
     }
 
 
@@ -101,6 +105,7 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
         ownerNationId: buildSystem.ownerNationId,
         locationSystemId: locationId,
         movementPath: [],
+        assignmentTargetId: null,
         };
 
       const updatedOrg = {
