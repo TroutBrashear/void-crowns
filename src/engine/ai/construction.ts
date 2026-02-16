@@ -27,7 +27,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 		nextState = engineBuildShip(nextState, buildLocation, 'colony_ship');
 		thinkingOrg = nextState.orgs.entities[orgId];
 	}
-	
+
 	//fleets
 	if(thinkingOrg.resources.credits > 10000 && militaryPriority){
 		//build a fleet

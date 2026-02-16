@@ -1,7 +1,16 @@
-import type { BuildingClass } from './gameState';
+import type { BuildingClass, ShipType } from './gameState';
 
+
+export type AiIntent = BuildingIntent | ShipConstructIntent;
 
 export interface BuildingIntent {
+    type: "building";
     location: number; //the ID of a planetoid
     buildingType: BuildingClass;
+}
+
+export interface ShipConstructIntent {
+    type: "ship";
+    location: number; //the ID of a system
+    shipType: ShipType
 }

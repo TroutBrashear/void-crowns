@@ -70,6 +70,7 @@ export function evaluateBuildLocation(buildingType: BuildingClass, locations: Pl
 			}
 		}
 
+
 		if(locationScore > winningScore){
 			bestLocation = location;
 			winningScore = locationScore;
@@ -105,7 +106,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);
 		let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
 		if(targetPlanetoid){
-			newBuildPlan.push({buildingType: 'mine', location: targetPlanetoid.id });
+			newBuildPlan.push({type: "building", buildingType: 'mine', location: targetPlanetoid.id });
 		}
 	}
 	
