@@ -10,7 +10,9 @@ function ShipSelectModal() {
   const getShipById = useGameStore(state => state.getShipById);
   const getHabitablesInSystem  = useGameStore(state => state.getHabitablesInSystem);
   const getPlanetoidsBySystem = useGameStore(state => state.getPlanetoidsBySystem);
+
   const colonizePlanetoid = useGameStore(state => state.colonizePlanetoid);
+  const beginPlanetoidSurvey = useGameStore(state => state.beginPlanetoidSurvey);
   const [selectedPlanetoid, setSelectedPlanetoid] = useState<number | null>(null);
 
 
@@ -57,6 +59,9 @@ function ShipSelectModal() {
             </option>);
         })}
         </select>
+        <button onClick={() => {if(selectedPlanetoid){
+          beginPlanetoidSurvey({shipId: shipToShow.id, planetoidId: selectedPlanetoid}); closeModal();}
+        }}>Colonize World</button>
         </div>
       }
       <button onClick={closeModal}>Close</button>

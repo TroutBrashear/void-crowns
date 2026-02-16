@@ -45,9 +45,6 @@ export function evaluateSystemValue(currentState: GameState, systemId: number): 
 }
 
 export function colonizePlanetoid(currentState: GameState, payload: ColonizePayload ): GameState {
-
-	console.log(payload.planetoidId);
-
 	const planetoid = currentState.planetoids.entities[payload.planetoidId]; //the target planetoid (will receive population update - for now, an onwed system disables colonization within that system.)
       const ship = currentState.ships.entities[payload.shipId]; //the colony ship will be used up and removed from the game
       const system = currentState.systems.entities[planetoid.locationSystemId]; //we may return the system with a new onwer
@@ -93,6 +90,23 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
           ids: shipIds,
         }
       };    
+}
+
+export function beginPlanetoidSurvey(currentState: GameState, payload: ColonizePayload ): GameState {
+
+  return {
+    ...currentState,
+    ships: {
+      ...currentState.ships,
+      entities: {
+        ...currentState.ships.entities,
+        [payload.shipId]: {
+          ...currentState.ships.entities[payload.shipId],
+          assignmentTargetId: payload.planetoidId,
+        }
+      }
+    },
+  };
 }
 
 export function getHabitablesInSystem(currentState: GameState, systemId: number): Planetoid[] {
