@@ -33,7 +33,6 @@ function evaluateIntelStatus(currentState: GameState): GameState {
 
 
 export function processTick(currentState: GameState): GameState {
-  console.log('tick');
 
   let nextState =  evaluateIntelStatus(currentState);
 
@@ -88,7 +87,7 @@ export function processTick(currentState: GameState): GameState {
     }
     else{ //evaluate certain Ship assignments
       //evaluate an ongoing survey
-      if(ship.type === 'survey_ship' && ship.assignmentTargetId){
+      if(ship.type === 'survey_ship' && ship.assignmentTargetId && (currentState.meta.turn % 20) === 0){
         let targetPlanetoid =  updatedPlanetoidEntities[ship.assignmentTargetId];
         if(targetPlanetoid.locationSystemId === ship.locationSystemId){
 
@@ -107,8 +106,8 @@ export function processTick(currentState: GameState): GameState {
             updatedPlanetoidEntities[ship.assignmentTargetId] = {
               ...updatedPlanetoidEntities[ship.assignmentTargetId],
               deposits: newDeposits,
-            },
-          };
+            };
+          }
         }
       }
     }
