@@ -80,7 +80,7 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
     const newId = currentState.meta.lastShipId + 1;
     const ownerOrg = currentState.orgs.entities[buildSystem.ownerNationId];
 
-    let cost: number = 0;
+    let cost: Resources = { credits: 0, rocks: 0 };
 
     switch(shipType){
       case 'colony_ship':
