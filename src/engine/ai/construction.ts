@@ -42,10 +42,29 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 		//build... something.
 
 		const buildIntent = buildPlan.shift();
-		if (!buildIntent || thinkingOrg.resources.credits < BUILDING_CATALOG[buildIntent.buildingType].cost.credits || thinkingOrg.resources.rocks < BUILDING_CATALOG[buildIntent.buildingType].cost.rocks ){
+		if (!buildIntent ){
 			return nextState;
 		}
 
+		if(buildIntent.type === 'building'){
+			if(thinkingOrg.resources.credits < BUILDING_CATALOG[buildIntent.buildingType].cost.credits || thinkingOrg.resources.rocks < BUILDING_CATALOG[buildIntent.buildingType].cost.rocks){
+				return nextState;
+			}
+
+			const buildResult = engineBuildBuilding(nextState, buildIntent.location, buildIntent.buildingType, orgId);
+
+			nextState = buildResult.newState;
+		}
+
+		if(buildIntent.type === 'ship'){
+			if(thinkingOrg.resources.credits < 4000) {
+				return nextState;
+			}
+
+			nextState = engineBuildShip(nextState, buildIntent.location, buildIntent.shipType);
+		}
+
+		//update buildPlan.
 		nextState = {
 			...nextState,
 			orgs: {
@@ -64,10 +83,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 			},
 		};
 
-		const buildResult = engineBuildBuilding(nextState, buildIntent.location, buildIntent.buildingType, orgId);
-		
 
-		nextState = buildResult.newState;
 		thinkingOrg = nextState.orgs.entities[orgId];
 	}
 

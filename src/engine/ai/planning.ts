@@ -102,14 +102,28 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 
 	let newBuildPlan =  [...thinkingOrg.contextHistory.buildPlan];
 	
+	//do we need a mine?
 	if(thinkingOrg.contextHistory.previousIncome.rocks < 300){
 		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);
-		let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
-		if(targetPlanetoid){
-			newBuildPlan.push({type: "building", buildingType: 'mine', location: targetPlanetoid.id });
+		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'mine')){
+			let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
+			if(targetPlanetoid){
+				newBuildPlan.push({type: "building", buildingType: 'mine', location: targetPlanetoid.id });
+			}
 		}
 	}
 	
+	//ship building logic
+	const orgShips = Object.values(currentState.ships.entities).filter(ship => ship.ownerNationId === orgId);
+
+	//do we need a survey ship?
+	if(orgShips.length < orgSystems.length){
+		if(!newBuildPlan.some(intent => intent.type === 'ship' && intent.shipType === 'survey_ship')){
+			let targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
+			newBuildPlan.push({type: "ship", shipType: 'survey_ship', location: targetSystem });
+		}
+	}
+
 	newOrgs[orgId] = { ...thinkingOrg, contextHistory: { ...thinkingOrg.contextHistory, buildPlan: newBuildPlan, targetSystems: finalTargets }};
 	
 	return {
