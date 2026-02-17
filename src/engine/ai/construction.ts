@@ -19,15 +19,6 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 	if(ownedFleets.length < (ownedSystems.length / 5)){
 		militaryPriority = true;
 	}
-	
-	//ships
-	if(thinkingOrg.resources.credits > 16000){
-		//build a colony ship
-		const buildLocation = ownedSystems[Math.floor(Math.random() * ownedSystems.length)].id;
-
-		nextState = engineBuildShip(nextState, buildLocation, 'colony_ship');
-		thinkingOrg = nextState.orgs.entities[orgId];
-	}
 
 	//fleets
 	if(thinkingOrg.resources.credits > 10000 && militaryPriority){
@@ -38,55 +29,52 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 		thinkingOrg = nextState.orgs.entities[orgId];
 	}
 	
-	//buildings
-	if(thinkingOrg.resources.credits > 5000){
-		//build... something.
+	//evaluate buildPlan
 
-		const buildIntent = buildPlan.shift();
-		if (!buildIntent ){
+	const buildIntent = buildPlan.shift();
+	if (!buildIntent ){
+		return nextState;
+	}
+
+	if(buildIntent.type === 'building'){
+		if(thinkingOrg.resources.credits < BUILDING_CATALOG[buildIntent.buildingType].cost.credits || thinkingOrg.resources.rocks < BUILDING_CATALOG[buildIntent.buildingType].cost.rocks){
 			return nextState;
 		}
 
-		if(buildIntent.type === 'building'){
-			if(thinkingOrg.resources.credits < BUILDING_CATALOG[buildIntent.buildingType].cost.credits || thinkingOrg.resources.rocks < BUILDING_CATALOG[buildIntent.buildingType].cost.rocks){
-				return nextState;
-			}
+		const buildResult = engineBuildBuilding(nextState, buildIntent.location, buildIntent.buildingType, orgId);
 
-			const buildResult = engineBuildBuilding(nextState, buildIntent.location, buildIntent.buildingType, orgId);
+		nextState = buildResult.newState;
+	}
 
-			nextState = buildResult.newState;
+	if(buildIntent.type === 'ship'){
+		if(thinkingOrg.resources.credits < SHIP_CATALOG[buildIntent.shipType].cost.credits || thinkingOrg.resources.rocks < SHIP_CATALOG[buildIntent.shipType].cost.rocks) {
+			return nextState;
 		}
 
-		if(buildIntent.type === 'ship'){
-			if(thinkingOrg.resources.credits < SHIP_CATALOG[buildIntent.shipType].cost.credits || thinkingOrg.resources.rocks < SHIP_CATALOG[buildIntent.shipType].cost.rocks) {
-				return nextState;
-			}
-
-			nextState = engineBuildShip(nextState, buildIntent.location, buildIntent.shipType);
-		}
+		nextState = engineBuildShip(nextState, buildIntent.location, buildIntent.shipType);
+	}
 
 		//update buildPlan.
-		nextState = {
-			...nextState,
-			orgs: {
-				...nextState.orgs,
-				entities: {
-					...nextState.orgs.entities,
-					[orgId]: {
-						...nextState.orgs.entities[orgId],
+	nextState = {
+		...nextState,
+		orgs: {
+			...nextState.orgs,
+			entities: {
+				...nextState.orgs.entities,
+				[orgId]: {
+					...nextState.orgs.entities[orgId],
 
-						contextHistory: {
-							...nextState.orgs.entities[orgId].contextHistory,
-							buildPlan: buildPlan,
-						},
+					contextHistory: {
+						...nextState.orgs.entities[orgId].contextHistory,
+						buildPlan: buildPlan,
 					},
 				},
 			},
-		};
+		},
+	};
 
 
-		thinkingOrg = nextState.orgs.entities[orgId];
-	}
+	thinkingOrg = nextState.orgs.entities[orgId];
 
 	return nextState;
 }

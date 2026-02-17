@@ -1,4 +1,4 @@
-import type { GameState, ShipType, Building, BuildingClass, EngineResult, GameEvent } from '../types/gameState';
+import type { GameState, ShipType, Building, BuildingClass, EngineResult, GameEvent, Resources } from '../types/gameState';
 
 import { BUILDING_CATALOG } from '../data/buildings';
 import { SHIP_CATALOG } from '../data/ships';

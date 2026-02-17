@@ -124,6 +124,14 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 		}
 	}
 
+	//do we need a colony ship?
+	if(frontierSystems.some(id => !currentState.systems.entities[id].ownerNationId)){
+		if(!newBuildPlan.some(intent => intent.type === 'ship' && intent.shipType === 'colony_ship')){
+			let targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
+			newBuildPlan.push({type: "ship", shipType: 'colony_ship', location: targetSystem });
+		}
+	}
+
 	newOrgs[orgId] = { ...thinkingOrg, contextHistory: { ...thinkingOrg.contextHistory, buildPlan: newBuildPlan, targetSystems: finalTargets }};
 	
 	return {
