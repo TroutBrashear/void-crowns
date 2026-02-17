@@ -1,6 +1,7 @@
 import type { GameState } from '../../types/gameState';
 import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../building';
 import { BUILDING_CATALOG } from '../../data/buildings';
+import { SHIP_CATALOG } from '../../data/ships';
 
 export function processAiConstruction(currentState: GameState, orgId: number): GameState {
 
@@ -57,7 +58,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 		}
 
 		if(buildIntent.type === 'ship'){
-			if(thinkingOrg.resources.credits < 4000) {
+			if(thinkingOrg.resources.credits < SHIP_CATALOG[buildIntent.shipType].cost.credits || thinkingOrg.resources.rocks < SHIP_CATALOG[buildIntent.shipType].cost.rocks) {
 				return nextState;
 			}
 

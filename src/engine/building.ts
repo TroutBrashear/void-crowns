@@ -1,12 +1,11 @@
 import type { GameState, ShipType, Building, BuildingClass, EngineResult, GameEvent } from '../types/gameState';
 
 import { BUILDING_CATALOG } from '../data/buildings';
+import { SHIP_CATALOG } from '../data/ships';
 import { NAME_LISTS } from '../data/names';
 
 //global unit costs
 const FLEET_COST = 10000;
-const COL_SHIP_COST = 15000;
-const SUR_SHIP_COST = 4000;
 
 export function engineBuildFleet(currentState: GameState, locationId: number): GameState {
 
@@ -85,16 +84,16 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
 
     switch(shipType){
       case 'colony_ship':
-        cost = COL_SHIP_COST;
+        cost = SHIP_CATALOG['colony_ship'].cost;
         break;
       case 'survey_ship':
-        cost = SUR_SHIP_COST;
+        cost = SHIP_CATALOG['survey_ship'].cost;
         break;
     }
 
 
       //if the org can't afford the fleet, do nothing.
-      if(ownerOrg.resources.credits < cost) {
+      if(ownerOrg.resources.credits < cost.credits || ownerOrg.resources.rocks < cost.rocks) {
         return currentState; 
       }
 
@@ -112,7 +111,8 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
         ...ownerOrg,
         resources: {
           ...ownerOrg.resources,
-          credits: ownerOrg.resources.credits - cost,
+          credits: ownerOrg.resources.credits - cost.credits,
+          rocks: ownerOrg.resources.credits - cost.rocks,
         }
       };
 
