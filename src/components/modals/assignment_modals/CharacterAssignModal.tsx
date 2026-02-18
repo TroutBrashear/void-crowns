@@ -11,13 +11,14 @@ function CharacterAssignModal() {
 
     const getOrgById = useGameStore(state => state.getOrgById);
     const getFleetById = useGameStore(state => state.getFleetById);
+    const getShipById = useGameStore(state => state.getShipById);
     const getSystemById = useGameStore(state => state.getSystemById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
     const assignCharacter = useGameStore(state => state.assignCharacter);
 
     const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
 
-    let targetEntity: Fleet | System | Org | undefined;
+    let targetEntity: Fleet | System | Org | Ship | undefined;
     let targetOwnerOrg: Org | undefined;
     let targetName: string | undefined;
     if(characterAssignTarget?.position === 'admiral'){
@@ -39,6 +40,13 @@ function CharacterAssignModal() {
         if(targetEntity){
             targetOwnerOrg = targetEntity;
             targetName = targetEntity.flavor.name;
+        }
+    }
+    else if(characterAssignTarget?.position === 'surveyor'){
+        targetEntity = getShipById(characterAssignTarget.targetId);
+        if(targetEntity){
+            targetOwnerOrg = targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
+            targetName = targetEntity.name;
         }
     }
     else{

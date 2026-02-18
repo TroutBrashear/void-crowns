@@ -85,6 +85,7 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	let newFleets = { ...functionState.fleets.entities };
 	let newSystems = { ...functionState.systems.entities };
 	let newOrgs = { ...functionState.orgs.entities };
+	let newShips = { ...functionState.ships.entities };
 	if(assignmentType === 'admiral'){
 		newFleets[assignmentTargetId] = { ...newFleets[assignmentTargetId], assignedCharacter: charId };
 	}
@@ -93,6 +94,9 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	}
 	else if(assignmentType === 'leader'){
 		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], characters: { ...newOrgs[assignmentTargetId].characters, leaderId: charId }};
+	}
+	else if(assignmentType === 'surveyor'){
+		newShips[assignmentTargetId] = { ...newShips[assignmentTargetId], assignedCharacter: charId };
 	}
 	else{
 		return functionState;
@@ -116,6 +120,10 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 			...functionState.orgs,
 			entities: newOrgs,
 		},
+		ships: {
+			...currentState.ships,
+			entities: newShips,
+		},
 	};
 }
 
@@ -129,6 +137,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	let newFleets = { ...currentState.fleets.entities };
 	let newSystems = { ...currentState.systems.entities };
 	let newOrgs = { ...currentState.orgs.entities };
+	let newShips = { ...functionState.ships.entities };
 	if(newCharacters[charId].assignment.type === 'admiral'){
 		newFleets[newCharacters[charId].assignment.id] = { ...newFleets[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
@@ -137,6 +146,9 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	}
 	else if(newCharacters[charId].assignment.type === 'leader'){
 		newOrgs[newCharacters[charId].assignment.id] = { ...newOrgs[newCharacters[charId].assignment.id], characters: { ...newOrgs[newCharacters[charId].assignment.id].characters, leaderId: null }};
+	}
+	else if(newCharacters[charId].assignment.type === 'surveyor'){
+		newShips[assignmentTargetId] = { ...newShips[assignmentTargetId], assignedCharacter: null };
 	}
 	else{
 		return currentState;
@@ -163,6 +175,10 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 		orgs: {
 			...currentState.orgs,
 			entities: newOrgs,
+		},
+		ships: {
+			...currentState.ships,
+			entities: newShips,
 		},
 	};
 }

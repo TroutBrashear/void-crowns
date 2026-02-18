@@ -105,7 +105,7 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
         locationSystemId: locationId,
         movementPath: [],
         assignmentTargetId: null,
-        newShip.assignedCharacter: null,
+        assignedCharacter: null,
         };
 
       const updatedOrg = {

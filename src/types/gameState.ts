@@ -71,11 +71,10 @@ export interface Ship {
   movementPath: number[];
 
   //some ShipTypes have the potential for an assignedCharacter. - survey_ship
-  assignedCharacter number | null;
+  assignedCharacter: number | null;
 
   //survey_ship has an assignmentTargetId pointing to the Planetoid it is surveying
   assignmentTargetId: number | null;
-
 }
 
 export interface Resources {

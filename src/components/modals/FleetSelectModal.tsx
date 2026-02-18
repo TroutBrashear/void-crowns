@@ -5,11 +5,10 @@ import styles from './Modal.module.css';
 function FleetSelectModal() {
   const selection = useUiStore(state => state.selection);
   const closeModal = useUiStore(state => state.closeModal);
-
+  const openAssignModal = useUiStore(state => state.openAssignModal);
 
   const getFleetById = useGameStore(state => state.getFleetById);
   const getCharacterById = useGameStore(state => state.getCharacterById);
-  const openAssignModal = useUiStore(state => state.openAssignModal);
 
   if (!selection) {
     return null;

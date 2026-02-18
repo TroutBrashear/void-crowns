@@ -6,10 +6,13 @@ import { useState } from 'react';
 function ShipSelectModal() {
   const selection = useUiStore(state => state.selection);
   const closeModal = useUiStore(state => state.closeModal);
-  
+  const openAssignModal = useUiStore(state => state.openAssignModal);
+
   const getShipById = useGameStore(state => state.getShipById);
   const getHabitablesInSystem  = useGameStore(state => state.getHabitablesInSystem);
   const getPlanetoidsBySystem = useGameStore(state => state.getPlanetoidsBySystem);
+
+  const getCharacterById = useGameStore(state => state.getCharacterById);
 
   const colonizePlanetoid = useGameStore(state => state.colonizePlanetoid);
   const beginPlanetoidSurvey = useGameStore(state => state.beginPlanetoidSurvey);
@@ -27,12 +30,16 @@ function ShipSelectModal() {
 
   const allPlanetoids = getPlanetoidsBySystem(shipToShow.locationSystemId);
   const colonizablePlanetoids = getHabitablesInSystem(shipToShow.locationSystemId);
-  console.log(colonizablePlanetoids);
+
+  const assignedCharacter = shipToShow.assignedCharacter
+  ? getCharacterById(shipToShow.assignedCharacter)
+  : null;
 
   return (
     <div className={styles.modal}>
       <h2>Ship: {shipToShow.name}</h2>
       <p>Location: System {shipToShow.locationSystemId}</p>
+      {assignedCharacter && <p>Surveyor: { assignedCharacter.name} </p>}
       { (colonizablePlanetoids.length > 0 && shipToShow.type === 'colony_ship') && <div>
           <select name="colonyTarget" value={selectedPlanetoid || ''} onChange={(e) => setSelectedPlanetoid(Number(e.target.value))}>
            {colonizablePlanetoids.map(planetoid => {
@@ -50,6 +57,7 @@ function ShipSelectModal() {
       }
 
       {  shipToShow.type === 'survey_ship' && <div>
+
         <select name="surveyTarget" value={selectedPlanetoid || ''} onChange={(e) => setSelectedPlanetoid(Number(e.target.value))}>
         {allPlanetoids.map(planetoid => {
           if (!planetoid) return null;
@@ -61,7 +69,9 @@ function ShipSelectModal() {
         </select>
         <button onClick={() => {if(selectedPlanetoid){
           beginPlanetoidSurvey({shipId: shipToShow.id, planetoidId: selectedPlanetoid}); closeModal();}
-        }}>Colonize World</button>
+        }}>Survey World</button>
+
+        {shipToShow.ownerNationId === 1 && <button onClick={() => openAssignModal("assign_character", {targetId: selection.id, position: 'surveyor'})}>Assign new Surveyor</button>}
         </div>
       }
       <button onClick={closeModal}>Close</button>
