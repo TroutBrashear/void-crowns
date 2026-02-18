@@ -58,7 +58,6 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
     		hasMadeChanges = true;
     	}
   	}
-	console.log(hasMadeChanges);
 
 	if (hasMadeChanges) {
 	   	return {
@@ -90,20 +89,33 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 
   	//loop for idle ships to take actions if necessary. Right now, this means a colony ship is in a target system and colonizes a world.
   	for(const ship of idleShips) {
-  		if(ship.type !== 'colony_ship') {
-  			continue;
-  		}
+  		if(ship.type === 'colony_ship') {
+			const locationSystem = nextState.systems.entities[ship.locationSystemId];
+			if(locationSystem.ownerNationId !== null){
+				continue;
+			}
 
-  		const locationSystem = nextState.systems.entities[ship.locationSystemId];
-  		if(locationSystem.ownerNationId !== null){
-  			continue;
+			const habitableWorlds = getHabitablesInSystem(nextState, locationSystem.id);
+			if(habitableWorlds.length > 0){
+				nextState = colonizePlanetoid(nextState, { shipId: ship.id, planetoidId: habitableWorlds[0].id });
+				hasMadeChanges = true;
+			}
   		}
+		else if(ship.type === 'survey_ship'){
+			const targetPlanetoid = nextState.planetoids.entities[ship.assignmentTargetId];
 
-  		const habitableWorlds = getHabitablesInSystem(nextState, locationSystem.id);
-  		if(habitableWorlds.length > 0){
-  			nextState = colonizePlanetoid(nextState, { shipId: ship.id, planetoidId: habitableWorlds[0].id });
-  			hasMadeChanges = true;
-  		}
+			if(!targetPlanetoid){
+				const newTargetPlanetoid = Object.values(nextState.planetoids.entities).find(planetoid => planetoid.ownerNationId === orgId && planetoid.deposits.filter(deposit => deposit.isVisible && deposit.amount > 500).length < 3);
+
+				if(!newTargetPlanetoid){
+					continue;
+				}
+
+				nextState = beginPlanetoidSurvey(nextState, { shipId: ship.id, planetoidId: newTargetPlanetoid.id});
+				hasMadeChanges = true;
+			}
+			//TODO: reevaluate current target. Do we need a new one?
+		}
   	}
 
   	const newShipEntities = { ...nextState.ships.entities };
@@ -119,31 +131,51 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
      		continue;
     	}
 
-		console.log(thinkingOrg.contextHistory.targetSystems);
+    	if(ship.type === 'survey_ship'){
+			if(currentSystem.planetoids.some(planetoidId => planetoidId === ship.assignmentTargetId)){
+				continue;
+			}
+			else{
+				const newPath = findPath(
+					ship.locationSystemId,
+					nextState.planetoids.entities[ship.assignmentTargetId].locationSystemId,
+					nextState.systems
+				);
 
-    	const targetSystemId = thinkingOrg.contextHistory.targetSystems.find(id => {
-     		const system = nextState.systems.entities[id];
+				const updatedShip = {
+					...ship,
+					movementPath: newPath,
+				};
 
-      		const isTargeted = Object.values(newShipEntities).some(s =>
-        		s.movementPath.includes(id) && s.ownerNationId === orgId
-      		);
-      		return system && system.ownerNationId === null && !isTargeted;
-    	});
+				newShipEntities[ship.id] = updatedShip;
+				hasMadeChanges = true;
+			}
+		}
+		if(ship.type === 'colony_ship'){
+			const targetSystemId = thinkingOrg.contextHistory.targetSystems.find(id => {
+				const system = nextState.systems.entities[id];
 
-    	if (targetSystemId) {
-      		const newPath = findPath(
-        		ship.locationSystemId,
-        		targetSystemId,
-        		nextState.systems
-      		);
+				const isTargeted = Object.values(newShipEntities).some(s =>
+					s.movementPath.includes(id) && s.ownerNationId === orgId
+				);
+				return system && system.ownerNationId === null && !isTargeted;
+			});
 
-      		const updatedShip = {
-        		...ship,
-      			movementPath: newPath,
-      		};
+			if (targetSystemId) {
+				const newPath = findPath(
+					ship.locationSystemId,
+					targetSystemId,
+					nextState.systems
+				);
 
-     		newShipEntities[ship.id] = updatedShip;
-    		hasMadeChanges = true;
+				const updatedShip = {
+					...ship,
+					movementPath: newPath,
+				};
+
+				newShipEntities[ship.id] = updatedShip;
+				hasMadeChanges = true;
+			}
     	}
   	}
 

@@ -30,7 +30,6 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 	}
 	
 	//evaluate buildPlan
-
 	const buildIntent = buildPlan.shift();
 	if (!buildIntent ){
 		return nextState;
