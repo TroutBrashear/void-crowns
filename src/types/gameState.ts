@@ -129,7 +129,7 @@ export interface charAssignment {
   id: number;
 }
 
-export type SkillName = 'navalCombat' | 'administration';
+export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'academics';
 
 export interface Character {
   readonly id: number;

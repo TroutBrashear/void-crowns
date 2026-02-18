@@ -1,6 +1,6 @@
 import type { GameState } from '../../types/gameState';
 import { findPath } from '../pathfinding';
-import { getHabitablesInSystem, colonizePlanetoid } from '../colonization';
+import { getHabitablesInSystem, colonizePlanetoid, beginPlanetoidSurvey } from '../colonization';
 
 export function processAiFleetMoves(currentState: GameState, orgId: number): GameState {
 
@@ -102,7 +102,11 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 			}
   		}
 		else if(ship.type === 'survey_ship'){
-			const targetPlanetoid = nextState.planetoids.entities[ship.assignmentTargetId];
+
+			let targetPlanetoid = null;
+			if(ship.assignmentTargetId){
+				targetPlanetoid = nextState.planetoids.entities[ship.assignmentTargetId];
+			}
 
 			if(!targetPlanetoid){
 				const newTargetPlanetoid = Object.values(nextState.planetoids.entities).find(planetoid => planetoid.ownerNationId === orgId && planetoid.deposits.filter(deposit => deposit.isVisible && deposit.amount > 500).length < 3);
@@ -132,7 +136,7 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
     	}
 
     	if(ship.type === 'survey_ship'){
-			if(currentSystem.planetoids.some(planetoidId => planetoidId === ship.assignmentTargetId)){
+			if(ship.assignmentTargetId && currentSystem.planetoids.some(planetoidId => planetoidId === ship.assignmentTargetId)){
 				continue;
 			}
 			else{

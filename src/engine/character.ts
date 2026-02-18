@@ -183,6 +183,8 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 		skills: {
 			administration: Math.floor(Math.random()*6),
 			navalCombat: Math.floor(Math.random()*6),
+			exploration: Math.floor(Math.random()*6),
+			academics: Math.floor(Math.random()*6),
 		},
 	};
 	
