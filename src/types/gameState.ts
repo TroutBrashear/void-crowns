@@ -70,8 +70,12 @@ export interface Ship {
 
   movementPath: number[];
 
+  //some ShipTypes have the potential for an assignedCharacter. - survey_ship
+  assignedCharacter number | null;
+
   //survey_ship has an assignmentTargetId pointing to the Planetoid it is surveying
-  assignmentTargetId?: number | null;
+  assignmentTargetId: number | null;
+
 }
 
 export interface Resources {
@@ -123,9 +127,11 @@ export interface Org {
 
 }
 
+export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor';
+
 //a helper that holds information about what a character is currently doing
 export interface charAssignment {
-  type: string;
+  type: CharacterAssignment;
   id: number;
 }
 

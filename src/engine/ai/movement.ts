@@ -139,7 +139,7 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 			if(ship.assignmentTargetId && currentSystem.planetoids.some(planetoidId => planetoidId === ship.assignmentTargetId)){
 				continue;
 			}
-			else{
+			else if(ship.assignmentTargetId){
 				const newPath = findPath(
 					ship.locationSystemId,
 					nextState.planetoids.entities[ship.assignmentTargetId].locationSystemId,

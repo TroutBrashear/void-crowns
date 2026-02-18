@@ -249,7 +249,7 @@ export function processCharacterCycles(currentState: GameState): GameState {
 		if(currentOrg){
 			
 			
-			while(currentOrg.characters.characterPool.length < 4){
+			while(currentOrg.characters.characterPool.length < 6){
 				nextCId++;
 				let newCharacter = generateCharacter(nextCId, currentOrg.flavor.nameList);
 				console.log(newCharacter.name);
