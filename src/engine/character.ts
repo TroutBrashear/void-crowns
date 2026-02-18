@@ -1,4 +1,4 @@
-import type { GameState, Character, SkillName, CharProcess } from '../types/gameState';
+import type { GameState, Character, SkillName, CharProcess, CharacterAssignment } from '../types/gameState';
 import { NAME_LISTS } from '../data/names';
 import { CHARACTER_EVENTS } from '../data/events';
 
@@ -67,7 +67,7 @@ export function engineRunCharacterEvent(currentState: GameState, charId: number,
 }
 
 
-export function engineAssignCharacter(currentState: GameState, charId: number, assignmentTargetId: number, assignmentType: string): GameState {
+export function engineAssignCharacter(currentState: GameState, charId: number, assignmentTargetId: number, assignmentType: CharacterAssignment): GameState {
 	
 	let functionState = engineUnassignCharacter(currentState, charId);
 
@@ -137,7 +137,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	let newFleets = { ...currentState.fleets.entities };
 	let newSystems = { ...currentState.systems.entities };
 	let newOrgs = { ...currentState.orgs.entities };
-	let newShips = { ...functionState.ships.entities };
+	let newShips = { ...currentState.ships.entities };
 	if(newCharacters[charId].assignment.type === 'admiral'){
 		newFleets[newCharacters[charId].assignment.id] = { ...newFleets[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
@@ -148,7 +148,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 		newOrgs[newCharacters[charId].assignment.id] = { ...newOrgs[newCharacters[charId].assignment.id], characters: { ...newOrgs[newCharacters[charId].assignment.id].characters, leaderId: null }};
 	}
 	else if(newCharacters[charId].assignment.type === 'surveyor'){
-		newShips[assignmentTargetId] = { ...newShips[assignmentTargetId], assignedCharacter: null };
+		newShips[newCharacters[charId].assignment.id] = { ...newShips[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else{
 		return currentState;

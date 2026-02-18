@@ -1,7 +1,7 @@
 import { useUiStore } from '../../../state/uiStore';
 import { useGameStore } from '../../../state/gameStore';
 import { useState } from 'react';
-import type { Fleet, System, Org } from '../../../types/gameState';
+import type { Fleet, System, Org, Ship } from '../../../types/gameState';
 import styles from './AssignModal.module.css';
 
 
