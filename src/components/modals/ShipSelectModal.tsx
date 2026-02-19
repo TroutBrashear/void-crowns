@@ -18,6 +18,9 @@ function ShipSelectModal() {
   const beginPlanetoidSurvey = useGameStore(state => state.beginPlanetoidSurvey);
   const [selectedPlanetoid, setSelectedPlanetoid] = useState<number | null>(null);
 
+  if (!selection) {
+    return null;
+  }
 
   const shipToShow = 
     (selection?.type === 'ship') 

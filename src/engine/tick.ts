@@ -67,30 +67,27 @@ export function processTick(currentState: GameState): GameState {
   let updatedPlanetoidEntities = { ...currentState.planetoids.entities };
 
   for (const shipId of currentState.ships.ids) {
-    const ship = currentState.ships.entities[shipId];
-
+    let updatedShip = { ...currentState.ships.entities[shipId] };
     //is the ship moving?
-    if (ship.movementPath.length > 0) {
+    if (updatedShip.movementPath.length > 0) {
       hasChanges = true; 
 
-      const newLocationSystemId = ship.movementPath[0];
+      const newLocationSystemId = updatedShip.movementPath[0];
       
-      const newMovementPath = ship.movementPath.slice(1);
+      const newMovementPath = updatedShip.movementPath.slice(1);
 
-      const updatedShip: Ship = {
-        ...ship,
+      updatedShip = {
+        ...updatedShip,
         locationSystemId: newLocationSystemId,
         movementPath: newMovementPath,
       };
-
-      updatedShipEntities[shipId] = updatedShip;
     }
     else{ //evaluate certain Ship assignments
       //evaluate an ongoing survey
-      if(ship.type === 'survey_ship' && ship.assignmentTargetId && (currentState.meta.turn % 20) === 0){
-        let targetPlanetoid =  updatedPlanetoidEntities[ship.assignmentTargetId];
-        if(targetPlanetoid.locationSystemId === ship.locationSystemId){
-
+      if(updatedShip.type === 'survey_ship' && updatedShip.assignmentTargetId && (currentState.meta.turn % 20) === 0){
+        let targetPlanetoid =  updatedPlanetoidEntities[updatedShip.assignmentTargetId];
+        if(targetPlanetoid.locationSystemId === updatedShip.locationSystemId){
+          hasChanges = true;
           const surveyRoll = Math.random() * 6;
 
           const depositIndex = targetPlanetoid.deposits.findIndex(deposit => !deposit.isVisible && deposit.difficulty < surveyRoll);
@@ -103,14 +100,33 @@ export function processTick(currentState: GameState): GameState {
               isVisible: true,
             }
 
-            updatedPlanetoidEntities[ship.assignmentTargetId] = {
-              ...updatedPlanetoidEntities[ship.assignmentTargetId],
+            updatedPlanetoidEntities[updatedShip.assignmentTargetId] = {
+              ...updatedPlanetoidEntities[updatedShip.assignmentTargetId],
               deposits: newDeposits,
+            };
+
+            updatedShip = {
+              ...updatedShip,
+              contextHistory: {
+                ...updatedShip.contextHistory,
+                assignmentProgress: 0,
+              }
+            };
+          }
+          else{
+            updatedShip = {
+              ...updatedShip,
+              contextHistory: {
+                ...updatedShip.contextHistory,
+                assignmentProgress: updatedShip.contextHistory.assignmentProgress + 1,
+              }
             };
           }
         }
       }
     }
+
+    updatedShipEntities[shipId] = updatedShip;
   }
 
   if (!hasChanges) {

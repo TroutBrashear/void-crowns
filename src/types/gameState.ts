@@ -75,6 +75,10 @@ export interface Ship {
 
   //survey_ship has an assignmentTargetId pointing to the Planetoid it is surveying
   assignmentTargetId: number | null;
+
+  contextHistory: {
+    assignmentProgress: number;
+  }
 }
 
 export interface Resources {
@@ -269,7 +273,7 @@ export interface GameActions {
   colonizePlanetoid: (payload: ColonizePayload) => void;
   beginPlanetoidSurvey: (payload: ColonizePayload) => void;
   initializeNewGame: (payload: {playerOrgName: string, playerOrgColor: string} ) => void;
-  assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: string}) => void;
+  assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: CharacterAssignment}) => void;
 }
 
 export type GameStoreState = GameState & GameActions;

@@ -18,6 +18,9 @@ export function evaluateBestCandidate(assignmentType: string, characters: Charac
 		else if(assignmentType === 'governor'){
 			characterScore += character.skills.administration;
 		}
+		else if(assignmentType === 'surveyor'){
+			characterScore += character.skills.exploration*2 + character.skills.academics;
+		}
 
 		if(characterScore > winningScore){
 			bestCandidate = character;
@@ -39,6 +42,7 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 		return currentState;
 	}
 
+	//Priority 1 - does the org have a leader?
 	if(!thinkingOrg.characters.leaderId){
 		let bestCandidateId = evaluateBestCandidate('leader', characterPool).id;
 		nextState = engineAssignCharacter(nextState, bestCandidateId, orgId, 'leader');

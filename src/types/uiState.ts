@@ -1,10 +1,8 @@
-import type { Selection } from './gameState'; 
+import type { Selection, CharacterAssignment} from './gameState';
 
 export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_modal" | "planet_modal"; 
 
 export type AssignType = "assign_character";
-
-export type CharacterAssignments = "leader" | "admiral" | "governor";
 
 export type PanelType = "diplomacy_panel" | "politics_panel";
 
@@ -19,7 +17,7 @@ export interface NotificationData {
 
 export interface CharacterAssignTarget {
   targetId: number;
-  position: CharacterAssignments;
+  position: CharacterAssignment;
 }
 
 export interface UiState {

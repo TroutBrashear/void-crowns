@@ -106,7 +106,10 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
         movementPath: [],
         assignmentTargetId: null,
         assignedCharacter: null,
-        };
+        contextHistory: {
+          assignmentProgress: 0,
+        }
+      };
 
       const updatedOrg = {
         ...ownerOrg,
