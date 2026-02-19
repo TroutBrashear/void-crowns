@@ -88,10 +88,10 @@ export function processTick(currentState: GameState): GameState {
         let targetPlanetoid =  updatedPlanetoidEntities[updatedShip.assignmentTargetId];
         if(targetPlanetoid.locationSystemId === updatedShip.locationSystemId){
           hasChanges = true;
-          const surveyRoll = Math.random() * 6;
+          let surveyRoll = Math.random() * 6;
 
           if(updatedShip.assignedCharacter){
-            surveyRoll += (updatedShip.assignedCharacter.skills.exploration + updatedShip.assignedCharacter.skills.academics)/2;
+            surveyRoll += (nextState.characters.entities[updatedShip.assignedCharacter].skills.exploration + nextState.characters.entities[updatedShip.assignedCharacter].skills.academics)/2;
           }
 
           const depositIndex = targetPlanetoid.deposits.findIndex(deposit => !deposit.isVisible && deposit.difficulty < surveyRoll);
