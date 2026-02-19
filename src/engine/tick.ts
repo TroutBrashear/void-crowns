@@ -90,6 +90,10 @@ export function processTick(currentState: GameState): GameState {
           hasChanges = true;
           const surveyRoll = Math.random() * 6;
 
+          if(updatedShip.assignedCharacter){
+            surveyRoll += (updatedShip.assignedCharacter.skills.exploration + updatedShip.assignedCharacter.skills.academics)/2;
+          }
+
           const depositIndex = targetPlanetoid.deposits.findIndex(deposit => !deposit.isVisible && deposit.difficulty < surveyRoll);
 
           if(depositIndex !== -1){
