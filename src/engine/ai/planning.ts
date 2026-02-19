@@ -1,10 +1,10 @@
-import type { GameState, Character, BuildingClass, Planetoid } from '../../types/gameState';
+import type { GameState, Character, BuildingClass, Planetoid, CharacterAssignment } from '../../types/gameState';
 import { evaluateSystemValue } from '../colonization';
 import { engineAssignCharacter } from '../character';
 
-export function evaluateBestCandidate(assignmentType: string, characters: Character[]): Character {
-	let bestCandidate = characters[0];
-	let winningScore = -1;
+export function evaluateBestCandidate(assignmentType: CharacterAssignment, characters: Character[]): number {
+	let bestCandidate = -1;
+	let winningScore = 0;
 
 	for(const character of characters){
 		let characterScore = 0;
@@ -22,8 +22,18 @@ export function evaluateBestCandidate(assignmentType: string, characters: Charac
 			characterScore += character.skills.exploration*2 + character.skills.academics;
 		}
 
+		if(character.assignment){
+			characterScore -= 4;
+			if(character.assignment.type === 'leader'){
+				characterScore = -10; //never reassign leader.
+			}
+			else if(character.assignment.type === assignmentType){
+				characterScore -= 4; //already doing this somewhere else.
+			}
+		}
+
 		if(characterScore > winningScore){
-			bestCandidate = character;
+			bestCandidate = character.id;
 			winningScore = characterScore;
 		}
 	}
@@ -44,8 +54,19 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 
 	//Priority 1 - does the org have a leader?
 	if(!thinkingOrg.characters.leaderId){
-		let bestCandidateId = evaluateBestCandidate('leader', characterPool).id;
-		nextState = engineAssignCharacter(nextState, bestCandidateId, orgId, 'leader');
+		let bestCandidateId = evaluateBestCandidate('leader', characterPool);
+		if(bestCandidateId > -1) {
+			nextState = engineAssignCharacter(nextState, bestCandidateId, orgId, 'leader');
+		}
+	}
+
+	//Priority 2 - do fleets have leaders?
+	let leaderlessFleets = Object.values(currentState.fleets.entities).filter(fleet => (fleet.ownerNationId === orgId && !fleet.assignedCharacterId));
+	for(const fleet of leaderlessFleets){
+		let bestCandidateId = evaluateBestCandidate('admiral', characterPool);
+		if(bestCandidateId > -1) {
+			nextState = engineAssignCharacter(nextState, bestCandidateId, fleet.id, 'admiral');
+		}
 	}
 
 	return {
