@@ -85,6 +85,7 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
   	}
 
   	const thinkingOrg = currentState.orgs.entities[orgId];
+	let orgNoProspects = currentState.intelligence.planetoidIntel[orgId].noProspects;
   	let hasMadeChanges = false;
 
   	//loop for idle ships to take actions if necessary. Right now, this means a colony ship is in a target system and colonizes a world.
@@ -109,7 +110,7 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 			}
 
 			if(!targetPlanetoid){
-				const newTargetPlanetoid = Object.values(nextState.planetoids.entities).find(planetoid => planetoid.ownerNationId === orgId && planetoid.deposits.filter(deposit => deposit.isVisible && deposit.amount > 500).length < 3);
+				const newTargetPlanetoid = Object.values(nextState.planetoids.entities).find(planetoid => planetoid.ownerNationId === orgId && !orgNoProspects.some(prospect => prospect === planetoid.id)&& planetoid.deposits.filter(deposit => deposit.isVisible && deposit.amount > 500).length < 3);
 
 				if(!newTargetPlanetoid){
 					continue;
@@ -118,7 +119,21 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 				nextState = beginPlanetoidSurvey(nextState, { shipId: ship.id, planetoidId: newTargetPlanetoid.id});
 				hasMadeChanges = true;
 			}
-			//TODO: reevaluate current target. Do we need a new one?
+			else if(orgNoProspects.includes(targetPlanetoid.id)){
+				nextState = {
+					...nextState,
+					ships: {
+						...nextState.ships,
+						entities: {
+							...nextState.ships.entities,
+							[ship.id]: {
+								...nextState.ships.entities[ship.id],
+								assignmentTargetId: null,
+							}
+						}
+					}
+				}
+			}
 		}
   	}
 

@@ -65,6 +65,7 @@ export function processTick(currentState: GameState): GameState {
   const updatedShipEntities: { [id: number]: Ship } = {};
 
   let updatedPlanetoidEntities = { ...currentState.planetoids.entities };
+  let planetoidIntel = { ...currentState.intelligence.planetoidIntel };
 
   for (const shipId of currentState.ships.ids) {
     let updatedShip = { ...currentState.ships.entities[shipId] };
@@ -125,6 +126,15 @@ export function processTick(currentState: GameState): GameState {
                 assignmentProgress: updatedShip.contextHistory.assignmentProgress + 1,
               }
             };
+
+            if(updatedShip.contextHistory.assignmentProgress > 10){
+              //enable noProspects
+              let orgPlanetoidIntel = [ ...planetoidIntel[updatedShip.ownerNationId].noProspects];
+
+              orgPlanetoidIntel.push(updatedShip.assignmentTargetId);
+
+              planetoidIntel[updatedShip.ownerNationId] = { ...planetoidIntel[updatedShip.ownerNationId], noProspects: orgPlanetoidIntel};
+            }
           }
         }
       }
@@ -156,6 +166,10 @@ export function processTick(currentState: GameState): GameState {
     planetoids: {
       ...nextState.planetoids,
       entities: updatedPlanetoidEntities,
+    },
+    intelligence: {
+      ...nextState.intelligence,
+      planetoidIntel: planetoidIntel,
     }
   };
 
