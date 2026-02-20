@@ -61,7 +61,7 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 	}
 
 	//Priority 2 - do fleets have leaders?
-	let leaderlessFleets = Object.values(currentState.fleets.entities).filter(fleet => (fleet.ownerNationId === orgId && !fleet.assignedCharacterId));
+	let leaderlessFleets = Object.values(currentState.fleets.entities).filter(fleet => (fleet.ownerNationId === orgId && !fleet.assignedCharacter));
 	for(const fleet of leaderlessFleets){
 		let bestCandidateId = evaluateBestCandidate('admiral', characterPool);
 		if(bestCandidateId > -1) {

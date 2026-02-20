@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
 import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, BuildingClass, DiploType } from '../types/gameState';
-import type { Fleet } from '../types/gameState'; 
+import type { Fleet, PlanetoidIntel } from '../types/gameState';
 
 //engine imports
 import { processTick } from '../engine/tick';
@@ -80,7 +80,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     planetoids: { entities: {}, ids: [] },
 	characters: { entities: {}, ids: [] },
     fleetLocationIndex: {},   
-    intelligence: { trueStatus: {}},
+    intelligence: { trueStatus: {}, planetoidIntel: {}},
 
   tick: () => {
     const currentState = get();
@@ -290,6 +290,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     orgs[0].flavor.name = payload.playerOrgName;
     orgs[0].flavor.color = payload.playerOrgColor;
 
+    let intelState: Record<number, PlanetoidIntel> = {};
+
     for(const currentOrg of orgs) {
       //temp solution, can randomize later
       systems[currentOrg.id].ownerNationId = currentOrg.id; 
@@ -305,6 +307,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         home.population = 8000000000;
         home.ownerNationId = currentOrg.id;
       }
+
+      intelState[currentOrg.id] = { noProspects: [] };
     }
 
     set({
@@ -323,6 +327,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       ships: { entities: {}, ids: [] },
       planetoids: normalize(planetoids),
       orgs: normalize(orgs),
+      intelligence: { trueStatus: {}, planetoidIntel: intelState },
     });
   },
 

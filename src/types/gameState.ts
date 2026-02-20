@@ -154,9 +154,13 @@ export interface IntelStatus {
   militaryStrength: number;
 }
 
+export interface PlanetoidIntel {
+  noProspects: number[];
+}
 
 export interface IntelOverall {
-  trueStatus: Record<number, IntelStatus>;
+  trueStatus: Record<number, IntelStatus>; //number - the target orgId
+  planetoidIntel: Record<number, PlanetoidIntel>; //number- the originating orgId and their PERCEPTION of planetoids
 }
 
 export interface EntitiesState<T> {
