@@ -21,6 +21,7 @@ export interface CharProcess {
 	reduceSkill?: Record<SkillName, number>;
 	addTrait?: string[];
 	removeTrait?: string[];
+    killCharacter?: boolean;
 }
 
 export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase';
@@ -177,6 +178,16 @@ export interface Selection {
   id: number;
 }
 
+export type LaneStatus = 'stable' | 'fading' | 'immaterial';
+
+export interface Lane {
+  readonly id: number;
+  status: LaneStatus;
+
+  //the systems the lane connects
+  systemIdA: number;
+  systemIdB: number;
+}
 
 
 export interface MoveOrderPayload {
@@ -247,6 +258,7 @@ export interface GameState {
   planetoids: EntitiesState<Planetoid>;
   ships: EntitiesState<Ship>;
   characters: EntitiesState<Character>;
+  lanes: EntitiesState<Lane>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
