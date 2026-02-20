@@ -129,6 +129,10 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 							[ship.id]: {
 								...nextState.ships.entities[ship.id],
 								assignmentTargetId: null,
+								contextHistory: {
+									...nextState.ships.entities[ship.id].contextHistory,
+									assignmentProgress: 0,
+								}
 							}
 						}
 					}

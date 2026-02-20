@@ -130,8 +130,9 @@ export function processTick(currentState: GameState): GameState {
             if(updatedShip.contextHistory.assignmentProgress > 10){
               //enable noProspects
               let orgPlanetoidIntel = [ ...planetoidIntel[updatedShip.ownerNationId].noProspects];
-
-              orgPlanetoidIntel.push(updatedShip.assignmentTargetId);
+              if(updatedShip.assignmentTargetId !== null){
+                orgPlanetoidIntel.push(updatedShip.assignmentTargetId);
+              }
 
               planetoidIntel[updatedShip.ownerNationId] = { ...planetoidIntel[updatedShip.ownerNationId], noProspects: orgPlanetoidIntel};
             }
