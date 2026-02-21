@@ -75,7 +75,7 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	return newDeposits;
 }
 
-export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[], lanes: Lanes[]} {
+export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[], lanes: Lane[]} {
 	let newGalaxy: System[] = [];
 	let newPlanetoids: Planetoid[] = [];
 	let newLanes: Lane[] = [];
@@ -103,6 +103,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			},
 
 			adjacentSystemIds: [],
+			adjacentLanes: [],
 			ownerNationId: null,
 
 			planetoids: [],
@@ -225,12 +226,11 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 		focusSystem.adjacentSystemIds = neighbors.map(nSystem => {
 			let lane = {
 				id: nextLaneId++,
-				status: 'stable',
+				status: "stable",
 
 				systemIdA: focusSystem.id,
 				systemIdB: nSystem.id,
 			};
-
 			newLanes.push(lane);
 
 			return nSystem.id;
@@ -297,14 +297,21 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 
 		let lane = {
 			id: nextLaneId++,
-			status: 'stable',
+			status: "stable",
 
 			systemIdA: closestSystem.id,
 			systemIdB: closestOrphan.id,
 		};
+
+		newLanes.push(lane);
   	}
   }
 
+  //add all lanes to adjacentLanes
+  for(const lane of newLanes){
+	  newGalaxy[lane.systemIdA].adjacentLanes.push(lane.id);
+	  newGalaxy[lane.systemIdB].adjacentLanes.push(lane.id);
+  }
 
   return {systems: newGalaxy, planetoids: newPlanetoids, lanes: newLanes};
 }

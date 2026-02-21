@@ -5,6 +5,7 @@ export interface System {
   name: string;
   position: { x: number; y: number };
   adjacentSystemIds: number[];
+  adjacentLanes: number[];
   ownerNationId: number | null;
   planetoids: number[]; //the ids of all planetoids in this system
   assignedCharacter: number | null;
