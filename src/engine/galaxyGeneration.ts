@@ -78,9 +78,11 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[], lanes: Lane[]} {
 	let newGalaxy: System[] = [];
 	let newPlanetoids: Planetoid[] = [];
-	let newLanes: Lane[] = [];
 	let nextPlanId = 0;
+
+	let newLanes: Lane[] = [];
 	let nextLaneId = 0;
+	let createdLanes = new Set<string>();
 
 	//tag dicts
 	let planetoidTagKeys = Object.keys(PLANETOID_TAGS);
@@ -224,15 +226,19 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 		}
 
 		focusSystem.adjacentSystemIds = neighbors.map(nSystem => {
-			let lane = {
-				id: nextLaneId++,
-				status: "stable",
+			let laneKey = `${Math.min(nSystem.id, focusSystem.id)}-${Math.max(nSystem.id, focusSystem.id)}`;
 
-				systemIdA: focusSystem.id,
-				systemIdB: nSystem.id,
-			};
-			newLanes.push(lane);
+			if(!createdLanes.has(laneKey)){
+				let lane: Lane = {
+					id: nextLaneId++,
+					status: "stable",
 
+					systemIdA: focusSystem.id,
+					systemIdB: nSystem.id,
+				};
+				createdLanes.add(laneKey);
+				newLanes.push(lane);
+			}
 			return nSystem.id;
 		});
 	}
@@ -295,22 +301,26 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
   		closestOrphan.adjacentSystemIds.push(closestSystem.id);
   		closestSystem.adjacentSystemIds.push(closestOrphan.id);
 
-		let lane = {
-			id: nextLaneId++,
-			status: "stable",
+		let laneKey = `${Math.min(closestSystem.id, closestOrphan.id)}-${Math.max(closestSystem.id, closestOrphan.id)}`;
 
-			systemIdA: closestSystem.id,
-			systemIdB: closestOrphan.id,
-		};
+		if(!createdLanes.has(laneKey)){
+			let lane: Lane = {
+				id: nextLaneId++,
+				status: "stable",
 
-		newLanes.push(lane);
+				systemIdA: closestSystem.id,
+				systemIdB: closestOrphan.id,
+			};
+			createdLanes.add(laneKey);
+			newLanes.push(lane);
+		}
   	}
   }
 
   //add all lanes to adjacentLanes
   for(const lane of newLanes){
-	  newGalaxy[lane.systemIdA].adjacentLanes.push(lane.id);
-	  newGalaxy[lane.systemIdB].adjacentLanes.push(lane.id);
+	  newGalaxy[lane.systemIdA-1].adjacentLanes.push(lane.id);
+	  newGalaxy[lane.systemIdB-1].adjacentLanes.push(lane.id);
   }
 
   return {systems: newGalaxy, planetoids: newPlanetoids, lanes: newLanes};
