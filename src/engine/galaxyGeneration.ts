@@ -238,6 +238,8 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 				};
 				createdLanes.add(laneKey);
 				newLanes.push(lane);
+				newGalaxy.find(system => system.id === focusSystem.id).adjacentLanes.push(lane.id);
+				newGalaxy.find(system => system.id === nSystem.id).adjacentLanes.push(lane.id);
 			}
 			return nSystem.id;
 		});
@@ -267,9 +269,19 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
   	  ids: newGalaxy.map(s => s.id),
 	  };
 
+	const tempLaneEntities: { [id: number]: Lane } = {};
+	  for (const lane of newLanes) {
+		  tempLaneEntities[lane.id] = lane;
+	  }
+
+	const tempLanes: {entities: { [id: number]: Lane}, ids: number[] } = {
+		entities:  tempLaneEntities,
+		ids: newLanes.map(p => p.id),
+	};
+	console.log('loop');
 	disconnectedSystems = newGalaxy.filter(system => {
       if (system.id === 1) return false;
-      const pathToSystem1 = findPath(system.id, 1, tempSystems);
+      const pathToSystem1 = findPath(system.id, 1, tempSystems, tempLanes);
       return pathToSystem1.length === 0;
     });
 
@@ -313,14 +325,10 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			};
 			createdLanes.add(laneKey);
 			newLanes.push(lane);
+			newGalaxy.find(system => system.id === closestSystem.id).adjacentLanes.push(lane.id);
+			newGalaxy.find(system => system.id === closestOrphan.id).adjacentLanes.push(lane.id);
 		}
   	}
-  }
-
-  //add all lanes to adjacentLanes
-  for(const lane of newLanes){
-	  newGalaxy[lane.systemIdA-1].adjacentLanes.push(lane.id);
-	  newGalaxy[lane.systemIdB-1].adjacentLanes.push(lane.id);
   }
 
   return {systems: newGalaxy, planetoids: newPlanetoids, lanes: newLanes};

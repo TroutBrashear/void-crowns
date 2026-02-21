@@ -1,6 +1,6 @@
 import type { EntitiesState, System } from '../types/gameState';
 
-export function findPath(startingSystemId: number, endingSystemId: number, systems: EntitiesState<System>): number[] {
+export function findPath(startingSystemId: number, endingSystemId: number, systems: EntitiesState<System>, lanes: EntitiesState<Lane>): number[] {
 	let finalPath: number[] = [];
 
 	//set up for BFS
@@ -18,10 +18,16 @@ export function findPath(startingSystemId: number, endingSystemId: number, syste
 			break;
 		}
 		
-		for(const adjacentId of currentSystem.adjacentSystemIds){
-			if(!(adjacentId in cameFrom)){
-				queue.push(adjacentId);
-				cameFrom[adjacentId] = currentSystemId;
+		for(const adjacentId of currentSystem.adjacentLanes){
+			const currentLane = lanes.entities[adjacentId];
+			if(currentLane.status !== 'immaterial'){
+
+				const neighborId = currentLane.systemIdA === currentSystemId ? currentLane.systemIdB : currentLane.systemIdA;
+
+				if(!(neighborId in cameFrom)){
+					queue.push(neighborId);
+					cameFrom[neighborId] = currentSystemId;
+				}
 			}
 		}
 	}

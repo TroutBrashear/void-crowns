@@ -45,7 +45,8 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
       		const newPath = findPath(
         		fleet.locationSystemId,
         		targetSystemId,
-        		currentState.systems
+        		currentState.systems,
+				currentState.lanes
       		);
 
       		const updatedFleet = {
@@ -162,7 +163,8 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 				const newPath = findPath(
 					ship.locationSystemId,
 					nextState.planetoids.entities[ship.assignmentTargetId].locationSystemId,
-					nextState.systems
+					nextState.systems,
+					nextState.lanes,
 				);
 
 				const updatedShip = {
@@ -188,7 +190,8 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 				const newPath = findPath(
 					ship.locationSystemId,
 					targetSystemId,
-					nextState.systems
+					nextState.systems,
+					nextState.lanes,
 				);
 
 				const updatedShip = {
