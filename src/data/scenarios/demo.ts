@@ -6,10 +6,10 @@ export const initialOrgs: Org[] = [
 ];
 
 export const initialSystems: System[] = [
-  { id: 1, name: 'Sol', position: { x: 100, y: 300 }, adjacentSystemIds: [2], ownerNationId: 1, planetoids: [101, 102, 103, 104, 105], assignedCharacter: null, tags: []},
-  { id: 2, name: 'Alpha Centauri', position: { x: 250, y: 350 }, adjacentSystemIds: [1, 3], ownerNationId: null, planetoids: [201, 202, 203, 204], assignedCharacter: null, tags: [] },
-  { id: 3, name: 'Sirius', position: { x: 400, y: 300 }, adjacentSystemIds: [2, 4], ownerNationId: null, planetoids: [301, 302, 303, 304], assignedCharacter: null, tags: [] },
-  { id: 4, name: 'Procyon', position: { x: 550, y: 350 }, adjacentSystemIds: [3], ownerNationId: 2, planetoids: [401, 402, 403], assignedCharacter: null, tags: [] },
+  { id: 1, name: 'Sol', position: { x: 100, y: 300 }, adjacentSystemIds: [2], adjacentLanes: [1], ownerNationId: 1, planetoids: [101, 102, 103, 104, 105], assignedCharacter: null, tags: []},
+  { id: 2, name: 'Alpha Centauri', position: { x: 250, y: 350 }, adjacentSystemIds: [1, 3], adjacentLanes: [1, 2], ownerNationId: null, planetoids: [201, 202, 203, 204], assignedCharacter: null, tags: [] },
+  { id: 3, name: 'Sirius', position: { x: 400, y: 300 }, adjacentSystemIds: [2, 4], adjacentLanes: [2, 3], ownerNationId: null, planetoids: [301, 302, 303, 304], assignedCharacter: null, tags: [] },
+  { id: 4, name: 'Procyon', position: { x: 550, y: 350 }, adjacentSystemIds: [3], adjacentLanes: [3], ownerNationId: 2, planetoids: [401, 402, 403], assignedCharacter: null, tags: [] },
 ];
 
 export const initialPlanetoids: Planetoid[] = [
@@ -41,6 +41,12 @@ export const initialPlanetoids: Planetoid[] = [
 export const initialFleets: Fleet[] = [
   { id: 1, name: "human fleet", ownerNationId: 1, locationSystemId: 1, movementPath: [], movesRemaining: 3, assignedCharacter: null },
   { id: 2, name: "alien fleet", ownerNationId: 2, locationSystemId: 4, movementPath: [], movesRemaining: 3, assignedCharacter: null },
+];
+
+export const initialLanes: Lane[] = [
+  { id: 1, status: "stable", systemIdA: 1, systemIdB: 2},
+  { id: 2, status: "stable", systemIdA: 2, systemIdB: 3},
+  { id: 3, status: "stable", systemIdA: 3, systemIdB: 4}
 ];
 
 export const initialShips: Ship[] = [];
