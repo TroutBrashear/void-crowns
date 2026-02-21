@@ -1,4 +1,4 @@
-import type { System, Planetoid, Org, OrgRelation, Deposit } from '../types/gameState';
+import type { System, Planetoid, Org, OrgRelation, Deposit, Lane } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { findPath } from './pathfinding';
 import { colorPicker } from '../utils/colors';
@@ -75,10 +75,12 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	return newDeposits;
 }
 
-export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[]} {
+export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[], lanes: Lanes[]} {
 	let newGalaxy: System[] = [];
 	let newPlanetoids: Planetoid[] = [];
+	let newLanes: Lane[] = [];
 	let nextPlanId = 0;
+	let nextLaneId = 0;
 
 	//tag dicts
 	let planetoidTagKeys = Object.keys(PLANETOID_TAGS);
@@ -220,7 +222,19 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			neighbors = neighbors.slice(0, 2);
 		}
 
-		focusSystem.adjacentSystemIds = neighbors.map(nSystem => nSystem.id);
+		focusSystem.adjacentSystemIds = neighbors.map(nSystem => {
+			let lane = {
+				id: nextLaneId++,
+				status: 'stable',
+
+				systemIdA: focusSystem.id,
+				systemIdB: nSystem.id,
+			};
+
+			newLanes.push(lane);
+
+			return nSystem.id;
+		});
 	}
 
 	//make sure adjacencies reciprocate
@@ -280,11 +294,19 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
   	if(closestSystem && closestOrphan){
   		closestOrphan.adjacentSystemIds.push(closestSystem.id);
   		closestSystem.adjacentSystemIds.push(closestOrphan.id);
+
+		let lane = {
+			id: nextLaneId++,
+			status: 'stable',
+
+			systemIdA: closestSystem.id,
+			systemIdB: closestOrphan.id,
+		};
   	}
   }
 
 
-  return {systems: newGalaxy, planetoids: newPlanetoids};
+  return {systems: newGalaxy, planetoids: newPlanetoids, lanes: newLanes};
 }
 
 export function generateStartingOrgs(numOrgs: number): Org[] {

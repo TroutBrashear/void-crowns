@@ -78,6 +78,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     fleets: { entities: {}, ids: [] },   
     orgs: {entities: {}, ids: []},       
     planetoids: { entities: {}, ids: [] },
+    lanes: { entities: {}, ids: [] },
 	characters: { entities: {}, ids: [] },
     fleetLocationIndex: {},   
     intelligence: { trueStatus: {}, planetoidIntel: {}},
@@ -284,7 +285,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
   initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string }) => {
     //currently, generate functions are using a set value. This will later be based on game settings.
-    const { systems, planetoids } = generateGalaxy(500);
+    const { systems, planetoids, lanes } = generateGalaxy(500);
     let orgs = generateStartingOrgs(6);
 
     orgs[0].flavor.name = payload.playerOrgName;
@@ -327,6 +328,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       ships: { entities: {}, ids: [] },
       planetoids: normalize(planetoids),
       orgs: normalize(orgs),
+      lanes: normalize(lanes),
       intelligence: { trueStatus: {}, planetoidIntel: intelState },
     });
   },
