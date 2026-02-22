@@ -19,7 +19,7 @@ function Map({ onSelect }: MapProps) {
   const orgs = useGameStore(state => state.orgs);
   const fleets = useGameStore(state => state.fleets);
   const ships = useGameStore(state => state.ships);
-
+  const lanes = useGameStore(state => state.lanes);
 
   const issueMoveOrder = useGameStore(state => state.issueMoveOrder);
   const issueShipMoveOrder = useGameStore(state => state.issueShipMoveOrder);
@@ -31,24 +31,23 @@ function Map({ onSelect }: MapProps) {
     <TransformComponent wrapperClass={styles.mapWrapper}>
     <svg className={styles.mapSvg} viewBox="0 0 5000 1500">
       
-      {systems.ids.map((systemId: number) => {
-        const system = systems.entities[systemId];
-        return system.adjacentSystemIds.map((adjacentId: number) => {
-          const adjacentSystem = systems.entities[adjacentId];
-          if (system.id < adjacentSystem.id) {
-            return (
-              <line
-                key={`${system.id}-${adjacentId}`}
-                x1={system.position.x}
-                y1={system.position.y}
-                x2={adjacentSystem.position.x}
-                y2={adjacentSystem.position.y}
-                className={styles.starLane}
-              />
-            );
-          }
-          return null;
-        });
+
+      {lanes.ids.map((laneId: number) => {
+        const lane = lanes.entities[laneId];
+
+        const systemA = systems.entities[lane.systemIdA];
+        const systemB = systems.entities[lane.systemIdB];
+
+        return (
+          <line
+          key={`${systemA.id}-${systemB.id}`}
+          x1={systemA.position.x}
+          y1={systemA.position.y}
+          x2={systemB.position.x}
+          y2={systemB.position.y}
+          className={styles.starLane}
+          />
+        );
       })}
 
       {systems.ids.map((systemId: number) => {
