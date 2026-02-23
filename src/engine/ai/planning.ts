@@ -117,7 +117,12 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	const orgSystems = Object.values(currentState.systems.entities).filter(system => system.ownerNationId === orgId);
 	const neighborIds = new Set<number>();
 	orgSystems.forEach(system => {
-		system.adjacentSystemIds.forEach(id => neighborIds.add(id));
+		system.adjacentLanes.forEach(lane => {
+			if(lane.status === 'stable'){
+				const nextNeighborId =  lane.systemIdA === system.id ? lane.systemIdB : lane.systemIdA;
+				neighborIds.add(nextNeighborId);
+			}
+		})
 	});
 	const frontierSystems = Array.from(neighborIds).filter(id => currentState.systems.entities[id].ownerNationId !== orgId);
 

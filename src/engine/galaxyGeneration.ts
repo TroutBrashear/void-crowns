@@ -238,8 +238,12 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 				};
 				createdLanes.add(laneKey);
 				newLanes.push(lane);
-				newGalaxy.find(system => system.id === focusSystem.id).adjacentLanes.push(lane.id);
-				newGalaxy.find(system => system.id === nSystem.id).adjacentLanes.push(lane.id);
+				let systemA = newGalaxy.find(system => system.id === focusSystem.id);
+				let systemB = newGalaxy.find(system => system.id === nSystem.id);
+				if(systemA && systemB){
+					systemA.adjacentLanes.push(lane.id);
+					systemB.adjacentLanes.push(lane.id);
+				}
 			}
 			return nSystem.id;
 		});
@@ -325,8 +329,12 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			};
 			createdLanes.add(laneKey);
 			newLanes.push(lane);
-			newGalaxy.find(system => system.id === closestSystem.id).adjacentLanes.push(lane.id);
-			newGalaxy.find(system => system.id === closestOrphan.id).adjacentLanes.push(lane.id);
+			let systemA = newGalaxy.find(system => system.id === closestSystem.id);
+			let systemB = newGalaxy.find(system => system.id === closestOrphan.id);
+			if(systemA && systemB){
+				systemA.adjacentLanes.push(lane.id);
+				systemB.adjacentLanes.push(lane.id);
+			}
 		}
   	}
   }

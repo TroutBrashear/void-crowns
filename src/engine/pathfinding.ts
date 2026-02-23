@@ -1,4 +1,4 @@
-import type { EntitiesState, System } from '../types/gameState';
+import type { EntitiesState, System, Lane } from '../types/gameState';
 
 export function findPath(startingSystemId: number, endingSystemId: number, systems: EntitiesState<System>, lanes: EntitiesState<Lane>): number[] {
 	let finalPath: number[] = [];

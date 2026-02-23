@@ -176,7 +176,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     const currentState = get();
     const { shipId, targetSystemId } = payload;
     const shipToUpdate = currentState.ships.entities[shipId];
-    const newPath = findPath(shipToUpdate.locationSystemId , targetSystemId, currentState.systems);
+    const newPath = findPath(shipToUpdate.locationSystemId , targetSystemId, currentState.systems, currentState.lanes);
     set((state) => {
       const updatedShip: Ship = {
         ...shipToUpdate,

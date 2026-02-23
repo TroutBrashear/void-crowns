@@ -30,10 +30,13 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
      		continue;
     	}
 
-    	const targetSystemId = currentSystem.adjacentSystemIds.find(id => {
-     		const system = currentState.systems.entities[id];
+    	const targetSystemId = currentSystem.adjacentLanes.find(id => {
+			const lane = currentState.lanes.entities[id];
+			const systemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
+
+     		const system = currentState.systems.entities[systemId];
       		const isTargeted = Object.values(newFleetEntities).some(f =>
-        		f.movementPath.includes(id) && f.ownerNationId === orgId
+        		f.movementPath.includes(systemId) && f.ownerNationId === orgId
       		);
 			if(!atWar){
 				return system && system.ownerNationId === orgId && !isTargeted;
