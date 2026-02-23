@@ -78,12 +78,16 @@ export function reevaluateCurrentPaths(currentState: GameState): GameState {
 				}
 			});
 
-			if(currentLane && currentLane.status === 'immaterial'){
-				fleets[fleetId] = {
-					...fleets[fleetId],
-					movementPath: findPath(fleet.locationSystemId, fleet.movementPath[fleet.movementPath.length - 1], currentState.systems, currentState.lanes),
-				};
-				break;
+			if(currentLane){
+				const laneEntity = currentState.lanes.entities[currentLane];
+
+				if(laneEntity && laneEntity.status === 'immaterial'){
+					fleets[fleetId] = {
+						...fleets[fleetId],
+						movementPath: findPath(fleet.locationSystemId, fleet.movementPath[fleet.movementPath.length - 1], currentState.systems, currentState.lanes),
+					};
+					break;
+				}
 			}
 		}
 	}
@@ -114,12 +118,16 @@ export function reevaluateCurrentPaths(currentState: GameState): GameState {
 				}
 			});
 
-			if(currentLane && currentLane.status === 'immaterial'){
-				ships[shipId] = {
-					...ships[shipId],
-					movementPath: findPath(ship.locationSystemId, ship.movementPath[ship.movementPath.length - 1], currentState.systems, currentState.lanes),
-				};
-				break;
+			if(currentLane){
+				const laneEntity = currentState.lanes.entities[currentLane];
+
+				if(laneEntity && laneEntity.status === 'immaterial'){
+					ships[shipId] = {
+						...ships[shipId],
+						movementPath: findPath(ship.locationSystemId, ship.movementPath[ship.movementPath.length - 1], currentState.systems, currentState.lanes),
+					};
+					break;
+				}
 			}
 		}
 	}

@@ -6,7 +6,7 @@ import type { Fleet, PlanetoidIntel } from '../types/gameState';
 
 //engine imports
 import { processTick } from '../engine/tick';
-import { findPath } from '../engine/pathfinding';
+import { findPath, reevaluateCurrentPaths } from '../engine/pathfinding';
 import { processEconomy } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
@@ -16,6 +16,7 @@ import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration
 import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engine/building';
 import { colonizePlanetoid, beginPlanetoidSurvey } from '../engine/colonization';
 import { engineAssignCharacter } from '../engine/character';
+import { shiftLanes } from '../engine/ecology';
 
 import { normalize } from '../utils/normalize';
 
@@ -92,6 +93,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       nextState = processEconomy(nextState);
     }
 
+
+
     const combatResults = processCombat(nextState);
     nextState = combatResults.newState;
     tickEvents.push(...combatResults.events);
@@ -106,6 +109,11 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       if(orgId !== 1){
         nextState = processAiTurn(nextState, orgId);
       }
+    }
+
+    if(nextState.meta.turn % 50 === 0){
+      nextState = shiftLanes(nextState);
+      nextState = reevaluateCurrentPaths(nextState);
     }
 
     const playerEvents = tickEvents.filter(event => { 
