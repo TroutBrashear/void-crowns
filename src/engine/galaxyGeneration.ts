@@ -226,20 +226,22 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 		}
 
 		focusSystem.adjacentSystemIds = neighbors.map(nSystem => {
-			let laneKey = `${Math.min(nSystem.id, focusSystem.id)}-${Math.max(nSystem.id, focusSystem.id)}`;
+			let systemIdA = Math.min(nSystem.id, focusSystem.id);
+			let systemIdB = Math.max(nSystem.id, focusSystem.id);
+			let laneKey = `${systemIdA}-${systemIdB}`;
 
 			if(!createdLanes.has(laneKey)){
 				let lane: Lane = {
 					id: nextLaneId++,
 					status: "stable",
 
-					systemIdA: focusSystem.id,
-					systemIdB: nSystem.id,
+					systemIdA: systemIdA,
+					systemIdB: systemIdB,
 				};
 				createdLanes.add(laneKey);
 				newLanes.push(lane);
-				let systemA = newGalaxy.find(system => system.id === focusSystem.id);
-				let systemB = newGalaxy.find(system => system.id === nSystem.id);
+				let systemA = newGalaxy.find(system => system.id === systemIdA);
+				let systemB = newGalaxy.find(system => system.id === systemIdB);
 				if(systemA && systemB){
 					systemA.adjacentLanes.push(lane.id);
 					systemB.adjacentLanes.push(lane.id);
@@ -317,20 +319,22 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
   		closestOrphan.adjacentSystemIds.push(closestSystem.id);
   		closestSystem.adjacentSystemIds.push(closestOrphan.id);
 
-		let laneKey = `${Math.min(closestSystem.id, closestOrphan.id)}-${Math.max(closestSystem.id, closestOrphan.id)}`;
+		let systemIdA = Math.min(closestOrphan.id, closestSystem.id);
+		let systemIdB = Math.max(closestOrphan.id, closestSystem.id);
+		let laneKey = `${Math.min(systemIdA, systemIdB)}-${Math.max(systemIdA, systemIdB)}`;
 
 		if(!createdLanes.has(laneKey)){
 			let lane: Lane = {
 				id: nextLaneId++,
 				status: "stable",
 
-				systemIdA: closestSystem.id,
-				systemIdB: closestOrphan.id,
+				systemIdA: systemIdA,
+				systemIdB: systemIdB,
 			};
 			createdLanes.add(laneKey);
 			newLanes.push(lane);
-			let systemA = newGalaxy.find(system => system.id === closestSystem.id);
-			let systemB = newGalaxy.find(system => system.id === closestOrphan.id);
+			let systemA = newGalaxy.find(system => system.id === systemIdA);
+			let systemB = newGalaxy.find(system => system.id === systemIdB);
 			if(systemA && systemB){
 				systemA.adjacentLanes.push(lane.id);
 				systemB.adjacentLanes.push(lane.id);

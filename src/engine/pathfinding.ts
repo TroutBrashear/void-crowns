@@ -89,6 +89,13 @@ export function reevaluateCurrentPaths(currentState: GameState): GameState {
 					break;
 				}
 			}
+			else{
+				fleets[fleetId] = {
+					...fleets[fleetId],
+					movementPath: [],
+				};
+				break;
+			}
 		}
 	}
 
@@ -128,6 +135,14 @@ export function reevaluateCurrentPaths(currentState: GameState): GameState {
 					};
 					break;
 				}
+
+			}
+			else{
+				ships[shipId] = {
+					...ships[shipId],
+					movementPath: [],
+				};
+				break;
 			}
 		}
 	}

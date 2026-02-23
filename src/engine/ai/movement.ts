@@ -30,7 +30,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
      		continue;
     	}
 
-    	const targetSystemId = currentSystem.adjacentLanes.find(id => {
+    	const targetLaneId = currentSystem.adjacentLanes.find(id => {
 			const lane = currentState.lanes.entities[id];
 			const systemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
 
@@ -43,6 +43,12 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 			}
       		return system && system.ownerNationId === null && !isTargeted;
     	});
+
+		let targetSystemId = currentSystem.id;
+		if(targetLaneId){
+			const lane = currentState.lanes.entities[targetLaneId];
+			targetSystemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
+		}
 
     	if (targetSystemId) {
       		const newPath = findPath(
