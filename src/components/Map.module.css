@@ -4,11 +4,6 @@
   background-color: #1a1a1a;
 }
 
-.starLane {
-  stroke: #444;
-  stroke-width: 2;
-}
-
 .starSystem {
   cursor: pointer; /* Prepare for future interactivity */
   transition: all 0.2s ease-in-out;
@@ -40,4 +35,19 @@
 .mapWrapper > div {
   width: 100% !important;
   height: 100% !important;
+}
+
+.stable {
+  stroke: #64C8FF;
+  stroke-width: 2;
+}
+
+.fading {
+  stroke: #FFB432;
+  stroke-width: 2;
+}
+
+.immaterial {
+  stroke: #14145A;
+  stroke-width: 1;
 }

@@ -45,7 +45,7 @@ function Map({ onSelect }: MapProps) {
           y1={systemA.position.y}
           x2={systemB.position.x}
           y2={systemB.position.y}
-          className={styles.starLane}
+          className={`${styles[lane.status]}`}
           />
         );
       })}
