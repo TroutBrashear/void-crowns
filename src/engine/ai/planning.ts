@@ -118,8 +118,9 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	const neighborIds = new Set<number>();
 	orgSystems.forEach(system => {
 		system.adjacentLanes.forEach(lane => {
-			if(lane.status === 'stable'){
-				const nextNeighborId =  lane.systemIdA === system.id ? lane.systemIdB : lane.systemIdA;
+			const currentLane = lanes.entities[lane];
+			if(currentLane.status === 'stable'){
+				const nextNeighborId =  currentLane.systemIdA === system.id ? currentLane.systemIdB : currentLane.systemIdA;
 				neighborIds.add(nextNeighborId);
 			}
 		})
