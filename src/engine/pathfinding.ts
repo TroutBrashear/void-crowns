@@ -1,4 +1,4 @@
-import type { EntitiesState, System, Lane } from '../types/gameState';
+import type { EntitiesState, System, Lane, GameState } from '../types/gameState';
 
 export function findPath(startingSystemId: number, endingSystemId: number, systems: EntitiesState<System>, lanes: EntitiesState<Lane>): number[] {
 	let finalPath: number[] = [];
@@ -11,7 +11,7 @@ export function findPath(startingSystemId: number, endingSystemId: number, syste
 
 	while(queue.length > 0){
 
-		const currentSystemId = queue.shift()!; 
+		const currentSystemId = queue.shift()!;
 		const currentSystem = systems.entities[currentSystemId];
 		if (!currentSystem) continue;
 		if(currentSystemId === endingSystemId){
@@ -45,4 +45,94 @@ export function findPath(startingSystemId: number, endingSystemId: number, syste
   	finalPath.reverse();
 
 	return finalPath.slice(1);
+}
+
+
+export function reevaluateCurrentPaths(currentState: GameState): GameState {
+	let ships = { ...currentState.ships.entities };
+	let fleets = { ...currentState.fleets.entities };
+
+	for(const fleetId of currentState.fleets.ids){
+		const fleet = fleets[fleetId];
+		if(!fleet.movementPath){
+			continue;
+		}
+
+		for(let i = 0; i < fleet.movementPath.length; i++){
+			const system = currentState.systems.entities[fleet.movementPath[i]];
+			let prevSystemId: number;
+			if(i > 0){
+				prevSystemId = fleet.movementPath[i-1];
+			}
+			else{
+				prevSystemId = fleet.locationSystemId;
+			}
+
+			const currentLane = system.adjacentLanes.find(laneId => {
+				const lane = currentState.lanes.entities[laneId];
+				const systemIdA = Math.min(system.id, prevSystemId);
+				const systemIdB = Math.max(system.id, prevSystemId);
+
+				if(lane.systemIdA === systemIdA && lane.systemIdB === systemIdB){
+					return true;
+				}
+			});
+
+			if(currentLane && currentLane.status === 'immaterial'){
+				fleets[fleetId] = {
+					...fleets[fleetId],
+					movementPath: findPath(fleet.locationSystemId, fleet.movementPath[fleet.movementPath.length - 1], currentState.systems, currentState.lanes),
+				};
+				break;
+			}
+		}
+	}
+
+	for(const shipId of currentState.ships.ids){
+		const ship = ships[shipId];
+		if(!ship.movementPath){
+			continue;
+		}
+
+		for(let i = 0; i < ship.movementPath.length; i++){
+			const system = currentState.systems.entities[ship.movementPath[i]];
+			let prevSystemId: number;
+			if(i > 0){
+				prevSystemId = ship.movementPath[i-1];
+			}
+			else{
+				prevSystemId = ship.locationSystemId;
+			}
+
+			const currentLane = system.adjacentLanes.find(laneId => {
+				const lane = currentState.lanes.entities[laneId];
+				const systemIdA = Math.min(system.id, prevSystemId);
+				const systemIdB = Math.max(system.id, prevSystemId);
+
+				if(lane.systemIdA === systemIdA && lane.systemIdB === systemIdB){
+					return true;
+				}
+			});
+
+			if(currentLane && currentLane.status === 'immaterial'){
+				ships[shipId] = {
+					...ships[shipId],
+					movementPath: findPath(ship.locationSystemId, ship.movementPath[ship.movementPath.length - 1], currentState.systems, currentState.lanes),
+				};
+				break;
+			}
+		}
+	}
+
+	return {
+		...currentState,
+		ships: {
+			...currentState.ships,
+			entities: ships,
+		},
+		fleets: {
+			...currentState.fleets,
+			entities: fleets,
+		},
+	}
 }
