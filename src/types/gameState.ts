@@ -110,6 +110,7 @@ export interface Org {
 	nameList: string;
   }
   resources: Resources;
+  researched: string[];
   characters: {
 	characterPool: number[]; //ids in a pool for character recruitment
 
