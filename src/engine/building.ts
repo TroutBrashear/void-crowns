@@ -116,7 +116,7 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
         resources: {
           ...ownerOrg.resources,
           credits: ownerOrg.resources.credits - cost.credits,
-          rocks: ownerOrg.resources.credits - cost.rocks,
+          rocks: ownerOrg.resources.rocks - cost.rocks,
         }
       };
 
@@ -192,12 +192,20 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
   const newBuilding: Building = {
     id: newId, 
     type: buildingClass,
-    ownerNationId: ownerId
+    ownerNationId: ownerId,
+    locationId:planetoidId,
+
+    assignedCharacter: null,
+
+    research: {
+      progress: 0,
+      project: null,
+    }
   };
   
   const updatedPlanetoid = {
     ...planetoid,
-    buildings: [...planetoid.buildings, newBuilding]
+    buildings: [...planetoid.buildings, newId]
   };
   
   const updatedOrg = {
@@ -231,6 +239,14 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
 			...currentState.meta,
 			lastBuildingId: newId,
 		},
+        buildings: {
+          ...currentState.buildings,
+          ids: [ ...currentState.buildings.ids, newId],
+          entities: {
+            ...currentState.buildings.entities,
+            [newId]: newBuilding,
+          }
+        }
 	},
 	events: [buildEvent],
   };

@@ -31,13 +31,14 @@ export interface Building {
   readonly id: number;
   type: BuildingClass;
   ownerNationId: number;
+  locationId: number; //a planetoid's ID
   //todo: likely have flags for abilities enabled on a planet - ie: fleet building.
 
-  assignedCharacter?: number;
+  assignedCharacter: number | null;
 
-  research?:{
+  research:{
     progress: number;
-    project: string; //the id of a research object
+    project: string | null; //the id of a research object
   }
 }
 
@@ -52,7 +53,7 @@ export interface Planetoid {
   environment: string;
   size: number;
   population: number;
-  buildings: Building[];
+  buildings: number[];
   ownerNationId: number | null;
   tags: string[];
   deposits: Deposit[];
@@ -274,6 +275,7 @@ export interface GameState {
   ships: EntitiesState<Ship>;
   characters: EntitiesState<Character>;
   lanes: EntitiesState<Lane>;
+  buildings: EntitiesState<Building>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
