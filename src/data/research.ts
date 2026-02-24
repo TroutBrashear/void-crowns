@@ -23,6 +23,6 @@ export const RESEARCH_CATALOG: Record<string, ResearchDefinition> = {
         onComplete: (currentState, orgId) => {
 
             return currentState;
-        }
+        },
     }
 }

@@ -25,13 +25,20 @@ export interface CharProcess {
     killCharacter?: boolean;
 }
 
-export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase';
+export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase' | 'researchLab';
 
 export interface Building {
   readonly id: number;
   type: BuildingClass;
   ownerNationId: number;
   //todo: likely have flags for abilities enabled on a planet - ie: fleet building.
+
+  assignedCharacter?: number;
+
+  research?:{
+    progress: number;
+    project: string; //the id of a research object
+  }
 }
 
 export type PlanetoidClassification = 'gravWell' | 'planet' | 'moon' | 'asteroid' | 'station';
@@ -110,7 +117,13 @@ export interface Org {
 	nameList: string;
   }
   resources: Resources;
-  researched: string[];
+
+  research: {
+    researched: string[];
+    researchBonuses: {
+      depositSurvey: number;
+    }
+  }
   characters: {
 	characterPool: number[]; //ids in a pool for character recruitment
 
@@ -133,7 +146,7 @@ export interface Org {
 
 }
 
-export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor';
+export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'researcher';
 
 //a helper that holds information about what a character is currently doing
 export interface charAssignment {

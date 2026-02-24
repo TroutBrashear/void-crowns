@@ -27,5 +27,11 @@ export const BUILDING_CATALOG: Record<BuildingClass, BuildingDefinition> = {
     cost: { credits: 1000, rocks: 0 },
     process: 
 		{ }
+  },
+  researchLab: {
+    type: 'researchLab',
+    cost: { credits: 20000, rocks: 0 },
+    process:
+      { }
   }
 }
