@@ -60,7 +60,8 @@ export function processEconomy(currentState: GameState): GameState {
 
 			//check buildings for processes
 			if(currentPlanetoid.buildings.length > 0){
-				for(const building of currentPlanetoid.buildings){
+				for(const buildingId of currentPlanetoid.buildings){
+					let building = { ...currentState.buildings.entities[buildingId]};
 					//processes are in building definition
 					const bDefinition = BUILDING_CATALOG[building.type];
 					const buildingOwner = building.ownerNationId;

@@ -287,6 +287,7 @@ export interface GameState {
   getOrgById: (id: number) => Org | undefined;
   getShipById: (id: number) => Ship | undefined;
   getCharacterById: (id: number) => Character | undefined;
+  getBuildingById: (id: number) => Building | undefined;
 
   intelligence: IntelOverall;
 }

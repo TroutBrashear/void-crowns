@@ -16,6 +16,7 @@ function PlanetoidSelectModal() {
 
     const getSystemById = useGameStore(state => state.getSystemById);
     const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
+	const getBuildingById = useGameStore(state => state.getBuildingById);
     //const getOrgById = useGameStore(state => state.getOrgById);
 	const constructBuilding = useGameStore(state => state.constructBuilding);
 
@@ -71,7 +72,8 @@ function PlanetoidSelectModal() {
 		  
       	  <h4>Buildings:</h4>
 		  <ul>
-			{planetToShow.buildings.map(building => {
+			{planetToShow.buildings.map(buildingId => {
+				let building = getBuildingById(buildingId);
 				if (!building) return null; 
 				return(
 					<li key={building.id}>
