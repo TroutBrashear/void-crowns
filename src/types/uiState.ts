@@ -1,10 +1,10 @@
 import type { Selection, CharacterAssignment} from './gameState';
 
-export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_modal" | "planet_modal"; 
+export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_modal" | "planet_modal" | "building_modal";
 
 export type AssignType = "assign_character";
 
-export type PanelType = "diplomacy_panel" | "politics_panel";
+export type PanelType = "diplomacy_panel" | "politics_panel" | "research_panel";
 
 export type AppState = 'main_menu' | 'org_creation' | 'in_game';
 

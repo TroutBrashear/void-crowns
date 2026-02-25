@@ -18,7 +18,7 @@ export const RESEARCH_CATALOG: Record<string, ResearchDefinition> = {
         cost: 120,
 
         prerequisites: [],
-        category: "mining".
+        category: "mining",
 
         onComplete: (currentState, orgId) => {
 

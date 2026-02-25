@@ -16,6 +16,7 @@ export function Header() {
         <TimeControls />
         <button onClick = {() => openPanel("diplomacy_panel")}>Diplomacy</button>
         <button onClick = {() => openPanel("politics_panel")}>Politics</button>
+        <button onClick = {() => openPanel("research_panel")}>Research</button>
       </div>
        <ResourcePanel resources={playerOrg.resources}/>
     </header>

@@ -4,11 +4,13 @@ import SystemSelectModal from './SystemSelectModal';
 import OrgSelectModal from './OrgSelectModal';
 import ShipSelectModal from './ShipSelectModal';
 import PlanetoidSelectModal from './PlanetoidSelectModal';
+import BuildingSelectModal from './BuildingSelectModal';
 
 import CharacterAssignModal from './assignment_modals/CharacterAssignModal';
 
 import DiplomacyPanel from '../panels/DiplomacyPanel';
 import PoliticsPanel from '../panels/PoliticsPanel';
+import ResearchPanel from '../panels/ResearchPanel';
 
 export function ModalManager() {
 	const activeModal = useUiStore(state => state.activeModal);
@@ -28,6 +30,8 @@ export function ModalManager() {
 			modal = <ShipSelectModal/>; break;
 		case 'planet_modal':
 			modal = <PlanetoidSelectModal/>; break;
+		case 'building_modal':
+			modal = <BuildingSelectModal/>; break;
 	}
 
 	let assignModal = null;
@@ -44,6 +48,8 @@ export function ModalManager() {
 			panel = <DiplomacyPanel/>; break;
 		case 'politics_panel':
 			panel = <PoliticsPanel/>; break;
+		case 'research_panel':
+			panel = <ResearchPanel/>; break;
 	}
 
 	return(
