@@ -373,6 +373,12 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				buildPlan: [],
 				targetSystems: [],
 			},
+			research: {
+				researched: [],
+				researchBonuses: {
+					depositSurvey: 0,
+				}
+			}
 		};
 
 		newOrgs.push(nextOrg);

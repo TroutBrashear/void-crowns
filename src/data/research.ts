@@ -14,7 +14,7 @@ export interface ResearchDefinition {
 export const RESEARCH_CATALOG: Record<string, ResearchDefinition> = {
     "subsurface_scans": {
         researchId: "subsurface_scans",
-        difficulty = 1,
+        difficulty: 1,
         cost: 120,
 
         prerequisites: [],
