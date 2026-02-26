@@ -2,6 +2,35 @@ import type { GameState, Planetoid, Resources } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 
+
+//------RESARCH FUNCTIONS------
+
+function getAllResearchOptions(currentState: GameState, orgId: number): string[] {
+
+	const org = currentState.orgs.entities[orgId];
+
+	const allResearch = (Object.values(Research_CATALOG) as ResearchDefinition[]);
+
+	let filteredOptions = allResearch.filter(researchItem => {
+		if(org.research.researched.includes(researchItem.researchId)){
+			return false;
+		}
+
+		for(const prereq of researchItem.prerequisites){
+			if(!org.research.researched.includes(prereq)){
+				return false;
+			}
+		}
+
+		return true;
+	});
+
+
+	return filteredOptions.map(researchItem => researchItem.researchId);
+}
+
+
+
 function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
 	//TODO: can add modifiers based on planet environment, owning org, etc.
 	let finalGrowth = targetPlanetoid.population * 0.001;
@@ -186,6 +215,9 @@ export function processEconomy(currentState: GameState): GameState {
 
 	//resolve research effects
 	for(const resObj of completedResearch){
+		if(!resObj.orgId){
+			continue;
+		}
 		let research = RESEARCH_CATALOG[resObj.researchId];
 
 		nextState = research.onComplete(nextState, resObj.orgId);
