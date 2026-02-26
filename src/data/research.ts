@@ -15,13 +15,14 @@ export const RESEARCH_CATALOG: Record<string, ResearchDefinition> = {
     "subsurface_scans": {
         researchId: "subsurface_scans",
         difficulty: 1,
-        cost: 120,
+        cost: 1200,
 
         prerequisites: [],
         category: "mining",
 
         onComplete: (currentState, orgId) => {
-
+            //TODO: clear noProspects
+            //TODO: boost an orgs depositSurvey research bonus
             return currentState;
         },
     }

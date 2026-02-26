@@ -1,5 +1,6 @@
 import type { GameState, Planetoid, Resources } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
+import { RESEARCH_CATALOG } from '../data/research';
 
 function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
 	//TODO: can add modifiers based on planet environment, owning org, etc.
@@ -8,12 +9,13 @@ function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
 }
 
 export function processEconomy(currentState: GameState): GameState {
-	const newOrgs = { ...currentState.orgs.entities };
-
-  	const newPlanetoidEntities = { ...currentState.planetoids.entities };
+	let newOrgs = { ...currentState.orgs.entities };
+	let newBuildings = { ...currentState.buildings.entities };
+  	let newPlanetoidEntities = { ...currentState.planetoids.entities };
 
 	const roundIncome: Record<number, Resources> = {}; //number is an orgId
 
+	const completedResearch: { orgId: number, researchId: string }[] = [];
 
 	for(const systemId of currentState.systems.ids) {
 		const currentSystem = currentState.systems.entities[systemId];
@@ -66,6 +68,55 @@ export function processEconomy(currentState: GameState): GameState {
 					const bDefinition = BUILDING_CATALOG[building.type];
 					const buildingOwner = building.ownerNationId;
 
+					//-------RESEARCH-----------
+					if(building.type === 'researchLab'){
+						//assigned character is REQUIRED to progress research
+						if(building.assignedCharacter && building.research.project){
+							const character = currentState.characters.entities[building.assignedCharacter];
+							if(character){
+								let researchRoll = building.research.progress + (10 + character.skills.academics);
+
+								const researchProject = RESEARCH_CATALOG[building.research.project];
+
+
+								//is the project complete?
+								if(researchRoll > researchProject.cost){
+									//TODO: swap processEconomy to return an EngineResult so we can inform player of completion!
+									let orgResearches = [ ... newOrgs[building.ownerNationId].research.researched ];
+									orgResearches.push(building.research.project);
+									newOrgs[building.ownerNationId] = {
+										...newOrgs[building.ownerNationId],
+										research: {
+											...newOrgs[building.ownerNationId].research,
+											researched: orgResearches,
+										}
+									};
+									newBuildings[buildingId] = {
+										...newBuildings[buildingId],
+										research: {
+											...newBuildings[buildingId].research,
+											project: null,
+											progress: 0,
+										}
+									}
+
+									completedResearch.push({ orgId: building.ownerNationId, researchId: building.research.project});
+								}
+								else{
+									newBuildings[buildingId] = {
+										...newBuildings[buildingId],
+										research: {
+											...newBuildings[buildingId].research,
+											progress: researchRoll,
+										}
+									};
+								}
+							}
+						}
+					}
+
+
+					//-------INCOME-----------
 					if(!roundIncome[buildingOwner]){
 						roundIncome[buildingOwner] = {
 							credits: 0,
@@ -88,7 +139,6 @@ export function processEconomy(currentState: GameState): GameState {
 							};
 						}
 
-
 					}
 
 
@@ -104,7 +154,6 @@ export function processEconomy(currentState: GameState): GameState {
 	}
 
 	const orgArray = Object.entries(roundIncome);
-
 	for(const [id, income] of orgArray){
 		const orgId = Number(id);
 
@@ -118,7 +167,8 @@ export function processEconomy(currentState: GameState): GameState {
 		};
 	}
 
-	return {
+
+	let nextState = {
 		...currentState,
 		orgs: {
 			...currentState.orgs,
@@ -126,7 +176,21 @@ export function processEconomy(currentState: GameState): GameState {
 		},
 		planetoids: {
 			...currentState.planetoids,
-			entities: newPlanetoidEntities
+			entities: newPlanetoidEntities,
+		},
+		buildings: {
+			...currentState.buildings,
+			entities: newBuildings,
 		}
 	};
+
+	//resolve research effects
+	for(const resObj of completedResearch){
+		let org = newOrgs[resObj.orgId];
+		let research = RESEARCH_CATALOG[resObj.researchId];
+
+		nextState = research.onComplete(nextState, resObj.orgId);
+	}
+
+	return nextState;
 }
