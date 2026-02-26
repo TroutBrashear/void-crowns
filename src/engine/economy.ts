@@ -186,7 +186,6 @@ export function processEconomy(currentState: GameState): GameState {
 
 	//resolve research effects
 	for(const resObj of completedResearch){
-		let org = newOrgs[resObj.orgId];
 		let research = RESEARCH_CATALOG[resObj.researchId];
 
 		nextState = research.onComplete(nextState, resObj.orgId);
