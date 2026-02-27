@@ -7,7 +7,7 @@ import type { Fleet, PlanetoidIntel } from '../types/gameState';
 //engine imports
 import { processTick } from '../engine/tick';
 import { findPath, reevaluateCurrentPaths } from '../engine/pathfinding';
-import { processEconomy, getAllResearchOptions } from '../engine/economy';
+import { processEconomy, getAllResearchOptions, engineAssignResearch } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
@@ -279,7 +279,6 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
   },
 
-
   colonizePlanetoid: (payload: ColonizePayload) => {
     set(colonizePlanetoid(get(), payload));
   },
@@ -293,7 +292,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   assignResearch: (payload: {buildingId: number, researchId: string }) => {
-    set(engineAssignResearch(get(), buildingId, researchId));
+    set(engineAssignResearch(get(), payload.buildingId, payload.researchId));
   },
 
   initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string }) => {

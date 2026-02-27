@@ -5,6 +5,7 @@ import styles from './Panel.module.css';
 function ResearchPanel() {
 
     const closePanel = useUiStore(state => state.closePanel);
+    const openAssignModal = useUiStore(state => state.openAssignModal);
 
     const buildings = useGameStore(state => state.buildings.entities);
     const researchLabs = Object.values(buildings).filter(building => building.type === 'researchLab' && building.ownerNationId === 1);
@@ -20,6 +21,8 @@ function ResearchPanel() {
                     return(
                         <li key={lab.id}>
                             <p>{lab.type} : {lab.id}</p>
+                            { lab.research.currentProject ?  <p>Current project: lab.research.project</p> : <p> No Project</p>}
+                            <button onClick={() => openAssignModal("assign_research", { targetId: lab.id, position: "nonapp"})}>Assign Research Project</button>
                         </li>
                     );
                 })}

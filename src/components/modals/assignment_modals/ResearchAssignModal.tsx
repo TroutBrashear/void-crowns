@@ -2,12 +2,12 @@ import { useUiStore } from '../../../state/uiStore';
 import { useGameStore } from '../../../state/gameStore';
 import { useState } from 'react';
 
-import { RESEARCH_CATALOG } from '../../data/research';
+import { RESEARCH_CATALOG } from '../../../data/research';
 
 import styles from './AssignModal.module.css';
 
 
-function CharacterAssignModal() {
+function ResearchAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget); //which should be called simply assignTarget
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
@@ -16,7 +16,7 @@ function CharacterAssignModal() {
     const getOrgResearchOptions = useGameStore(state => state.getOrgResearchOptions);
     const assignResearch = useGameStore(state => state.assignResearch);
 
-    const [selectedResearch, setSelectedResearch] = useState<number | null>(null);
+    const [selectedResearch, setSelectedResearch] = useState<string | null>(null);
 
 
     const targetBuilding = getBuildingById(characterAssignTarget.targetId);
@@ -57,4 +57,4 @@ function CharacterAssignModal() {
     );
 }
 
-export default CharacterAssignModal;
+export default ResearchAssignModal;
