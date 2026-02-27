@@ -7,6 +7,7 @@ import PlanetoidSelectModal from './PlanetoidSelectModal';
 import BuildingSelectModal from './BuildingSelectModal';
 
 import CharacterAssignModal from './assignment_modals/CharacterAssignModal';
+import ResearchAssignModal from './assignment_modals/ResearchAssignModal';
 
 import DiplomacyPanel from '../panels/DiplomacyPanel';
 import PoliticsPanel from '../panels/PoliticsPanel';
@@ -39,6 +40,8 @@ export function ModalManager() {
 	switch(childAssignModal){
 		case 'assign_character':
 			assignModal = <CharacterAssignModal/>; break;
+		case 'assign_research':
+			assignModal = <ResearchAssignModal/>; break;
 	}
 
 	let panel = null;

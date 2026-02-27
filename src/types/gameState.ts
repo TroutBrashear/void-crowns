@@ -308,6 +308,8 @@ export interface GameActions {
   beginPlanetoidSurvey: (payload: ColonizePayload) => void;
   initializeNewGame: (payload: {playerOrgName: string, playerOrgColor: string} ) => void;
   assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: CharacterAssignment}) => void;
+  assignResearch: (payload: {buildingId: number, researchId: string }) => void;
+  getOrgResearchOptions: (orgId: number) => string[];
 }
 
 export type GameStoreState = GameState & GameActions;

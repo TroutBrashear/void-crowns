@@ -7,7 +7,7 @@ import type { Fleet, PlanetoidIntel } from '../types/gameState';
 //engine imports
 import { processTick } from '../engine/tick';
 import { findPath, reevaluateCurrentPaths } from '../engine/pathfinding';
-import { processEconomy } from '../engine/economy';
+import { processEconomy, getAllResearchOptions } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
@@ -292,6 +292,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 	set(engineAssignCharacter(get(), charId, assignmentTargetId, assignmentType));
   },
 
+  assignResearch: (payload: {buildingId: number, researchId: string }) => {
+    set(engineAssignResearch(get(), buildingId, researchId));
+  },
+
   initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string }) => {
     //currently, generate functions are using a set value. This will later be based on game settings.
     const { systems, planetoids, lanes } = generateGalaxy(500);
@@ -381,6 +385,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         return planetoid;
       }
     })
+  },
+
+  getOrgResearchOptions: (orgId: number) => {
+    return getAllResearchOptions(get(), orgId);
   },
 
 

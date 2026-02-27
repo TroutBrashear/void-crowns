@@ -1,15 +1,15 @@
 import type { GameState, Planetoid, Resources } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
-
+import type { ResearchDefinition } from '../data/research';
 
 //------RESARCH FUNCTIONS------
 
-function getAllResearchOptions(currentState: GameState, orgId: number): string[] {
+export function getAllResearchOptions(currentState: GameState, orgId: number): string[] {
 
 	const org = currentState.orgs.entities[orgId];
 
-	const allResearch = (Object.values(Research_CATALOG) as ResearchDefinition[]);
+	const allResearch = (Object.values(RESEARCH_CATALOG) as ResearchDefinition[]);
 
 	let filteredOptions = allResearch.filter(researchItem => {
 		if(org.research.researched.includes(researchItem.researchId)){
@@ -29,7 +29,26 @@ function getAllResearchOptions(currentState: GameState, orgId: number): string[]
 	return filteredOptions.map(researchItem => researchItem.researchId);
 }
 
+export function engineAssignResearch(currentState: GameState, buildingId: number, researchId: string): GameState {
 
+	return{
+		...currentState,
+		buildings: {
+			...currentState.buildings,
+			entities: {
+				...currentState.buildings.entities,
+				[buildingId]: {
+					...currentState.buildings.entities[buildingId],
+					research: {
+						...currentState.buildings.entities[buildingId].research,
+						progress: 0,
+						project: researchId,
+					}
+				}
+			}
+		},
+	};
+}
 
 function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
 	//TODO: can add modifiers based on planet environment, owning org, etc.
@@ -215,9 +234,6 @@ export function processEconomy(currentState: GameState): GameState {
 
 	//resolve research effects
 	for(const resObj of completedResearch){
-		if(!resObj.orgId){
-			continue;
-		}
 		let research = RESEARCH_CATALOG[resObj.researchId];
 
 		nextState = research.onComplete(nextState, resObj.orgId);
