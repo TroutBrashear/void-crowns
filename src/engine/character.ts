@@ -86,6 +86,7 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	let newSystems = { ...functionState.systems.entities };
 	let newOrgs = { ...functionState.orgs.entities };
 	let newShips = { ...functionState.ships.entities };
+	let newBuildings = { ...fucntionState.buildings.entities };
 	if(assignmentType === 'admiral'){
 		newFleets[assignmentTargetId] = { ...newFleets[assignmentTargetId], assignedCharacter: charId };
 	}
@@ -97,6 +98,9 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	}
 	else if(assignmentType === 'surveyor'){
 		newShips[assignmentTargetId] = { ...newShips[assignmentTargetId], assignedCharacter: charId };
+	}
+	else if(assignmentType === 'scientist'){
+		newBuildings[assignmentTargetId] = { ...newBuildings[assignmentTargetId], assignedCharacter: charId };
 	}
 	else{
 		return functionState;
@@ -124,6 +128,10 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 			...currentState.ships,
 			entities: newShips,
 		},
+		buildings: {
+			...currentState.buildings,
+			entities: newBuildings,
+		},
 	};
 }
 
@@ -138,6 +146,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	let newSystems = { ...currentState.systems.entities };
 	let newOrgs = { ...currentState.orgs.entities };
 	let newShips = { ...currentState.ships.entities };
+	let newBuildings = { ...currentState.buildings.entities };
 	if(newCharacters[charId].assignment.type === 'admiral'){
 		newFleets[newCharacters[charId].assignment.id] = { ...newFleets[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
@@ -149,6 +158,9 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	}
 	else if(newCharacters[charId].assignment.type === 'surveyor'){
 		newShips[newCharacters[charId].assignment.id] = { ...newShips[newCharacters[charId].assignment.id], assignedCharacter: null };
+	}
+	else if(newCharacters[charId].assignment.type === 'scientist'){
+		newBuildings[newCharacters[charId].assignment.id] = { ...newBuildingsnewCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else{
 		return currentState;
@@ -179,6 +191,10 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 		ships: {
 			...currentState.ships,
 			entities: newShips,
+		},
+		buildings: {
+			...currentState.buildings,
+			entities: newBuildings,
 		},
 	};
 }
