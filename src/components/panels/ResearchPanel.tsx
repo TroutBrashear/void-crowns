@@ -21,7 +21,7 @@ function ResearchPanel() {
                     return(
                         <li key={lab.id}>
                             <p>{lab.type} : {lab.id}</p>
-                            { lab.research.currentProject ?  <p>Current project: lab.research.project</p> : <p> No Project</p>}
+                            { lab.research.project ?  <p>Current project: {lab.research.project}</p> : <p> No Project</p>}
                             <button onClick={() => openAssignModal("assign_research", { targetId: lab.id, position: "nonapp"})}>Assign Research Project</button>
                         </li>
                     );
