@@ -1,5 +1,6 @@
 import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
+import LabCard  from '../cards/LabCard';
 import styles from './Panel.module.css';
 
 function ResearchPanel() {
@@ -20,9 +21,7 @@ function ResearchPanel() {
                 {researchLabs.map(lab => {
                     return(
                         <li key={lab.id}>
-                            <p>{lab.type} : {lab.id}</p>
-                            { lab.research.project ?  <p>Current project: {lab.research.project}</p> : <p> No Project</p>}
-                            <button onClick={() => openAssignModal("assign_research", { targetId: lab.id, position: "nonapp"})}>Assign Research Project</button>
+                            <LabCard buildingId={lab.id}/>
                         </li>
                     );
                 })}

@@ -86,7 +86,7 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	let newSystems = { ...functionState.systems.entities };
 	let newOrgs = { ...functionState.orgs.entities };
 	let newShips = { ...functionState.ships.entities };
-	let newBuildings = { ...fucntionState.buildings.entities };
+	let newBuildings = { ...functionState.buildings.entities };
 	if(assignmentType === 'admiral'){
 		newFleets[assignmentTargetId] = { ...newFleets[assignmentTargetId], assignedCharacter: charId };
 	}
@@ -160,7 +160,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 		newShips[newCharacters[charId].assignment.id] = { ...newShips[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else if(newCharacters[charId].assignment.type === 'scientist'){
-		newBuildings[newCharacters[charId].assignment.id] = { ...newBuildingsnewCharacters[charId].assignment.id], assignedCharacter: null };
+		newBuildings[newCharacters[charId].assignment.id] = { ...newBuildings[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else{
 		return currentState;

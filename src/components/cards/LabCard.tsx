@@ -1,7 +1,7 @@
 import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
 
-function LabCard({ buildingId: number}) {
+function LabCard({ buildingId }: { buildingId: number }) {
 
     const openAssignModal = useUiStore(state => state.openAssignModal);
 
@@ -14,7 +14,6 @@ function LabCard({ buildingId: number}) {
         return null;
     }
 
-    const assignedCharacter = ;
 
     return(
         <div>
@@ -22,7 +21,7 @@ function LabCard({ buildingId: number}) {
             { researchLab.research.project ?  <p>Current project: {researchLab.research.project}</p> : <p> No Project</p>}
             <button onClick={() => openAssignModal("assign_research", { targetId: researchLab.id, position: "nonapp"})}>Assign Research Project</button>
 
-            { researchLab.assignedCharacter ? <p> Scientist: {getCharacterById(researchLab.assignedCharacter).name} : <p> No Scientist </p>}
+            { researchLab.assignedCharacter ? <p> Scientist: {getCharacterById(researchLab.assignedCharacter).name}</p> : <p> No Scientist </p>}
             <button onClick={() => openAssignModal("assign_character", { targetId: researchLab.id, position: "scientist"})}>Assign Scientist</button>
         </div>
     );
