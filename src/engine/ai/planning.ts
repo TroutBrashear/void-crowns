@@ -108,6 +108,10 @@ export function evaluateBuildLocation(buildingType: BuildingClass, locations: Pl
 			}
 		}
 
+		if(buildingType === 'researchLab'){
+			locationScore += 1; //placeholder, I'm sure there's some reason to prefer one planetoid over another. (research category bonuses!)
+		}
+
 
 		if(locationScore > winningScore){
 			bestLocation = location;
@@ -153,6 +157,16 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 			let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
 			if(targetPlanetoid){
 				newBuildPlan.push({type: "building", buildingType: 'mine', location: targetPlanetoid.id });
+			}
+		}
+	}
+
+	if(thinkingOrg.resources.credits > 20000){
+		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);
+		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'researchLab')){
+			let targetPlanetoid = evaluateBuildLocation('researchLab', orgPlanetoids);
+			if(targetPlanetoid){
+				newBuildPlan.push({type: "building", buildingType: 'researchLab', location: targetPlanetoid.id });
 			}
 		}
 	}
