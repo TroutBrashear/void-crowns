@@ -1,6 +1,5 @@
 import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
-import type { BuildingClass } from '../../types/gameState';
 import styles from './Modal.module.css';
 
 
@@ -17,10 +16,12 @@ function BuildingSelectModal() {
     ? getBuildingById(selection.id)
     : null;
 
-
+    if(!buildingToShow){
+        return null;
+    }
 
     return (
-        <div>
+        <div className={styles.modal}>
             <h2>Building: {buildingToShow.type}</h2>
 
             <button onClick={backModal}>Back</button>

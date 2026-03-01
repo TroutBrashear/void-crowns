@@ -54,7 +54,7 @@ function CharacterAssignModal() {
         targetEntity = getBuildingById(characterAssignTarget.targetId);
         if(targetEntity){
             targetOwnerOrg = targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
-            targetName = targetEntity.name;
+            targetName = `${targetEntity.type} : ${targetEntity.id}`;
         }
     }
     else{
