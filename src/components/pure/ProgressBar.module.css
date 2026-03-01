@@ -1,0 +1,10 @@
+.fullBar {
+    width: 100%;
+    background-color: #4C243B;
+    height: 20px;
+}
+
+.fillBar {
+    height: 100%;
+    background-color: #54457F;
+}
