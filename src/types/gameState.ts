@@ -147,7 +147,7 @@ export interface Org {
 
 }
 
-export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'researcher';
+export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'scientist';
 
 //a helper that holds information about what a character is currently doing
 export interface charAssignment {

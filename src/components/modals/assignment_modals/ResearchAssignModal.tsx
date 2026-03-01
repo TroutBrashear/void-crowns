@@ -19,7 +19,7 @@ function ResearchAssignModal() {
     const [selectedResearch, setSelectedResearch] = useState<string | null>(null);
 
 
-    const targetBuilding = getBuildingById(characterAssignTarget.targetId);
+    const targetBuilding = getBuildingById(characterAssignTarget?.targetId);
 
     if(!targetBuilding){
         return null;

@@ -6,7 +6,6 @@ import styles from './Panel.module.css';
 function ResearchPanel() {
 
     const closePanel = useUiStore(state => state.closePanel);
-    const openAssignModal = useUiStore(state => state.openAssignModal);
 
     const buildings = useGameStore(state => state.buildings.entities);
     const researchLabs = Object.values(buildings).filter(building => building.type === 'researchLab' && building.ownerNationId === 1);

@@ -1,7 +1,7 @@
 import { useUiStore } from '../../../state/uiStore';
 import { useGameStore } from '../../../state/gameStore';
 import { useState } from 'react';
-import type { Fleet, System, Org, Ship } from '../../../types/gameState';
+import type { Fleet, System, Org, Ship, Building } from '../../../types/gameState';
 import styles from './AssignModal.module.css';
 
 
@@ -19,7 +19,7 @@ function CharacterAssignModal() {
 
     const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
 
-    let targetEntity: Fleet | System | Org | Ship | undefined;
+    let targetEntity: Fleet | System | Org | Ship | Building | undefined;
     let targetOwnerOrg: Org | undefined;
     let targetName: string | undefined;
     if(characterAssignTarget?.position === 'admiral'){
