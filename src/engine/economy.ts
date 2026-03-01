@@ -237,7 +237,9 @@ export function processEconomy(currentState: GameState): GameState {
 	for(const resObj of completedResearch){
 		let research = RESEARCH_CATALOG[resObj.researchId];
 
-		nextState = research.onComplete(nextState, resObj.orgId);
+		if (research && research.onComplete) {
+			nextState = research.onComplete(nextState, resObj.orgId);
+		}
 	}
 
 	return nextState;
