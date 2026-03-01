@@ -21,14 +21,17 @@ export function evaluateBestCandidate(assignmentType: CharacterAssignment, chara
 		else if(assignmentType === 'surveyor'){
 			characterScore += character.skills.exploration*2 + character.skills.academics;
 		}
+		else if(assignmentType === 'scientist'){
+			characterScore += character.skills.academics;
+		}
 
 		if(character.assignment){
 			characterScore -= 4;
 			if(character.assignment.type === 'leader'){
-				characterScore = -10; //never reassign leader.
+				characterScore = -20; //never reassign leader.
 			}
 			else if(character.assignment.type === assignmentType){
-				characterScore -= 4; //already doing this somewhere else.
+				characterScore -= 5; //already doing this somewhere else.
 			}
 		}
 
@@ -68,6 +71,16 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 			nextState = engineAssignCharacter(nextState, bestCandidateId, fleet.id, 'admiral');
 		}
 	}
+
+	//Priority 3 - do labs have scientists?
+	let emptyLabs = Object.values(currentState.buildings.entities).filter(building => (building.type === 'researchLab' && building.ownerNationId === orgId && !building.assignedCharacter));
+	for(const lab of emptyLabs){
+		let bestCandidateId = evaluateBestCandidate('scientist', characterPool);
+		if(bestCandidateId > -1) {
+			nextState = engineAssignCharacter(nextState, bestCandidateId, lab.id, 'scientist');
+		}
+	}
+
 
 	return {
 		...nextState
