@@ -23,7 +23,7 @@ function LabCard({ buildingId }: { buildingId: number }) {
     return(
         <div>
             <p>{researchLab.type} : {researchLab.id}</p>
-            { researchLab.research.project ?  <p>Current project: {researchLab.research.project}</p> <ProgressBar fill={researchLab.research.progress} full={researchProject.cost}/> : <p> No Project</p>}
+            { researchLab.research.project ?  <div><p>Current project: {researchLab.research.project}</p> <ProgressBar fill={researchLab.research.progress} full={researchProject.cost}/></div> : <p> No Project</p>}
             <button onClick={() => openAssignModal("assign_research", { targetId: researchLab.id, position: "nonapp"})}>Assign Research Project</button>
 
 

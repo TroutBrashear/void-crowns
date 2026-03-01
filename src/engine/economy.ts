@@ -151,6 +151,7 @@ export function processEconomy(currentState: GameState): GameState {
 									completedResearch.push({ orgId: building.ownerNationId, researchId: building.research.project});
 								}
 								else{
+									console.log(researchRoll);
 									newBuildings[buildingId] = {
 										...newBuildings[buildingId],
 										research: {
