@@ -2,6 +2,49 @@ import type { GameState, Character, BuildingClass, Planetoid, CharacterAssignmen
 import { evaluateSystemValue } from '../colonization';
 import { engineAssignCharacter } from '../character';
 
+
+
+
+
+export function evaluateResearchOptions(currentState: GameState, orgId: number): string {
+	let researchOptions = getAllResearchOptions(currentState, orgId);
+	let bestOption = "";
+	let currentScore = -1;
+
+	if(researchOptions.length === 0){
+		return bestOption;
+	}
+
+	const planetoidIntel = currentState.intelligence.planetoidIntel[orgId];
+	const thinkingOrg = currentState.orgs.entities[orgId];
+
+	for(const res of researchOptions){
+		const researchOption = RESEARCH_CATALOG[res];
+		let researchScore = 0;
+
+		if(researchOption.category === 'mining'){
+			if(planetoidIntel.noProspects.length > 5){
+				researchScore += 5;
+			}
+			else if(planetoidIntel.noProspects.length > 10){
+				researchScore += 15;
+			}
+		}
+
+
+		if(researchScore > currentScore){
+			currentScore = researchScore;
+			bestOption = res;
+		}
+	}
+
+
+	return bestOption;
+}
+
+
+
+
 export function evaluateBestCandidate(assignmentType: CharacterAssignment, characters: Character[]): number {
 	let bestCandidate = -1;
 	let winningScore = 0;
