@@ -123,6 +123,7 @@ export interface Org {
     researched: string[];
     researchBonuses: {
       depositSurvey: number;
+      fleetCombat: number;
     }
   }
   characters: {

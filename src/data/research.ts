@@ -51,5 +51,45 @@ export const RESEARCH_CATALOG: Record<string, ResearchDefinition> = {
                 }
             };
         },
-    }
+    },
+    "warship_tactics": {
+        researchId: "warship_tactics",
+        difficulty: 1,
+        cost: 120,
+
+        prerequisites: [],
+        category: "military",
+
+        onComplete: (currentState, orgId) => {
+            return {
+                ...currentState,
+                orgs: {
+                    ...currentState.orgs,
+                    entities: {
+                        ...currentState.orgs.entities,
+                        [orgId]: {
+                            ...currentState.orgs.entities[orgId],
+                            research: {
+                                ...currentState.orgs.entities[orgId].research,
+                                researchBonuses: {
+                                    ...currentState.orgs.entities[orgId].research.researchBonuses,
+                                    depositSurvey: currentState.orgs.entities[orgId].research.researchBonuses.fleetCombat + 2,
+                                }
+                            }
+                        }
+                    }
+                },
+                intelligence: {
+                    ...currentState.intelligence,
+                    planetoidIntel: {
+                        ...currentState.intelligence.planetoidIntel,
+                        [orgId]: {
+                            ...currentState.intelligence.planetoidIntel[orgId],
+                            noProspects: [],
+                        }
+                    }
+                }
+            };
+        },
+    },
 }
