@@ -91,7 +91,7 @@ export function processTick(currentState: GameState): GameState {
           let surveyRoll = Math.random() * 6;
 
           if(updatedShip.assignedCharacter){
-            let techBonus += nextState.orgs.entities[updatedShip.ownerNationId].research.researchBonuses.depositSurvey;
+            let techBonus = nextState.orgs.entities[updatedShip.ownerNationId].research.researchBonuses.depositSurvey;
             surveyRoll += ((nextState.characters.entities[updatedShip.assignedCharacter].skills.exploration + nextState.characters.entities[updatedShip.assignedCharacter].skills.academics)/2) + techBonus;
 
           }
