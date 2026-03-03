@@ -1,7 +1,8 @@
 import type { GameState, Character, BuildingClass, Planetoid, CharacterAssignment } from '../../types/gameState';
 import { evaluateSystemValue } from '../colonization';
 import { engineAssignCharacter } from '../character';
-
+import { RESEARCH_CATALOG } from '../../data/research';
+import { getAllResearchOptions } from '../economy';
 
 
 
@@ -121,6 +122,14 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 		let bestCandidateId = evaluateBestCandidate('scientist', characterPool);
 		if(bestCandidateId > -1) {
 			nextState = engineAssignCharacter(nextState, bestCandidateId, lab.id, 'scientist');
+		}
+
+		//also... do they have research?
+		if(!lab.research.project){
+			let researchOption = evaluateResearchOptions(nextState, orgId);
+			if(researchOption){
+				nextState = engineAssignResearch(nextState, lab.id, researchOption);
+			}
 		}
 	}
 
