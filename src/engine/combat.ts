@@ -15,7 +15,8 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 		if (!fleet) {
 			continue;
 		}
-		fleetScoreA += Math.floor(Math.random() * 20 + Math.random() * 20 + Math.random() * 20);
+		let techBonus = currentState.orgs.entities[fleet.ownerNationId].research.researchBonuses.fleetCombat;
+		fleetScoreA += Math.floor(Math.random() * 20 + Math.random() * 20 + Math.random() * 20) + techBonus;
 		
 		if(fleet.assignedCharacter){
 			let admiral = currentState.characters.entities[fleet.assignedCharacter];
@@ -28,7 +29,8 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 		if (!fleet) {
 			continue;
 		}
-		fleetScoreB += Math.floor(Math.random() * 20 + Math.random() * 20 + Math.random() * 20);
+		let techBonus = currentState.orgs.entities[fleet.ownerNationId].research.researchBonuses.fleetCombat;
+		fleetScoreB += Math.floor(Math.random() * 20 + Math.random() * 20 + Math.random() * 20) + techBonus;
 		
 		if(fleet.assignedCharacter){
 			let admiral = currentState.characters.entities[fleet.assignedCharacter];
