@@ -27,11 +27,11 @@ function LabCard({ buildingId }: { buildingId: number }) {
     return(
         <div>
             <p>{researchLab.type} : {researchLab.id}</p>
-            { researchProject ?  <div><p>Current project: {researchLab.research.project}</p> <ProgressBar fill={researchLab.research.progress} full={researchProject.cost}/></div> : <p> No Project</p>}
+            { researchProject ?  <div><p>Current project: {researchLab.research.project}</p> <ProgressBar fill={researchLab.research.progress} full={researchProject.cost ?? "10000"}/></div> : <p> No Project</p>}
             <button onClick={() => openAssignModal("assign_research", { targetId: researchLab.id, position: "scientist"})}>Assign Research Project</button>
 
 
-            { researchLab.assignedCharacter ? <p> Scientist: {getCharacterById(researchLab.assignedCharacter).name}</p> : <p> No Scientist </p>}
+            { researchLab.assignedCharacter ? <p> Scientist: {getCharacterById(researchLab.assignedCharacter)?.name ?? "error"}</p> : <p> No Scientist </p>}
             <button onClick={() => openAssignModal("assign_character", { targetId: researchLab.id, position: "scientist"})}>Assign Scientist</button>
         </div>
     );

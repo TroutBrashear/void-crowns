@@ -377,6 +377,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				researched: [],
 				researchBonuses: {
 					depositSurvey: 0,
+					fleetCombat: 0,
 				}
 			}
 		};

@@ -2,7 +2,7 @@ import type { GameState, Character, BuildingClass, Planetoid, CharacterAssignmen
 import { evaluateSystemValue } from '../colonization';
 import { engineAssignCharacter } from '../character';
 import { RESEARCH_CATALOG } from '../../data/research';
-import { getAllResearchOptions } from '../economy';
+import { getAllResearchOptions, engineAssignResearch } from '../economy';
 
 
 
@@ -17,7 +17,7 @@ export function evaluateResearchOptions(currentState: GameState, orgId: number):
 	}
 
 	const planetoidIntel = currentState.intelligence.planetoidIntel[orgId];
-	const thinkingOrg = currentState.orgs.entities[orgId];
+	//const thinkingOrg = currentState.orgs.entities[orgId];
 
 	for(const res of researchOptions){
 		const researchOption = RESEARCH_CATALOG[res];
