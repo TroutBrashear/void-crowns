@@ -346,6 +346,14 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
   return {systems: newGalaxy, planetoids: newPlanetoids, lanes: newLanes};
 }
 
+
+
+//this is a placeholder. It should eventually take an Org's traits into consideration to determine whether it starts with different kinds of child orgs, like a religious organization, corporation, or mercenary group.
+function determineChildOrgType(org: Org) {
+
+	return 'corporation';
+}
+
 export function generateStartingOrgs(numOrgs: number): Org[] {
 	let newOrgs: Org[] = [];
 
@@ -383,7 +391,46 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			}
 		};
 
+
+		let childType = determineChildOrgType(nextOrg);
+
+		let nextChildOrg: Org = {
+			id: i + numOrgs + 1,
+			category: childType,
+			flavor: {
+				name:`Nation ${i + numOrgs + 1}`,
+				color: colorPicker(),
+				nameList: 'default',
+			},
+			resources: { credits: 0, rocks: 0 },
+			characters: {
+				characterPool: [],
+				leaderId: null,
+			},
+			parentId: i + 1,
+			childIds: [],
+			diplomacy: {
+				relations: [],
+				incomingRequests: [],
+			},
+			contextHistory: {
+				previousIncome: { credits: 0, rocks: 0 },
+				buildPlan: [],
+				targetSystems: [],
+			},
+			research: {
+				researched: [],
+				researchBonuses: {
+					depositSurvey: 0,
+					fleetCombat: 0,
+				}
+			}
+		};
+
+		nextOrg.childIds.push(i + numOrgs + 1);
+
 		newOrgs.push(nextOrg);
+		newOrgs.push(nextChildOrg);
 	}
 
 	//iterate through and set relations
