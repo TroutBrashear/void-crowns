@@ -307,6 +307,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
     for(const currentOrg of orgs) {
       //temp solution, can randomize later
+      if(currentOrg.category !== 'nationState'){
+        continue;
+      }
       systems[currentOrg.id].ownerNationId = currentOrg.id; 
 
       const homeId = systems[currentOrg.id].planetoids.find(p => {
