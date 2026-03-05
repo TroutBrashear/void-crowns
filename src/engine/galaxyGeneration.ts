@@ -59,6 +59,13 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	let newDeposits: Deposit[] = [];
 
 	let numRockDeposits = Math.floor((Math.random() * 10) + (Math.random() * planetoid.size));
+	if(planetoid.tags.includes("mineral_rich")){
+		numRockDeposits += 3;
+	}
+	else if(planetoid.tags.includes("mineral_poor")){
+		numRockDeposits += 3;
+	}
+
 	for(let i = 0; i < numRockDeposits; i++){
 		lastDepositId += 1;
 		let newDeposit: Deposit = {

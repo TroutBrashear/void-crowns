@@ -32,4 +32,16 @@ export const PLANETOID_TAGS: Record<string, TagDefinition> = {
             size: -4,
         }
     },
+
+    "mineral_rich": {
+        name: "Mineral Rich",
+        playerVisible: true,
+        description: "This body has more rocks than average.",
+    },
+
+    "mineral_poor": {
+        name: "Mineral Poor",
+        playerVisible: true,
+        description: "This body has less rocks than average.",
+    },
 }
