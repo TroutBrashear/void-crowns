@@ -144,13 +144,30 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
       };
 }
 
-export function canBuildBuilding(currentState: GameState, _planetoidId: number, buildingClass: BuildingClass, orgId: number){
+export function canBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, orgId: number){
 	const bDefinition = BUILDING_CATALOG[buildingClass];
 	const org = currentState.orgs.entities[orgId];
+    const planetoid = currentState.planetoids.entities[planetoidId];
+
 	
-	if (!org) {
+	if (!org || !planetoid) {
         return false;
     }
+
+    const isSubsidiary = org.parentId;
+
+    if(planetoid.ownerNationId !== org.id){
+        if(!isSubsidiary){
+          return false;
+        }
+        else if(isSubsidiary){
+          if(planetoid.ownerNationId !== org.parentId){
+            return false;
+          }
+        }
+    }
+
+
 	
 	//check cost - can org afford the Building
 	if((org.resources.credits < bDefinition.cost.credits || org.resources.rocks < bDefinition.cost.rocks)){
