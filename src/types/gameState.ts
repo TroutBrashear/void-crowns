@@ -104,14 +104,22 @@ export interface Deposit {
   difficulty: number; //an org needs to beat difficulty with a dice roll to reveal the Deposit. Some will be generated with a number higher than can be rolled - can be beaten with tech bonuses later.
 }
 
+
+//-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------
+export type OrgCategory = 'nationState' | 'corporation';
+
 export interface OrgRelation {
   targetOrgId: number;
   status: 'peace' | 'war';
   opinion: number;
 }
 
+
+
 export interface Org {
   readonly id: number;
+  category: OrgCategory;
+
   flavor:{
 	name: string;
 	color: string;

@@ -352,6 +352,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 	for(let i = 0; i < numOrgs; i++){
 		let nextOrg: Org = {
 			id: i + 1,
+			category: 'nationState',
 			flavor: {
 				name:`Nation ${i+1}`,
 				color: colorPicker(),
