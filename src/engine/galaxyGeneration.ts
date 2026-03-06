@@ -1,4 +1,4 @@
-import type { System, Planetoid, Org, OrgRelation, Deposit, Lane } from '../types/gameState';
+import type { System, Planetoid, Org, OrgRelation, OrgCategory, Deposit, Lane } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { findPath } from './pathfinding';
 import { colorPicker } from '../utils/colors';
@@ -356,8 +356,10 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 
 
 //this is a placeholder. It should eventually take an Org's traits into consideration to determine whether it starts with different kinds of child orgs, like a religious organization, corporation, or mercenary group.
-function determineChildOrgType(org: Org) {
-
+function determineChildOrgType(org: Org): OrgCategory {
+	if(org){
+		return 'corporation';
+	}
 	return 'corporation';
 }
 

@@ -43,6 +43,9 @@ function OrgSelectModal() {
 						if(!targetOrg){
 							return null;
 						}
+						else if(targetOrg.category !== 'nationState'){
+							return null;
+						}
 						return(
 							<li key={relation.targetOrgId}>
 								{relation.status} with {targetOrg.flavor.name} ({relation.opinion})
