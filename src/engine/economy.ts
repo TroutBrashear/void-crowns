@@ -74,6 +74,7 @@ export function processEconomy(currentState: GameState): GameState {
 				roundIncome[systemOwner] = {
 					credits: 0,
 					rocks: 0,
+					consumerGoods: 0,
 				};
 			}
 
@@ -95,6 +96,7 @@ export function processEconomy(currentState: GameState): GameState {
 					roundIncome[planetoidOwner] = {
 						credits: 0,
 						rocks: 0,
+						consumerGoods: 0,
 					};
 				}
 
@@ -170,6 +172,7 @@ export function processEconomy(currentState: GameState): GameState {
 						roundIncome[buildingOwner] = {
 							credits: 0,
 							rocks: 0,
+							consumerGoods: 0,
 						};
 					}
 
@@ -187,13 +190,14 @@ export function processEconomy(currentState: GameState): GameState {
 								amount: planetoidDeposits[depositIndex].amount - extractionAmount
 							};
 						}
-
 					}
+					roundIncome[buildingOwner].consumerGoods += bDefinition.process.output?.consumerGoods ?? 0;
 
 
 					//input processing
 					roundIncome[buildingOwner].credits -= bDefinition.process.input?.credits ?? 0;
 					roundIncome[buildingOwner].rocks -= bDefinition.process.input?.rocks ?? 0;
+					roundIncome[buildingOwner].consumerGoods -= bDefinition.process.input?.consumerGoods ?? 0;
 				}
 			}
 
@@ -202,6 +206,7 @@ export function processEconomy(currentState: GameState): GameState {
 		}
 	}
 
+	//Finally, add income to the orgs
 	const orgArray = Object.entries(roundIncome);
 	for(const [id, income] of orgArray){
 		const orgId = Number(id);
@@ -212,6 +217,7 @@ export function processEconomy(currentState: GameState): GameState {
 				...newOrgs[orgId].resources,
 				credits: newOrgs[orgId].resources.credits + income.credits,
 				rocks: newOrgs[orgId].resources.rocks + income.rocks,
+				consumerGoods: newOrgs[orgId].resources.consumerGoods + income.consumerGoods,
 			}
 		};
 	}
