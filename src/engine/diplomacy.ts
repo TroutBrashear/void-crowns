@@ -65,7 +65,7 @@ export function enginePlayerDiploResponse(currentState: GameState, requestId: nu
 		return nextState;
 	}
 
-	if(accepted){
+	if(accepted && (request.type === 'peace' || request.type === 'war'){
 		nextState = engineUpdateRelationship(nextState, 1, request.originOrgId, request.type);
 	}
 

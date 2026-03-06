@@ -204,7 +204,16 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	
 	//do we need a mine?
 	if(thinkingOrg.contextHistory.previousIncome.rocks < 300){
-		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);
+		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
+			if(planetoid.ownerNationId === orgId) {
+				return true;
+			}
+			if(thinkingOrg.parentId){
+				if(planetoid.ownerNationId === thinkingOrg.parentId){
+					return true;
+				}
+			}
+		});
 		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'mine')){
 			let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
 			if(targetPlanetoid){
