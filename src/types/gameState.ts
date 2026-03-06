@@ -236,12 +236,16 @@ export interface ColonizePayload {
 }
 
 
-export type DiploType = 'war' | 'peace';
+export type DiploType = 'war' | 'peace' | 'trade';
 
 export interface DiploRequest {
   id: number;
   type: DiploType;
   originOrgId: number;
+  trade?: {
+    senderProcess: Process;
+    targetProcess: Process;
+  }
 }
 
 //definitions for game events 
