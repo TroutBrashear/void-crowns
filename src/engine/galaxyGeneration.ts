@@ -375,7 +375,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				color: colorPicker(),
 				nameList: 'default',
 			},
-			resources: { credits: 0, rocks: 0 },
+			resources: { credits: 0, rocks: 0, consumerGoods: 0 },
 			characters: {
 				characterPool: [],
 				leaderId: null,
@@ -387,7 +387,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				incomingRequests: [],
 			},
 			contextHistory: {
-				previousIncome: { credits: 0, rocks: 0 },
+				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0 },
 				buildPlan: [],
 				targetSystems: [],
 			},
@@ -411,7 +411,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				color: colorPicker(),
 				nameList: 'default',
 			},
-			resources: { credits: 0, rocks: 0 },
+			resources: { credits: 0, rocks: 0, consumerGoods: 0 },
 			characters: {
 				characterPool: [],
 				leaderId: null,
@@ -423,7 +423,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				incomingRequests: [],
 			},
 			contextHistory: {
-				previousIncome: { credits: 0, rocks: 0 },
+				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0 },
 				buildPlan: [],
 				targetSystems: [],
 			},

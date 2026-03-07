@@ -25,7 +25,7 @@ export interface CharProcess {
     killCharacter?: boolean;
 }
 
-export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase' | 'researchLab';
+export type BuildingClass = 'mine' | 'powerPlant' | 'militaryBase' | 'researchLab' | 'consumerCenter' | 'consumerFactory';
 
 export interface Building {
   readonly id: number;
