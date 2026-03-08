@@ -177,6 +177,17 @@ export function processEconomy(currentState: GameState): GameState {
 					}
 
 					//processes now have Partial<Resources>, so any of these may be undefined
+					//input processing
+
+					if(newOrgs[buildingOwner].resources.credits >= (bDefinition.process.input?.credits ?? 0) && newOrgs[buildingOwner].resources.rocks >= (bDefinition.process.input?.rocks ?? 0 ) && newOrgs[buildingOwner].resources.consumerGoods >= (bDefinition.process.input?.consumerGoods ?? 0)){
+						roundIncome[buildingOwner].credits -= bDefinition.process.input?.credits ?? 0;
+						roundIncome[buildingOwner].rocks -= bDefinition.process.input?.rocks ?? 0;
+						roundIncome[buildingOwner].consumerGoods -= bDefinition.process.input?.consumerGoods ?? 0;
+					}
+					else{
+						continue;
+					}
+
 					//output processing
 					roundIncome[buildingOwner].credits += bDefinition.process.output?.credits ?? 0;
 					if(bDefinition.process.output?.rocks){
@@ -194,10 +205,7 @@ export function processEconomy(currentState: GameState): GameState {
 					roundIncome[buildingOwner].consumerGoods += bDefinition.process.output?.consumerGoods ?? 0;
 
 
-					//input processing
-					roundIncome[buildingOwner].credits -= bDefinition.process.input?.credits ?? 0;
-					roundIncome[buildingOwner].rocks -= bDefinition.process.input?.rocks ?? 0;
-					roundIncome[buildingOwner].consumerGoods -= bDefinition.process.input?.consumerGoods ?? 0;
+
 				}
 			}
 
