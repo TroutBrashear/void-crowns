@@ -1,5 +1,6 @@
-import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType } from '../types/gameState';
+import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType, DiploRequest } from '../types/gameState';
 import { evaluateDiploRequest, evaluateAiRelations } from './ai/diplomacy';
+ipmort { applyProcess } from './economy';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
 	const firstOrg = gameState.orgs.entities[firstOrgId];
@@ -55,6 +56,30 @@ export function engineUpdateRelationship(currentState: GameState, firstOrgId: nu
 	};
 }
 
+export function resolveTrade(currentState: GameState, request: DiploRequest): GameState {
+	let nextState = { ...currentState };
+
+	if(!request.trade){
+		return nextState;
+	}
+
+	const sender = currentState.orgs.entities[request.originOrgId];
+	const receiver = currentState.orgs.entities[request.targetOrgId];
+
+	if(!sender || !receiver){
+		return nextState;
+	}
+
+	//can each org afford what it is sending?
+	const senderValid = (sender.resources.credits >= (request.trade.senderProcess.input?.credits ?? 0)) && (sender.resources.rocks >= (request.trade.senderProcess.input?.rocks ?? 0)) && (sender.resources.consumerGoods >= (request.trade.senderProcess.input?.consumerGoods ?? 0));
+	const receiverValid = (receiver.resources.credits >= (request.trade.targetProcess.input?.credits ?? 0)) && (receiver.resources.rocks >= (request.trade.targetProcess.input?.rocks ?? 0)) && (receiver.resources.consumerGoods >= (request.trade.targetProcess.input?.consumerGoods ?? 0));
+
+	if(senderValid && receiverValid){
+		nextState = applyProcess(nextState, request.trade.senderProcess, request.originOrgId);
+		nextState = applyProcess(nextState, request.trade.targetProcess, request.targetOrgId);
+	}
+	return nextState;
+}
 
 export function enginePlayerDiploResponse(currentState: GameState, requestId: number, accepted: boolean): GameState {
 	let nextState = { ...currentState };
@@ -102,6 +127,7 @@ export function sendDiploRequest(currentState: GameState, targetOrgId: number, o
 		id: nextDiploId,
 		type: requestType,
 		originOrgId: originOrgId,
+		targetOrgId: targetOrgId,
 	};
 
 	targetOrg = {

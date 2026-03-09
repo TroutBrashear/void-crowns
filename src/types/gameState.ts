@@ -243,6 +243,7 @@ export interface DiploRequest {
   id: number;
   type: DiploType;
   originOrgId: number;
+  targetOrgId: number;
   trade?: {
     senderProcess: Process;
     targetProcess: Process;
