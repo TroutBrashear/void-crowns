@@ -50,6 +50,51 @@ export function engineAssignResearch(currentState: GameState, buildingId: number
 	};
 }
 
+
+export function applyProcess(currentState: GameState, process: Process, targetOrg: number): GameState {
+	const target = currentState.orgs.entities[targetOrg];
+	if(!target){
+		return currentState;
+	}
+	let processResult = {
+			credits: target.resources.credits,
+			rocks: target.resources.rocks,
+			consumerGoods: target.resources.consumerGoods,
+	};
+
+
+	if(process.input){
+		processResult.credits -= process.input?.credits ?? 0;
+		processResult.rocks -= process.input?.rocks ?? 0;
+		processResult.consumerGoods -= process.input?.consumerGoods ?? 0;
+	}
+
+	if(process.output){
+		processResult.credits += process.output?.credits ?? 0;
+		processResult.rocks += process.output?.rocks ?? 0;
+		processResult.consumerGoods += process.output?.consumerGoods ?? 0;
+	}
+
+
+	return{
+		...currentState,
+		orgs: {
+			...currentState.orgs,
+			entities: {
+				...currentState.orgs.entities,
+				[targetOrg]: {
+					...currentState.orgs.entities[targetOrg],
+					resources: {
+						credits: processResult.credits,
+						rocks: processResult.rocks,
+						consumerGoods: processResult.consumerGoods,
+					},
+				},
+			},
+		},
+	};
+}
+
 function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
 	//TODO: can add modifiers based on planet environment, owning org, etc.
 	let finalGrowth = targetPlanetoid.population * 0.001;
