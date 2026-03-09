@@ -128,7 +128,6 @@ export function processEconomy(currentState: GameState): GameState {
 
 								const researchProject = RESEARCH_CATALOG[building.research.project];
 
-
 								//is the project complete?
 								if(researchRoll > researchProject.cost){
 									//TODO: swap processEconomy to return an EngineResult so we can inform player of completion!
@@ -202,6 +201,15 @@ export function processEconomy(currentState: GameState): GameState {
 							};
 						}
 					}
+
+					//tax processing
+					//TODO: planetoid owner should set a tax rate on the planetoid, to be charged here instead of flat 100
+					if(planetoidOwner && planetoidOwner !== buildingOwner){
+						roundIncome[buildingOwner].credits -= 60;
+						roundIncome[planetoidOwner].credits += 60;
+					}
+
+
 					roundIncome[buildingOwner].consumerGoods += bDefinition.process.output?.consumerGoods ?? 0;
 
 
