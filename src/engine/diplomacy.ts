@@ -1,6 +1,6 @@
 import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType, DiploRequest } from '../types/gameState';
 import { evaluateDiploRequest, evaluateAiRelations } from './ai/diplomacy';
-ipmort { applyProcess } from './economy';
+import { applyProcess } from './economy';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
 	const firstOrg = gameState.orgs.entities[firstOrgId];
@@ -176,25 +176,40 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 		//INCOMING REQUESTS. loop handles all incoming requests an org might have, giving each a response.
 		for(const request of currentOrg.diplomacy.incomingRequests){
 			const evaluatePlayerVisible = (orgId == 1 || request.originOrgId == 1);
+			let success = false;
 			if(request.type === 'war' || request.type === 'peace'){
 				if(evaluateDiploRequest(nextState, orgId, request)){
 					nextState = engineUpdateRelationship(nextState, orgId, request.originOrgId, request.type);
+					success = true;
 				}
 			}
 			else if(request.type === 'trade'){
 				if(evaluateTradeDeal(nextState, orgId, request)){
 					nextState = resolveTrade(nextState, request);
+					success = true;
 				}
 			}
 
-			const diploEvent: GameEvent = {
-				type: 'diplo_result',
-				message: `${request.type} between ${currentOrg.flavor.name} and ${nextState.orgs.entities[request.originOrgId].flavor.name}`,
-				involvedOrgIds: [orgId, request.originOrgId],
-				isPlayerVisible: evaluatePlayerVisible,
-			};
+			if(success){
+				const diploEvent: GameEvent = {
+					type: 'diplo_result',
+					message: `${request.type} between ${currentOrg.flavor.name} and ${nextState.orgs.entities[request.originOrgId].flavor.name}`,
+					involvedOrgIds: [orgId, request.originOrgId],
+					isPlayerVisible: evaluatePlayerVisible,
+				};
 
-			allDiploEvents.push(diploEvent);
+				allDiploEvents.push(diploEvent);
+			}
+			else{
+				const diploEvent: GameEvent = {
+					type: 'diplo_result',
+					message: `${request.type} DECLINED between ${currentOrg.flavor.name} and ${nextState.orgs.entities[request.originOrgId].flavor.name}`,
+					involvedOrgIds: [orgId, request.originOrgId],
+					isPlayerVisible: evaluatePlayerVisible,
+				};
+
+				allDiploEvents.push(diploEvent);
+			}
 		}
 
 		let updatedOrg = { ...nextState.orgs.entities[orgId], diplomacy: {...nextState.orgs.entities[orgId].diplomacy, incomingRequests: [] }};
