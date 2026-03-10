@@ -84,7 +84,7 @@ export function resolveTrade(currentState: GameState, request: DiploRequest): Ga
 export function enginePlayerDiploResponse(currentState: GameState, requestId: number, accepted: boolean): GameState {
 	let nextState = { ...currentState };
 
-	let request = nextState.orgs.entities[1].diplomacy.incomingRequests[requestId];
+	let request = nextState.orgs.entities[1].diplomacy.incomingRequests.find(req => req.id === requestId);
 
 	if(!request){
 		return nextState;
@@ -92,6 +92,9 @@ export function enginePlayerDiploResponse(currentState: GameState, requestId: nu
 
 	if(accepted && (request.type === 'peace' || request.type === 'war')){
 		nextState = engineUpdateRelationship(nextState, 1, request.originOrgId, request.type);
+	}
+	else if(accepted && (request.type === 'trade')){
+		nextState = resolveTrade(nextState, request);
 	}
 
 

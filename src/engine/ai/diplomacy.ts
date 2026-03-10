@@ -3,12 +3,12 @@ import type { GameState, DiploRequest, DiploType } from '../../types/gameState';
 export function evaluateDiploRequest(currentState: GameState, orgId: number, request: DiploRequest): boolean {
 
     //automatic requests always return true
-    if(request.type == 'war'){
+    if(request.type === 'war'){
         return true;
     }
 
 
-    if(request.type == 'peace'){
+    if(request.type === 'peace'){
         if(currentState.intelligence.trueStatus[orgId].militaryStrength < 0.75 * currentState.intelligence.trueStatus[request.originOrgId].militaryStrength){ //todo: base this on receiver's PERCEPTION of originOrg rather than ground truth.
             return true; //accept peace
         }
@@ -19,6 +19,65 @@ export function evaluateDiploRequest(currentState: GameState, orgId: number, req
 
     else{
         //fallback case, shouldn't ever occur
+        return false;
+    }
+}
+
+export function evaluateTradeDeal(currentState: GameState, orgId: number, request: DiploRequest): boolean {
+    if(!request.trade || request.type !== 'trade'){
+        return false;
+    }
+
+    let thinkingOrg = currentState.orgs.entities[orgId];
+
+    if(!thinkingOrg){
+        return false;
+    }
+    if(thinkingOrg.resources.credits < (request.trade.targetProcess.input?.credits ?? 0) || thinkingOrg.resources.rocks < (request.trade.targetProcess.input?.rocks ?? 0) || thinkingOrg.resources.consumerGoods < (request.trade.targetProcess.input?.consumerGoods ?? 0)){
+        return false;
+    }
+
+    let creditScore = 1;
+    let rockScore = 1;
+    let consumerGoodScore = 1;
+
+    const receiving = (request.trade.targetProcess.output?.credits ?? 0) + (request.trade.targetProcess.output?.rocks ?? 0) + (request.trade.targetProcess.output?.consumerGoods ?? 0);
+    const sending = (request.trade.targetProcess.input?.credits ?? 0) + (request.trade.targetProcess.input?.rocks ?? 0) + (request.trade.targetProcess.input?.consumerGoods ?? 0)
+
+    //check if it is at least CLOSE to fair
+    if(receiving < 0.8 * sending){
+        return false;
+    }
+
+    //pressing needs
+    if(thinkingOrg.resources.credits < 2000 && (request.trade.targetProcess.output?.credits > 0)){
+        creditScore += 10
+    }
+    if(thinkingOrg.resources.rocks < 1000 && (request.trade.targetProcess.output?.rocks > 0)){
+        rockScore += 10
+    }
+    if(thinkingOrg.resources.consumerGoods < 2000 && thinkingOrg.category === 'corporation' && (request.trade.targetProcess.output?.consumerGoods > 0)){
+        consumerGoodScore += 10
+    }
+    else if(thinkingOrg.resources.consumerGoods < 1000 && (request.trade.targetProcess.output?.consumerGoods > 0)){
+        consumerGoodScore += 10;
+    }
+
+    //not overly taxing
+    if((thinkingOrg.resources.credits * .5) < (request.trade.targetProcess.input?.credits ?? 0)){
+        creditScore -= 5;
+    }
+    if((thinkingOrg.resources.rocks * .5) < (request.trade.targetProcess.input?.rocks ?? 0)){
+        rockScore -= 5;
+    }
+    if((thinkingOrg.resources.consumerGoods * .5) < (request.trade.targetProcess.input?.consumerGoods ?? 0)){
+        consumerGoodScore -= 5;
+    }
+
+    if(creditScore + rockScore + consumerGoodScore > 0){
+        return true;
+    }
+    else{
         return false;
     }
 }
