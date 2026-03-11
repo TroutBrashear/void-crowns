@@ -318,7 +318,7 @@ export interface GameActions {
   declareWar: (payload: DiploStatusPayload) => void;
   declarePeace: (payload: DiploStatusPayload) => void;
   processPlayerDiplo: (payload: { requestId: number, accepted: boolean }) => void;
-  sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType }) => void;
+  sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType, trade?: { send: Resources, receive: Resources } }) => void;
   colonizePlanetoid: (payload: ColonizePayload) => void;
   beginPlanetoidSurvey: (payload: ColonizePayload) => void;
   initializeNewGame: (payload: {playerOrgName: string, playerOrgColor: string} ) => void;

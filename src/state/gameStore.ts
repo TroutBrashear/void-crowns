@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, BuildingClass, DiploType } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, BuildingClass, DiploType, Resources } from '../types/gameState';
 import type { Fleet, PlanetoidIntel } from '../types/gameState';
 
 //engine imports
@@ -240,7 +240,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       set(enginePlayerDiploResponse(get(), payload.requestId, payload.accepted));
   },
 
-  sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType }) => {
+  sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType, trade?: { send: Resources, receive: Resources }  }) => {
     set((state) => {
       let targetOrg = state.orgs.entities[payload.targetOrgId];
       if(!targetOrg){
@@ -252,6 +252,20 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         type: payload.requestType,
         originOrgId: payload.originOrgId,
       };
+
+      if(payload.trade){
+        request.trade = {
+          senderProcess: {
+            input: send,
+            output: receive,
+          },
+          targetProcess: {
+            input: receive,
+            output: send,
+          },
+        }
+      }
+
 
       targetOrg = {
         ...targetOrg,
