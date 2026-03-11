@@ -163,8 +163,6 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 
 	let allDiploEvents: GameEvent[] = [];
 
-	let updatedOrgs = { ...nextState.orgs.entities };
-
 	for(const orgId of nextState.orgs.ids){
 		if(orgId == 1){
 			continue;
@@ -212,17 +210,25 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 			}
 		}
 
-		let updatedOrg = { ...nextState.orgs.entities[orgId], diplomacy: {...nextState.orgs.entities[orgId].diplomacy, incomingRequests: [] }};
-		updatedOrgs[orgId] = { ...updatedOrg };
+		nextState = {
+			...nextState,
+			orgs: {
+				...nextState.orgs,
+				entities: {
+					...nextState.orgs.entities,
+					[orgId]:{
+						...nextState.orgs.entities[orgId],
+						diplomacy: {
+							...nextState.orgs.entities[orgId].diplomacy,
+							incomingRequests: []
+						},
+					},
+				},
+			},
+		};
+
 	}
 
-	nextState = {
-		...nextState,
-		orgs:{
-			...nextState.orgs,
-			entities: updatedOrgs,
-		}
-	};
 
 	for(const orgId of nextState.orgs.ids){
 		if(orgId == 1){
