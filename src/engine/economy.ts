@@ -1,4 +1,4 @@
-import type { GameState, Planetoid, Resources } from '../types/gameState';
+import type { GameState, Planetoid, Resources, Process } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';

@@ -256,12 +256,12 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       if(payload.trade){
         request.trade = {
           senderProcess: {
-            input: send,
-            output: receive,
+            input: payload.trade.send,
+            output: payload.trade.receive,
           },
           targetProcess: {
-            input: receive,
-            output: send,
+            input: payload.trade.receive,
+            output: payload.trade.send,
           },
         }
       }

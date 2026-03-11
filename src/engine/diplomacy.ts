@@ -1,5 +1,5 @@
 import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType, DiploRequest } from '../types/gameState';
-import { evaluateDiploRequest, evaluateAiRelations } from './ai/diplomacy';
+import { evaluateDiploRequest, evaluateAiRelations, evaluateTradeDeal } from './ai/diplomacy';
 import { applyProcess } from './economy';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
