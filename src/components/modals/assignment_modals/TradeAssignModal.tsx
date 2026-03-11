@@ -24,7 +24,6 @@ function TradeAssignModal({ senderId, targetId }: { senderId: number, targetId: 
     }
 
 
-
     return(
         <div className={styles.assignModal}>
 
@@ -50,7 +49,7 @@ function TradeAssignModal({ senderId, targetId }: { senderId: number, targetId: 
                     <input type="number" id="receiveConsumerGoods" value={receive.consumerGoods} onChange={(e) => setReceive( { ...receive, consumerGoods: parseInt(e.target.value) })} />
                 </div>
             </div>
-            <button className={styles.characterButton} onClick={()=> sendDiploRequest({targetOrgId: targedId, originOrgId: senderId, requestType: 'trade', trade: { send: send, receive: receive} })}
+            <button className={styles.characterButton} onClick={()=> sendDiploRequest({targetOrgId: targedId, originOrgId: senderId, requestType: 'trade', trade: { send: send, receive: receive} })}>Send</button>
             <button className={styles.characterButton} onClick={closeAssignModal}>Cancel</button>
         </div>
     );
