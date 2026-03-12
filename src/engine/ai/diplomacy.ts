@@ -1,4 +1,5 @@
 import type { GameState, DiploRequest, DiploType } from '../../types/gameState';
+import { sendDiploRequest } from '../diplomacy';
 
 export function evaluateDiploRequest(currentState: GameState, orgId: number, request: DiploRequest): boolean {
 
@@ -86,12 +87,13 @@ export function evaluateAiTradeNeeds(currentState: GameState, currentOrgId: numb
     let nextState = { ...currentState };
     let thinkingOrg = { ...currentState.orgs.entities[currentOrgId] };
 
+    //placeholder: player Org is always target.
     if(thinkingOrg.resources.rocks < 1000 && thinkingOrg.contextHistory.previousIncome.rocks < 0){
-
+        nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade',  { send: {credits: 2000, rocks: 0, consumerGoods: 0}, receive: {credits: 0, rocks: 1500, consumerGoods: 0 }});
     }
 
     if(thinkingOrg.resources.consumerGoods < 1000 && thinkingOrg.contextHistory.previousIncome.consumerGoods < 0){
-
+        nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade', { send: {credits: 2000, rocks: 0, consumerGoods: 0}, receive: {credits: 0, rocks: 0, consumerGoods: 1500 }});
     }
 
 
