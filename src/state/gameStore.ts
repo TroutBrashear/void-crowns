@@ -251,6 +251,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         id: nextDiploId,
         type: payload.requestType,
         originOrgId: payload.originOrgId,
+        targetOrgId: payload.targetOrgId,
       };
 
       if(payload.trade){

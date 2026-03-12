@@ -32,9 +32,19 @@ function DiplomacyPanel() {
                 if(!originOrg){
                     return null;
                 }
+                if(!originOrg.trade){
+                    return(
+                        <div key={request.id}>
+                            <p>{originOrg.flavor.name} is requesting {request.type}</p>
+                            <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: true})} >Accept</button>
+                            <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: false})}>Decline</button>
+                        </div>
+                    )
+                }
                 return(
                     <div key={request.id}>
                         <p>{originOrg.flavor.name} is requesting {request.type}</p>
+                        <p>Credits: {request.trade.senderProcess.input.credits} - {request.trade.senderProcess.output.credits} // {request.trade.senderProcess.input.rocks} - {request.trade.senderProcess.output.rocks} // {request.trade.senderProcess.input.consumerGoods} - {request.trade.senderProcess.output.consumerGoods}</p>
                         <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: true})} >Accept</button>
                         <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: false})}>Decline</button>
                     </div>
