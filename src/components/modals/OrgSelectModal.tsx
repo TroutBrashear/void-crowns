@@ -7,7 +7,7 @@ function OrgSelectModal() {
 	const selection = useUiStore(state => state.selection);
 	const closeModal = useUiStore(state => state.closeModal);
 	const backModal = useUiStore(state => state.backModal);
-
+	const openAssignModal = useUiStore(state => state.openAssignModal);
 
 
 	const getOrgById = useGameStore(state => state.getOrgById);
@@ -71,6 +71,8 @@ function OrgSelectModal() {
 			<h3>Your current status: {currentStatus}</h3>
 			{currentStatus === 'war' ? <button onClick={() => sendDiploRequest({targetOrgId: orgToShow.id, originOrgId: 1, requestType: 'peace' })}>Offer Peace</button>
 				: <button onClick={() => sendDiploRequest({targetOrgId: orgToShow.id, originOrgId: 1, requestType: 'war' })}>Declare War</button>}
+
+			<button onClick={() => openAssignModal("send_trade", {targetId: orgToShow.id, position: 'admiral'})}>Send Trade Offer</button>
 			<h3>International Relations:</h3>
 			<ul>
 				{orgRelations.map(relation => {

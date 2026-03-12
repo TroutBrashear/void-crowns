@@ -53,13 +53,13 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
     if(thinkingOrg.resources.credits < 2000 && (request.trade.targetProcess.output?.credits ?? 0) > 0){
         creditScore += 10
     }
-    if(thinkingOrg.resources.rocks < 1000 && (request.trade.targetProcess.output?.rocks > 0 ?? 0) > 0){
+    if(thinkingOrg.resources.rocks < 1000 && (request.trade.targetProcess.output?.rocks ?? 0) > 0){
         rockScore += 10
     }
-    if(thinkingOrg.resources.consumerGoods < 2000 && thinkingOrg.category === 'corporation' && (request.trade.targetProcess.output?.consumerGoods > 0 ?? 0) > 0){
+    if(thinkingOrg.resources.consumerGoods < 2000 && thinkingOrg.category === 'corporation' && (request.trade.targetProcess.output?.consumerGoods ?? 0) > 0){
         consumerGoodScore += 10
     }
-    else if(thinkingOrg.resources.consumerGoods < 1000 && (request.trade.targetProcess.output?.consumerGoods > 0 ?? 0) > 0){
+    else if(thinkingOrg.resources.consumerGoods < 1000 && (request.trade.targetProcess.output?.consumerGoods ?? 0) > 0){
         consumerGoodScore += 10;
     }
 

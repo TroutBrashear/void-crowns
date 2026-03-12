@@ -8,6 +8,7 @@ import BuildingSelectModal from './BuildingSelectModal';
 
 import CharacterAssignModal from './assignment_modals/CharacterAssignModal';
 import ResearchAssignModal from './assignment_modals/ResearchAssignModal';
+import TradeAssignModal from './assignment_modals/TradeAssignModal';
 
 import DiplomacyPanel from '../panels/DiplomacyPanel';
 import PoliticsPanel from '../panels/PoliticsPanel';
@@ -42,6 +43,8 @@ export function ModalManager() {
 			assignModal = <CharacterAssignModal/>; break;
 		case 'assign_research':
 			assignModal = <ResearchAssignModal/>; break;
+		case 'send_trade':
+			assignModal = <TradeAssignModal/>; break;
 	}
 
 	let panel = null;

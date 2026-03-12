@@ -5,7 +5,7 @@ import { useState } from 'react';
 import styles from './AssignModal.module.css';
 
 
-function TradeAssignModal({ senderId, targetId }: { senderId: number, targetId: number }) {
+function TradeAssignModal() {
 
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
@@ -15,8 +15,9 @@ function TradeAssignModal({ senderId, targetId }: { senderId: number, targetId: 
     const getOrgById = useGameStore(state => state.getOrgById);
     const sendDiploRequest = useGameStore(state => state.sendDiploRequest);
 
+    const targetId = useUiStore(state => state.characterAssignTarget.targetId);
 
-    const senderOrg = getOrgById(senderId);
+    const senderOrg = getOrgById(1);
     const targetOrg = getOrgById(targetId);
 
     if(!senderOrg || !targetOrg){
@@ -26,7 +27,7 @@ function TradeAssignModal({ senderId, targetId }: { senderId: number, targetId: 
 
     return(
         <div className={styles.assignModal}>
-
+\\
             <div>
                 <div>
                     <p>{senderOrg.flavor.name} </p>
