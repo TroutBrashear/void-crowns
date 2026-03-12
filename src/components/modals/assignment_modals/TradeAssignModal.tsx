@@ -15,10 +15,14 @@ function TradeAssignModal() {
     const getOrgById = useGameStore(state => state.getOrgById);
     const sendDiploRequest = useGameStore(state => state.sendDiploRequest);
 
-    const targetId = useUiStore(state => state.characterAssignTarget.targetId);
+    const target = useUiStore(state => state.characterAssignTarget);
+
+    if(!target){
+        return null;
+    }
 
     const senderOrg = getOrgById(1);
-    const targetOrg = getOrgById(targetId);
+    const targetOrg = getOrgById(target.targetId);
 
     if(!senderOrg || !targetOrg){
         return null;
@@ -50,7 +54,7 @@ function TradeAssignModal() {
                     <input type="number" id="receiveConsumerGoods" value={receive.consumerGoods} onChange={(e) => setReceive( { ...receive, consumerGoods: parseInt(e.target.value) })} />
                 </div>
             </div>
-            <button className={styles.characterButton} onClick={()=> sendDiploRequest({targetOrgId: targetId, originOrgId: senderId, requestType: 'trade', trade: { send: send, receive: receive} })}>Send</button>
+            <button className={styles.characterButton} onClick={()=> sendDiploRequest({targetOrgId: targetId, originOrgId: senderOrg.id, requestType: 'trade', trade: { send: send, receive: receive} })}>Send</button>
             <button className={styles.characterButton} onClick={closeAssignModal}>Cancel</button>
         </div>
     );

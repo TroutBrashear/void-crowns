@@ -120,18 +120,31 @@ export function enginePlayerDiploResponse(currentState: GameState, requestId: nu
 	}
 }
 
-export function sendDiploRequest(currentState: GameState, targetOrgId: number, originOrgId: number, requestType: DiploType): GameState {
+export function sendDiploRequest(currentState: GameState, targetOrgId: number, originOrgId: number, requestType: DiploType, trade?: { send: Resources, receive: Resources }): GameState {
 	let targetOrg = currentState.orgs.entities[targetOrgId];
 	if(!targetOrg){
 		return currentState;
 	}
 	const nextDiploId = currentState.meta.lastDiploId + 1;
-	const request = {
+	const request: DiploRequest = {
 		id: nextDiploId,
 		type: requestType,
 		originOrgId: originOrgId,
 		targetOrgId: targetOrgId,
 	};
+
+	if(trade){
+		request.trade = {
+			senderProcess: {
+				input: trade.send,
+				output: trade.receive,
+			},
+			targetProcess: {
+				input: trade.receive,
+				output: trade.send,
+			},
+		}
+	}
 
 	targetOrg = {
 		...targetOrg,

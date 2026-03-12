@@ -11,7 +11,7 @@ import { processEconomy, getAllResearchOptions, engineAssignResearch } from '../
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
-import { processDiplomacy, enginePlayerDiploResponse} from '../engine/diplomacy';
+import { processDiplomacy, enginePlayerDiploResponse, sendDiploRequest} from '../engine/diplomacy';
 import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
 import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engine/building';
 import { colonizePlanetoid, beginPlanetoidSurvey } from '../engine/colonization';
@@ -241,56 +241,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType, trade?: { send: Resources, receive: Resources }  }) => {
-    set((state) => {
-      let targetOrg = state.orgs.entities[payload.targetOrgId];
-      if(!targetOrg){
-        return state;
-      }
-      const nextDiploId = state.meta.lastDiploId + 1;
-      const request = {
-        id: nextDiploId,
-        type: payload.requestType,
-        originOrgId: payload.originOrgId,
-        targetOrgId: payload.targetOrgId,
-      };
-
-      if(payload.trade){
-        request.trade = {
-          senderProcess: {
-            input: payload.trade.send,
-            output: payload.trade.receive,
-          },
-          targetProcess: {
-            input: payload.trade.receive,
-            output: payload.trade.send,
-          },
-        }
-      }
-
-
-      targetOrg = {
-        ...targetOrg,
-        diplomacy: {
-          ...targetOrg.diplomacy,
-          incomingRequests: [...targetOrg.diplomacy.incomingRequests, request],
-        },
-      };
-
-      return {
-        ...state,
-        meta: {
-          ...state.meta,
-          lastDiploId: nextDiploId,
-        },
-        orgs: {
-          ...state.orgs,
-          entities: {
-            ...state.orgs.entities,
-            [payload.targetOrgId]: targetOrg,
-          }
-        }
-      };
-    });
+    set(sendDiploRequest(get(), payload.targetOrgId, payload.originOrgId, payload.requestType, payload.trade ))
 
   },
 

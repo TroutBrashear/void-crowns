@@ -82,6 +82,23 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
     }
 }
 
+export function evaluateAiTradeNeeds(currentState: GameState, currentOrgId: number): GameState {
+    let nextState = { ...currentState };
+    let thinkingOrg = { ...currentState.orgs.entities[currentOrgId] };
+
+    if(thinkingOrg.resources.rocks < 1000 && thinkingOrg.contextHistory.previousIncome.rocks < 0){
+
+    }
+
+    if(thinkingOrg.resources.consumerGoods < 1000 && thinkingOrg.contextHistory.previousIncome.consumerGoods < 0){
+
+    }
+
+
+    return nextState;
+}
+
+
 export function evaluateAiRelations(currentState: GameState, currentOrgId: number, targetOrgId: number): DiploType | null {
     const currentOrg = currentState.orgs.entities[currentOrgId];
 
