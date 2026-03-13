@@ -1,5 +1,5 @@
-import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType, DiploRequest } from '../types/gameState';
-import { evaluateDiploRequest, evaluateAiRelations, evaluateTradeDeal } from './ai/diplomacy';
+import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType, DiploRequest, Resources } from '../types/gameState';
+import { evaluateDiploRequest, evaluateAiRelations, evaluateTradeDeal, evaluateTradeNeeds } from './ai/diplomacy';
 import { applyProcess } from './economy';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
@@ -181,7 +181,10 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 			continue;
 		}
 
+		nextState = evaluateTradeNeeds(nextState, orgId);
+
 		let currentOrg = nextState.orgs.entities[orgId];
+
 
 
 		//INCOMING REQUESTS. loop handles all incoming requests an org might have, giving each a response.

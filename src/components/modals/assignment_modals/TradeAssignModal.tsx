@@ -54,7 +54,7 @@ function TradeAssignModal() {
                     <input type="number" id="receiveConsumerGoods" value={receive.consumerGoods} onChange={(e) => setReceive( { ...receive, consumerGoods: parseInt(e.target.value) })} />
                 </div>
             </div>
-            <button className={styles.characterButton} onClick={()=> sendDiploRequest({targetOrgId: targetId, originOrgId: senderOrg.id, requestType: 'trade', trade: { send: send, receive: receive} })}>Send</button>
+            <button className={styles.characterButton} onClick={()=> sendDiploRequest({targetOrgId: target.targetId, originOrgId: senderOrg.id, requestType: 'trade', trade: { send: send, receive: receive} })}>Send</button>
             <button className={styles.characterButton} onClick={closeAssignModal}>Cancel</button>
         </div>
     );
