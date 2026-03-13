@@ -83,11 +83,28 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
     }
 }
 
+function isRequestPending(currentState: GameState, originOrgId: number, targetOrgId: number): boolean {
+    const targetOrg = currentState.orgs.entities[targetOrgId];
+
+    if(targetOrg.diplomacy.incomingRequests.some(req => req.originOrgId === originOrgId)){
+        return true;
+    }
+
+    return false;
+}
+
 export function evaluateAiTradeNeeds(currentState: GameState, currentOrgId: number): GameState {
     let nextState = { ...currentState };
     let thinkingOrg = { ...currentState.orgs.entities[currentOrgId] };
 
-    //placeholder: player Org is always target.
+    let targetOrg = { ...currentState.orgs.entities[1] };   //placeholder: player Org is currently always target.
+
+    //avoid request spam by checking to see if thinkingOrg is already waiting on a response
+    if(isRequestPending(nextState, thinkingOrg.id, targetOrg.id)){
+        return nextState;
+    }
+
+
     if(thinkingOrg.resources.rocks < 1000 && thinkingOrg.contextHistory.previousIncome.rocks < 0){
         nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade',  { send: {credits: 2000, rocks: 0, consumerGoods: 0}, receive: {credits: 0, rocks: 1500, consumerGoods: 0 }});
     }
