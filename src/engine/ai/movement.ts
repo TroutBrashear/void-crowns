@@ -16,7 +16,10 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 
 	let atWar = false;
 	const thinkingOrg = currentState.orgs.entities[orgId];
-	if(thinkingOrg.diplomacy.relations.some(relation => relation.status === 'war')){
+	let opponentOrgs = thinkingOrg.diplomacy.relations.filter(relation => relation.status === 'war').map(relation => relation.targetOrgId);
+
+
+	if(opponentOrgs.length > 0){
 		atWar = true;
 	}
 
@@ -29,25 +32,48 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
     	if (!currentSystem) {
      		continue;
     	}
-
-    	const targetLaneId = currentSystem.adjacentLanes.find(id => {
-			const lane = currentState.lanes.entities[id];
-			const systemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
-
-     		const system = currentState.systems.entities[systemId];
-      		const isTargeted = Object.values(newFleetEntities).some(f =>
-        		f.movementPath.includes(systemId) && f.ownerNationId === orgId
-      		);
-			if(!atWar){
-				return system && system.ownerNationId === orgId && !isTargeted;
-			}
-      		return system && system.ownerNationId === null && !isTargeted;
-    	});
-
 		let targetSystemId = currentSystem.id;
-		if(targetLaneId){
-			const lane = currentState.lanes.entities[targetLaneId];
-			targetSystemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
+
+		if(!atWar){
+			const targetLaneId = currentSystem.adjacentLanes.find(id => {
+				const lane = currentState.lanes.entities[id];
+				const systemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
+
+				const system = currentState.systems.entities[systemId];
+				const isTargeted = Object.values(newFleetEntities).some(f =>
+					f.movementPath.includes(systemId) && f.ownerNationId === orgId
+				);
+				return system && system.ownerNationId === orgId && !isTargeted;
+
+			});
+
+
+			if(targetLaneId){
+				const lane = currentState.lanes.entities[targetLaneId];
+				targetSystemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
+			}
+		}
+		else{
+			const targetLaneId = currentSystem.adjacentLanes.find(id => {
+				const lane = currentState.lanes.entities[id];
+				const systemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
+
+				const system = currentState.systems.entities[systemId];
+				const isTargeted = Object.values(newFleetEntities).some(f =>
+				f.movementPath.includes(systemId) && f.ownerNationId === orgId
+				);
+				return system && opponentOrgs.includes(system.ownerNationId) && !isTargeted;
+
+			});
+
+			if(targetLaneId){
+				const lane = currentState.lanes.entities[targetLaneId];
+				targetSystemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
+			}
+			else{
+				let targetSystem = Object.values(currentState.systems.entities).find(system => opponentOrgs.includes(system.ownerNationId));
+				targetSystemId = targetSystem.id;
+			}
 		}
 
     	if (targetSystemId) {
@@ -67,6 +93,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 
     		hasMadeChanges = true;
     	}
+
   	}
 
 	if (hasMadeChanges) {

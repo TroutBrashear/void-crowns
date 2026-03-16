@@ -1,5 +1,5 @@
 import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType, DiploRequest, Resources } from '../types/gameState';
-import { evaluateDiploRequest, evaluateAiRelations, evaluateTradeDeal, evaluateTradeNeeds } from './ai/diplomacy';
+import { evaluateDiploRequest, evaluateAiRelations, evaluateTradeDeal, evaluateAiTradeNeeds } from './ai/diplomacy';
 import { applyProcess } from './economy';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
@@ -181,7 +181,7 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 			continue;
 		}
 
-		nextState = evaluateTradeNeeds(nextState, orgId);
+		nextState = evaluateAiTradeNeeds(nextState, orgId);
 
 		let currentOrg = nextState.orgs.entities[orgId];
 
