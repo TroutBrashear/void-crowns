@@ -52,6 +52,10 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 				const lane = currentState.lanes.entities[targetLaneId];
 				targetSystemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
 			}
+			else{
+				let targetSystem = Object.values(currentState.systems.entities).find(system => opponentOrgs.includes(orgId));
+				targetSystemId = targetSystem.id;
+			}
 		}
 		else{
 			const targetLaneId = currentSystem.adjacentLanes.find(id => {

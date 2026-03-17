@@ -67,6 +67,10 @@ export interface Fleet {
   movementPath: number[]; //ids of systems in order of movement
   movesRemaining: number;
   assignedCharacter: number | null;
+
+  contextHistory: {
+    previousSystemId: number;
+  }
 }
 
 export type ShipType = 'colony_ship' | 'survey_ship';

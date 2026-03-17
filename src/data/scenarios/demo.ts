@@ -39,8 +39,8 @@ export const initialPlanetoids: Planetoid[] = [
 ];
 
 export const initialFleets: Fleet[] = [
-  { id: 1, name: "human fleet", ownerNationId: 1, locationSystemId: 1, movementPath: [], movesRemaining: 3, assignedCharacter: null },
-  { id: 2, name: "alien fleet", ownerNationId: 2, locationSystemId: 4, movementPath: [], movesRemaining: 3, assignedCharacter: null },
+  { id: 1, name: "human fleet", ownerNationId: 1, locationSystemId: 1, movementPath: [], movesRemaining: 3, assignedCharacter: null, contextHistory: { previousSystemId: 1 } },
+  { id: 2, name: "alien fleet", ownerNationId: 2, locationSystemId: 4, movementPath: [], movesRemaining: 3, assignedCharacter: null, contextHistory: { previousSystemId: 4 } },
 ];
 
 export const initialLanes: Lane[] = [

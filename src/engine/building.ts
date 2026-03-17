@@ -36,6 +36,9 @@ export function engineBuildFleet(currentState: GameState, locationId: number): G
         movementPath: [],
         movesRemaining: 3,
 		assignedCharacter: null, 
+        contextHistory: {
+          previousSystemId: locationId,
+        },
       };
 
       const updatedOrg = {
