@@ -43,7 +43,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 				const isTargeted = Object.values(newFleetEntities).some(f =>
 					f.movementPath.includes(systemId) && f.ownerNationId === orgId
 				);
-				return system && system.ownerNationId === orgId && !isTargeted;
+				return system && system.ownerNationId === orgId && !isTargeted && systemId !== fleet.contextHistory.previousSystemId;
 
 			});
 
@@ -66,7 +66,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 				const isTargeted = Object.values(newFleetEntities).some(f =>
 				f.movementPath.includes(systemId) && f.ownerNationId === orgId
 				);
-				return system && opponentOrgs.includes(system.ownerNationId) && !isTargeted;
+				return system && opponentOrgs.includes(system.ownerNationId) && !isTargeted && systemId !== fleet.contextHistory.previousSystemId;
 
 			});
 
