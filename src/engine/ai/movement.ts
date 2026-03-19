@@ -53,8 +53,10 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 				targetSystemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
 			}
 			else{
-				let targetSystem = Object.values(currentState.systems.entities).find(system => opponentOrgs.includes(orgId));
-				targetSystemId = targetSystem.id;
+				let targetSystem = Object.values(currentState.systems.entities).find(system => system.ownerNationId === orgId);
+				if(targetSystem){
+					targetSystemId = targetSystem.id;
+				}
 			}
 		}
 		else{
@@ -76,7 +78,9 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 			}
 			else{
 				let targetSystem = Object.values(currentState.systems.entities).find(system => opponentOrgs.includes(system.ownerNationId));
-				targetSystemId = targetSystem.id;
+				if(targetSystem){
+					targetSystemId = targetSystem.id;
+				}
 			}
 		}
 
