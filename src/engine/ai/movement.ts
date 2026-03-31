@@ -68,7 +68,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 				const isTargeted = Object.values(newFleetEntities).some(f =>
 				f.movementPath.includes(systemId) && f.ownerNationId === orgId
 				);
-				return system && opponentOrgs.includes(system.ownerNationId) && !isTargeted && systemId !== fleet.contextHistory.previousSystemId;
+				return system && system.ownerNationId !== null && opponentOrgs.includes(system.ownerNationId) && !isTargeted && systemId !== fleet.contextHistory.previousSystemId;
 
 			});
 
@@ -77,7 +77,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 				targetSystemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
 			}
 			else{
-				let targetSystem = Object.values(currentState.systems.entities).find(system => opponentOrgs.includes(system.ownerNationId));
+				let targetSystem = Object.values(currentState.systems.entities).find(system => system.ownerNationId !== null && opponentOrgs.includes(system.ownerNationId));
 				if(targetSystem){
 					targetSystemId = targetSystem.id;
 				}
