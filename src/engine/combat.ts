@@ -98,43 +98,52 @@ export function processCombat(currentState: GameState): EngineResult {
 
 
 	for(const systemId of currentState.systems.ids) {
-		const fleetsInSystem = getFleetsInSystem(currentState, systemId);
+		let noBattle = false;
+
+		while(!noBattle){
+			const fleetsInSystem = getFleetsInSystem(nextState, systemId);
 
 
-		//no chance for combat if there aren't multiple fleets
-		if(fleetsInSystem.length < 2) {
-			continue;
-		}
+			//no chance for combat if there aren't multiple fleets
+			if(fleetsInSystem.length < 2) {
+				break;
+			}
 
-		//pare it down to unique orgs in system
-		const uniqueOwnerIds = new Set(fleetsInSystem.map(f => f.ownerNationId));
+			//pare it down to unique orgs in system
+			const uniqueOwnerIds = new Set(fleetsInSystem.map(f => f.ownerNationId));
 
-		if(uniqueOwnerIds.size > 1) {
-			//Check diplomatic status
-			const orgsInSystem = [...uniqueOwnerIds];
-			let isBattle = false;
 
-			for(let i = 0; i < orgsInSystem.length; i++) {
-				for(let j = i + 1; j < orgsInSystem.length; j++) {
-					const firstOrgId = orgsInSystem[i];
-					const secondOrgId = orgsInSystem[j];
+			if(uniqueOwnerIds.size > 1) {
+				//Check diplomatic status
+				const orgsInSystem = [...uniqueOwnerIds];
+				let isBattle = false;
 
-					const relationship = getRelationship(nextState, firstOrgId, secondOrgId);
+				for(let i = 0; i < orgsInSystem.length; i++) {
+					for(let j = i + 1; j < orgsInSystem.length; j++) {
+						const firstOrgId = orgsInSystem[i];
+						const secondOrgId = orgsInSystem[j];
 
-					if(relationship.status === 'war'){
-						//set up battle and call resolveBattle
-						const firstOrgFleets = fleetsInSystem.filter(fleet => fleet.ownerNationId === firstOrgId);
-						const secondOrgFleets = fleetsInSystem.filter(fleet => fleet.ownerNationId === secondOrgId);
+						const relationship = getRelationship(nextState, firstOrgId, secondOrgId);
+
+						if(relationship.status === 'war'){
+							//set up battle and call resolveBattle
+							const firstOrgFleets = fleetsInSystem.filter(fleet => fleet.ownerNationId === firstOrgId);
+							const secondOrgFleets = fleetsInSystem.filter(fleet => fleet.ownerNationId === secondOrgId);
 						
-						const battleResult = resolveBattle(nextState, firstOrgFleets, secondOrgFleets);
-						nextState = battleResult.newState;						
-						allCombatEvents.push(...battleResult.events);
-						isBattle=true;
+							const battleResult = resolveBattle(nextState, firstOrgFleets, secondOrgFleets);
+							nextState = battleResult.newState;
+							allCombatEvents.push(...battleResult.events);
+							isBattle=true;
+							break;
+						}
+					}
+
+					if (isBattle) {
 						break;
 					}
 				}
 
-				if (isBattle) {
+				if(!isBattle){
 					break;
 				}
 			}
