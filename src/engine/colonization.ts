@@ -115,8 +115,9 @@ export function getHabitablesInSystem(currentState: GameState, systemId: number)
       return [];
     }
 
+
     return system.planetoids.map(planetoidId => currentState.planetoids.entities[planetoidId]).filter(planetoid => {
-      if(planetoid.environment !== 'Barren' && planetoid.environment !== 'Molten' && planetoid.ownerNationId === null){
+      if((planetoid.classification !== 'gravWell' && planetoid.classification !== 'station') && planetoid.environment !== 'Barren' && planetoid.environment !== 'Molten' && planetoid.ownerNationId === null){
         return planetoid;
       }
     });
