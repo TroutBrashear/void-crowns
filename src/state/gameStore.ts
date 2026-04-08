@@ -14,7 +14,7 @@ import { processCharacterCycles } from '../engine/character';
 import { processDiplomacy, enginePlayerDiploResponse, sendDiploRequest} from '../engine/diplomacy';
 import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
 import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engine/building';
-import { colonizePlanetoid, beginPlanetoidSurvey } from '../engine/colonization';
+import { colonizePlanetoid, beginPlanetoidSurvey, getHabitablesInSystem } from '../engine/colonization';
 import { engineAssignCharacter } from '../engine/character';
 import { shiftLanes } from '../engine/ecology';
 
@@ -337,18 +337,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   getHabitablesInSystem: (id: number) => {
-    const state = get();
-    const system = state.systems.entities[id];
-    console.log(system);
-    if(!system) {
-      return [];
-    }
-
-    return system.planetoids.map(planetoidId => state.planetoids.entities[planetoidId]).filter(planetoid => {
-      if(planetoid.environment !== 'Barren' && planetoid.ownerNationId === null){
-        return planetoid;
-      }
-    })
+    return getHabitablesInSystem(get(), id);
   },
 
   getOrgResearchOptions: (orgId: number) => {
