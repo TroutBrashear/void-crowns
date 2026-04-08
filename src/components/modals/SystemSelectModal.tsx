@@ -57,9 +57,17 @@ function SystemSelectModal() {
     <ul>
     {systemPlanetoids.map(planetoid => {
       if (!planetoid) return null;
+
+      const ownerNationId = planetoid.ownerNationId;
+
+
+      const buttonStyle = {
+        backgroundColor: ownerNationId ? getOrgById(ownerNationId).flavor.color : '#aaa'
+      };
+
       return(
         <li key={planetoid.id}>
-          <button onClick={() => {changeModal('planet_modal', {type: 'planetoid', id: planetoid.id}); }}>{planetoid.name}</button>
+          <button style={buttonStyle} onClick={() => {changeModal('planet_modal', {type: 'planetoid', id: planetoid.id}); }}>{planetoid.name}</button>
         </li>);
     })}
     </ul>
