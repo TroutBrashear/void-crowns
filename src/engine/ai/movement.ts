@@ -137,7 +137,8 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
   	for(const ship of idleShips) {
   		if(ship.type === 'colony_ship') {
 			const locationSystem = nextState.systems.entities[ship.locationSystemId];
-			if(locationSystem.ownerNationId !== null){
+			let targetSystems = thinkingOrg.contextHistory.targetSystems.map(planetoidId => nextState.planetoids.entities[planetoidId].locationSystemId);
+			if(!targetSystems.includes(locationSystem.id)){
 				continue;
 			}
 
@@ -230,10 +231,12 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 				return system && !isTargeted;
 			});
 
-			console.log(targetPlanetoidId);
+
 			const targetSystemId = nextState.planetoids.entities[targetPlanetoidId].locationSystemId;
+			console.log(targetSystemId);
 
 			if (targetSystemId) {
+
 				const newPath = findPath(
 					ship.locationSystemId,
 					targetSystemId,
