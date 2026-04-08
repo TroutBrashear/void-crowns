@@ -1,5 +1,5 @@
 import type { GameState, Character, BuildingClass, Planetoid, CharacterAssignment } from '../../types/gameState';
-import { evaluateSystemValue } from '../colonization';
+import { evaluatePlanetoidValue, getHabitablesInSystem } from '../colonization';
 import { engineAssignCharacter } from '../character';
 import { RESEARCH_CATALOG } from '../../data/research';
 import { getAllResearchOptions, engineAssignResearch } from '../economy';
@@ -294,9 +294,15 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	});
 	const frontierSystems = Array.from(neighborIds).filter(id => currentState.systems.entities[id].ownerNationId !== orgId);
 
-	const weightedSystems = frontierSystems.map(system => ({system, valueScore: evaluateSystemValue(currentState, system)})).sort((a,b) => b.valueScore - a.valueScore);
+	const considerSystems = [...orgSystems.map(system => system.id), ...frontierSystems];
 
-	const finalTargets = weightedSystems.slice(0,3).map(object => object.system);
+	//const weightedSystems = frontierSystems.map(system => ({system, valueScore: evaluateSystemValue(currentState, system)})).sort((a,b) => b.valueScore - a.valueScore);
+
+	const candidatePlanetoids = considerSystems.flatMap(systemId => getHabitablesInSystem(currentState, systemId));
+
+	const weightedPlanetoids = candidatePlanetoids.map(planetoid => ({planetoid, valueScore: evaluatePlanetoidValue(planetoid)})).sort((a,b) => b.valueScore - a.valueScore);
+
+	const finalTargets = weightedPlanetoids.slice(0,3).map(object => object.planetoid.id);
 
 	let newBuildPlan =  [...thinkingOrg.contextHistory.buildPlan];
 	
@@ -342,7 +348,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	}
 
 	//do we need a colony ship?
-	if(frontierSystems.some(id => !currentState.systems.entities[id].ownerNationId)){
+	if(candidatePlanetoids.length > 0){
 		if(!newBuildPlan.some(intent => intent.type === 'ship' && intent.shipType === 'colony_ship')){
 			let targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
 			newBuildPlan.push({type: "ship", shipType: 'colony_ship', location: targetSystem });

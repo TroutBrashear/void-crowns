@@ -221,14 +221,17 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 			}
 		}
 		if(ship.type === 'colony_ship'){
-			const targetSystemId = thinkingOrg.contextHistory.targetSystems.find(id => {
-				const system = nextState.systems.entities[id];
+			const targetPlanetoidId = thinkingOrg.contextHistory.targetSystems.find(id => {
+				const system = nextState.systems.entities[nextState.planetoids.entities[id].locationSystemId];
 
 				const isTargeted = Object.values(newShipEntities).some(s =>
 					s.movementPath.includes(id) && s.ownerNationId === orgId
 				);
-				return system && system.ownerNationId === null && !isTargeted;
+				return system && !isTargeted;
 			});
+
+			console.log(targetPlanetoidId);
+			const targetSystemId = nextState.planetoids.entities[targetPlanetoidId].locationSystemId;
 
 			if (targetSystemId) {
 				const newPath = findPath(

@@ -111,13 +111,12 @@ export function beginPlanetoidSurvey(currentState: GameState, payload: ColonizeP
 
 export function getHabitablesInSystem(currentState: GameState, systemId: number): Planetoid[] {
     const system = currentState.systems.entities[systemId];
-    console.log(system);
     if(!system) {
       return [];
     }
 
     return system.planetoids.map(planetoidId => currentState.planetoids.entities[planetoidId]).filter(planetoid => {
-      if(planetoid.environment !== 'Barren' && planetoid.environment !== 'Molten'){
+      if(planetoid.environment !== 'Barren' && planetoid.environment !== 'Molten' && planetoid.ownerNationId === null){
         return planetoid;
       }
     });
