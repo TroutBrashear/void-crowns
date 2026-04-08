@@ -163,6 +163,8 @@ export interface Org {
 
 export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'scientist';
 
+
+
 //a helper that holds information about what a character is currently doing
 export interface charAssignment {
   type: CharacterAssignment;
@@ -171,6 +173,8 @@ export interface charAssignment {
 
 export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'academics';
 
+export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
+
 export interface Character {
   readonly id: number;
   name: string;
@@ -178,6 +182,10 @@ export interface Character {
   traits: string[];
   skills: Record<SkillName, number>;
   assignment: charAssignment | null;
+
+  politics: {
+    leaning: Ideology;
+  }
 }
 
 //types related to intelligence, fog of war, stength calculations

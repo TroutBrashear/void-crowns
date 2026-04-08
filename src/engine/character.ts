@@ -218,6 +218,10 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 			exploration: Math.floor(Math.random()*6),
 			academics: Math.floor(Math.random()*6),
 		},
+
+		politics: {
+			leaning: 'monarchist',
+		}
 	};
 	
 	return newCharacter; 
