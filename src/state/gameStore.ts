@@ -344,12 +344,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       return [];
     }
 
-     if (system.ownerNationId !== null) {
-      return [];
-    }
-
     return system.planetoids.map(planetoidId => state.planetoids.entities[planetoidId]).filter(planetoid => {
-      if(planetoid.environment !== 'Barren'){
+      if(planetoid.environment !== 'Barren' && planetoid.ownerNationId === null){
         return planetoid;
       }
     })
