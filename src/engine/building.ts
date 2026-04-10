@@ -35,7 +35,8 @@ export function engineBuildFleet(currentState: GameState, locationId: number): G
         locationSystemId: locationId,
         movementPath: [],
         movesRemaining: 3,
-		assignedCharacter: null, 
+		assignedCharacter: null,
+        ships: [],
         contextHistory: {
           previousSystemId: locationId,
         },

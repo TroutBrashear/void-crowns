@@ -68,6 +68,8 @@ export interface Fleet {
   movesRemaining: number;
   assignedCharacter: number | null;
 
+  ships: number[]; //ids of MilShips assigned to this fleet
+
   contextHistory: {
     previousSystemId: number;
   }
