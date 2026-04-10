@@ -95,6 +95,32 @@ export interface Ship {
   }
 }
 
+export type MilShipType = 'destroyer' | 'cruiser' | 'battleship';
+
+export interface MilShip {
+  readonly id: number;
+  flavor: {
+    name: string;
+    traits: string[];
+    type: MilShipType;
+  }
+
+  stats: {
+    size: number;
+    speed: number;
+    strength: number;
+  }
+
+  parentFleet: number;
+
+  assignedCharacter: number | null;
+
+  history: {
+    events: string[];
+  }
+}
+
+
 export interface Resources {
   credits: number;
   rocks: number;
