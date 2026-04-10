@@ -1,4 +1,4 @@
-import type { System, Fleet, Org, Planetoid, Ship, Lane } from '../../types/gameState';
+import type { System, Fleet, Org, Planetoid, Ship, Lane, MilShip } from '../../types/gameState';
 
 export const initialOrgs: Org[] = [
   { id: 1, category: 'nationState', flavor: { name: 'Human Republic', color: '#3498db', nameList: 'default'}, resources: { credits: 100, rocks: 0, consumerGoods: 0 }, characters: {characterPool: [], leaderId: null}, parentId: null, childIds: [], diplomacy: {relations: [{ targetOrgId: 2, status: 'war', opinion: -100 }], incomingRequests: [], }, contextHistory: {previousIncome: { credits: 100, rocks: 0, consumerGoods: 0 }, buildPlan: [], targetSystems: [] }, research: { researched: [], researchBonuses: { depositSurvey: 0, fleetCombat: 0 }} },
@@ -50,3 +50,5 @@ export const initialLanes: Lane[] = [
 ];
 
 export const initialShips: Ship[] = [];
+
+export const initialMilShips: MilShip[] = [];

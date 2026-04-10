@@ -319,6 +319,7 @@ export interface GameState {
     isPaused: boolean;
     lastFleetId: number;
     lastShipId: number;
+    lastMilShipId: number;
 	lastBuildingId: number;
 	lastCharacterId: number;
     lastDiploId: number;
@@ -328,6 +329,7 @@ export interface GameState {
   orgs: EntitiesState<Org>;
   planetoids: EntitiesState<Planetoid>;
   ships: EntitiesState<Ship>;
+  milShips: EntitiesState<MilShip>;
   characters: EntitiesState<Character>;
   lanes: EntitiesState<Lane>;
   buildings: EntitiesState<Building>;
