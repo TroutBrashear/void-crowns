@@ -1,4 +1,4 @@
-import type { GameState, ShipType, Building, BuildingClass, EngineResult, GameEvent, Resources } from '../types/gameState';
+import type { GameState, ShipType, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources } from '../types/gameState';
 
 import { BUILDING_CATALOG } from '../data/buildings';
 import { SHIP_CATALOG } from '../data/ships';
@@ -147,6 +147,68 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
         },
       };
 }
+
+export function addShipToFleet(currentState: GameState, fleetId: number, shipId: number): GameState {
+  let fleets = { ...currentState.fleets.entities };
+  const fleet = fleets[fleetId];
+  const ship = currentState.milShips.entities[shipId];
+
+  if(!fleet || !ship || ship.parentFleet === fleetId){
+    return currentState;
+  }
+
+  let fleetShips = [ ... fleet.ships];
+
+  fleetShips.push(shipId);
+
+  fleets = {
+    ...fleets,
+    [fleetId]: {
+      ...fleets[fleetId],
+      ships: fleetShips,
+    }
+  };
+
+  if(ship.parentFleet){
+    const formerFleet = fleets[ship.parentFleet];
+
+    if(formerFleet){
+      let formerFleetShips = [...formerFleet.ships];
+
+      formerFleetShips = formerFleetShips.filter(f => f !== shipId);
+
+      fleets = {
+        ...fleets,
+        [ship.parentFleet]: {
+          ...fleets[ship.parentFleet],
+          ships: formerFleetShips,
+        }
+      };
+    }
+  }
+
+  return {
+    ...currentState,
+    fleets: fleets,
+    milShips: {
+      ...currentState.milShips,
+      entities: {
+        ...currentState.milShips.entities,
+        [shipId]: {
+          ...currentState.milShips.entities[shipId],
+          parentFleet: fleetId,
+        }
+      }
+    }
+  }
+}
+
+
+export function engineBuildMilShip(currentState: GameState, locationId: number, shipType: MilShipType): GameState {
+
+  return currentState;
+}
+
 
 export function canBuildBuilding(currentState: GameState, planetoidId: number, buildingClass: BuildingClass, orgId: number){
 	const bDefinition = BUILDING_CATALOG[buildingClass];
