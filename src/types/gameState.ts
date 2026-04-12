@@ -113,6 +113,7 @@ export interface MilShip {
     strength: number;
   }
 
+  ownerNationId: number;
   parentFleet: number | null;
 
   assignedCharacter: number | null;

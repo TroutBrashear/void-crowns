@@ -203,8 +203,47 @@ export function addShipToFleet(currentState: GameState, fleetId: number, shipId:
   }
 }
 
+export function engineCreateMilShip(currentState: GameState, orgId: number, shipType: MilShipType): GameState {
+  const newId = currentState.meta.lastMilShipId + 1;
 
-export function engineBuildMilShip(currentState: GameState, locationId: number, shipType: MilShipType): GameState {
+  const newShip = {
+    id: newId,
+    flavor: {
+      name: "new Ship",
+      traits: [],
+      type: shipType,
+    },
+    stats: {
+      size: 1,
+      speed: 1,
+      strength: 1,
+    }
+    ownerNationId: orgId,
+    parentFleet: null,
+    assignedCharacter: null,
+    history: {
+      events: [],
+    }
+  };
+
+  return {
+    ...currentState,
+    milShips: {
+      ...currentState.milShips,
+      entities: {
+        ...currentState.milShips.entities,
+        [newId]: newShip,
+      },
+      ids: [...currentState.milShips.ids, newId],
+    },
+    meta: {
+      ...currentState.meta,
+      lastMilShipId: newId,
+    },
+  };
+}
+
+export function engineBuildMilShip(currentState: GameState, orgId: number, locationId: number, shipType: MilShipType): GameState {
 
   return currentState;
 }
