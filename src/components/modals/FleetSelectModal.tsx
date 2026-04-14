@@ -9,6 +9,7 @@ function FleetSelectModal() {
 
   const getFleetById = useGameStore(state => state.getFleetById);
   const getCharacterById = useGameStore(state => state.getCharacterById);
+  const getMilShipById = useGameStore(state => state.getMilShipById);
 
   if (!selection) {
     return null;
@@ -19,11 +20,13 @@ function FleetSelectModal() {
     ? getFleetById(selection.id) 
     : null;
 
+
   if (!fleetToShow) {
     return null; 
   }
 
-  
+  const fleetShips = fleetToShow.ships.map(shipId => getMilShipById(shipId));
+
   const comCharacter = fleetToShow.assignedCharacter 
 		? getCharacterById(fleetToShow.assignedCharacter) 
 		: null;
@@ -34,6 +37,18 @@ function FleetSelectModal() {
       <p>Location: System {fleetToShow.locationSystemId}</p>
        {comCharacter && <p>Commander: { comCharacter.name} </p>}
 	    {fleetToShow.ownerNationId === 1 && <button onClick={() => openAssignModal("assign_character", {targetId: selection.id, position: 'admiral'})}>Assign new Commander</button>}
+
+      <p>Ships:</p>
+      <ul>
+        { fleetShips.map(ship =>
+          if (!ship) return null;
+
+          return(
+            <li key={ship.id}>
+             <p>{ship.flavor.name} </p>
+            </li>);
+        )}
+      </ul>
       <button onClick={closeModal}>Close</button>
     </div>
   );
