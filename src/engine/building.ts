@@ -203,7 +203,7 @@ export function addShipToFleet(currentState: GameState, fleetId: number, shipId:
   }
 }
 
-export function engineCreateMilShip(currentState: GameState, orgId: number, shipType: MilShipType): GameState {
+export function engineCreateMilShip(currentState: GameState, orgId: number, shipType: MilShipType): { state: GameState, newShipId: number } {
   const newId = currentState.meta.lastMilShipId + 1;
 
   const newShip = {
@@ -217,7 +217,7 @@ export function engineCreateMilShip(currentState: GameState, orgId: number, ship
       size: 1,
       speed: 1,
       strength: 1,
-    }
+    },
     ownerNationId: orgId,
     parentFleet: null,
     assignedCharacter: null,
@@ -226,7 +226,7 @@ export function engineCreateMilShip(currentState: GameState, orgId: number, ship
     }
   };
 
-  return {
+  return { state: {
     ...currentState,
     milShips: {
       ...currentState.milShips,
@@ -240,7 +240,7 @@ export function engineCreateMilShip(currentState: GameState, orgId: number, ship
       ...currentState.meta,
       lastMilShipId: newId,
     },
-  };
+  }, newShipId: newId };
 }
 
 export function engineBuildMilShip(currentState: GameState, orgId: number, locationId: number, shipType: MilShipType): GameState {
