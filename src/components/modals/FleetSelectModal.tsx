@@ -40,14 +40,14 @@ function FleetSelectModal() {
 
       <p>Ships:</p>
       <ul>
-        { fleetShips.map(ship =>
+        { fleetShips.map(ship => {
           if (!ship) return null;
 
           return(
             <li key={ship.id}>
              <p>{ship.flavor.name} </p>
             </li>);
-        )}
+        })}
       </ul>
       <button onClick={closeModal}>Close</button>
     </div>

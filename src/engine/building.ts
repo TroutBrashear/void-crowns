@@ -148,6 +148,52 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
       };
 }
 
+export function engineCreateFleet(currentState: GameState, locationId: number, orgId: number): { state: GameState, newFleetId: number} {
+
+  const buildSystem = currentState.systems.entities[locationId];
+
+  if(!buildSystem)
+  {
+    return { state: currentState, newFleetId: -1 };
+  }
+  const newId = currentState.meta.lastFleetId + 1;
+  const ownerOrg = currentState.orgs.entities[orgId];
+
+  const nameList = NAME_LISTS[ownerOrg.flavor.nameList];
+
+  let fleetName = nameList.fleetNames[Math.floor(Math.random()* nameList.fleetNames.length)];
+
+  const newFleet = {
+    id: newId,
+    name: fleetName,
+    ownerNationId: orgId,
+    locationSystemId: locationId,
+    movementPath: [],
+    movesRemaining: 3,
+    assignedCharacter: null,
+    ships: [],
+    contextHistory: {
+      previousSystemId: locationId,
+    },
+  };
+
+  return { state: {
+    ...currentState,
+    fleets: {
+      ...currentState.fleets,
+      entities: {
+        ...currentState.fleets.entities,
+        [newId]: newFleet,
+      },
+      ids: [...currentState.fleets.ids, newId],
+    },
+    meta: {
+      ...currentState.meta,
+      lastFleetId: newId,
+    },
+  }, newFleetId: newId };
+}
+
 export function addShipToFleet(currentState: GameState, fleetId: number, shipId: number): GameState {
   let fleets = { ...currentState.fleets.entities };
   const fleet = fleets[fleetId];
@@ -244,8 +290,21 @@ export function engineCreateMilShip(currentState: GameState, orgId: number, ship
 }
 
 export function engineBuildMilShip(currentState: GameState, orgId: number, locationId: number, shipType: MilShipType): GameState {
+  let nextState = { ...currentState };
 
-  return currentState;
+  const response = engineCreateMilShip(nextState, orgId, shipType);
+
+  const candidateFleets = Object.values(nextState.fleets.entities).filter(fleet => fleet.locationSystemId === locationId && fleet.ownerNationId === orgId);
+
+  if(candidateFleets.length === 0){
+    const fleetResponse = engineCreateFleet(response.state, locationId, orgId);
+    nextState = addShipToFleet(fleetResponse.state, fleetResponse.newFleetId, response.newShipId);
+  }
+  else{
+    nextState = addShipToFleet(response.state, candidateFleets[0].id, response.newShipId);
+  }
+
+  return nextState;
 }
 
 
