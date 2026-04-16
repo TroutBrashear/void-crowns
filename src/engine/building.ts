@@ -235,7 +235,10 @@ export function addShipToFleet(currentState: GameState, fleetId: number, shipId:
 
   return {
     ...currentState,
-    fleets: fleets,
+    fleets: {
+      ...currentState.fleets,
+      entities: fleets,
+    },
     milShips: {
       ...currentState.milShips,
       entities: {
