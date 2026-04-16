@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, BuildingClass, DiploType, Resources } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, MilShipType, BuildingClass, DiploType, Resources } from '../types/gameState';
 import type { Fleet, PlanetoidIntel } from '../types/gameState';
 
 //engine imports
@@ -13,7 +13,7 @@ import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
 import { processDiplomacy, enginePlayerDiploResponse, sendDiploRequest} from '../engine/diplomacy';
 import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
-import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../engine/building';
+import { engineBuildFleet, engineBuildShip, engineBuildBuilding, engineBuildMilShip } from '../engine/building';
 import { colonizePlanetoid, beginPlanetoidSurvey, getHabitablesInSystem } from '../engine/colonization';
 import { engineAssignCharacter } from '../engine/character';
 import { shiftLanes } from '../engine/ecology';
@@ -210,6 +210,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
   buildShip: (payload: { locationId: number, shipType: ShipType }) => {
     set(engineBuildShip(get(), payload.locationId, payload.shipType));
+  },
+
+  buildMilShip: (payload: { locationId: number, shipType: MilShipType }) => {
+    set(engineBuildMilShip(get(), 1, payload.locationId, payload.shipType));
   },
   
   constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => {
