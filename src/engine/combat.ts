@@ -7,6 +7,24 @@ function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] 
 }
 
 
+export function calculateFleetPower(currentState: GameState, fleetId: number): number {
+	let fleetStrength = 0;
+
+	const fleet = currentState.fleets.entities[fleetId];
+
+	if(!fleet || fleet.ships.length === 0){
+		return 0;
+	}
+
+	for(const shipId of fleet.ships){
+		const ship = currentState.milShips.entities[shipId];
+
+		fleetStrength += ship?.stats.strength;
+	}
+
+	return fleetStrength;
+}
+
 function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[], fleetsInSystemFactionB: Fleet[]): EngineResult {
 	let fleetScoreA = 0;
 	let fleetScoreB = 0;
