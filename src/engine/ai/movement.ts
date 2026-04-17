@@ -231,7 +231,9 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
 				return system && !isTargeted;
 			});
 
-
+			if(!targetPlanetoidId){
+				continue;
+			}
 			const targetSystemId = nextState.planetoids.entities[targetPlanetoidId].locationSystemId;
 			console.log(targetSystemId);
 

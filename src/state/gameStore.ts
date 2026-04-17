@@ -76,6 +76,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     },
     systems: { entities: {}, ids: [] }, 
 	ships: { entities: {}, ids: [] },
+    milShips: { entities: {}, ids: [] },
     fleets: { entities: {}, ids: [] },   
     orgs: {entities: {}, ids: []},       
     planetoids: { entities: {}, ids: [] },

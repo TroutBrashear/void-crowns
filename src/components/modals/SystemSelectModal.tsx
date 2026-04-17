@@ -58,11 +58,10 @@ function SystemSelectModal() {
     {systemPlanetoids.map(planetoid => {
       if (!planetoid) return null;
 
-      const ownerNationId = planetoid.ownerNationId;
-
+      const owner = planetoid.ownerNationId ? getOrgById(planetoid.ownerNationId) : null;
 
       const buttonStyle = {
-        backgroundColor: ownerNationId ? getOrgById(ownerNationId).flavor.color : '#aaa'
+        backgroundColor: owner ? owner.flavor.color : '#aaa'
       };
 
       return(

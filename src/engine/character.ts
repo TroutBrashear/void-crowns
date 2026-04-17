@@ -206,7 +206,7 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 	let firstName = nameList.firstNames[Math.floor(Math.random()* nameList.firstNames.length)];
 	let lastName = nameList.lastNames[Math.floor(Math.random()* nameList.lastNames.length)];
 	
-	let newCharacter = {
+	let newCharacter: Character = {
 		id: nextId,
 		name: `${firstName} ${lastName}`,
 		age: 25,
