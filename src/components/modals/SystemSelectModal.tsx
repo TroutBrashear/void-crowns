@@ -14,8 +14,8 @@ function SystemSelectModal() {
   const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
   const getCharacterById = useGameStore(state => state.getCharacterById);
   const getOrgById = useGameStore(state => state.getOrgById);
-  const buildFleet = useGameStore(state => state.buildFleet);
   const buildShip = useGameStore(state => state.buildShip);
+  const buildMilShip = useGameStore(state => state.buildMilShip);
 
   if (!selection) {
     return null;
@@ -41,12 +41,11 @@ function SystemSelectModal() {
   : null;
 
 
-
   return (
     <div className={styles.modal}>
     <h2>System: {systemToShow.name}</h2>
     {systemOwnerOrg && <button onClick={() => {changeModal('org_modal', {type: 'org', id: systemOwnerOrg.id}); }}>{systemOwnerOrg.flavor.name}</button>}
-    {systemToShow.ownerNationId === 1 && <button onClick={() => buildFleet(systemToShow.id)}>Construct Fleet</button>}
+    {systemToShow.ownerNationId === 1 && <button onClick={() => buildMilShip({locationId: systemToShow.id, shipType: 'destroyer'})}>Construct Destroyer</button>}
 
     {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'colony_ship'})}>Construct Colony Ship</button>}
     {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'survey_ship'})}>Construct Survey Ship</button>}

@@ -70,6 +70,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
      isPaused: true,
      lastFleetId: 0,
      lastShipId: 0,
+     lastMilShipId: 0,
 	 lastBuildingId: 0,
 	 lastCharacterId: 0,
      lastDiploId: 0,
