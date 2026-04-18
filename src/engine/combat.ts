@@ -31,8 +31,42 @@ export function calculateFleetPower(currentState: GameState, fleetId: number): n
 	return fleetStrength;
 }
 
-function calculateFleetCombatScore(currentState: GameState, fleet: Fleet): number {
-	let combatScore =
+function calculateFleetCombatScore(currentState: GameState, fleetId: number): number {
+	let combatScore = 0;
+
+	const fleet = currentState.fleets.entities[fleetId];
+
+	if(!fleet || fleet.ships.length === 0){
+		return 0;
+	}
+
+	for(const shipId of fleet.ships){
+		const ship = currentState.milShips.entities[shipId];
+
+		let combatRoll = Math.floor(Math.random() * 10);
+
+		if(ship.assignedCharacter){
+			const captain = currentState.characters.entities[ship.assignedCharacter];
+
+			if(captain){
+				combatRoll += captain.skills.navalCombat;
+			}
+		}
+
+		combatScore += combatRoll;
+	}
+
+	let techBonus = currentState.orgs.entities[fleet.ownerNationId].research.researchBonuses.fleetCombat;
+	combatScore += techBonus;
+
+	if(fleet.assignedCharacter){
+		let admiral = currentState.characters.entities[fleet.assignedCharacter];
+		if(admiral){
+			combatScore = combatScore * (1 + (admiral.skills.navalCombat / 10));
+		}
+	}
+
+	return combatScore;
 }
 
 function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[], fleetsInSystemFactionB: Fleet[]): EngineResult {
