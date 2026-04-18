@@ -19,10 +19,20 @@ export function calculateFleetPower(currentState: GameState, fleetId: number): n
 	for(const shipId of fleet.ships){
 		const ship = currentState.milShips.entities[shipId];
 
-		fleetStrength += ship?.stats.strength;
+		if(ship){
+			if(ship.status === 'active'){
+				fleetStrength += ship.stats.strength;
+			}
+		}
+
+
 	}
 
 	return fleetStrength;
+}
+
+function calculateFleetCombatScore(currentState: GameState, fleet: Fleet): number {
+	let combatScore =
 }
 
 function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[], fleetsInSystemFactionB: Fleet[]): EngineResult {

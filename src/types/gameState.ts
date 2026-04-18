@@ -98,6 +98,7 @@ export interface Ship {
 }
 
 export type MilShipType = 'destroyer' | 'cruiser' | 'battleship';
+export type MilShipStatus = 'active' | 'mothball' | 'wreck';
 
 export interface MilShip {
   readonly id: number;
@@ -115,6 +116,7 @@ export interface MilShip {
 
   ownerNationId: number;
   parentFleet: number | null;
+  status: MilShipStatus;
 
   assignedCharacter: number | null;
 

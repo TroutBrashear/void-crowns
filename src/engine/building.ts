@@ -1,4 +1,4 @@
-import type { GameState, ShipType, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources } from '../types/gameState';
+import type { GameState, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources } from '../types/gameState';
 
 import { BUILDING_CATALOG } from '../data/buildings';
 import { SHIP_CATALOG } from '../data/ships';
@@ -255,7 +255,7 @@ export function addShipToFleet(currentState: GameState, fleetId: number, shipId:
 export function engineCreateMilShip(currentState: GameState, orgId: number, shipType: MilShipType): { state: GameState, newShipId: number } {
   const newId = currentState.meta.lastMilShipId + 1;
 
-  const newShip = {
+  const newShip: MilShip = {
     id: newId,
     flavor: {
       name: "new Ship",
@@ -269,6 +269,7 @@ export function engineCreateMilShip(currentState: GameState, orgId: number, ship
     },
     ownerNationId: orgId,
     parentFleet: null,
+    status: 'active',
     assignedCharacter: null,
     history: {
       events: [],
