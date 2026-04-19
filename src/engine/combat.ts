@@ -77,29 +77,13 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 		if (!fleet) {
 			continue;
 		}
-		let techBonus = currentState.orgs.entities[fleet.ownerNationId].research.researchBonuses.fleetCombat;
-		fleetScoreA += Math.floor(Math.random() * 20 + Math.random() * 20 + Math.random() * 20) + techBonus;
-		
-		if(fleet.assignedCharacter){
-			let admiral = currentState.characters.entities[fleet.assignedCharacter];
-			if(admiral){
-				fleetScoreA += Math.floor(Math.random() * 4) * admiral.skills.navalCombat;
-			}
-		}
+		fleetScoreA += calculateFleetCombatScore(currentState, fleet.id);
 	}
 	for(const fleet of fleetsInSystemFactionB){
 		if (!fleet) {
 			continue;
 		}
-		let techBonus = currentState.orgs.entities[fleet.ownerNationId].research.researchBonuses.fleetCombat;
-		fleetScoreB += Math.floor(Math.random() * 20 + Math.random() * 20 + Math.random() * 20) + techBonus;
-		
-		if(fleet.assignedCharacter){
-			let admiral = currentState.characters.entities[fleet.assignedCharacter];
-			if(admiral){
-				fleetScoreB += Math.floor(Math.random() * 4) * admiral.skills.navalCombat;
-			}
-		}
+		fleetScoreB += calculateFleetCombatScore(currentState, fleet.id);
 	}
 	
 	const fleetEntities = { ...currentState.fleets.entities };
