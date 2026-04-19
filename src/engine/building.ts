@@ -1,5 +1,7 @@
 import type { GameState, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources } from '../types/gameState';
 
+import { applyProcess } from './economy';
+
 import { BUILDING_CATALOG } from '../data/buildings';
 import { SHIP_CATALOG } from '../data/ships';
 import { NAME_LISTS } from '../data/names';
@@ -296,6 +298,12 @@ export function engineCreateMilShip(currentState: GameState, orgId: number, ship
 export function engineBuildMilShip(currentState: GameState, orgId: number, locationId: number, shipType: MilShipType): GameState {
   let nextState = { ...currentState };
 
+  //finances check
+  const org = nextState.orgs.entities[orgId];
+  if(org.resources.credits < 4000){
+    return nextState;
+  }
+
   const response = engineCreateMilShip(nextState, orgId, shipType);
 
   const candidateFleets = Object.values(nextState.fleets.entities).filter(fleet => fleet.locationSystemId === locationId && fleet.ownerNationId === orgId);
@@ -307,6 +315,9 @@ export function engineBuildMilShip(currentState: GameState, orgId: number, locat
   else{
     nextState = addShipToFleet(response.state, candidateFleets[0].id, response.newShipId);
   }
+
+  //deduct cost
+  nextState = applyProcess(nextState, { input: { credits: 4000}}, orgId);
 
   return nextState;
 }
