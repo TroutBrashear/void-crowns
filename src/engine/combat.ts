@@ -92,10 +92,22 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 
 	let winnerId = -1;
 
+	let shipEntities = { ... currentState.ships.entities };
+	let shipIds = [ ...currentState.ships.ids];
+
 	//determine winner
 	if(fleetScoreA > fleetScoreB){
 		winnerId = fleetsInSystemFactionA[0].ownerNationId;
-		for(const fleet of fleetsInSystemFactionB){	
+		for(const fleet of fleetsInSystemFactionB){
+			//mark ships as wrecks
+			for(const shipId of fleet.ships){
+				shipEntities[shipId] = {
+					...shipEntities[shipId],
+					status: "wreck"
+				};
+				shipIds.splice(shipIds.indexOf(shipId), 1);
+			}
+
 			delete fleetEntities[fleet.id];
 			fleetIds.splice(fleetIds.indexOf(fleet.id), 1);
 		}
@@ -103,6 +115,14 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 	else{
 		winnerId = fleetsInSystemFactionB[0].ownerNationId;
 		for(const fleet of fleetsInSystemFactionA){	
+			//mark ships as wrecks
+			for(const shipId of fleet.ships){
+				shipEntities[shipId] = {
+					...shipEntities[shipId],
+					status: "wreck"
+				};
+				shipIds.splice(shipIds.indexOf(shipId), 1);
+			}
 			delete fleetEntities[fleet.id];
 			fleetIds.splice(fleetIds.indexOf(fleet.id), 1);
 		}
