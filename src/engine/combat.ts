@@ -135,6 +135,10 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 		fleets: {
 			entities: fleetEntities,
 			ids: fleetIds,
+		},
+		milShips: {
+			entities: shipEntities,
+			ids: shipIds,
 		}
 	};
 	

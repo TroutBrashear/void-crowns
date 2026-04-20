@@ -355,6 +355,16 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 		}
 	}
 
+	//--------------MILITARY PLANNING------------------
+	const orgFleets = Object.values(currentState.fleets.entities).filter(fleet => fleet.ownerNationId === orgId);
+
+	if(orgFleets.length < (orgSystems.length / 5)){
+		if(!newBuildPlan.some(intent => intent.type === 'milShip')){
+			let targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
+			newBuildPlan.push({type: "milShip", shipType: 'destroyer', location: targetSystem });
+		}
+	}
+
 	newOrgs[orgId] = { ...thinkingOrg, contextHistory: { ...thinkingOrg.contextHistory, buildPlan: newBuildPlan, targetSystems: finalTargets }};
 	
 	return {

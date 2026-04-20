@@ -16,7 +16,7 @@ export interface ShipConstructIntent {
 }
 
 export interface MilShipConstructIntent {
-    type: "ship";
+    type: "milShip";
     location: number;
     shipType: MilShipType;
 }
