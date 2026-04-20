@@ -92,8 +92,8 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 
 	let winnerId = -1;
 
-	let shipEntities = { ... currentState.ships.entities };
-	let shipIds = [ ...currentState.ships.ids];
+	let shipEntities = { ... currentState.milShips.entities };
+	let shipIds = [ ...currentState.milShips.ids];
 
 	//determine winner
 	if(fleetScoreA > fleetScoreB){
