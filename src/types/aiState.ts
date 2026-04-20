@@ -1,7 +1,7 @@
 import type { BuildingClass, ShipType, MilShipType } from './gameState';
 
 
-export type AiIntent = BuildingIntent | ShipConstructIntent;
+export type AiIntent = BuildingIntent | ShipConstructIntent | MilShipConstructIntent;
 
 export interface BuildingIntent {
     type: "building";
