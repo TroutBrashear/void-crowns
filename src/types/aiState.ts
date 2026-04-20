@@ -1,4 +1,4 @@
-import type { BuildingClass, ShipType } from './gameState';
+import type { BuildingClass, ShipType, MilShipType } from './gameState';
 
 
 export type AiIntent = BuildingIntent | ShipConstructIntent;
@@ -12,5 +12,11 @@ export interface BuildingIntent {
 export interface ShipConstructIntent {
     type: "ship";
     location: number; //the ID of a system
-    shipType: ShipType
+    shipType: ShipType;
+}
+
+export interface MilShipConstructIntent {
+    type: "ship";
+    location: number;
+    shipType: MilShipType;
 }
