@@ -6,75 +6,6 @@ import { BUILDING_CATALOG } from '../data/buildings';
 import { SHIP_CATALOG } from '../data/ships';
 import { NAME_LISTS } from '../data/names';
 
-//global unit costs
-const FLEET_COST = 10000;
-
-/*export function engineBuildFleet(currentState: GameState, locationId: number): GameState {
-
-	const buildSystem = currentState.systems.entities[locationId];
-
-      if(!buildSystem || buildSystem.ownerNationId === null)
-      {
-        return currentState;
-      }
-      const newId = currentState.meta.lastFleetId + 1;
-      const ownerOrg = currentState.orgs.entities[buildSystem.ownerNationId];
-
-      
-      //if the org can't afford the fleet, do nothing.
-      if(ownerOrg.resources.credits < FLEET_COST) {
-        return currentState; 
-      }
-	
-	  const nameList = NAME_LISTS[ownerOrg.flavor.nameList];
-	
-	  let fleetName = nameList.fleetNames[Math.floor(Math.random()* nameList.fleetNames.length)];
-
-      const newFleet = {
-        id: newId,
-        name: fleetName,
-        ownerNationId: buildSystem.ownerNationId,
-        locationSystemId: locationId,
-        movementPath: [],
-        movesRemaining: 3,
-		assignedCharacter: null,
-        ships: [],
-        contextHistory: {
-          previousSystemId: locationId,
-        },
-      };
-
-      const updatedOrg = {
-        ...ownerOrg,
-        resources: {
-          ...ownerOrg.resources,
-          credits: ownerOrg.resources.credits - FLEET_COST,
-        }
-      };
-
-    return {
-    	...currentState,
-        fleets: {
-          ...currentState.fleets,
-          entities: {
-            ...currentState.fleets.entities,
-            [newId]: newFleet,
-          },
-          ids: [...currentState.fleets.ids, newId],
-        },
-        orgs: {
-          ...currentState.orgs,
-          entities: {
-            ...currentState.orgs.entities,
-            [ownerOrg.id]: updatedOrg,
-          }
-        },
-        meta: {
-          ...currentState.meta,
-          lastFleetId: newId,
- 	  	},
-    };
-}*/
 
 export function engineBuildShip(currentState: GameState, locationId: number, shipType: ShipType){
     const buildSystem = currentState.systems.entities[locationId];
@@ -275,6 +206,7 @@ export function engineCreateMilShip(currentState: GameState, orgId: number, ship
     assignedCharacter: null,
     history: {
       events: [],
+      statusChange: currentState.meta.turn,
     }
   };
 

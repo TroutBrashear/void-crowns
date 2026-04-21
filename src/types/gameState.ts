@@ -122,6 +122,7 @@ export interface MilShip {
 
   history: {
     events: string[];
+    statusChange: number; //documents the turn the last status change occurred, mostly to prevent new traits from developing too quickly
   }
 }
 
@@ -216,6 +217,10 @@ export interface Character {
 
   politics: {
     leaning: Ideology;
+  }
+
+  history: {
+    events: string[];
   }
 }
 
@@ -358,7 +363,6 @@ export interface GameActions {
   issueShipMoveOrder: (payload: ShipMoveOrderPayload) => void;
   tick: () => void;
   playPause: () => void;
-  buildFleet: (locationId: number) => void;
   buildShip: (payload: { locationId: number, shipType: ShipType }) => void;
   buildMilShip: (payload: { locationId: number, shipType: MilShipType }) => void;
   constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => void;
