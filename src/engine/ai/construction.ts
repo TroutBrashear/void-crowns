@@ -1,5 +1,5 @@
 import type { GameState } from '../../types/gameState';
-import { engineBuildFleet, engineBuildShip, engineBuildBuilding } from '../building';
+import { engineBuildFleet, engineBuildShip, engineBuildBuilding, engineBuildMilShip } from '../building';
 import { BUILDING_CATALOG } from '../../data/buildings';
 import { SHIP_CATALOG } from '../../data/ships';
 
@@ -13,9 +13,9 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 	const ownedFleets = currentState.fleets.ids.map(id => currentState.fleets.entities[id]).filter(fleet => fleet && fleet.ownerNationId === orgId);
 
 	//thinkingBlock
-	let militaryPriority = false;
+	//let militaryPriority = false;
 	//let colonyPriority = false;
-	
+	/*
 	if(ownedFleets.length < (ownedSystems.length / 5)){
 		militaryPriority = true;
 	}
@@ -27,7 +27,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 
 		nextState = engineBuildFleet(nextState, buildLocation);
 		thinkingOrg = nextState.orgs.entities[orgId];
-	}
+	}*/
 	
 	//evaluate buildPlan
 	const buildIntent = buildPlan.shift();
@@ -51,6 +51,14 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 		}
 
 		nextState = engineBuildShip(nextState, buildIntent.location, buildIntent.shipType);
+	}
+
+	if(buildIntent.type === 'milShip'){
+		if(thinkingOrg.resources.credits < 4000) { //TODO: placeholder
+			return nextState;
+		}
+
+		nextState = engineBuildMilShip(nextState, orgId, buildIntent.location, "destroyer"); //TODO: placeholder Ship Type
 	}
 
 		//update buildPlan.
