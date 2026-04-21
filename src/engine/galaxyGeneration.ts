@@ -8,7 +8,7 @@ import { SYSTEM_NAMES } from '../data/names';
 
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
 const WIDTH_DEFAULT = 5000;
-const HEIGHT_DEFAULT = 1500;
+const HEIGHT_DEFAULT = 2000;
 
 
 
