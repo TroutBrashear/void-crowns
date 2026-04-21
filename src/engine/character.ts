@@ -221,7 +221,11 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 
 		politics: {
 			leaning: 'monarchist',
-		}
+		},
+
+		history: {
+			events: [],
+		},
 	};
 	
 	return newCharacter; 
