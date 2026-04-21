@@ -75,7 +75,7 @@ export interface Fleet {
   }
 }
 
-export type ShipType = 'colony_ship' | 'survey_ship';
+export type ShipType = 'colony_ship' | 'survey_ship' | 'construction_ship';
 
 export interface Ship {
   readonly id: number;

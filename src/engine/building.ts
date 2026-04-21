@@ -26,10 +26,12 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
       case 'survey_ship':
         cost = SHIP_CATALOG['survey_ship'].cost;
         break;
+      case 'construction_ship':
+        cost = SHIP_CATALOG['construction_ship'].cost;
     }
 
 
-      //if the org can't afford the fleet, do nothing.
+      //if the org can't afford the ship, do nothing.
       if(ownerOrg.resources.credits < cost.credits || ownerOrg.resources.rocks < cost.rocks) {
         return currentState; 
       }

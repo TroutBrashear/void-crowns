@@ -16,5 +16,10 @@ export const SHIP_CATALOG: Record<ShipType, ShipDefinition> = {
     survey_ship: {
         type: 'survey_ship',
         cost: { credits: 4000, rocks: 0, consumerGoods: 0 }
+    },
+
+    construction_ship: {
+        type: 'construction_ship',
+        cost: { credits: 10000, rocks: 0, consumerGoods: 0 }
     }
 }
