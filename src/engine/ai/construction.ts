@@ -1,5 +1,5 @@
 import type { GameState } from '../../types/gameState';
-import { engineBuildFleet, engineBuildShip, engineBuildBuilding, engineBuildMilShip } from '../building';
+import { engineBuildShip, engineBuildBuilding, engineBuildMilShip } from '../building';
 import { BUILDING_CATALOG } from '../../data/buildings';
 import { SHIP_CATALOG } from '../../data/ships';
 
@@ -9,26 +9,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 
 	let thinkingOrg = nextState.orgs.entities[orgId];
 	let buildPlan = [...thinkingOrg.contextHistory.buildPlan];
-	const ownedSystems = currentState.systems.ids.map(id => currentState.systems.entities[id]).filter(system => system && system.ownerNationId === orgId);
-	const ownedFleets = currentState.fleets.ids.map(id => currentState.fleets.entities[id]).filter(fleet => fleet && fleet.ownerNationId === orgId);
 
-	//thinkingBlock
-	//let militaryPriority = false;
-	//let colonyPriority = false;
-	/*
-	if(ownedFleets.length < (ownedSystems.length / 5)){
-		militaryPriority = true;
-	}
-
-	//fleets
-	if(thinkingOrg.resources.credits > 10000 && militaryPriority){
-		//build a fleet
-		const buildLocation = ownedSystems[Math.floor(Math.random() * ownedSystems.length)].id;
-
-		nextState = engineBuildFleet(nextState, buildLocation);
-		thinkingOrg = nextState.orgs.entities[orgId];
-	}*/
-	
 	//evaluate buildPlan
 	const buildIntent = buildPlan.shift();
 	if (!buildIntent ){

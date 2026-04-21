@@ -13,7 +13,7 @@ import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
 import { processDiplomacy, enginePlayerDiploResponse, sendDiploRequest} from '../engine/diplomacy';
 import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
-import { engineBuildFleet, engineBuildShip, engineBuildBuilding, engineBuildMilShip } from '../engine/building';
+import { engineBuildShip, engineBuildBuilding, engineBuildMilShip } from '../engine/building';
 import { colonizePlanetoid, beginPlanetoidSurvey, getHabitablesInSystem } from '../engine/colonization';
 import { engineAssignCharacter } from '../engine/character';
 import { shiftLanes } from '../engine/ecology';
@@ -204,10 +204,6 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         },
       };
     });
-  },
-
-  buildFleet: (locationId: number) => {
-    set(engineBuildFleet(get(), locationId));
   },
 
   buildShip: (payload: { locationId: number, shipType: ShipType }) => {

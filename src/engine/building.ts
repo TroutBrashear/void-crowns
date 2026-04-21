@@ -9,7 +9,7 @@ import { NAME_LISTS } from '../data/names';
 //global unit costs
 const FLEET_COST = 10000;
 
-export function engineBuildFleet(currentState: GameState, locationId: number): GameState {
+/*export function engineBuildFleet(currentState: GameState, locationId: number): GameState {
 
 	const buildSystem = currentState.systems.entities[locationId];
 
@@ -74,7 +74,7 @@ export function engineBuildFleet(currentState: GameState, locationId: number): G
           lastFleetId: newId,
  	  	},
     };
-}
+}*/
 
 export function engineBuildShip(currentState: GameState, locationId: number, shipType: ShipType){
     const buildSystem = currentState.systems.entities[locationId];
