@@ -338,9 +338,11 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	
 	//ship building logic
 	const orgShips = Object.values(currentState.ships.entities).filter(ship => ship.ownerNationId === orgId);
+	const orgSurvShips = orgShips.filter(ship => ship.type === 'survey_ship');
+
 
 	//do we need a survey ship?
-	if(orgShips.length < orgSystems.length){
+	if(orgShips.length < orgSystems.length - 2){
 		if(!newBuildPlan.some(intent => intent.type === 'ship' && intent.shipType === 'survey_ship')){
 			let targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
 			newBuildPlan.push({type: "ship", shipType: 'survey_ship', location: targetSystem });
@@ -354,6 +356,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 			newBuildPlan.push({type: "ship", shipType: 'colony_ship', location: targetSystem });
 		}
 	}
+
 
 	//--------------MILITARY PLANNING------------------
 	const orgFleets = Object.values(currentState.fleets.entities).filter(fleet => fleet.ownerNationId === orgId);
