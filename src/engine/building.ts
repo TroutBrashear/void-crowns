@@ -1,4 +1,4 @@
-import type { GameState, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources } from '../types/gameState';
+import type { GameState, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources, PlanetoidClassification } from '../types/gameState';
 
 import { applyProcess } from './economy';
 
@@ -380,5 +380,49 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
         }
 	},
 	events: [buildEvent],
+  };
+}
+
+export function engineBuildPlanetoid(currentState: GameState, orgId: number, parentPlanetoidId: number, newType: PlanetoidClassification): GameState {
+
+  const newId = currentState.planetoids.ids.length + 1;
+  const parentPlanetoid = currentState.planetoids.entities[parentPlanetoidId];
+
+  let newPlanetoid = {
+    id: newId,
+    name: `${parentPlanetoid.name} 1`,
+    parentPlanetoidId: parentPlanetoidId,
+    locationSystemId: parentPlanetoid.locationSystemId,
+    classification: newType,
+    environment: 'construct', //TODO
+    ownerNationId: orgId,
+    size: 1,
+    population: 0,
+    buildings: [],
+    tags: [],
+    deposits: [],
+  }
+
+
+  return {
+    ...currentState,
+    planetoids: {
+      ...currentState.planetoids,
+      ids: [ ...currentState.planetoids.ids, newId],
+      entities: {
+        ...currentState.planetoids.entities,
+        [newId]: newPlanetoid,
+      }
+    },
+    systems: {
+      ...currentState.systems,
+      entities: {
+        ...currentState.systems.entities,
+        [parentPlanetoid.locationSystemId]: {
+          ...currentState.systems.entities[parentPlanetoid.locationSystemId],
+          planetoids: [...currentState.systems.entities[parentPlanetoid.locationSystemId].planetoids, newId],
+        }
+      }
+    }
   };
 }
