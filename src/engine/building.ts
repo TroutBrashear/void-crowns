@@ -384,13 +384,19 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
 }
 
 export function engineBuildPlanetoid(currentState: GameState, orgId: number, parentPlanetoidId: number, newType: PlanetoidClassification): GameState {
+  const org = currentState.orgs.entities[orgId];
+
+  //cost check
+  if(org.resources.credits < 20000){
+    return currentState;
+  }
 
   const newId = currentState.planetoids.ids.length + 1;
   const parentPlanetoid = currentState.planetoids.entities[parentPlanetoidId];
 
   let newPlanetoid = {
     id: newId,
-    name: `${parentPlanetoid.name} 1`,
+    name: `${parentPlanetoid.name} 1`, //TODO
     parentPlanetoidId: parentPlanetoidId,
     locationSystemId: parentPlanetoid.locationSystemId,
     classification: newType,
@@ -403,6 +409,13 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
     deposits: [],
   }
 
+  let newOrg = {
+    ...org,
+    resources: {
+      ...org.resources,
+      credits: credits - 20000,
+    }
+  };
 
   return {
     ...currentState,
@@ -422,6 +435,13 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
           ...currentState.systems.entities[parentPlanetoid.locationSystemId],
           planetoids: [...currentState.systems.entities[parentPlanetoid.locationSystemId].planetoids, newId],
         }
+      }
+    },
+    orgs: {
+      ...currentState.orgs,
+      entities: {
+        ...currentState.orgs.entities,
+        [orgId]: newOrg,
       }
     }
   };
