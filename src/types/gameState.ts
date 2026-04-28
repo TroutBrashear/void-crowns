@@ -57,6 +57,9 @@ export interface Planetoid {
   ownerNationId: number | null;
   tags: string[];
   deposits: Deposit[];
+  station?: {
+    anchorTarget?: number; //a Lane id
+  }
 }
 
 export interface Fleet {
@@ -252,11 +255,13 @@ export interface Selection {
   id: number;
 }
 
-export type LaneStatus = 'stable' | 'fading' | 'immaterial';
+export type LaneStatus = 'stable' | 'fading' | 'immaterial' | 'anchored';
 
 export interface Lane {
   readonly id: number;
   status: LaneStatus;
+
+  anchorOrigin: number | null;
 
   //the systems the lane connects
   systemIdA: number;

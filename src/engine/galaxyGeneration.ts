@@ -242,6 +242,8 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 					id: nextLaneId++,
 					status: "stable",
 
+					anchorOrigin: null,
+
 					systemIdA: systemIdA,
 					systemIdB: systemIdB,
 				};

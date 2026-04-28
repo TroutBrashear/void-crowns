@@ -413,7 +413,7 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
     ...org,
     resources: {
       ...org.resources,
-      credits: credits - 20000,
+      credits: org.resources.credits - 20000,
     }
   };
 
