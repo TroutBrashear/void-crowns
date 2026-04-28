@@ -44,9 +44,9 @@ export const initialFleets: Fleet[] = [
 ];
 
 export const initialLanes: Lane[] = [
-  { id: 1, status: "stable", systemIdA: 1, systemIdB: 2},
-  { id: 2, status: "stable", systemIdA: 2, systemIdB: 3},
-  { id: 3, status: "stable", systemIdA: 3, systemIdB: 4}
+  { id: 1, status: "stable", anchorOrigin: null, systemIdA: 1, systemIdB: 2},
+  { id: 2, status: "stable", anchorOrigin: null, systemIdA: 2, systemIdB: 3},
+  { id: 3, status: "stable", anchorOrigin: null, systemIdA: 3, systemIdB: 4}
 ];
 
 export const initialShips: Ship[] = [];
