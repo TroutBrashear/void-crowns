@@ -42,7 +42,7 @@ export interface Building {
   }
 }
 
-export type PlanetoidClassification = 'gravWell' | 'planet' | 'moon' | 'asteroid' | 'station';
+export type PlanetoidClassification = 'gravWell' | 'planet' | 'moon' | 'asteroid' | 'station' | 'anchor';
 
 export interface Planetoid {
   readonly id: number;
@@ -57,7 +57,7 @@ export interface Planetoid {
   ownerNationId: number | null;
   tags: string[];
   deposits: Deposit[];
-  station?: {
+  construct?: {
     anchorTarget?: number; //a Lane id
   }
 }

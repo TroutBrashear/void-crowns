@@ -446,3 +446,88 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
     }
   };
 }
+
+
+export function engineBuildAnchor(currentState: GameState, orgId: number, parentPlanetoidId: number, newType: PlanetoidClassification, laneTargetId: number): GameState {
+  const org = currentState.orgs.entities[orgId];
+  const lane = currentState.lanes.entities[laneTargetId];
+
+  if(!org || !lane){
+    return currentState;
+  }
+
+  //cost check - these are seperate checks because I will probably want to return a GameEvent at some point
+  if(org.resources.credits < 20000){
+    return currentState;
+  }
+
+  const newId = currentState.planetoids.ids.length + 1;
+  const parentPlanetoid = currentState.planetoids.entities[parentPlanetoidId];
+
+  let newPlanetoid = {
+    id: newId,
+    name: `${parentPlanetoid.name} Anchor ${newId}`, //TODO
+    parentPlanetoidId: parentPlanetoidId,
+    locationSystemId: parentPlanetoid.locationSystemId,
+    classification: newType,
+    environment: 'construct-utility', //TODO
+    ownerNationId: orgId,
+    size: 1,
+    population: 0,
+    buildings: [],
+    tags: [],
+    deposits: [],
+    construct: {
+      anchorTarget: laneTargetId
+    }
+  }
+
+  let newOrg = {
+    ...org,
+    resources: {
+      ...org.resources,
+      credits: org.resources.credits - 20000,
+    }
+  };
+
+  let newLane = {
+    ...lane,
+    status: 'anchored',
+  };
+
+  return {
+    ...currentState,
+    planetoids: {
+      ...currentState.planetoids,
+      ids: [ ...currentState.planetoids.ids, newId],
+      entities: {
+        ...currentState.planetoids.entities,
+        [newId]: newPlanetoid,
+      }
+    },
+    systems: {
+      ...currentState.systems,
+      entities: {
+        ...currentState.systems.entities,
+        [parentPlanetoid.locationSystemId]: {
+          ...currentState.systems.entities[parentPlanetoid.locationSystemId],
+          planetoids: [...currentState.systems.entities[parentPlanetoid.locationSystemId].planetoids, newId],
+        }
+      }
+    },
+    orgs: {
+      ...currentState.orgs,
+      entities: {
+        ...currentState.orgs.entities,
+        [orgId]: newOrg,
+      }
+    },
+    lanes: {
+      ...currentState.lanes,
+      entities: {
+        ...currentState.lanes.entities,
+        [laneTargetId]: newLane,
+      }
+    }
+  };
+}
