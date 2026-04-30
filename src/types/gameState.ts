@@ -372,6 +372,7 @@ export interface GameActions {
   buildMilShip: (payload: { locationId: number, shipType: MilShipType }) => void;
   constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => void;
   constructPlanetoid: (payload: { parentPlanetoidId: number, newType: PlanetoidClassification } ) => void;
+  constructAnchor: (payload: { parentPlanetoidId: number, targetLaneId: number }) => void;
   declareWar: (payload: DiploStatusPayload) => void;
   declarePeace: (payload: DiploStatusPayload) => void;
   processPlayerDiplo: (payload: { requestId: number, accepted: boolean }) => void;

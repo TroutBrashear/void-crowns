@@ -1,4 +1,4 @@
-import type { GameState, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources, PlanetoidClassification } from '../types/gameState';
+import type { GameState, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources, PlanetoidClassification, Lane } from '../types/gameState';
 
 import { applyProcess } from './economy';
 
@@ -448,7 +448,7 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
 }
 
 
-export function engineBuildAnchor(currentState: GameState, orgId: number, parentPlanetoidId: number, newType: PlanetoidClassification, laneTargetId: number): GameState {
+export function engineBuildAnchor(currentState: GameState, orgId: number, parentPlanetoidId: number, laneTargetId: number): GameState {
   const org = currentState.orgs.entities[orgId];
   const lane = currentState.lanes.entities[laneTargetId];
 
@@ -469,7 +469,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     name: `${parentPlanetoid.name} Anchor ${newId}`, //TODO
     parentPlanetoidId: parentPlanetoidId,
     locationSystemId: parentPlanetoid.locationSystemId,
-    classification: newType,
+    classification: 'anchor',
     environment: 'construct-utility', //TODO
     ownerNationId: orgId,
     size: 1,
@@ -490,7 +490,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     }
   };
 
-  let newLane = {
+  let newLane as Lane = {
     ...lane,
     status: 'anchored',
   };
