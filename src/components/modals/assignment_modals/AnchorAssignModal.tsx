@@ -26,9 +26,10 @@ function AnchorAssignModal() {
 
             <div>
                 {laneOptions.map(lane => {
-                    <button key={lane.id} className={`${styles.characterButton} ${lane.id === selectedLane ? styles.selected : ''}`} onClick={() => setSelectedLane(lane.id)}>
-                        {lane.id}
-                    </button>);
+                    return(
+                        <button key={lane.id} className={`${styles.characterButton} ${lane.id === selectedLane ? styles.selected : ''}`} onClick={() => setSelectedLane(lane.id)}>
+                            {lane.id}
+                        </button>);
                 })}
             </div>
             <button  disabled={!selectedLane} className={styles.characterButton} onClick={() => {if(selectedLane){
