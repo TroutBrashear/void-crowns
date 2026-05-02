@@ -490,7 +490,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     }
   };
 
-  let newLane as Lane = {
+  let newLane: Lane = {
     ...lane,
     status: 'anchored',
   };
