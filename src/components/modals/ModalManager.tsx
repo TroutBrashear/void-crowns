@@ -9,7 +9,7 @@ import BuildingSelectModal from './BuildingSelectModal';
 import CharacterAssignModal from './assignment_modals/CharacterAssignModal';
 import ResearchAssignModal from './assignment_modals/ResearchAssignModal';
 import TradeAssignModal from './assignment_modals/TradeAssignModal';
-import AnchorAssignModal from './assignment_modals/AnchorAssignMOdal';
+import AnchorAssignModal from './assignment_modals/AnchorAssignModal';
 
 import DiplomacyPanel from '../panels/DiplomacyPanel';
 import PoliticsPanel from '../panels/PoliticsPanel';

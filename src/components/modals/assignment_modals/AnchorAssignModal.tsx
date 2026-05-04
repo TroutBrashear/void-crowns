@@ -18,6 +18,10 @@ function AnchorAssignModal() {
 
     const hostSystem = getSystemById(characterAssignTarget.targetId);
 
+    if(!hostSystem){
+        return null;
+    }
+
     let laneOptions = hostSystem.adjacentLanes.map(laneId => useGameStore(state => state.lanes.entities[laneId]));
 
     return(

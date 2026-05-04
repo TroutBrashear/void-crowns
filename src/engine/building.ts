@@ -1,4 +1,4 @@
-import type { GameState, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources, PlanetoidClassification, Lane } from '../types/gameState';
+import type { GameState, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources, PlanetoidClassification, Lane, Planetoid } from '../types/gameState';
 
 import { applyProcess } from './economy';
 
@@ -464,7 +464,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
   const newId = currentState.planetoids.ids.length + 1;
   const parentPlanetoid = currentState.planetoids.entities[parentPlanetoidId];
 
-  let newPlanetoid = {
+  let newPlanetoid: Planetoid = {
     id: newId,
     name: `${parentPlanetoid.name} Anchor ${newId}`, //TODO
     parentPlanetoidId: parentPlanetoidId,

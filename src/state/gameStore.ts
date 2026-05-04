@@ -235,7 +235,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   constructAnchor: (payload: { parentPlanetoidId: number, targetLaneId: number }) => {
-    set(engineBuildAnchor(get(), 1, payload.parentPlanetoidId, targetLaneId));
+    set(engineBuildAnchor(get(), 1, payload.parentPlanetoidId, payload.targetLaneId));
   },
 
 
