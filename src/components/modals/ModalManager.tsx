@@ -47,7 +47,7 @@ export function ModalManager() {
 		case 'send_trade':
 			assignModal = <TradeAssignModal/>; break;
 		case 'assign_anchor':
-			assignModal = <AnchorAssignModal/> break;
+			assignModal = <AnchorAssignModal/>; break;
 	}
 
 	let panel = null;
