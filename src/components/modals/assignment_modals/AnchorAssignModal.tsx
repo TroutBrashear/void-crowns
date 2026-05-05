@@ -8,7 +8,9 @@ function AnchorAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget); //which should be called simply assignTarget
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
-    const getSystemById = useGameStore(state => state.getSystemById);
+    const constructAnchor = useGameStore(state => state.constructAnchor);
+    const lanes = useGameStore(state => state.lanes.entities);
+    const systems = useGameStore(state => state.systems.entities);
 
     const [selectedLane, setSelectedLane] = useState<number | null>(null);
 
@@ -16,13 +18,13 @@ function AnchorAssignModal() {
         return null;
     }
 
-    const hostSystem = getSystemById(characterAssignTarget.targetId);
+    const hostSystem = systems[characterAssignTarget.targetId];
 
     if(!hostSystem){
         return null;
     }
 
-    let laneOptions = hostSystem.adjacentLanes.map(laneId => useGameStore(state => state.lanes.entities[laneId]));
+    let laneOptions = hostSystem.adjacentLanes.map(laneId => lanes[laneId]);
 
     return(
           <div className={styles.assignModal}>
@@ -37,7 +39,7 @@ function AnchorAssignModal() {
                 })}
             </div>
             <button  disabled={!selectedLane} className={styles.characterButton} onClick={() => {if(selectedLane){
-
+                constructAnchor({parentPlanetoidId: hostSystem.planetoids[0], targetLaneId: selectedLane});
                 closeAssignModal();}}}>Construct </button>
 
                 <button className={styles.characterButton} onClick={closeAssignModal}>Close</button>

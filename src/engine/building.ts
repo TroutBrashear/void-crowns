@@ -451,7 +451,6 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
 export function engineBuildAnchor(currentState: GameState, orgId: number, parentPlanetoidId: number, laneTargetId: number): GameState {
   const org = currentState.orgs.entities[orgId];
   const lane = currentState.lanes.entities[laneTargetId];
-
   if(!org || !lane){
     return currentState;
   }
@@ -494,6 +493,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     ...lane,
     status: 'anchored',
   };
+
 
   return {
     ...currentState,
