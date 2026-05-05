@@ -336,6 +336,7 @@ export interface GameState {
 	lastBuildingId: number;
 	lastCharacterId: number;
     lastDiploId: number;
+    lastPlanetoidId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;

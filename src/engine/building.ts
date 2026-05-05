@@ -391,7 +391,7 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
     return currentState;
   }
 
-  const newId = currentState.planetoids.ids.length + 1;
+  const newId = currentState.meta.lastPlanetoidId + 1;
   const parentPlanetoid = currentState.planetoids.entities[parentPlanetoidId];
 
   let newPlanetoid = {
@@ -419,6 +419,10 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
 
   return {
     ...currentState,
+    meta: {
+      ...currentState.meta,
+      lastPlanetoidId: newId,
+    },
     planetoids: {
       ...currentState.planetoids,
       ids: [ ...currentState.planetoids.ids, newId],
@@ -460,7 +464,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     return currentState;
   }
 
-  const newId = currentState.planetoids.ids.length + 1;
+  const newId = currentState.meta.lastPlanetoidId + 1;
   const parentPlanetoid = currentState.planetoids.entities[parentPlanetoidId];
 
   let newPlanetoid: Planetoid = {
@@ -497,6 +501,10 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
 
   return {
     ...currentState,
+    meta: {
+      ...currentState.meta,
+      lastPlanetoidId: newId,
+    },
     planetoids: {
       ...currentState.planetoids,
       ids: [ ...currentState.planetoids.ids, newId],
