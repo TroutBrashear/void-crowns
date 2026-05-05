@@ -51,3 +51,8 @@
   stroke: #14145A;
   stroke-width: 1;
 }
+
+.anchored {
+  stroke: #099415;
+  stroke-width: 2;
+}
