@@ -18,7 +18,7 @@ export const useSettingStore = create<SettingStoreState>((set, get) => {
                          userPronoun: pronoun,
                     },
                 };
-             };
+             });
         },
     };
 });
