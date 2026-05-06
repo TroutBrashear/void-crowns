@@ -1,24 +1,35 @@
 import { create } from 'zustand';
 
-import type { SettingStoreState, Pronoun } from '../types/settingState';
+import type { SettingStoreState, SPronoun } from '../types/settingState';
 
 export const useSettingStore = create<SettingStoreState>((set, get) => {
 
     return {
         flavor: {
-            userPronoun: 'you',
+            userSPronoun: 'you',
         },
 
 
-        setUserPronoun: (pronoun: Pronoun) => {
+        setUserPronoun: (pronoun: SPronoun) => {
              set((state) => {
                  return {
                      flavor: {
                          ...state.flavor,
-                         userPronoun: pronoun,
+                         userSPronoun: pronoun,
                     },
                 };
              });
+        },
+
+        setUserTPronoun: (pronoun: string) => {
+            set((state) => {
+                return {
+                    flavor: {
+                        ...state.flavor,
+                        userTPronoun: pronoun,
+                    }
+                };
+            });
         },
     };
 });

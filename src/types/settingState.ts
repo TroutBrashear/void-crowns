@@ -1,12 +1,14 @@
 
-export type Pronoun = 'you' | 'thou' | 'Usted';
+export type SPronoun = 'you' | 'thou' | 'Usted';
 
 export interface SettingState {
     flavor: {
-        userPronoun: Pronoun;
+        userSPronoun: SPronoun;
+        userTPronoun: string;
     };
 
-    setUserPronoun: (pronoun: Pronoun) => void;
+    setUserPronoun: (pronoun: SPronoun) => void;
+    setUserTPronoun: (pronoun: string) => void;
 }
 
 export type SettingStoreState = SettingState;
