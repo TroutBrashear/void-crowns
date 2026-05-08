@@ -6,6 +6,7 @@ import type { Selection } from './types/gameState';
 import { useUiStore } from './state/uiStore';
 import { ModalManager } from './components/modals/ModalManager';
 import { OrgCreation } from './components/OrgCreation';
+import { SessionSettings } from './components/SessionSettings';
 import Notification  from './components/Notification';
 
 function App() {
@@ -42,7 +43,9 @@ function App() {
     setAppState('org_creation');
   };
 
-
+  const settings = () => {
+    setAppState('session_settings');
+  };
 
 
    if (appState === 'main_menu') {
@@ -50,12 +53,18 @@ function App() {
       <div>
         <h1>VOID CROWNS (Main Menu)</h1>
         <button onClick= {initOrg}>Start New Game</button>
+        <button onClick= {settings}>Settings</button>
       </div>
     );
   }
   else if(appState === 'org_creation') {
     return (
       <OrgCreation/>
+    );
+  }
+  else if(appState === 'session_settings'){
+    return (
+      <SessionSettings/>
     );
   }
 
