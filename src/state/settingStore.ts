@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import type { SettingStoreState, SPronoun } from '../types/settingState';
 
-export const useSettingStore = create<SettingStoreState>((set, get) => {
+export const useSettingStore = create<SettingStoreState>((set) => {
 
     return {
         flavor: {

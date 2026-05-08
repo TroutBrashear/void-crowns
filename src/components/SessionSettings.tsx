@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useUiStore } from '../state/uiStore';
 import { useSettingStore } from '../state/settingStore';
 
+import type { SPronoun } from '../types/settingState';
+
 export function SessionSettings() {
     const SPronoun = ['you', 'thou', 'Usted'];
 
@@ -15,7 +17,7 @@ export function SessionSettings() {
 
 
     const submitSettings = () => {
-        setUserPronoun(sPronoun);
+        setUserPronoun(sPronoun as SPronoun);
         setUserTPronoun(tPronoun);
         setAppState('org_creation');
     };
