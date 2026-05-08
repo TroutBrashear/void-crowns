@@ -15,8 +15,8 @@ export function SessionSettings() {
 
 
     const submitSettings = () => {
-        setUserPronoun({  pronoun: sPronoun});
-        setUserTPronoun({ pronoun: tPronoun});
+        setUserPronoun(sPronoun);
+        setUserTPronoun(tPronoun);
         setAppState('org_creation');
     };
 

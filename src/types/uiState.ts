@@ -6,7 +6,7 @@ export type AssignType = "assign_character" | "assign_research" | "send_trade" |
 
 export type PanelType = "diplomacy_panel" | "politics_panel" | "research_panel";
 
-export type AppState = 'main_menu' | 'org_creation' | 'in_game';
+export type AppState = 'main_menu' | 'org_creation' | 'in_game' | 'session_settings';
 
 export interface NotificationData {
   notificationType: string | null;

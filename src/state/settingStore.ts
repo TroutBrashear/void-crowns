@@ -7,6 +7,7 @@ export const useSettingStore = create<SettingStoreState>((set, get) => {
     return {
         flavor: {
             userSPronoun: 'you',
+            userTPronoun: 'she',
         },
 
 
