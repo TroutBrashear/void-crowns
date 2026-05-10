@@ -10,7 +10,6 @@ function CharacterAssignModal() {
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
     const getOrgById = useGameStore(state => state.getOrgById);
-    const getFleetById = useGameStore(state => state.getFleetById);
     const getShipById = useGameStore(state => state.getShipById);
     const getSystemById = useGameStore(state => state.getSystemById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
@@ -23,7 +22,7 @@ function CharacterAssignModal() {
     let targetOwnerOrg: Org | undefined;
     let targetName: string | undefined;
     if(characterAssignTarget?.position === 'admiral'){
-        targetEntity = getFleetById(characterAssignTarget.targetId);
+        targetEntity = useGameStore(state => state.fleets.entities[characterAssignTarget.targetId]);
         if(targetEntity){
             targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
             targetName = targetEntity.name;

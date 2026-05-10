@@ -353,7 +353,6 @@ export interface GameState {
   getSystemsByOrg: (id: number) => System[] | undefined;
   getHabitablesInSystem: (id: number) => Planetoid[];
   getPlanetoidsBySystem: (id: number) => Planetoid[];
-  getPlanetoidById: (id: number) => Planetoid | undefined;
   getOrgById: (id: number) => Org | undefined;
   getShipById: (id: number) => Ship | undefined;
   getMilShipById: (id: number) => MilShip | undefined;

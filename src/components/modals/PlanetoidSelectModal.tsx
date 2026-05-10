@@ -15,16 +15,14 @@ function PlanetoidSelectModal() {
     const closeModal = useUiStore(state => state.closeModal);
 
     const getSystemById = useGameStore(state => state.getSystemById);
-    const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
 	const getBuildingById = useGameStore(state => state.getBuildingById);
-    //const getOrgById = useGameStore(state => state.getOrgById);
 	const constructBuilding = useGameStore(state => state.constructBuilding);
 
 	const [selectedBuilding, setSelectedBuilding] = useState<BuildingClass | null>(null);
 
     const planetToShow = 
     (selection?.type === 'planetoid') 
-    ? getPlanetoidById(selection.id) 
+    ? useGameStore(state => state.planetoids.entities[selection.id]
     : null;
 
   	if (!planetToShow) {
