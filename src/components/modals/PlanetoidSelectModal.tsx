@@ -22,7 +22,7 @@ function PlanetoidSelectModal() {
 
     const planetToShow = 
     (selection?.type === 'planetoid') 
-    ? useGameStore(state => state.planetoids.entities[selection.id]
+    ? useGameStore(state => state.planetoids.entities[selection.id])
     : null;
 
   	if (!planetToShow) {
