@@ -9,11 +9,9 @@ function BuildingSelectModal() {
     const backModal = useUiStore(state => state.backModal);
     const closeModal = useUiStore(state => state.closeModal);
 
-    const getBuildingById = useGameStore(state => state.getBuildingById);
-
     const buildingToShow =
     (selection?.type === 'building')
-    ? getBuildingById(selection.id)
+    ? useGameStore(state => state.buildings.entities[selection.id])
     : null;
 
     if(!buildingToShow){
