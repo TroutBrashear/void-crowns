@@ -7,22 +7,16 @@ function PoliticsPanel() {
     const closePanel = useUiStore(state => state.closePanel);
     const openAssignModal = useUiStore(state => state.openAssignModal);
 
-
-    const getOrgById = useGameStore(state => state.getOrgById);
-    const getCharacterById = useGameStore(state => state.getCharacterById);
-
-    const playerOrg = getOrgById(1);
+    const playerOrg = useGameStore(state => state.orgs.entities[1]);
 
     //something is seriously wrong in this case...
     if(!playerOrg){
       return null;
     }
 
-
-
     let leaderChar;
     if(playerOrg.characters.leaderId){
-      leaderChar = getCharacterById(playerOrg.characters.leaderId);
+      leaderChar = useGameState(state => state.characters.entities[playerOrg.characters.leaderId]);
     }
 
 

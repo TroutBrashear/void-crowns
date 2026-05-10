@@ -11,7 +11,6 @@ function ResearchAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget); //which should be called simply assignTarget
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
-    const getOrgById = useGameStore(state => state.getOrgById);
     const getOrgResearchOptions = useGameStore(state => state.getOrgResearchOptions);
     const assignResearch = useGameStore(state => state.assignResearch);
 
@@ -27,7 +26,7 @@ function ResearchAssignModal() {
         return null;
     }
 
-    const targetOwnerOrg =  getOrgById(targetBuilding.ownerNationId);
+    const targetOwnerOrg =  useGameStore(state => state.orgs.entities[targetBuilding.ownerNationId]);
 
     if(!targetOwnerOrg){
         return null;

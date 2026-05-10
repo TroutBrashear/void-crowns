@@ -10,10 +10,7 @@ function LabCard({ buildingId }: { buildingId: number }) {
 
     const openAssignModal = useUiStore(state => state.openAssignModal);
 
-    const getBuildingById = useGameStore(state => state.getBuildingById);
-    const getCharacterById = useGameStore(state => state.getCharacterById);
-
-    const researchLab = getBuildingById (buildingId);
+    const researchLab = useGameState(state => state.buildings.entities[buildingId]);
 
     if(!researchLab){
         return null;
@@ -31,7 +28,7 @@ function LabCard({ buildingId }: { buildingId: number }) {
             <button onClick={() => openAssignModal("assign_research", { targetId: researchLab.id, position: "scientist"})}>Assign Research Project</button>
 
 
-            { researchLab.assignedCharacter ? <p> Scientist: {getCharacterById(researchLab.assignedCharacter)?.name ?? "error"}</p> : <p> No Scientist </p>}
+            { researchLab.assignedCharacter ? <p> Scientist: {useGameStore(state => state.characters.entities[researchLab.assignedCharacter])?.name ?? "error"}</p> : <p> No Scientist </p>}
             <button onClick={() => openAssignModal("assign_character", { targetId: researchLab.id, position: "scientist"})}>Assign Scientist</button>
         </div>
     );

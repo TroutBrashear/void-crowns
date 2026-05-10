@@ -20,7 +20,7 @@ function ShipSelectModal() {
 
   const shipToShow = 
     (selection?.type === 'ship') 
-    ? useGameStore(state => state.ships.entites[selection.id])
+    ? useGameStore(state => state.ships.entities[selection.id])
     : null;
 
   if (!shipToShow) {

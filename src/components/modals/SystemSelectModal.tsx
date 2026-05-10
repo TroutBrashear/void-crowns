@@ -9,7 +9,6 @@ function SystemSelectModal() {
   const closeModal = useUiStore(state => state.closeModal);
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
-  const getOrgById = useGameStore(state => state.getOrgById);
   const buildShip = useGameStore(state => state.buildShip);
   const buildMilShip = useGameStore(state => state.buildMilShip);
 
@@ -27,9 +26,9 @@ function SystemSelectModal() {
   }
 
   const planetoidIds = systemToShow.planetoids;
-  const systemPlanetoids = planetoidIds.map(id => useGameStore(state => state.planetoids.entities[id]).filter(Boolean));
+  const systemPlanetoids = planetoidIds.map(id => useGameStore(state => state.planetoids.entities[id])).filter(Boolean));
   const systemOwnerOrg = systemToShow.ownerNationId
-  ? getOrgById(systemToShow.ownerNationId)
+  ? useGameStore(state => state.orgs.entities[systemToShow.ownerNationId])
   : null;
 
   const govCharacter = systemToShow.assignedCharacter
@@ -54,7 +53,7 @@ function SystemSelectModal() {
     {systemPlanetoids.map(planetoid => {
       if (!planetoid) return null;
 
-      const owner = planetoid.ownerNationId ? getOrgById(planetoid.ownerNationId) : null;
+      const owner = planetoid.ownerNationId ? useGameStore(state => state.orgs.entities[planetoid.ownerNationId]) : null;
 
       const buttonStyle = {
         backgroundColor: owner ? owner.flavor.color : '#aaa'
