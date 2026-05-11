@@ -10,6 +10,7 @@ function CharacterAssignModal() {
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
     const getOrgById = useGameStore(state => state.getOrgById);
+    const getShipById = useGameStore(state => state.getShipById);
     const getSystemById = useGameStore(state => state.getSystemById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
     const getBuildingById = useGameStore(state => state.getBuildingById);
@@ -42,7 +43,7 @@ function CharacterAssignModal() {
         }
     }
     else if(characterAssignTarget?.position === 'surveyor'){
-        targetEntity = useGameStore(state => state.ships.entities[characterAssignTarget.targetId]);
+        targetEntity = getShipById(characterAssignTarget.targetId);
         if(targetEntity){
             targetOwnerOrg = targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
             targetName = targetEntity.name;

@@ -7,6 +7,8 @@ function ShipSelectModal() {
   const selection = useUiStore(state => state.selection);
   const closeModal = useUiStore(state => state.closeModal);
   const openAssignModal = useUiStore(state => state.openAssignModal);
+
+  const getShipById = useGameStore(state => state.getShipById);
   const getHabitablesInSystem  = useGameStore(state => state.getHabitablesInSystem);
   const getPlanetoidsBySystem = useGameStore(state => state.getPlanetoidsBySystem);
 
@@ -22,7 +24,7 @@ function ShipSelectModal() {
 
   const shipToShow = 
     (selection?.type === 'ship') 
-    ? useGameStore(state => state.ships.entites[selection.id])
+    ? getShipById(selection.id) 
     : null;
 
   if (!shipToShow) {

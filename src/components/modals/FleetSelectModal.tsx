@@ -8,6 +8,7 @@ function FleetSelectModal() {
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
   const getCharacterById = useGameStore(state => state.getCharacterById);
+  const getMilShipById = useGameStore(state => state.getMilShipById);
 
   if (!selection) {
     return null;
@@ -23,7 +24,7 @@ function FleetSelectModal() {
     return null; 
   }
 
-  const fleetShips = fleetToShow.ships.map(shipId => useGameStore(state => state.milShips.entities[shipId]));
+  const fleetShips = fleetToShow.ships.map(shipId => getMilShipById(shipId));
 
   const comCharacter = fleetToShow.assignedCharacter 
 		? getCharacterById(fleetToShow.assignedCharacter) 
