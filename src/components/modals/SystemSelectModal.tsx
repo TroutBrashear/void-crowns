@@ -11,6 +11,7 @@ function SystemSelectModal() {
 
 
   const getSystemById = useGameStore(state => state.getSystemById);
+  const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
   const getCharacterById = useGameStore(state => state.getCharacterById);
   const getOrgById = useGameStore(state => state.getOrgById);
   const buildShip = useGameStore(state => state.buildShip);
@@ -30,7 +31,7 @@ function SystemSelectModal() {
   }
 
   const planetoidIds = systemToShow.planetoids;
-  const systemPlanetoids = planetoidIds.map(id => useGameStore(state => state.planetoids.entities[id]).filter(Boolean);
+  const systemPlanetoids = planetoidIds.map(id => getPlanetoidById(id)).filter(Boolean);
   const systemOwnerOrg = systemToShow.ownerNationId
   ? getOrgById(systemToShow.ownerNationId)
   : null;
