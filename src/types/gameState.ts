@@ -349,10 +349,13 @@ export interface GameState {
   buildings: EntitiesState<Building>;
 
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
+  getSystemById: (id: number) => System | undefined;
   getSystemsByOrg: (id: number) => System[] | undefined;
   getHabitablesInSystem: (id: number) => Planetoid[];
   getPlanetoidsBySystem: (id: number) => Planetoid[];
   getOrgById: (id: number) => Org | undefined;
+  getCharacterById: (id: number) => Character | undefined;
+  getBuildingById: (id: number) => Building | undefined;
 
   intelligence: IntelOverall;
 }

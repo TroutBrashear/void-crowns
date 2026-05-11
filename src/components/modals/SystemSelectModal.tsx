@@ -9,6 +9,9 @@ function SystemSelectModal() {
   const closeModal = useUiStore(state => state.closeModal);
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
+
+  const getSystemById = useGameStore(state => state.getSystemById);
+  const getCharacterById = useGameStore(state => state.getCharacterById);
   const getOrgById = useGameStore(state => state.getOrgById);
   const buildShip = useGameStore(state => state.buildShip);
   const buildMilShip = useGameStore(state => state.buildMilShip);
@@ -19,7 +22,7 @@ function SystemSelectModal() {
 
   const systemToShow =
   (selection?.type === 'system')
-  ? useGameStore(state => state.systems.entities[selection.id])
+  ? getSystemById(selection.id)
   : null;
 
   if (!systemToShow) {
@@ -33,7 +36,7 @@ function SystemSelectModal() {
   : null;
 
   const govCharacter = systemToShow.assignedCharacter
-  ? useGameStore(state => state.characters.entities[systemToShow.assignedCharacter])
+  ? getCharacterById(systemToShow.assignedCharacter)
   : null;
 
 

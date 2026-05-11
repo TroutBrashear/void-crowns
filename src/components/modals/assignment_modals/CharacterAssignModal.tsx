@@ -10,6 +10,9 @@ function CharacterAssignModal() {
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
     const getOrgById = useGameStore(state => state.getOrgById);
+    const getSystemById = useGameStore(state => state.getSystemById);
+    const getCharacterById = useGameStore(state => state.getCharacterById);
+    const getBuildingById = useGameStore(state => state.getBuildingById);
     const assignCharacter = useGameStore(state => state.assignCharacter);
 
     const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
@@ -25,7 +28,7 @@ function CharacterAssignModal() {
         }
     }
     else if(characterAssignTarget?.position === 'governor'){
-        targetEntity = useGameStore(state => state.systems.entities[characterAssignTarget.targetId]);
+        targetEntity = getSystemById(characterAssignTarget.targetId);
         if(targetEntity){
             targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
             targetName = targetEntity.name;
@@ -46,7 +49,7 @@ function CharacterAssignModal() {
         }
     }
     else if(characterAssignTarget?.position === 'scientist'){
-        targetEntity = useGameStore(state => state.buildings.entities[characterAssignTarget.targetId]);
+        targetEntity = getBuildingById(characterAssignTarget.targetId);
         if(targetEntity){
             targetOwnerOrg = targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
             targetName = `${targetEntity.type} : ${targetEntity.id}`;
@@ -65,7 +68,7 @@ function CharacterAssignModal() {
         return null;
     }
 
-    const poolCharacters = targetOwnerOrg.characters.characterPool.map(characterId => useGameStore(state => state.characters.entities[characterId]));
+    const poolCharacters = targetOwnerOrg.characters.characterPool.map(characterId => getCharacterById(characterId));
 
 
     return(
