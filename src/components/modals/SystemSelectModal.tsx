@@ -26,7 +26,7 @@ function SystemSelectModal() {
   }
 
   const planetoidIds = systemToShow.planetoids;
-  const systemPlanetoids = planetoidIds.map(id => useGameStore(state => state.planetoids.entities[id])).filter(Boolean);
+  const systemPlanetoids = planetoidIds.map(id => useGameStore(state => state.planetoids.entities[id])).filter(Boolean));
   const systemOwnerOrg = systemToShow.ownerNationId
   ? useGameStore(state => state.orgs.entities[systemToShow.ownerNationId])
   : null;

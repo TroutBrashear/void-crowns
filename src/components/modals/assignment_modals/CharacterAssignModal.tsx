@@ -31,7 +31,7 @@ function CharacterAssignModal() {
         }
     }
     else if(characterAssignTarget?.position === 'leader'){
-        targetEntity = useGameStore(state => state.orgs.entities[characterAssignTarget.targetId]);
+        targetEntity = useGameStore(state => state.orgs.entities[characterAssignTarget.targetId]]);
         if(targetEntity){
             targetOwnerOrg = targetEntity;
             targetName = targetEntity.flavor.name;
