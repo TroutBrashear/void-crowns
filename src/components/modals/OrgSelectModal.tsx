@@ -9,12 +9,15 @@ function OrgSelectModal() {
 	const backModal = useUiStore(state => state.backModal);
 	const openAssignModal = useUiStore(state => state.openAssignModal);
 
+
+	const getOrgById = useGameStore(state => state.getOrgById);
+
 	//diplo actions
 	const sendDiploRequest = useGameStore(state => state.sendDiploRequest);
 
 	const orgToShow = useGameStore(state => 
     	(selection?.type === 'org')
-    	? state.orgs.entities[selection.id]
+    	? state.orgs.entities[selection.id] // Go directly to the data
     	: null
   	);
 
@@ -35,7 +38,7 @@ function OrgSelectModal() {
 				<ul>
 					{orgRelations.map(relation => {
 
-						const targetOrg = useGameStore(state => state.orgs.entities[relation.targetOrgId]);
+						const targetOrg = getOrgById(relation.targetOrgId);
 
 						if(!targetOrg){
 							return null;
@@ -74,7 +77,7 @@ function OrgSelectModal() {
 			<ul>
 				{orgRelations.map(relation => {
 
-					const targetOrg = useGameStore(state => state.orgs.entities[relation.targetOrgId]);
+					const targetOrg = getOrgById(relation.targetOrgId);
 
 					if(!targetOrg){
 						return null;
