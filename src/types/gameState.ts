@@ -348,6 +348,7 @@ export interface GameState {
   lanes: EntitiesState<Lane>;
   buildings: EntitiesState<Building>;
 
+  getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
   getSystemById: (id: number) => System | undefined;
   getSystemsByOrg: (id: number) => System[] | undefined;

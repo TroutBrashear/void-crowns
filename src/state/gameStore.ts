@@ -330,6 +330,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   },
 
   //getters
+  getFleetById: (id: number) => get().fleets.entities[id],
   getFleetsBySystem: (id: number) => { //good candidate for future optimization.
     const allFleets = Object.values(get().fleets.entities);
     return allFleets.filter(fleet => fleet.locationSystemId === id);
