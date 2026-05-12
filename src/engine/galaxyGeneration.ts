@@ -120,6 +120,26 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			tags: [],
 		};
 
+		//check for distance to prevent overlap
+		while(true){
+			let checkPassed = true;
+
+			for(const system of newGalaxy){
+				if(40 > calcDistance(nextSystem, system)){
+					checkPassed = false;
+					break;
+				}
+			}
+
+			if(checkPassed){
+				break;
+			}
+			else{
+				nextSystem.position.x = Math.random() * WIDTH_DEFAULT;
+				nextSystem.position.y = Math.random() * HEIGHT_DEFAULT;
+			}
+		}
+
 			//give the system some planetoids
 			const systemPlanetoids: Planetoid[] = []; //we'll stack them all up before pushing to system's object
 
