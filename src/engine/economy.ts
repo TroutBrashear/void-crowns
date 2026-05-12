@@ -194,7 +194,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 										}
 									}
 
-									completedResearch.push({ orgId: building.ownerNationId, researchId: building.research.project, building.locationId});
+									completedResearch.push({ orgId: building.ownerNationId, researchId: building.research.project, labLocationId: building.locationId});
 								}
 								else{
 									console.log(researchRoll);
