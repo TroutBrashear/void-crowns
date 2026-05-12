@@ -1,4 +1,4 @@
-import type { GameState, Planetoid, Resources, Process, GameEvent, EngineResult } from '../types/gameState';
+import type { GameState, Planetoid, Resources, Process, GameEvent, EngineResult, Character } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
@@ -48,6 +48,21 @@ export function engineAssignResearch(currentState: GameState, buildingId: number
 			}
 		},
 	};
+}
+
+export function evaluateAcademySpawnChance(currentState: GameState, buildingId: number): boolean {
+	let building = currentState.buildings.entities[buildingId];
+	let org = currentState.orgs.entities[building.ownerNationId];
+
+	let baseChance = 1 + org.characterPool.length;
+
+	//TODO: further modifications based on an assigned character and other potential modifiers
+
+	if((Math.random() * baseChance) < 5){
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -209,7 +224,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 							}
 						}
 					}
-
 
 					//-------INCOME-----------
 					if(!roundIncome[buildingOwner]){
