@@ -1,4 +1,4 @@
-import type { GameState, Planetoid, Resources, Process } from '../types/gameState';
+import type { GameState, Planetoid, Resources, Process, GameEvent, EngineResult } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
@@ -101,14 +101,14 @@ function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
 	return finalGrowth;
 }
 
-export function processEconomy(currentState: GameState): GameState {
+export function processEconomy(currentState: GameState): EngineResult {
 	let newOrgs = { ...currentState.orgs.entities };
 	let newBuildings = { ...currentState.buildings.entities };
   	let newPlanetoidEntities = { ...currentState.planetoids.entities };
 
 	const roundIncome: Record<number, Resources> = {}; //number is an orgId
 
-	const completedResearch: { orgId: number, researchId: string }[] = [];
+	const completedResearch: { orgId: number, researchId: string, labLocationId: number }[] = [];
 
 	for(const systemId of currentState.systems.ids) {
 		const currentSystem = currentState.systems.entities[systemId];
@@ -194,7 +194,7 @@ export function processEconomy(currentState: GameState): GameState {
 										}
 									}
 
-									completedResearch.push({ orgId: building.ownerNationId, researchId: building.research.project});
+									completedResearch.push({ orgId: building.ownerNationId, researchId: building.research.project, building.locationId});
 								}
 								else{
 									console.log(researchRoll);
@@ -300,14 +300,31 @@ export function processEconomy(currentState: GameState): GameState {
 		}
 	};
 
+	const events: GameEvent[] = [];
+
 	//resolve research effects
 	for(const resObj of completedResearch){
 		let research = RESEARCH_CATALOG[resObj.researchId];
+
+		let planetoid = nextState.planetoids.entities[resObj.labLocationId];
+
+		const researchCompleteEvent: GameEvent = {
+			type: 'research_complete',
+			message: `Research finished! ${research.researchId} was completed at ${planetoid.name}.`,
+			locationId: resObj.labLocationId,
+			involvedOrgIds: [resObj.orgId],
+			isPlayerVisible: resObj.orgId === 1,
+		};
+
+		events.push(researchCompleteEvent);
 
 		if (research && research.onComplete) {
 			nextState = research.onComplete(nextState, resObj.orgId);
 		}
 	}
 
-	return nextState;
+	return {
+		newState: nextState,
+		events: events,
+	};
 }

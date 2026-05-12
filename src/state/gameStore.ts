@@ -94,7 +94,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     let tickEvents: GameEvent[] = [];
 
     if(currentState.meta.turn % 10 === 0){
-      nextState = processEconomy(nextState);
+      const ecoResults = processEconomy(nextState);
+      nextState = ecoResults.newState;
+      tickEvents.push(...ecoResults.events);
     }
 
 
