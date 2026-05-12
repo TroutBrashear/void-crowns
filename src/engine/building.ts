@@ -324,7 +324,7 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
     type: buildingClass,
     ownerNationId: ownerId,
     locationId:planetoidId,
-
+    tags: bDefinition.tags,
     assignedCharacter: null,
 
     research: {

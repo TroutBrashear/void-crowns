@@ -32,7 +32,7 @@ export interface Building {
   type: BuildingClass;
   ownerNationId: number;
   locationId: number; //a planetoid's ID
-  //todo: likely have flags for abilities enabled on a planet - ie: fleet building.
+  tags: string[];
 
   assignedCharacter: number | null;
 
@@ -62,6 +62,20 @@ export interface Planetoid {
   }
 }
 
+export type LaneStatus = 'stable' | 'fading' | 'immaterial' | 'anchored';
+
+export interface Lane {
+  readonly id: number;
+  status: LaneStatus;
+
+  anchorOrigin: number | null;
+
+  //the systems the lane connects
+  systemIdA: number;
+  systemIdB: number;
+}
+
+//---------------SHIPS AND FLEETS---------------------
 export interface Fleet {
   readonly id: number;
   name: string;
@@ -75,28 +89,6 @@ export interface Fleet {
 
   contextHistory: {
     previousSystemId: number;
-  }
-}
-
-export type ShipType = 'colony_ship' | 'survey_ship' | 'construction_ship';
-
-export interface Ship {
-  readonly id: number;
-  name: string;
-  type: ShipType;
-  ownerNationId: number;
-  locationSystemId: number;
-
-  movementPath: number[];
-
-  //some ShipTypes have the potential for an assignedCharacter. - survey_ship
-  assignedCharacter: number | null;
-
-  //survey_ship has an assignmentTargetId pointing to the Planetoid it is surveying
-  assignmentTargetId: number | null;
-
-  contextHistory: {
-    assignmentProgress: number;
   }
 }
 
@@ -129,7 +121,30 @@ export interface MilShip {
   }
 }
 
+export type ShipType = 'colony_ship' | 'survey_ship' | 'construction_ship';
 
+export interface Ship {
+  readonly id: number;
+  name: string;
+  type: ShipType;
+  ownerNationId: number;
+  locationSystemId: number;
+
+  movementPath: number[];
+
+  //some ShipTypes have the potential for an assignedCharacter. - survey_ship
+  assignedCharacter: number | null;
+
+  //survey_ship has an assignmentTargetId pointing to the Planetoid it is surveying
+  assignmentTargetId: number | null;
+
+  contextHistory: {
+    assignmentProgress: number;
+  }
+}
+
+
+//------------ECONOMY------------------
 export interface Resources {
   credits: number;
   rocks: number;
@@ -253,19 +268,6 @@ export type SelectableEntityType = 'fleet' | 'system' | 'org' | 'ship' | 'planet
 export interface Selection {
   type: SelectableEntityType;
   id: number;
-}
-
-export type LaneStatus = 'stable' | 'fading' | 'immaterial' | 'anchored';
-
-export interface Lane {
-  readonly id: number;
-  status: LaneStatus;
-
-  anchorOrigin: number | null;
-
-  //the systems the lane connects
-  systemIdA: number;
-  systemIdB: number;
 }
 
 
