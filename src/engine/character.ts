@@ -206,10 +206,12 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 	let firstName = nameList.firstNames[Math.floor(Math.random()* nameList.firstNames.length)];
 	let lastName = nameList.lastNames[Math.floor(Math.random()* nameList.lastNames.length)];
 	
+	let age = 22 + Math.floor((Math.random() * 5) + (Math.random() * 5) + (Math.random() * 5));
+
 	let newCharacter: Character = {
 		id: nextId,
 		name: `${firstName} ${lastName}`,
-		age: 25,
+		age: age,
 		traits: [],
 		assignment: null,
 		skills: {
