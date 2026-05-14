@@ -2,6 +2,7 @@ import type { GameState, Planetoid, Resources, Process, GameEvent, EngineResult,
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
+import { generateCharacter } from './character';
 
 //------RESARCH FUNCTIONS------
 
@@ -65,11 +66,11 @@ export function evaluateAcademySpawnChance(currentState: GameState, buildingId: 
 	return false;
 }
 
-export function spawnAcademyCharacter(currentState: GameState, buildingId: number): Character {
+export function spawnAcademyCharacter(currentState: GameState, buildingId: number, nextId: number): Character {
 	let building = currentState.buildings.entities[buildingId];
 	const org = currentState.orgs.entities[building.ownerNationId];
 
-	let newCharacter = generateCharacter(currentState.meta.lastCharacterId + 1, org.flavor.nameList);
+	let newCharacter = generateCharacter(nextId, org.flavor.nameList);
 
 	switch (building.type){
 		case "navalAcademy":
@@ -145,6 +146,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 	const roundIncome: Record<number, Resources> = {}; //number is an orgId
 
 	const completedResearch: { orgId: number, researchId: string, labLocationId: number }[] = [];
+	const spawnedCharacters: number[] = [];
 
 	for(const systemId of currentState.systems.ids) {
 		const currentSystem = currentState.systems.entities[systemId];
@@ -246,6 +248,14 @@ export function processEconomy(currentState: GameState): EngineResult {
 						}
 					}
 
+					//--------ACADEMY-----------
+					if(bDefinition.tags.includes("academy")){
+						const spawnRoll = evaluateAcademySpawnChance(currentState, buildingId);
+						if(spawnRoll){
+							spawnedCharacters.push(buildingId);
+						}
+					}
+
 					//-------INCOME-----------
 					if(!roundIncome[buildingOwner]){
 						roundIncome[buildingOwner] = {
@@ -302,7 +312,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 		}
 	}
 
-	//Finally, add income to the orgs
+	// add income to the orgs
 	const orgArray = Object.entries(roundIncome);
 	for(const [id, income] of orgArray){
 		const orgId = Number(id);
@@ -318,9 +328,36 @@ export function processEconomy(currentState: GameState): EngineResult {
 		};
 	}
 
+	//resolve character spawns
+	let newCharacters = { ...currentState.characters.entities };
+	let newCharacterIds = [ ...currentState.characters.ids ];
+	let nextId =  currentState.meta.lastCharacterId;
+	for(const buildingId of spawnedCharacters){
+		const building = currentState.buildings.entities[buildingId];
+
+		genCharacter = spawnAcademyCharacter(currentState, buildingId, nextId);
+		nextId++;
+		newOrgs[building.ownerNationId] = {
+			...newOrgs[building.ownerNationId],
+			characters: {
+				...newOrgs[building.ownerNationId].characters,
+				characterPool: [...newOrgs[building.ownerNationId].characters.characterPool, genCharacter.id]
+			}
+		}
+		newCharacterIds = [ ...newCharacterIds, genCharacter.id];
+		newCharacters = {
+			...newCharacters,
+			[genCharacter.id]: genCharacter
+		}
+	}
+
 
 	let nextState = {
 		...currentState,
+		meta: {
+			...currentState.meta,
+			lastCharacterId: nextId,
+		}
 		orgs: {
 			...currentState.orgs,
 			entities: newOrgs,
@@ -332,6 +369,11 @@ export function processEconomy(currentState: GameState): EngineResult {
 		buildings: {
 			...currentState.buildings,
 			entities: newBuildings,
+		},
+		characters: {
+			...currentState.characters,
+			ids: newCharacterIds,
+			entities: newCharacters,
 		}
 	};
 
@@ -357,6 +399,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 			nextState = research.onComplete(nextState, resObj.orgId);
 		}
 	}
+
+
 
 	return {
 		newState: nextState,
