@@ -54,7 +54,7 @@ export function evaluateAcademySpawnChance(currentState: GameState, buildingId: 
 	let building = currentState.buildings.entities[buildingId];
 	let org = currentState.orgs.entities[building.ownerNationId];
 
-	let baseChance = 1 + org.characterPool.length;
+	let baseChance = 1 + org.characters.characterPool.length;
 
 	//TODO: further modifications based on an assigned character and other potential modifiers
 
@@ -63,6 +63,27 @@ export function evaluateAcademySpawnChance(currentState: GameState, buildingId: 
 	}
 
 	return false;
+}
+
+export function spawnAcademyCharacter(currentState: GameState, buildingId: number): Character {
+	let building = currentState.buildings.entities[buildingId];
+	const org = currentState.orgs.entities[building.ownerNationId];
+
+	let newCharacter = generateCharacter(currentState.meta.lastCharacterId + 1, org.flavor.nameList);
+
+	switch (building.type){
+		case "navalAcademy":
+			newCharacter = {
+				...newCharacter,
+				skills: {
+					...newCharacter.skills,
+					navalCombat: newCharacter.skills.navalCombat + 2
+				}
+			}
+			break;
+	}
+
+	return newCharacter;
 }
 
 
