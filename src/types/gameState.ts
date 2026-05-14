@@ -211,7 +211,7 @@ export interface Org {
 
 }
 
-export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'scientist';
+export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'scientist' | 'academyPresident';
 
 
 
