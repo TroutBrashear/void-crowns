@@ -328,6 +328,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 		};
 	}
 
+	const events: GameEvent[] = [];
+
 	//resolve character spawns
 	let newCharacters = { ...currentState.characters.entities };
 	let newCharacterIds = [ ...currentState.characters.ids ];
@@ -349,6 +351,16 @@ export function processEconomy(currentState: GameState): EngineResult {
 			...newCharacters,
 			[genCharacter.id]: genCharacter
 		}
+
+		const charGenEvent: GameEvent = {
+			type: 'char_result',
+			message: `Character Spawned! ${genCharacter.name} graduated from a ${building.type}.`,
+			locationId: building.locationId,
+			involvedOrgIds: [building.ownerNationId],
+			isPlayerVisible: building.ownerNationId === 1,
+		};
+
+		events.push(researchCompleteEvent);
 	}
 
 
@@ -357,7 +369,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 		meta: {
 			...currentState.meta,
 			lastCharacterId: nextId,
-		}
+		},
 		orgs: {
 			...currentState.orgs,
 			entities: newOrgs,
@@ -377,7 +389,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 		}
 	};
 
-	const events: GameEvent[] = [];
+
 
 	//resolve research effects
 	for(const resObj of completedResearch){
