@@ -337,7 +337,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 	for(const buildingId of spawnedCharacters){
 		const building = currentState.buildings.entities[buildingId];
 
-		genCharacter = spawnAcademyCharacter(currentState, buildingId, nextId);
+		let genCharacter = spawnAcademyCharacter(currentState, buildingId, nextId);
 		nextId++;
 		newOrgs[building.ownerNationId] = {
 			...newOrgs[building.ownerNationId],
@@ -360,7 +360,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 			isPlayerVisible: building.ownerNationId === 1,
 		};
 
-		events.push(researchCompleteEvent);
+		events.push(charGenEvent);
 	}
 
 
