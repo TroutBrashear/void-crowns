@@ -57,7 +57,15 @@ export function evaluateAcademySpawnChance(currentState: GameState, buildingId: 
 
 	let baseChance = 1 + org.characters.characterPool.length;
 
-	//TODO: further modifications based on an assigned character and other potential modifiers
+	if(building.assignedCharacter){
+		const char = currentState.characters.entities[building.assignedCharacter];
+		baseChance = baseChance - char.skills.administration;
+
+	}
+
+	if(baseChance < 6){
+		basechance = 6;
+	}
 
 	if((Math.random() * baseChance) < 5){
 		return true;
