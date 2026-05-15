@@ -64,7 +64,7 @@ export function evaluateAcademySpawnChance(currentState: GameState, buildingId: 
 	}
 
 	if(baseChance < 6){
-		basechance = 6;
+		baseChance = 6;
 	}
 
 	if((Math.random() * baseChance) < 5){
@@ -87,6 +87,15 @@ export function spawnAcademyCharacter(currentState: GameState, buildingId: numbe
 				skills: {
 					...newCharacter.skills,
 					navalCombat: newCharacter.skills.navalCombat + 2
+				}
+			}
+			break;
+		case "scienceAcademy":
+			newCharacter = {
+				...newCharacter,
+				skills: {
+					...newCharacter.skills,
+					navalCombat: newCharacter.skills.academics + 2
 				}
 			}
 			break;

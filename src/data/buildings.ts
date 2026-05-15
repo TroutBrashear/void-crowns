@@ -60,4 +60,11 @@ export const BUILDING_CATALOG: Record<BuildingClass, BuildingDefinition> = {
       { input: { credits: 100 } },
     tags: ["academy"],
   },
+  scienceAcademy: {
+    type: 'scienceAcademy',
+    cost: { credits: 20000, rocks: 0, consumerGoods: 0 },
+    process:
+    { input: { credits: 100 } },
+    tags: ["academy"],
+  },
 }

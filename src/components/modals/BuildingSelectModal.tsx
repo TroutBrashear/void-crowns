@@ -33,7 +33,7 @@ function BuildingSelectModal() {
     return (
         <div className={styles.modal}>
             <h2>Building: {buildingToShow.type}</h2>
-            {buildingToShow.type === 'navalAcademy' &&
+            {buildingToShow.tags.includes("academy") &&
                 <div>
                     <p>Academy President: { assignedCharacter ? assignedCharacter.name : null } </p>
                     {buildingToShow.ownerNationId === 1 && <button onClick={() => openAssignModal("assign_character", {targetId: selection.id, position: "academyPresident"})}>Assign Academy President</button>}
