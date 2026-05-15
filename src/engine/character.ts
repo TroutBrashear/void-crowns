@@ -78,7 +78,9 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 		return functionState;
 	}
 	
-	newCharacters[charId] = { ...newCharacters[charId], assignment: { type: assignmentType, id: assignmentTargetId }};
+	const newEvent = `${newCharacters[charId].name} was assigned as a ${assignmentType}`;
+
+	newCharacters[charId] = { ...newCharacters[charId], assignment: { type: assignmentType, id: assignmentTargetId }, history: { ...newCharacters[charId].history, events: [ ...newCharacters[charId].history.events, newEvent]}};
 
 
 	//then the other way from target
@@ -99,7 +101,7 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	else if(assignmentType === 'surveyor'){
 		newShips[assignmentTargetId] = { ...newShips[assignmentTargetId], assignedCharacter: charId };
 	}
-	else if(assignmentType === 'scientist'){
+	else if(assignmentType === 'scientist' || assignmentType === 'academyPresident'){
 		newBuildings[assignmentTargetId] = { ...newBuildings[assignmentTargetId], assignedCharacter: charId };
 	}
 	else{
@@ -125,11 +127,11 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 			entities: newOrgs,
 		},
 		ships: {
-			...currentState.ships,
+			...functionState.ships,
 			entities: newShips,
 		},
 		buildings: {
-			...currentState.buildings,
+			...functionState.buildings,
 			entities: newBuildings,
 		},
 	};
