@@ -221,6 +221,7 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 			navalCombat: Math.floor(Math.random()*6),
 			exploration: Math.floor(Math.random()*6),
 			academics: Math.floor(Math.random()*6),
+			diplomacy: Math.floor(Math.random()*6),
 		},
 
 		politics: {

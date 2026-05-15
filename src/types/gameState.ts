@@ -221,7 +221,7 @@ export interface charAssignment {
   id: number;
 }
 
-export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'academics';
+export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'academics' | 'diplomacy';
 
 export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
 
