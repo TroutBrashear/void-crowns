@@ -57,6 +57,13 @@ function CharacterAssignModal() {
             targetName = `${targetEntity.type} : ${targetEntity.id}`;
         }
     }
+    else if(characterAssignTarget?.position === 'academyPresident'){
+        targetEntity = getBuildingById(characterAssignTarget.targetId);
+        if(targetEntity){
+            targetOwnerOrg = targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
+            targetName = `${targetEntity.type} : ${targetEntity.id}`;
+        }
+    }
     else{
         return null;
     }
