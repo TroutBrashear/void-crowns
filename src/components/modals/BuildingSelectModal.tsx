@@ -13,6 +13,10 @@ function BuildingSelectModal() {
     const getBuildingById = useGameStore(state => state.getBuildingById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
 
+    if (!selection) {
+        return null;
+    }
+
     const buildingToShow =
     (selection?.type === 'building')
     ? getBuildingById(selection.id)
