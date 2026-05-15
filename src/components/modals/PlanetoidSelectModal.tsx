@@ -12,6 +12,7 @@ function PlanetoidSelectModal() {
 	const selection = useUiStore(state => state.selection);
     //const setSelection = useUiStore(state => state.setSelection);
     const backModal = useUiStore(state => state.backModal);
+	const changeModal = useUiStore(state => state.changeModal);
     const closeModal = useUiStore(state => state.closeModal);
 
     const getSystemById = useGameStore(state => state.getSystemById);
@@ -77,7 +78,7 @@ function PlanetoidSelectModal() {
 				if (!building) return null; 
 				return(
 					<li key={building.id}>
-						<p>{building.type}</p>
+						<button onClick={() => {changeModal('building_modal', {type: 'building', id: building.id}); }}>{building.type}</button>
 					</li>
 				);
 			})}
