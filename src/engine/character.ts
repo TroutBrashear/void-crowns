@@ -215,7 +215,13 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 		name: `${firstName} ${lastName}`,
 		age: age,
 		traits: [],
-		assignment: null,
+		assignment: {
+			task: null,
+			target: null,
+		},
+
+		citizenOrg: null,
+
 		skills: {
 			administration: Math.floor(Math.random()*6),
 			navalCombat: Math.floor(Math.random()*6),
@@ -297,7 +303,10 @@ export function processCharacterCycles(currentState: GameState): GameState {
 			while(currentOrg.characters.characterPool.length < 6){
 				nextCId++;
 				let newCharacter = generateCharacter(nextCId, currentOrg.flavor.nameList);
-				console.log(newCharacter.name);
+				newCharacter = {
+					...newCharacter,
+					citizenOrg: orgId
+				};
 				newIds.push(nextCId);
 				let newPool = [...currentOrg.characters.characterPool];
 				newPool.push(nextCId);

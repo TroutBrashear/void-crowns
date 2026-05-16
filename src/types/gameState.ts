@@ -233,6 +233,8 @@ export interface Character {
   skills: Record<SkillName, number>;
   assignment: charAssignment | null;
 
+  citizenOrg: number | null; //refers to the Org this character is a part of
+
   politics: {
     leaning: Ideology;
   }

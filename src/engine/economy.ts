@@ -84,6 +84,7 @@ export function spawnAcademyCharacter(currentState: GameState, buildingId: numbe
 		case "navalAcademy":
 			newCharacter = {
 				...newCharacter,
+				citizenOrg: building.ownerNationId,
 				skills: {
 					...newCharacter.skills,
 					navalCombat: newCharacter.skills.navalCombat + 2
@@ -93,6 +94,7 @@ export function spawnAcademyCharacter(currentState: GameState, buildingId: numbe
 		case "scienceAcademy":
 			newCharacter = {
 				...newCharacter,
+				citizenOrg: building.ownerNationId,
 				skills: {
 					...newCharacter.skills,
 					navalCombat: newCharacter.skills.academics + 2
