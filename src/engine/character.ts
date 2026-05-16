@@ -215,10 +215,7 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 		name: `${firstName} ${lastName}`,
 		age: age,
 		traits: [],
-		assignment: {
-			task: null,
-			target: null,
-		},
+		assignment: null,
 
 		citizenOrg: null,
 
@@ -269,6 +266,14 @@ export function processCharacterCycles(currentState: GameState): GameState {
 				
 				newCharacters = { ...functionState.characters.entities };
 				
+				newOrgs[currentCharacter.citizenOrg] = {
+					...newOrgs[currentCharacter.citizenOrg],
+					characters: {
+						...newOrgs[currentCharacter.citizenOrg].characters,
+						characterPool: ...newOrgs[currentCharacter.citizenOrg].characters.characterPool.filter(id => charId !== id)
+					}
+				}
+
 				delete newCharacters[charId];
 				continue;
 			}
