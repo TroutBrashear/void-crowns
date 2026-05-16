@@ -270,7 +270,7 @@ export function processCharacterCycles(currentState: GameState): GameState {
 					...newOrgs[currentCharacter.citizenOrg],
 					characters: {
 						...newOrgs[currentCharacter.citizenOrg].characters,
-						characterPool: ...newOrgs[currentCharacter.citizenOrg].characters.characterPool.filter(id => charId !== id)
+						characterPool: newOrgs[currentCharacter.citizenOrg].characters.characterPool.filter(id => charId !== id)
 					}
 				}
 

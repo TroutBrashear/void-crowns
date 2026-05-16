@@ -211,8 +211,7 @@ export interface Org {
 
 }
 
-export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'scientist' | 'academyPresident';
-
+export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'scientist' | 'academyPresident' | 'diplomat';
 
 
 //a helper that holds information about what a character is currently doing
