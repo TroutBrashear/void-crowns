@@ -201,6 +201,46 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	};
 }
 
+export function killCharacter(currentState: GameState, charId: number): GameState {
+	let functionState = engineUnassignCharacter(currentState, charId);
+
+	let newCharacters = { ...functionState.characters.entities };
+	let newCharacterIds = [ ...functionState.characters.ids ];
+	let newOrgs = { ...functionState.orgs.entities };
+
+	let currentCharacter = newCharacters[charId];
+
+	if(!currentCharacter){
+		return functionState;
+	}
+
+	if(currentCharacter.citizenOrg){
+		newOrgs[currentCharacter.citizenOrg] = {
+			...newOrgs[currentCharacter.citizenOrg],
+			characters: {
+				...newOrgs[currentCharacter.citizenOrg].characters,
+				characterPool: newOrgs[currentCharacter.citizenOrg].characters.characterPool.filter(id => charId !== id)
+			}
+		}
+	}
+
+	delete newCharacters[charId];
+	newCharacterIds = newCharacterIds.filter(id => charId !== id);
+
+	return {
+		...functionState,
+		characters: {
+			...functionState.characters,
+			ids: newCharacterIds,
+			entities: newCharacters
+		},
+		orgs: {
+			...functionState.orgs,
+			entities: newOrgs
+		}
+	};
+}
+
 export function generateCharacter(nextId: number, nameListId: string): Character {
 	
 	const nameList = NAME_LISTS[nameListId];
@@ -296,6 +336,12 @@ export function processCharacterCycles(currentState: GameState): GameState {
 				functionState = engineRunCharacterEvent(functionState, charId, eventId);
 			}
 			
+			//is the character carrying out a Mission Assignment?
+			if(currentCharacter.assignment && currentCharacter.assignment.duration){
+				if(currentCharacter.assignment.duration >= functionState.meta.currentTurn){
+					functionState = engineUnassignCharacter(functionState, charId);
+				}
+			}
 			newCharacters = { ...functionState.characters.entities };
 		}
 	}
