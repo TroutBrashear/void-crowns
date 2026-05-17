@@ -218,6 +218,7 @@ export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor'
 export interface charAssignment {
   type: CharacterAssignment;
   id: number;
+  duration?: number; //turn that the character's assignment will end - used for Mission-based Assignments
 }
 
 export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'academics' | 'diplomacy';

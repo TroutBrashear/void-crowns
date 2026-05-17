@@ -161,7 +161,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	else if(newCharacters[charId].assignment.type === 'surveyor'){
 		newShips[newCharacters[charId].assignment.id] = { ...newShips[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
-	else if(newCharacters[charId].assignment.type === 'scientist'){
+	else if(newCharacters[charId].assignment.type === 'scientist' || newCharacters[charId].assignment.type === 'academyPresident'){
 		newBuildings[newCharacters[charId].assignment.id] = { ...newBuildings[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else{
@@ -198,6 +198,46 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 			...currentState.buildings,
 			entities: newBuildings,
 		},
+	};
+}
+
+export function killCharacter(currentState: GameState, charId: number): GameState {
+	let functionState = engineUnassignCharacter(currentState, charId);
+
+	let newCharacters = { ...functionState.characters.entities };
+	let newCharacterIds = [ ...functionState.characters.ids ];
+	let newOrgs = { ...functionState.orgs.entities };
+
+	let currentCharacter = newCharacters[charId];
+
+	if(!currentCharacter){
+		return functionState;
+	}
+
+	if(currentCharacter.citizenOrg){
+		newOrgs[currentCharacter.citizenOrg] = {
+			...newOrgs[currentCharacter.citizenOrg],
+			characters: {
+				...newOrgs[currentCharacter.citizenOrg].characters,
+				characterPool: newOrgs[currentCharacter.citizenOrg].characters.characterPool.filter(id => charId !== id)
+			}
+		}
+	}
+
+	delete newCharacters[charId];
+	newCharacterIds = newCharacterIds.filter(id => charId !== id);
+
+	return {
+		...functionState,
+		characters: {
+			...functionState.characters,
+			ids: newCharacterIds,
+			entities: newCharacters
+		},
+		orgs: {
+			...functionState.orgs,
+			entities: newOrgs
+		}
 	};
 }
 
@@ -251,6 +291,8 @@ export function processCharacterCycles(currentState: GameState): GameState {
 	const orgIds = functionState.orgs.ids;
 	
 	let nextCId = functionState.meta.lastCharacterId ;
+
+	let deadCharacterIds: number[] = [];
 	
 	//step 1: process each character, advancing age, evaluating deaths
 	for(const charId of characterIds){
@@ -262,21 +304,7 @@ export function processCharacterCycles(currentState: GameState): GameState {
 				newAge +=1;
 			}
 			if(newAge >= 100){
-				functionState = engineUnassignCharacter(functionState, charId);
-				
-				newCharacters = { ...functionState.characters.entities };
-				
-				if(currentCharacter.citizenOrg){
-					newOrgs[currentCharacter.citizenOrg] = {
-						...newOrgs[currentCharacter.citizenOrg],
-						characters: {
-							...newOrgs[currentCharacter.citizenOrg].characters,
-							characterPool: newOrgs[currentCharacter.citizenOrg].characters.characterPool.filter(id => charId !== id)
-						}
-					}
-				}
-
-				delete newCharacters[charId];
+				deadCharacterIds.push(charId);
 				continue;
 			}
 			else{ 
@@ -296,6 +324,12 @@ export function processCharacterCycles(currentState: GameState): GameState {
 				functionState = engineRunCharacterEvent(functionState, charId, eventId);
 			}
 			
+			//is the character carrying out a Mission Assignment?
+			if(currentCharacter.assignment && currentCharacter.assignment.duration){
+				if(currentCharacter.assignment.duration >= functionState.meta.turn){
+					functionState = engineUnassignCharacter(functionState, charId);
+				}
+			}
 			newCharacters = { ...functionState.characters.entities };
 		}
 	}
@@ -324,8 +358,7 @@ export function processCharacterCycles(currentState: GameState): GameState {
 		}
 	}
 	
-	
-	return {
+	functionState = {
 		...functionState,
 		meta: {
 			...functionState.meta,
@@ -336,9 +369,16 @@ export function processCharacterCycles(currentState: GameState): GameState {
 			entities: newCharacters,
 			ids: newIds,
 		},
-		orgs: { 
-            ...functionState.orgs,
-            entities: newOrgs,
-        },
+		orgs: {
+			...functionState.orgs,
+			entities: newOrgs,
+		},
 	};
+
+	//resolve character deaths
+	for(const id of deadCharacterIds){
+		functionState = killCharacter(functionState, id);
+	}
+	
+	return functionState;
 }
