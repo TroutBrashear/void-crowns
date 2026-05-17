@@ -161,7 +161,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	else if(newCharacters[charId].assignment.type === 'surveyor'){
 		newShips[newCharacters[charId].assignment.id] = { ...newShips[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
-	else if(newCharacters[charId].assignment.type === 'scientist'){
+	else if(newCharacters[charId].assignment.type === 'scientist' || assignmentType === 'academyPresident'){
 		newBuildings[newCharacters[charId].assignment.id] = { ...newBuildings[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else{
