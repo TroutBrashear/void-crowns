@@ -291,6 +291,8 @@ export function processCharacterCycles(currentState: GameState): GameState {
 	const orgIds = functionState.orgs.ids;
 	
 	let nextCId = functionState.meta.lastCharacterId ;
+
+	let deadCharacterIds: number[] = [];
 	
 	//step 1: process each character, advancing age, evaluating deaths
 	for(const charId of characterIds){
@@ -302,21 +304,7 @@ export function processCharacterCycles(currentState: GameState): GameState {
 				newAge +=1;
 			}
 			if(newAge >= 100){
-				functionState = engineUnassignCharacter(functionState, charId);
-				
-				newCharacters = { ...functionState.characters.entities };
-				
-				if(currentCharacter.citizenOrg){
-					newOrgs[currentCharacter.citizenOrg] = {
-						...newOrgs[currentCharacter.citizenOrg],
-						characters: {
-							...newOrgs[currentCharacter.citizenOrg].characters,
-							characterPool: newOrgs[currentCharacter.citizenOrg].characters.characterPool.filter(id => charId !== id)
-						}
-					}
-				}
-
-				delete newCharacters[charId];
+				deadCharacterIds.push(charId);
 				continue;
 			}
 			else{ 
@@ -370,8 +358,7 @@ export function processCharacterCycles(currentState: GameState): GameState {
 		}
 	}
 	
-	
-	return {
+	functionState = {
 		...functionState,
 		meta: {
 			...functionState.meta,
@@ -382,9 +369,16 @@ export function processCharacterCycles(currentState: GameState): GameState {
 			entities: newCharacters,
 			ids: newIds,
 		},
-		orgs: { 
-            ...functionState.orgs,
-            entities: newOrgs,
-        },
+		orgs: {
+			...functionState.orgs,
+			entities: newOrgs,
+		},
 	};
+
+	//resolve character deaths
+	for(const id of deadCharacterIds){
+		functionState = killCharacter(functionState, id);
+	}
+	
+	return functionState;
 }
