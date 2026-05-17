@@ -23,8 +23,6 @@ function CharacterAssignModal() {
     let targetOwnerOrg: Org | undefined;
     let targetName: string | undefined;
 
-    let isMission = false;
-
     if(characterAssignTarget?.position === 'admiral'){
         targetEntity = getFleetById(characterAssignTarget.targetId);
         if(targetEntity){
@@ -68,7 +66,6 @@ function CharacterAssignModal() {
         }
     }
     else if(characterAssignTarget?.position === 'diplomat'){
-        isMission = true;
         targetEntity = getOrgById(characterAssignTarget.targetId);
         if(targetEntity){
             targetOwnerOrg = targetEntity;
@@ -105,8 +102,8 @@ function CharacterAssignModal() {
                 })}
             </div>
 
-            {!isMission && <button  disabled={!selectedCharacter} className={styles.characterButton} onClick={() => {if(selectedCharacter){
-                assignCharacter({charId: selectedCharacter, assignmentTargetId: targetEntity.id, assignmentType: characterAssignTarget.position}); closeAssignModal();}}}>Assign </button>}
+            <button  disabled={!selectedCharacter} className={styles.characterButton} onClick={() => {if(selectedCharacter){
+                assignCharacter({charId: selectedCharacter, assignmentTargetId: targetEntity.id, assignmentType: characterAssignTarget.position}); closeAssignModal();}}}>Assign </button>
 
             <button className={styles.characterButton} onClick={closeAssignModal}>Close</button>
         </div>

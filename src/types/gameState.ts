@@ -201,6 +201,7 @@ export interface Org {
   diplomacy: {
     relations: OrgRelation[];
     incomingRequests: DiploRequest[];
+    residentDiplomats: number[];
   }
 
   contextHistory: {

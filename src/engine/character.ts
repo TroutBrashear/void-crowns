@@ -78,10 +78,9 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 		return functionState;
 	}
 	
-	const newEvent = `${newCharacters[charId].name} was assigned as a ${assignmentType}`;
 
-	newCharacters[charId] = { ...newCharacters[charId], assignment: { type: assignmentType, id: assignmentTargetId }, history: { ...newCharacters[charId].history, events: [ ...newCharacters[charId].history.events, newEvent]}};
-
+	let isMission = false;
+	let missionDuration = 0;
 
 	//then the other way from target
 	let newFleets = { ...functionState.fleets.entities };
@@ -104,8 +103,22 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	else if(assignmentType === 'scientist' || assignmentType === 'academyPresident'){
 		newBuildings[assignmentTargetId] = { ...newBuildings[assignmentTargetId], assignedCharacter: charId };
 	}
+	else if(assignmentType === 'diplomat'){
+		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], diplomacy: { ...newOrgs[assignmentTargetId].diplomacy, residentDiplomats: [...newOrgs[assignmentTargetId].diplomacy.residentDiplomats, charId] }};
+		isMission = true;
+		missionDuration = 50 + functionState.meta.turn;
+	}
 	else{
 		return functionState;
+	}
+
+	const newEvent = `${newCharacters[charId].name} was assigned as a ${assignmentType}`;
+
+	if(isMission){
+		newCharacters[charId] = { ...newCharacters[charId], assignment: { type: assignmentType, id: assignmentTargetId, duration: missionDuration }, history: { ...newCharacters[charId].history, events: [ ...newCharacters[charId].history.events, newEvent]}};
+	}
+	else{
+		newCharacters[charId] = { ...newCharacters[charId], assignment: { type: assignmentType, id: assignmentTargetId }, history: { ...newCharacters[charId].history, events: [ ...newCharacters[charId].history.events, newEvent]}};
 	}
 	
 	return {
@@ -163,6 +176,9 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	}
 	else if(newCharacters[charId].assignment.type === 'scientist' || newCharacters[charId].assignment.type === 'academyPresident'){
 		newBuildings[newCharacters[charId].assignment.id] = { ...newBuildings[newCharacters[charId].assignment.id], assignedCharacter: null };
+	}
+	else if(newCharacters[charId].assignment.type === 'diplomat'){
+		newOrgs[newCharacters[charId].assignment.id] = { ...newOrgs[newCharacters[charId].assignment.id], diplomacy: { ...newOrgs[newCharacters[charId].assignment.id].diplomacy, residentDiplomats: newOrgs[newCharacters[charId].assignment.id].diplomacy.residentDiplomats.filter(id => id !== charId) }};
 	}
 	else{
 		return currentState;
