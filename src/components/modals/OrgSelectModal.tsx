@@ -73,6 +73,7 @@ function OrgSelectModal() {
 				: <button onClick={() => sendDiploRequest({targetOrgId: orgToShow.id, originOrgId: 1, requestType: 'war' })}>Declare War</button>}
 
 			<button onClick={() => openAssignModal("send_trade", {targetId: orgToShow.id, position: 'admiral'})}>Send Trade Offer</button>
+			<button onClick={() => openAssignModal("assign_character", {targetId: orgToShow.id, position: 'diplomat'})}>Send Diplomatic Mission</button>
 			<h3>International Relations:</h3>
 			<ul>
 				{orgRelations.map(relation => {
