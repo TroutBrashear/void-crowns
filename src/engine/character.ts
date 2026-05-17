@@ -161,7 +161,7 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	else if(newCharacters[charId].assignment.type === 'surveyor'){
 		newShips[newCharacters[charId].assignment.id] = { ...newShips[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
-	else if(newCharacters[charId].assignment.type === 'scientist' || assignmentType === 'academyPresident'){
+	else if(newCharacters[charId].assignment.type === 'scientist' || newCharacters[charId].assignment.type === 'academyPresident'){
 		newBuildings[newCharacters[charId].assignment.id] = { ...newBuildings[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
 	else{
@@ -326,7 +326,7 @@ export function processCharacterCycles(currentState: GameState): GameState {
 			
 			//is the character carrying out a Mission Assignment?
 			if(currentCharacter.assignment && currentCharacter.assignment.duration){
-				if(currentCharacter.assignment.duration >= functionState.meta.currentTurn){
+				if(currentCharacter.assignment.duration >= functionState.meta.turn){
 					functionState = engineUnassignCharacter(functionState, charId);
 				}
 			}
