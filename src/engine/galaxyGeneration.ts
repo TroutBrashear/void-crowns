@@ -80,12 +80,12 @@ function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, pl
 	return updatedPlanetoid;
 }
 
-export function generatePlanet(): Planetoid {
+export function generatePlanet(starId: number, systemId: number, nextPlanId: number): Planetoid {
 	let planet: Planetoid = {
-		id: nextPlanId++,
+		id: nextPlanId,
 		name: `${nextSystem.name} ${j + 1}`, //probably will have a naming algorithm using both presets and derived names like this
-		parentPlanetoidId: star.id,
-		locationSystemId: nextSystem.id,
+		parentPlanetoidId: starId,
+		locationSystemId: nextSystemId,
 		classification: 'planet',
 		environment: planetEnvironment(),
 		ownerNationId: null,
@@ -224,13 +224,38 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			//add planets
 			const numPlanetoids = Math.floor((Math.random() * 6) + (Math.random() * 4));
 			for(let j = 0; j < numPlanetoids; j++){
-				let planet = generatePlanet();
+				const asteroidFlip = Math.random() * 20;
+				let planet: Planetoid;
+				if(asteroidFlip > 2){
+					planet = generatePlanet(star.id, nextSystem.id, nextPlanId);
+					nextPlanId++;
+				}
+				else{
+					planet = {
+						id: nexPlanId++,
+						name: `Asteroid Belt ${nextSystem.name} ${j+1}`
+						parentPlanetoidId: star.id,
+						locationSystemId: nextSystem.id,
+						classification: 'asteroid',
+						environment: "Asteroid Belt",
+						ownerNationId: null,
+						size: 10,
+						population: 0,
+						buildings: [],
+						tags: [],
+						deposits: [],
+					}
+
+				}
 
 				systemPlanetoids.push(planet);
 
 				let numMoons;
 				if(planet.environment === 'Gaseous'){
 					numMoons = Math.floor(Math.random() * 8);
+				}
+				else if(planet.environment === 'Asteroid Belt'){
+					numMoons = 0;
 				}
 				else {
 					numMoons = Math.floor(Math.random() * 8) - 5;
