@@ -68,7 +68,7 @@ function CharacterAssignModal() {
     else if(characterAssignTarget?.position === 'diplomat'){
         targetEntity = getOrgById(characterAssignTarget.targetId);
         if(targetEntity){
-            targetOwnerOrg = targetEntity;
+            targetOwnerOrg = getOrgById(1);
             targetName = targetEntity.flavor.name;
         }
     }

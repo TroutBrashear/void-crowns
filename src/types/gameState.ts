@@ -199,7 +199,7 @@ export interface Org {
   childIds: number[];
 
   diplomacy: {
-    relations: OrgRelation[];
+    relations: Record<number, OrgRelation>;
     incomingRequests: DiploRequest[];
     residentDiplomats: number[];
   }
