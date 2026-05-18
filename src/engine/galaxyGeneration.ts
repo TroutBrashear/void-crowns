@@ -246,6 +246,8 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 						deposits: [],
 					}
 
+					planet.deposits = generatePlanetoidDeposits(planet);
+
 				}
 
 				systemPlanetoids.push(planet);
