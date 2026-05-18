@@ -30,6 +30,9 @@ function planetEnvironment(): string {
 	if(wetnessRoll < 20 && temperatureRoll < 20){
 		return 'Barren';
 	}
+	else if(wetnessRoll < 20 && temperatureRoll > 75){
+		return 'Desert';
+	}
 	else if(wetnessRoll > 70 && temperatureRoll < 20){
 		return 'Frozen'
 	}
@@ -227,7 +230,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 				const asteroidFlip = Math.random() * 20;
 				let planet: Planetoid;
 				if(asteroidFlip > 2){
-					planet = generatePlanet(star.id, nextSystem.id, nextPlanId);
+					planet = generatePlanet(star.id, nextSystem, nextPlanId);
 					nextPlanId++;
 				}
 				else{
