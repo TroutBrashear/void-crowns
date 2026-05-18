@@ -22,24 +22,25 @@ function calcDistance(systemA: System, systemB: System): number {
 }
 
 function planetEnvironment(): string {
-	const envDieRoll = Math.random() * 100;
-	if(envDieRoll < 35){
+	const wetnessRoll = Math.random() * 100;
+	const temperatureRoll = Math.random() * 100; //TODO: based on star type and distance?
+
+	//TODO: restore Gaseous world type
+
+	if(wetnessRoll < 20 && temperatureRoll < 20){
 		return 'Barren';
 	}
-	else if(envDieRoll < 50){
-		return 'Gaseous';
+	else if(wetnessRoll > 70 && temperatureRoll < 20){
+		return 'Frozen'
 	}
-	else if(envDieRoll < 65){
-		return 'Frozen';
-	}
-	else if(envDieRoll < 75){
+	else if((wetnessRoll > 60 && wetnessRoll < 80) && (temperatureRoll > 50 && temperatureRoll < 70)){
 		return 'Temperate';
 	}
-	else if(envDieRoll < 90){
+	else if(wetnessRoll > 75 && temperatureRoll > 70){
 		return 'Humid';
 	}
 	else{
-		return 'Molten';
+		return 'Barren';
 	}
 }
 
@@ -233,7 +234,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 				else{
 					planet = {
 						id: nexPlanId++,
-						name: `Asteroid Belt ${nextSystem.name} ${j+1}`
+						name: `Asteroid Belt ${nextSystem.name} ${j+1}`,
 						parentPlanetoidId: star.id,
 						locationSystemId: nextSystem.id,
 						classification: 'asteroid',
