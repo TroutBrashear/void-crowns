@@ -43,6 +43,32 @@ function planetEnvironment(): string {
 	}
 }
 
+function starType(): string {
+	const envDieRoll = Math.random() * 100;
+	if(envDieRoll < 50){
+		return 'Red Dwarf';
+	}
+	else if(envDieRoll < 70){
+		return 'Orange Dwarf';
+	}
+	else if(envDieRoll < 80){
+		return 'Yellow Dwarf';
+	}
+	else if(envDieRoll < 85){
+		return 'White Star';
+	}
+	else if(envDieRoll < 90){
+		return 'Blue Star';
+	}
+	else if(envDieRoll < 94){
+		return 'Blue Giant';
+	}
+	else{
+		return 'Brown Dwarf';
+	}
+
+}
+
 
 //TAG EFFECTS
 function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, planetoid: Planetoid): Planetoid {
@@ -150,7 +176,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 				parentPlanetoidId: null,
 				locationSystemId: nextSystem.id,
 				classification: 'gravWell',
-				environment: 'star',
+				environment: starType(),
 				ownerNationId: null,
 				size: 80,
 				population: 0,
