@@ -69,7 +69,6 @@ function starType(): string {
 
 }
 
-
 //TAG EFFECTS
 function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, planetoid: Planetoid): Planetoid {
 	const updatedPlanetoid = planetoid;
@@ -80,6 +79,41 @@ function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, pl
 
 	return updatedPlanetoid;
 }
+
+export function generatePlanet(): Planetoid {
+	let planet: Planetoid = {
+		id: nextPlanId++,
+		name: `${nextSystem.name} ${j + 1}`, //probably will have a naming algorithm using both presets and derived names like this
+		parentPlanetoidId: star.id,
+		locationSystemId: nextSystem.id,
+		classification: 'planet',
+		environment: planetEnvironment(),
+		ownerNationId: null,
+		size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
+		population: 0,
+		buildings: [],
+		tags: [],
+		deposits: [],
+	};
+
+	//apply potential tag(s)
+	if(Math.floor(Math.random()*20) < 2){
+		const chosenTagId = planetoidTagKeys[Math.floor(Math.random() * planetoidTagKeys.length)];
+
+		const chosenTag = PLANETOID_TAGS[chosenTagId];
+		if(chosenTag.generationEffects){
+			planet = applyPlanetoidGenerationProcess(chosenTag.generationEffects, planet);
+		}
+
+		planet.tags.push(chosenTagId);
+	}
+
+	planet.deposits = generatePlanetoidDeposits(planet);
+
+
+	return planet;
+}
+
 
 export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	let newDeposits: Deposit[] = [];
@@ -190,35 +224,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			//add planets
 			const numPlanetoids = Math.floor((Math.random() * 6) + (Math.random() * 4));
 			for(let j = 0; j < numPlanetoids; j++){
-				let planet: Planetoid = {
-					id: nextPlanId++,
-					name: `${nextSystem.name} ${j + 1}`, //probably will have a naming algorithm using both presets and derived names like this
-					parentPlanetoidId: star.id,
-					locationSystemId: nextSystem.id,
-					classification: 'planet',
-					environment: planetEnvironment(),
-					ownerNationId: null,
-					size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
-					population: 0,
-					buildings: [],
-					tags: [],
-					deposits: [],
-				};
-
-				//apply potential tag(s)
-				if(Math.floor(Math.random()*20) < 2){
-					const chosenTagId = planetoidTagKeys[Math.floor(Math.random() * planetoidTagKeys.length)];
-
-					const chosenTag = PLANETOID_TAGS[chosenTagId];
-
-					if(chosenTag.generationEffects){
-						planet = applyPlanetoidGenerationProcess(chosenTag.generationEffects, planet);
-					}
-
-					planet.tags.push(chosenTagId);
-				}
-
-				planet.deposits = generatePlanetoidDeposits(planet);
+				let planet = generatePlanet();
 
 				systemPlanetoids.push(planet);
 
