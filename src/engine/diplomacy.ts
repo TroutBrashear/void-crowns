@@ -187,14 +187,14 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 
 		if(nextState.meta.turn % 10 === 0){
 			//handle resident diplomats - loop through and update relations with originOrgId
-			for(const diplomatId of currentOrg.relations.residentDiplomats){
+			for(const diplomatId of currentOrg.diplomacy.residentDiplomats){
 
 				const diplomat = nextState.characters.entities[diplomatId];
 
 				const diploRoll = Math.floor(Math.random() * diplomat.skills.diplomacy);
 
 				const updatedRel = currentOrg.diplomacy.relations.map(rel =>
-					rel.targetOrgId === diplomat.citizenOrg ? { ...rel, opinion: currentOrg.diplomacy.relations.opinion + diploRoll } : rel
+					rel.targetOrgId === diplomat.citizenOrg ? { ...rel, opinion: rel.opinion + diploRoll } : rel
 				);
 
 				currentOrg  = { ...currentOrg, diplomacy: { ...currentOrg.diplomacy, relations: updatedRel }};
