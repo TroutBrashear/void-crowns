@@ -119,7 +119,7 @@ export function evaluateAiTradeNeeds(currentState: GameState, currentOrgId: numb
 export function evaluateAiRelations(currentState: GameState, currentOrgId: number, targetOrgId: number): DiploType | null {
     const currentOrg = currentState.orgs.entities[currentOrgId];
 
-    const currentRelations = currentOrg.diplomacy.relations.find(rel => rel.targetOrgId === targetOrgId);
+    const currentRelations = currentOrg.diplomacy.relations[targetOrgId];
 
     if(!currentRelations){
         return null;

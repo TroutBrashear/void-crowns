@@ -375,7 +375,6 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 		entities:  tempLaneEntities,
 		ids: newLanes.map(p => p.id),
 	};
-	console.log('loop');
 	disconnectedSystems = newGalaxy.filter(system => {
       if (system.id === 1) return false;
       const pathToSystem1 = findPath(system.id, 1, tempSystems, tempLanes);
@@ -469,7 +468,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			parentId: null,
 			childIds: [],
 			diplomacy: {
-				relations: [],
+				relations: {},
 				incomingRequests: [],
 				residentDiplomats: [],
 			},
@@ -506,7 +505,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			parentId: i + 1,
 			childIds: [],
 			diplomacy: {
-				relations: [],
+				relations: {},
 				incomingRequests: [],
 				residentDiplomats: [],
 			},
@@ -544,7 +543,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				opinion: 0,
 			};
 
-			org.diplomacy.relations.push(relation);
+			org.diplomacy.relations[targetOrg.id] = relation;
 		}
 	}
 

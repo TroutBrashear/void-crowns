@@ -6,7 +6,7 @@ export function getRelationship(gameState: GameState, firstOrgId: number, second
 	const firstOrg = gameState.orgs.entities[firstOrgId];
 
 	if(firstOrg){
-		const relations = firstOrg.diplomacy.relations.find(rel => rel.targetOrgId === secondOrgId);
+		const relations = firstOrg.diplomacy.relations[secondOrgId];
 
 		if(relations){
 			return relations;
@@ -25,23 +25,15 @@ export function getRelationship(gameState: GameState, firstOrgId: number, second
 export function engineUpdateRelationship(currentState: GameState, firstOrgId: number, secondOrgId: number, newStatus: 'war' | 'peace'): GameState {
 	let nextState = { ...currentState };
 
-	const firstOrg = nextState.orgs.entities[firstOrgId];
-	const secondOrg = nextState.orgs.entities[secondOrgId];
+	let firstOrg = nextState.orgs.entities[firstOrgId];
+	let secondOrg = nextState.orgs.entities[secondOrgId];
 
 	if (!firstOrg || !secondOrg){
 		return nextState;
 	}
 
-	const firstUpdatedRel = firstOrg.diplomacy.relations.map(rel =>
-		rel.targetOrgId === secondOrgId ? { ...rel, status: newStatus } : rel
-	);
-
-	const secondUpdatedRel = secondOrg.diplomacy.relations.map(rel =>
-		rel.targetOrgId === firstOrgId ? { ...rel, status: newStatus } : rel
-	);
-
-	const updatedFirstOrg = { ...firstOrg, diplomacy: { ...firstOrg.diplomacy, relations: firstUpdatedRel }};
-	const updatedSecondOrg = { ...secondOrg, diplomacy: { ...secondOrg.diplomacy, relations: secondUpdatedRel }};
+	firstOrg = { ...firstOrg, diplomacy: { ...firstOrg.diplomacy, relations: { ...firstOrg.diplomacy.relations, [secondOrgId]: { ...firstOrg.diplomacy.relations[secondOrgId], status: newStatus }} }};
+	secondOrg = { ...secondOrg, diplomacy: { ...secondOrg.diplomacy, relations: { ...secondOrg.diplomacy.relations, [firstOrgId]: { ...secondOrg.diplomacy.relations[firstOrgId], status: newStatus }} }};
 
 	return {
 		...nextState,
@@ -49,8 +41,8 @@ export function engineUpdateRelationship(currentState: GameState, firstOrgId: nu
 			...nextState.orgs,
 			entities: {
 				...nextState.orgs.entities,
-				[firstOrgId]: updatedFirstOrg,
-				[secondOrgId]: updatedSecondOrg,
+				[firstOrgId]: firstOrg,
+				[secondOrgId]: secondOrg,
 			},
 		},
 	};
@@ -191,13 +183,13 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 
 				const diplomat = nextState.characters.entities[diplomatId];
 
+				console.log(diplomat);
+
 				const diploRoll = Math.floor(Math.random() * diplomat.skills.diplomacy);
 
-				const updatedRel = currentOrg.diplomacy.relations.map(rel =>
-					rel.targetOrgId === diplomat.citizenOrg ? { ...rel, opinion: rel.opinion + diploRoll } : rel
-				);
+				const updatedRel = { ...currentOrg.diplomacy.relations[diplomat.citizenOrg], opinion: currentOrg.diplomacy.relations[diplomat.citizenOrg].opinion + diploRoll };
 
-				currentOrg  = { ...currentOrg, diplomacy: { ...currentOrg.diplomacy, relations: updatedRel }};
+				currentOrg  = { ...currentOrg, diplomacy: { ...currentOrg.diplomacy, relations: { ...currentOrg.diplomacy.relations, [diplomat.citizenOrg]: updatedRel }}};
 
 			}
 

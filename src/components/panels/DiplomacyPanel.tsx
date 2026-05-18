@@ -19,7 +19,7 @@ function DiplomacyPanel() {
 
     const incomingRequests = playerOrg.diplomacy.incomingRequests;
 
-    const orgRelations = playerOrg.diplomacy.relations;
+    const orgRelations = Object.values(playerOrg.diplomacy.relations);
 
     return (
         <div className={styles.panel}>
