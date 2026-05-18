@@ -81,12 +81,14 @@ function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, pl
 	return updatedPlanetoid;
 }
 
-export function generatePlanet(starId: number, systemId: number, nextPlanId: number): Planetoid {
+export function generatePlanet(starId: number, system: System, nextPlanId: number): Planetoid {
+	let planetoidTagKeys = Object.keys(PLANETOID_TAGS);
+
 	let planet: Planetoid = {
 		id: nextPlanId,
-		name: `${nextSystem.name} ${j + 1}`, //probably will have a naming algorithm using both presets and derived names like this
+		name: `${system.name} ${nextPlanId}`, //probably will have a naming algorithm using both presets and derived names like this
 		parentPlanetoidId: starId,
-		locationSystemId: nextSystemId,
+		locationSystemId: system.id,
 		classification: 'planet',
 		environment: planetEnvironment(),
 		ownerNationId: null,
@@ -151,9 +153,6 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 	let newLanes: Lane[] = [];
 	let nextLaneId = 0;
 	let createdLanes = new Set<string>();
-
-	//tag dicts
-	let planetoidTagKeys = Object.keys(PLANETOID_TAGS);
 
 	//naming dicts
 	let availableSystemNames = shuffle([...SYSTEM_NAMES]);
@@ -233,7 +232,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 				}
 				else{
 					planet = {
-						id: nexPlanId++,
+						id: nextPlanId++,
 						name: `Asteroid Belt ${nextSystem.name} ${j+1}`,
 						parentPlanetoidId: star.id,
 						locationSystemId: nextSystem.id,
