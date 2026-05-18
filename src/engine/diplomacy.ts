@@ -183,7 +183,7 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 
 				const diplomat = nextState.characters.entities[diplomatId];
 
-				if(!diplomat){
+				if(!diplomat || !diplomat.citizenOrg){
 					continue;
 				}
 

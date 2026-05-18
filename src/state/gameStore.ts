@@ -30,8 +30,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
   const updateBilateralRelation = (firstOrgId: number, secondOrgId: number, newStatus: 'war' | 'peace') => {
     set((state) => {
-        const firstOrg = state.orgs.entities[firstOrgId];
-        const secondOrg = state.orgs.entities[secondOrgId];
+        let firstOrg = state.orgs.entities[firstOrgId];
+        let secondOrg = state.orgs.entities[secondOrgId];
 
         if (!firstOrg || !secondOrg){
           return state;
@@ -45,8 +45,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
             ...state.orgs,
             entities: {
               ...state.orgs.entities,
-              [firstOrgId]: updatedFirstOrg,
-              [secondOrgId]: updatedSecondOrg,
+              [firstOrgId]: firstOrg,
+              [secondOrgId]: secondOrg,
           },
         },
       };
