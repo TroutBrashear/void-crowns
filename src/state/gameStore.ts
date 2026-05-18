@@ -37,18 +37,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
           return state;
         }
 
-        const firstUpdatedRel = firstOrg.diplomacy.relations.map(rel =>
-          rel.targetOrgId === secondOrgId ? { ...rel, status: newStatus } : rel
-        ); 
+        firstOrg = { ...firstOrg, diplomacy: { ...firstOrg.diplomacy, relations: { ...firstOrg.diplomacy.relations, [secondOrgId]: { ...firstOrg.diplomacy.relations[secondOrgId], status: newStatus }} }};
+        secondOrg = { ...secondOrg, diplomacy: { ...secondOrg.diplomacy, relations: { ...secondOrg.diplomacy.relations, [firstOrgId]: { ...secondOrg.diplomacy.relations[firstOrgId], status: newStatus }} }};
 
-        const secondUpdatedRel = secondOrg.diplomacy.relations.map(rel =>
-          rel.targetOrgId === firstOrgId ? { ...rel, status: newStatus } : rel
-        );
-
-        const updatedFirstOrg = { ...firstOrg, diplomacy: { ...firstOrg.diplomacy, relations: firstUpdatedRel }};
-        const updatedSecondOrg = { ...secondOrg, diplomacy: { ...secondOrg.diplomacy, relations: secondUpdatedRel }};
-
-        console.log(updatedFirstOrg);
         return {
           orgs: {
             ...state.orgs,

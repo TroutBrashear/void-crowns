@@ -183,7 +183,9 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 
 				const diplomat = nextState.characters.entities[diplomatId];
 
-				console.log(diplomat);
+				if(!diplomat){
+					continue;
+				}
 
 				const diploRoll = Math.floor(Math.random() * diplomat.skills.diplomacy);
 
