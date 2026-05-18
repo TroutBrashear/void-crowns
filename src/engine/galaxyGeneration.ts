@@ -409,6 +409,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			diplomacy: {
 				relations: [],
 				incomingRequests: [],
+				residentDiplomats: [],
 			},
 			contextHistory: {
 				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0 },
@@ -445,6 +446,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			diplomacy: {
 				relations: [],
 				incomingRequests: [],
+				residentDiplomats: [],
 			},
 			contextHistory: {
 				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0 },

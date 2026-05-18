@@ -183,9 +183,36 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 
 		nextState = evaluateAiTradeNeeds(nextState, orgId);
 
-		let currentOrg = nextState.orgs.entities[orgId];
+		let currentOrg = { ...nextState.orgs.entities[orgId]};
 
+		if(nextState.meta.turn % 10 === 0){
+			//handle resident diplomats - loop through and update relations with originOrgId
+			for(const diplomatId of currentOrg.relations.residentDiplomats){
 
+				const diplomat = nextState.characters.entities[diplomatId];
+
+				const diploRoll = Math.floor(Math.random() * diplomat.skills.diplomacy);
+
+				const updatedRel = currentOrg.diplomacy.relations.map(rel =>
+					rel.targetOrgId === diplomat.citizenOrg ? { ...rel, opinion: currentOrg.diplomacy.relations.opinion + diploRoll } : rel
+				);
+
+				currentOrg  = { ...currentOrg, diplomacy: { ...currentOrg.diplomacy, relations: updatedRel }};
+
+			}
+
+			nextState = {
+				...nextState,
+				orgs: {
+					...nextState.orgs,
+					entities: {
+						...nextState.orgs.entities,
+						[orgId]: currentOrg
+					}
+				}
+			}
+
+		}
 
 		//INCOMING REQUESTS. loop handles all incoming requests an org might have, giving each a response.
 		for(const request of currentOrg.diplomacy.incomingRequests){
