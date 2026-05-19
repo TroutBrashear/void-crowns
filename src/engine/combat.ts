@@ -179,17 +179,11 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 	let shipIds = [ ...currentState.milShips.ids];
 
 	//determine winner
+	let nextState = { ...currentState };
 	if(fleetScoreA > fleetScoreB){
 		winnerId = fleetsInSystemFactionA[0].ownerNationId;
 		for(const fleet of fleetsInSystemFactionB){
-			//mark ships as wrecks
-			for(const shipId of fleet.ships){
-				shipEntities[shipId] = {
-					...shipEntities[shipId],
-					status: "wreck"
-				};
-				shipIds.splice(shipIds.indexOf(shipId), 1);
-			}
+			nextState = createDebris(nextState, fleet.ships, fleet.locationSystemId);
 
 			delete fleetEntities[fleet.id];
 			fleetIds.splice(fleetIds.indexOf(fleet.id), 1);
@@ -198,23 +192,17 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 	else{
 		winnerId = fleetsInSystemFactionB[0].ownerNationId;
 		for(const fleet of fleetsInSystemFactionA){	
-			//mark ships as wrecks
-			for(const shipId of fleet.ships){
-				shipEntities[shipId] = {
-					...shipEntities[shipId],
-					status: "wreck"
-				};
-				shipIds.splice(shipIds.indexOf(shipId), 1);
-			}
+			nextState = createDebris(nextState, fleet.ships, fleet.locationSystemId);
+
 			delete fleetEntities[fleet.id];
 			fleetIds.splice(fleetIds.indexOf(fleet.id), 1);
 		}
 	}
 	
 
-	//newState to be returned
-	const newState = {
-		...currentState,
+
+	nextState = {
+		...nextState,
 		fleets: {
 			entities: fleetEntities,
 			ids: fleetIds,
@@ -239,7 +227,7 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 
   	events.push(battleResultEvent);
   	return { 
-  		newState: newState,
+  		newState: nextState,
   		events: events,
   	};
 }
