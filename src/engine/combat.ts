@@ -1,4 +1,4 @@
-import type { GameState, Fleet, GameEvent, EngineResult } from '../types/gameState';
+import type { GameState, Fleet, Planetoid, GameEvent, EngineResult } from '../types/gameState';
 import { getRelationship } from './diplomacy';
 
 function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] {
@@ -69,14 +69,14 @@ function calculateFleetCombatScore(currentState: GameState, fleetId: number): nu
 	return combatScore;
 }
 
-export function createDebris(currentState: GameState, shipIds: number[]): GameState {
-	let shipIds = [ ...currentState.ships.ids ];
-	let ships = { ...currentState.ships.entities };
+export function createDebris(currentState: GameState, invShipIds: number[], locationId: number): GameState {
+	let shipIds = [ ...currentState.milShips.ids ];
+	let ships = { ...currentState.milShips.entities };
 
 	let debrisIds: number[] = [];
 
 	//for each ship, swap status to wreck and add it to our array
-	for(const shipId of shipIds){
+	for(const shipId of invShipIds){
 		let newShip = { ...ships[shipId]};
 
 		if(!newShip){
@@ -91,12 +91,53 @@ export function createDebris(currentState: GameState, shipIds: number[]): GameSt
 		debrisIds.push(shipId);
 	}
 
+	//create the new Planetoid entity for the debris field
+	let planId = currentState.meta.lastPlanetoidId;
+	planId++;
+	let locationSystem = { ...currentState.systems.entities[locationId]};
+
+	let newDebrisField: Planetoid = {
+		id: planId,
+		name: 'Debris Field',
+		parentPlanetoidId: locationSystem.planetoids[0],
+		locationSystemId: locationId,
+		classification: 'debris',
+		environment: 'debris',
+		ownerNationId: null,
+		size: debrisIds.length,
+		population: 0,
+		buildings: [],
+		tags: [],
+		deposits: [],
+		construct:{
+			shipDebris: debrisIds
+		}
+	};
+
+	locationSystem = { ...locationSystem, planetoids: [ ...locationSystem.planetoids, planId]};
+
 	return {
 		...currentState,
-		ships: {
-			...currentState.ships,
+		meta: {
+			...currentState.meta,
+			lastPlanetoidId: planId
+		},
+		milShips: {
+			...currentState.milShips,
 			ids: shipIds,
 			entities: ships
+		},
+		planetoids: {
+			...currentState.planetoids,
+			entities: { ...currentState.planetoids.entities, [planId]: newDebrisField},
+			ids: [ ...currentState.planetoids.ids, planId],
+		},
+		systems: {
+			...currentState.systems,
+			entities: {
+				...currentState.systems.entities,
+				[locationId]: locationSystem
+			}
 		}
 	};
 }
