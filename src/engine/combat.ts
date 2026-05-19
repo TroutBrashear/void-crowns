@@ -1,4 +1,4 @@
-import type { GameState, Fleet, GameEvent, EngineResult } from '../types/gameState';
+import type { GameState, Fleet, Planetoid, GameEvent, EngineResult } from '../types/gameState';
 import { getRelationship } from './diplomacy';
 
 function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] {
@@ -69,6 +69,89 @@ function calculateFleetCombatScore(currentState: GameState, fleetId: number): nu
 	return combatScore;
 }
 
+export function createDebris(currentState: GameState, invShipIds: number[], locationId: number): GameState {
+	let shipIds = [ ...currentState.milShips.ids ];
+	let ships = { ...currentState.milShips.entities };
+
+	let debrisIds: number[] = [];
+	let dropIds: number[] = [];
+
+	//for each ship, swap status to wreck and add it to our array
+	for(const shipId of invShipIds){
+		let newShip = { ...ships[shipId]};
+
+		const coinFlip = Math.random() * 5;
+
+		if(!newShip || coinFlip < 2){
+			dropIds.push(shipId);
+			continue;
+		}
+
+		ships[shipId] = {
+			...ships[shipId],
+			status: 'wreck',
+			parentFleet: null
+		}
+
+		debrisIds.push(shipId);
+	}
+
+	for(const shipId of dropIds){
+		shipIds = shipIds.filter(id => id !== shipId);
+		delete ships[shipId];
+	}
+	//create the new Planetoid entity for the debris field
+	let planId = currentState.meta.lastPlanetoidId;
+	planId++;
+	let locationSystem = { ...currentState.systems.entities[locationId]};
+
+	let newDebrisField: Planetoid = {
+		id: planId,
+		name: 'Debris Field',
+		parentPlanetoidId: locationSystem.planetoids[0],
+		locationSystemId: locationId,
+		classification: 'debris',
+		environment: 'debris',
+		ownerNationId: null,
+		size: debrisIds.length,
+		population: 0,
+		buildings: [],
+		tags: [],
+		deposits: [],
+		construct:{
+			shipDebris: debrisIds
+		}
+	};
+
+	locationSystem = { ...locationSystem, planetoids: [ ...locationSystem.planetoids, planId]};
+
+	return {
+		...currentState,
+		meta: {
+			...currentState.meta,
+			lastPlanetoidId: planId
+		},
+		milShips: {
+			...currentState.milShips,
+			ids: shipIds,
+			entities: ships
+		},
+		planetoids: {
+			...currentState.planetoids,
+			entities: { ...currentState.planetoids.entities, [planId]: newDebrisField},
+			ids: [ ...currentState.planetoids.ids, planId],
+		},
+		systems: {
+			...currentState.systems,
+			entities: {
+				...currentState.systems.entities,
+				[locationId]: locationSystem
+			}
+		}
+	};
+}
+
+
 function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[], fleetsInSystemFactionB: Fleet[]): EngineResult {
 	let fleetScoreA = 0;
 	let fleetScoreB = 0;
@@ -87,58 +170,37 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 	}
 	
 	const fleetEntities = { ...currentState.fleets.entities };
-	const fleetIds = [...currentState.fleets.ids];
-	 const participatingFactions = [fleetsInSystemFactionA[0].ownerNationId, fleetsInSystemFactionB[0].ownerNationId];
+	let fleetIds = [...currentState.fleets.ids];
+	const participatingFactions = [fleetsInSystemFactionA[0].ownerNationId, fleetsInSystemFactionB[0].ownerNationId];
 
 	let winnerId = -1;
 
-	let shipEntities = { ... currentState.milShips.entities };
-	let shipIds = [ ...currentState.milShips.ids];
-
 	//determine winner
+	let nextState = { ...currentState };
 	if(fleetScoreA > fleetScoreB){
 		winnerId = fleetsInSystemFactionA[0].ownerNationId;
 		for(const fleet of fleetsInSystemFactionB){
-			//mark ships as wrecks
-			for(const shipId of fleet.ships){
-				shipEntities[shipId] = {
-					...shipEntities[shipId],
-					status: "wreck"
-				};
-				shipIds.splice(shipIds.indexOf(shipId), 1);
-			}
+			nextState = createDebris(nextState, fleet.ships, fleet.locationSystemId);
 
 			delete fleetEntities[fleet.id];
-			fleetIds.splice(fleetIds.indexOf(fleet.id), 1);
+			fleetIds = fleetIds.filter(id => id !== fleet.id);
 		}
 	}
 	else{
 		winnerId = fleetsInSystemFactionB[0].ownerNationId;
 		for(const fleet of fleetsInSystemFactionA){	
-			//mark ships as wrecks
-			for(const shipId of fleet.ships){
-				shipEntities[shipId] = {
-					...shipEntities[shipId],
-					status: "wreck"
-				};
-				shipIds.splice(shipIds.indexOf(shipId), 1);
-			}
+			nextState = createDebris(nextState, fleet.ships, fleet.locationSystemId);
+
 			delete fleetEntities[fleet.id];
-			fleetIds.splice(fleetIds.indexOf(fleet.id), 1);
+			fleetIds = fleetIds.filter(id => id !== fleet.id);
 		}
 	}
-	
 
-	//newState to be returned
-	const newState = {
-		...currentState,
+	nextState = {
+		...nextState,
 		fleets: {
 			entities: fleetEntities,
 			ids: fleetIds,
-		},
-		milShips: {
-			entities: shipEntities,
-			ids: shipIds,
 		}
 	};
 	
@@ -156,7 +218,7 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 
   	events.push(battleResultEvent);
   	return { 
-  		newState: newState,
+  		newState: nextState,
   		events: events,
   	};
 }
