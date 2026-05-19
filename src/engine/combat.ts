@@ -69,6 +69,39 @@ function calculateFleetCombatScore(currentState: GameState, fleetId: number): nu
 	return combatScore;
 }
 
+export function createDebris(currentState: GameState, shipIds: number[]): GameState {
+	let shipIds = [ ...currentState.ships.ids ];
+	let ships = { ...currentState.ships.entities };
+
+	let debrisIds: number[] = [];
+
+	//for each ship, swap status to wreck and add it to our array
+	for(const shipId of shipIds){
+		let newShip = { ...ships[shipId]};
+
+		if(!newShip){
+			continue;
+		}
+
+		ships[shipId] = {
+			...ships[shipId],
+			status: 'wreck'
+		}
+
+		debrisIds.push(shipId);
+	}
+
+	return {
+		...currentState,
+		ships: {
+			...currentState.ships,
+			ids: shipIds,
+			entities: ships
+		}
+	};
+}
+
+
 function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[], fleetsInSystemFactionB: Fleet[]): EngineResult {
 	let fleetScoreA = 0;
 	let fleetScoreB = 0;
