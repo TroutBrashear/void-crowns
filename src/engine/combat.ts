@@ -170,8 +170,8 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 	}
 	
 	const fleetEntities = { ...currentState.fleets.entities };
-	const fleetIds = [...currentState.fleets.ids];
-	 const participatingFactions = [fleetsInSystemFactionA[0].ownerNationId, fleetsInSystemFactionB[0].ownerNationId];
+	let fleetIds = [...currentState.fleets.ids];
+	const participatingFactions = [fleetsInSystemFactionA[0].ownerNationId, fleetsInSystemFactionB[0].ownerNationId];
 
 	let winnerId = -1;
 
