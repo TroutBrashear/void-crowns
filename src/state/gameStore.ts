@@ -105,7 +105,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     nextState = combatResults.newState;
     tickEvents.push(...combatResults.events);
 
-	nextState = processCharacterCycles(nextState);
+	const charResults = processCharacterCycles(nextState);
+    nextState = charResults.newState;
+    tickEvents.push(...charResults.events);
 
     const diploResults = processDiplomacy(nextState);
     nextState = diploResults.newState;
