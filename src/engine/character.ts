@@ -1,4 +1,4 @@
-import type { GameState, Character, SkillName, CharProcess, CharacterAssignment } from '../types/gameState';
+import type { GameState, Character, SkillName, CharProcess, CharacterAssignment, EngineResult } from '../types/gameState';
 import { NAME_LISTS } from '../data/names';
 import { CHARACTER_EVENTS } from '../data/events';
 
@@ -297,8 +297,9 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 }
  
 //processCharacterCycles will be a function handling: ensuring that orgs have pools of eligible characters, and that characters age and die.
-export function processCharacterCycles(currentState: GameState): GameState {
+export function processCharacterCycles(currentState: GameState): EngineResult {
 	let functionState = { ...currentState };
+	let allCharEvents: GameEvent[] = [];
 	
 	let newCharacters = { ...functionState.characters.entities };
 	const characterIds = functionState.characters.ids;
@@ -394,8 +395,22 @@ export function processCharacterCycles(currentState: GameState): GameState {
 
 	//resolve character deaths
 	for(const id of deadCharacterIds){
+		let char = functionState.characters.entities[id];
+		if(char.citizenOrg){
+			const charEvent: GameEvent = {
+				type: 'char_result',
+				message: `${char.name} died.`,
+				involvedOrgIds: [char.citizenOrg],
+				isPlayerVisible: char.citizenOrg === 1,
+			};
+
+			allCharEvents.push(charEvent);
+		}
 		functionState = killCharacter(functionState, id);
 	}
 	
-	return functionState;
+	return {
+		newState: functionState,
+		events: allCharEvents,
+	};
 }
