@@ -175,9 +175,6 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 
 	let winnerId = -1;
 
-	let shipEntities = { ... currentState.milShips.entities };
-	let shipIds = [ ...currentState.milShips.ids];
-
 	//determine winner
 	let nextState = { ...currentState };
 	if(fleetScoreA > fleetScoreB){
@@ -186,7 +183,7 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 			nextState = createDebris(nextState, fleet.ships, fleet.locationSystemId);
 
 			delete fleetEntities[fleet.id];
-			fleetIds.splice(fleetIds.indexOf(fleet.id), 1);
+			fleetIds = fleetIds.filter(id => id !== fleet.id);
 		}
 	}
 	else{
@@ -195,21 +192,15 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
 			nextState = createDebris(nextState, fleet.ships, fleet.locationSystemId);
 
 			delete fleetEntities[fleet.id];
-			fleetIds.splice(fleetIds.indexOf(fleet.id), 1);
+			fleetIds = fleetIds.filter(id => id !== fleet.id);
 		}
 	}
-	
-
 
 	nextState = {
 		...nextState,
 		fleets: {
 			entities: fleetEntities,
 			ids: fleetIds,
-		},
-		milShips: {
-			entities: shipEntities,
-			ids: shipIds,
 		}
 	};
 	
