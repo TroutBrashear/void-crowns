@@ -80,7 +80,7 @@ export function createDebris(currentState: GameState, invShipIds: number[], loca
 	for(const shipId of invShipIds){
 		let newShip = { ...ships[shipId]};
 
-		const coinFlip = math.random() * 5;
+		const coinFlip = Math.random() * 5;
 
 		if(!newShip || coinFlip < 2){
 			dropIds.push(shipId);
@@ -89,7 +89,8 @@ export function createDebris(currentState: GameState, invShipIds: number[], loca
 
 		ships[shipId] = {
 			...ships[shipId],
-			status: 'wreck'
+			status: 'wreck',
+			parentFleet: null
 		}
 
 		debrisIds.push(shipId);
