@@ -1,4 +1,4 @@
-import type { GameState, Character, SkillName, CharProcess, CharacterAssignment, EngineResult } from '../types/gameState';
+import type { GameState, Character, SkillName, CharProcess, CharacterAssignment, EngineResult, GameEvent } from '../types/gameState';
 import { NAME_LISTS } from '../data/names';
 import { CHARACTER_EVENTS } from '../data/events';
 
