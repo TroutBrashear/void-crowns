@@ -16,7 +16,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 
 	let atWar = false;
 	const thinkingOrg = currentState.orgs.entities[orgId];
-	let opponentOrgs = thinkingOrg.diplomacy.relations.filter(relation => relation.status === 'war').map(relation => relation.targetOrgId);
+	let opponentOrgs = Object.values(thinkingOrg.diplomacy.relations).filter(relation => relation.status === 'war').map(relation => relation.targetOrgId);
 
 
 	if(opponentOrgs.length > 0){

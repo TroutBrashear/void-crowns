@@ -77,7 +77,6 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	if(!newCharacters[charId]){
 		return functionState;
 	}
-	
 
 	let isMission = false;
 	let missionDuration = 0;
@@ -121,6 +120,8 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 		newCharacters[charId] = { ...newCharacters[charId], assignment: { type: assignmentType, id: assignmentTargetId }, history: { ...newCharacters[charId].history, events: [ ...newCharacters[charId].history.events, newEvent]}};
 	}
 	
+	console.log(newCharacters[charId]);
+
 	return {
 		...functionState,
 		characters: {

@@ -22,27 +22,56 @@ function calcDistance(systemA: System, systemB: System): number {
 }
 
 function planetEnvironment(): string {
-	const envDieRoll = Math.random() * 100;
-	if(envDieRoll < 35){
+	const wetnessRoll = Math.random() * 100;
+	const temperatureRoll = Math.random() * 100; //TODO: based on star type and distance?
+
+	//TODO: restore Gaseous world type
+
+	if(wetnessRoll < 20 && temperatureRoll < 20){
 		return 'Barren';
 	}
-	else if(envDieRoll < 50){
-		return 'Gaseous';
+	else if(wetnessRoll < 20 && temperatureRoll > 75){
+		return 'Desert';
 	}
-	else if(envDieRoll < 65){
-		return 'Frozen';
+	else if(wetnessRoll > 70 && temperatureRoll < 20){
+		return 'Frozen'
 	}
-	else if(envDieRoll < 75){
+	else if((wetnessRoll > 60 && wetnessRoll < 80) && (temperatureRoll > 50 && temperatureRoll < 70)){
 		return 'Temperate';
 	}
-	else if(envDieRoll < 90){
+	else if(wetnessRoll > 75 && temperatureRoll > 70){
 		return 'Humid';
 	}
 	else{
-		return 'Molten';
+		return 'Barren';
 	}
 }
 
+function starType(): string {
+	const envDieRoll = Math.random() * 100;
+	if(envDieRoll < 50){
+		return 'Red Dwarf';
+	}
+	else if(envDieRoll < 70){
+		return 'Orange Dwarf';
+	}
+	else if(envDieRoll < 80){
+		return 'Yellow Dwarf';
+	}
+	else if(envDieRoll < 85){
+		return 'White Star';
+	}
+	else if(envDieRoll < 90){
+		return 'Blue Star';
+	}
+	else if(envDieRoll < 94){
+		return 'Blue Giant';
+	}
+	else{
+		return 'Brown Dwarf';
+	}
+
+}
 
 //TAG EFFECTS
 function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, planetoid: Planetoid): Planetoid {
@@ -54,6 +83,43 @@ function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, pl
 
 	return updatedPlanetoid;
 }
+
+export function generatePlanet(starId: number, system: System, nextPlanId: number): Planetoid {
+	let planetoidTagKeys = Object.keys(PLANETOID_TAGS);
+
+	let planet: Planetoid = {
+		id: nextPlanId,
+		name: `${system.name} ${nextPlanId}`, //probably will have a naming algorithm using both presets and derived names like this
+		parentPlanetoidId: starId,
+		locationSystemId: system.id,
+		classification: 'planet',
+		environment: planetEnvironment(),
+		ownerNationId: null,
+		size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
+		population: 0,
+		buildings: [],
+		tags: [],
+		deposits: [],
+	};
+
+	//apply potential tag(s)
+	if(Math.floor(Math.random()*20) < 2){
+		const chosenTagId = planetoidTagKeys[Math.floor(Math.random() * planetoidTagKeys.length)];
+
+		const chosenTag = PLANETOID_TAGS[chosenTagId];
+		if(chosenTag.generationEffects){
+			planet = applyPlanetoidGenerationProcess(chosenTag.generationEffects, planet);
+		}
+
+		planet.tags.push(chosenTagId);
+	}
+
+	planet.deposits = generatePlanetoidDeposits(planet);
+
+
+	return planet;
+}
+
 
 export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	let newDeposits: Deposit[] = [];
@@ -90,9 +156,6 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 	let newLanes: Lane[] = [];
 	let nextLaneId = 0;
 	let createdLanes = new Set<string>();
-
-	//tag dicts
-	let planetoidTagKeys = Object.keys(PLANETOID_TAGS);
 
 	//naming dicts
 	let availableSystemNames = shuffle([...SYSTEM_NAMES]);
@@ -150,7 +213,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 				parentPlanetoidId: null,
 				locationSystemId: nextSystem.id,
 				classification: 'gravWell',
-				environment: 'star',
+				environment: starType(),
 				ownerNationId: null,
 				size: 80,
 				population: 0,
@@ -164,41 +227,40 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 			//add planets
 			const numPlanetoids = Math.floor((Math.random() * 6) + (Math.random() * 4));
 			for(let j = 0; j < numPlanetoids; j++){
-				let planet: Planetoid = {
-					id: nextPlanId++,
-					name: `${nextSystem.name} ${j + 1}`, //probably will have a naming algorithm using both presets and derived names like this
-					parentPlanetoidId: star.id,
-					locationSystemId: nextSystem.id,
-					classification: 'planet',
-					environment: planetEnvironment(),
-					ownerNationId: null,
-					size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
-					population: 0,
-					buildings: [],
-					tags: [],
-					deposits: [],
-				};
-
-				//apply potential tag(s)
-				if(Math.floor(Math.random()*20) < 2){
-					const chosenTagId = planetoidTagKeys[Math.floor(Math.random() * planetoidTagKeys.length)];
-
-					const chosenTag = PLANETOID_TAGS[chosenTagId];
-
-					if(chosenTag.generationEffects){
-						planet = applyPlanetoidGenerationProcess(chosenTag.generationEffects, planet);
+				const asteroidFlip = Math.random() * 20;
+				let planet: Planetoid;
+				if(asteroidFlip > 2){
+					planet = generatePlanet(star.id, nextSystem, nextPlanId);
+					nextPlanId++;
+				}
+				else{
+					planet = {
+						id: nextPlanId++,
+						name: `Asteroid Belt ${nextSystem.name} ${j+1}`,
+						parentPlanetoidId: star.id,
+						locationSystemId: nextSystem.id,
+						classification: 'asteroid',
+						environment: "Asteroid Belt",
+						ownerNationId: null,
+						size: 10,
+						population: 0,
+						buildings: [],
+						tags: [],
+						deposits: [],
 					}
 
-					planet.tags.push(chosenTagId);
-				}
+					planet.deposits = generatePlanetoidDeposits(planet);
 
-				planet.deposits = generatePlanetoidDeposits(planet);
+				}
 
 				systemPlanetoids.push(planet);
 
 				let numMoons;
 				if(planet.environment === 'Gaseous'){
 					numMoons = Math.floor(Math.random() * 8);
+				}
+				else if(planet.environment === 'Asteroid Belt'){
+					numMoons = 0;
 				}
 				else {
 					numMoons = Math.floor(Math.random() * 8) - 5;
@@ -313,7 +375,6 @@ export function generateGalaxy (numSystems: number ): {systems: System[], planet
 		entities:  tempLaneEntities,
 		ids: newLanes.map(p => p.id),
 	};
-	console.log('loop');
 	disconnectedSystems = newGalaxy.filter(system => {
       if (system.id === 1) return false;
       const pathToSystem1 = findPath(system.id, 1, tempSystems, tempLanes);
@@ -407,7 +468,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			parentId: null,
 			childIds: [],
 			diplomacy: {
-				relations: [],
+				relations: {},
 				incomingRequests: [],
 				residentDiplomats: [],
 			},
@@ -444,7 +505,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 			parentId: i + 1,
 			childIds: [],
 			diplomacy: {
-				relations: [],
+				relations: {},
 				incomingRequests: [],
 				residentDiplomats: [],
 			},
@@ -482,7 +543,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				opinion: 0,
 			};
 
-			org.diplomacy.relations.push(relation);
+			org.diplomacy.relations[targetOrg.id] = relation;
 		}
 	}
 
