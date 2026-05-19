@@ -74,12 +74,16 @@ export function createDebris(currentState: GameState, invShipIds: number[], loca
 	let ships = { ...currentState.milShips.entities };
 
 	let debrisIds: number[] = [];
+	let dropIds: number[] = [];
 
 	//for each ship, swap status to wreck and add it to our array
 	for(const shipId of invShipIds){
 		let newShip = { ...ships[shipId]};
 
-		if(!newShip){
+		const coinFlip = math.random() * 5;
+
+		if(!newShip || coinFlip < 2){
+			dropIds.push(shipId);
 			continue;
 		}
 
@@ -91,6 +95,10 @@ export function createDebris(currentState: GameState, invShipIds: number[], loca
 		debrisIds.push(shipId);
 	}
 
+	for(const shipId of dropIds){
+		shipIds = shipIds.filter(id => id !== shipId);
+		delete ships[shipId];
+	}
 	//create the new Planetoid entity for the debris field
 	let planId = currentState.meta.lastPlanetoidId;
 	planId++;
