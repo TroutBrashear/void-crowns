@@ -124,6 +124,7 @@ export function generatePlanet(starId: number, system: System, nextPlanId: numbe
 export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	let newDeposits: Deposit[] = [];
 
+	//----ROCK DEPOSITS----
 	let numRockDeposits = Math.floor((Math.random() * 10) + (Math.random() * planetoid.size));
 	if(planetoid.tags.includes("mineral_rich")){
 		numRockDeposits += 3;
@@ -139,6 +140,22 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 			type: 'rocks',
 			amount: Math.floor(((Math.random() * 10) + 2) * 10000),
 			isVisible: true, //TODO: all visible for now until survey/discovery mechanics and techs are implemented
+			difficulty: Math.floor((Math.random() * 6)),
+		};
+
+		newDeposits.push(newDeposit);
+	}
+
+	//----GAS DEPOSITS----
+	let numGasDeposits = Math.floor((Math.random() * 6) + (Math.random() * planetoid.size));
+
+	for(let i = 0; i < numGasDeposits; i++){
+		lastDepositId += 1;
+		let newDeposit: Deposit = {
+			id: lastDepositId,
+			type: 'gas',
+			amount: Math.floor(((Math.random() * 12) + 4) * 10000),
+			isVisible: true,
 			difficulty: Math.floor((Math.random() * 6)),
 		};
 
@@ -460,7 +477,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				color: colorPicker(),
 				nameList: 'default',
 			},
-			resources: { credits: 0, rocks: 0, consumerGoods: 0 },
+			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
 			characters: {
 				characterPool: [],
 				leaderId: null,
@@ -473,7 +490,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				residentDiplomats: [],
 			},
 			contextHistory: {
-				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0 },
+				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0},
 				buildPlan: [],
 				targetSystems: [],
 			},
@@ -497,7 +514,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				color: colorPicker(),
 				nameList: 'default',
 			},
-			resources: { credits: 0, rocks: 0, consumerGoods: 0 },
+			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
 			characters: {
 				characterPool: [],
 				leaderId: null,
@@ -510,7 +527,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				residentDiplomats: [],
 			},
 			contextHistory: {
-				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0 },
+				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
 				buildPlan: [],
 				targetSystems: [],
 			},
