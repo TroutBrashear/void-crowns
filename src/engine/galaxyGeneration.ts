@@ -497,7 +497,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				color: colorPicker(),
 				nameList: 'default',
 			},
-			resources: { credits: 0, rocks: 0, consumerGoods: 0 },
+			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
 			characters: {
 				characterPool: [],
 				leaderId: null,
@@ -510,7 +510,7 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				residentDiplomats: [],
 			},
 			contextHistory: {
-				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0 },
+				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
 				buildPlan: [],
 				targetSystems: [],
 			},

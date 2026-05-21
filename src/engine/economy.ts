@@ -116,6 +116,7 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 			credits: target.resources.credits,
 			rocks: target.resources.rocks,
 			consumerGoods: target.resources.consumerGoods,
+			gas: target.resources.gas
 	};
 
 
@@ -123,12 +124,14 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 		processResult.credits -= process.input?.credits ?? 0;
 		processResult.rocks -= process.input?.rocks ?? 0;
 		processResult.consumerGoods -= process.input?.consumerGoods ?? 0;
+		processResult.gas -= process.input?.gas ?? 0;
 	}
 
 	if(process.output){
 		processResult.credits += process.output?.credits ?? 0;
 		processResult.rocks += process.output?.rocks ?? 0;
 		processResult.consumerGoods += process.output?.consumerGoods ?? 0;
+		processResult.gas += process.input?.gas ?? 0;
 	}
 
 
@@ -144,6 +147,7 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 						credits: processResult.credits,
 						rocks: processResult.rocks,
 						consumerGoods: processResult.consumerGoods,
+						gas: processResult.gas
 					},
 				},
 			},
@@ -177,6 +181,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 					credits: 0,
 					rocks: 0,
 					consumerGoods: 0,
+					gas: 0
 				};
 			}
 
@@ -199,6 +204,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 						credits: 0,
 						rocks: 0,
 						consumerGoods: 0,
+						gas: 0
 					};
 				}
 
@@ -281,6 +287,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 							credits: 0,
 							rocks: 0,
 							consumerGoods: 0,
+							gas: 0
 						};
 					}
 
