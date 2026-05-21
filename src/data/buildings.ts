@@ -18,6 +18,13 @@ export const BUILDING_CATALOG: Record<BuildingClass, BuildingDefinition> = {
 		{ output: { rocks: 100 } },
     tags: [],
   },
+  gasWell: {
+    type: 'gasWell',
+    cost: { credits: 800, rocks: 0, consumerGoods: 0, gas: 0 },
+    process:
+      { output: { gas: 100 } },
+      tags: [],
+  },
   powerPlant: {
     type: 'powerPlant',
     cost: { credits: 300, rocks: 0, consumerGoods: 0, gas: 0 },
