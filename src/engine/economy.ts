@@ -298,6 +298,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 						roundIncome[buildingOwner].credits -= bDefinition.process.input?.credits ?? 0;
 						roundIncome[buildingOwner].rocks -= bDefinition.process.input?.rocks ?? 0;
 						roundIncome[buildingOwner].consumerGoods -= bDefinition.process.input?.consumerGoods ?? 0;
+						roundIncome[buildingOwner].gas -= bDefinition.process.input?.gas ?? 0;
 					}
 					else{
 						continue;
@@ -311,6 +312,18 @@ export function processEconomy(currentState: GameState): EngineResult {
 						if(planetoidDeposits[depositIndex]){
 							let extractionAmount = Math.min(bDefinition.process.output.rocks, planetoidDeposits[depositIndex].amount);
 							roundIncome[buildingOwner].rocks += extractionAmount;
+							planetoidDeposits[depositIndex] = {
+								...planetoidDeposits[depositIndex],
+								amount: planetoidDeposits[depositIndex].amount - extractionAmount
+							};
+						}
+					}
+					if(bDefinition.process.output?.gas){
+						let depositIndex = planetoidDeposits.findIndex(deposit => deposit.isVisible && deposit.type === 'gas' && deposit.amount > 0);
+
+						if(planetoidDeposits[depositIndex]){
+							let extractionAmount = Math.min(bDefinition.process.output.gas, planetoidDeposits[depositIndex].amount);
+							roundIncome[buildingOwner].gas += extractionAmount;
 							planetoidDeposits[depositIndex] = {
 								...planetoidDeposits[depositIndex],
 								amount: planetoidDeposits[depositIndex].amount - extractionAmount
