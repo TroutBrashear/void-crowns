@@ -26,14 +26,8 @@ To run this project locally, follow these steps:
     ```bash
     npm install
     ```
-4.  **Run the development server:**
-    The project uses the Vercel CLI for local development to emulate the serverless environment.
-    ```bash
-    npm install -g vercel
-    vercel link
-    vercel dev
-    ```
-5.  Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+4.  Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Technology Stack
 
