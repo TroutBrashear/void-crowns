@@ -20,9 +20,9 @@ import { shiftLanes } from '../engine/ecology';
 
 import { normalize } from '../utils/normalize';
 
-//global unit costs
-//const FLEET_COST = 10000;
-//const COL_SHIP_COST = 15000;
+//constant imports
+import { CYCLE_CONFIG } from '../constants/cycle_config';
+
 
 export const useGameStore = create<GameStoreState>((set, get) => {
   //initial setup
@@ -84,7 +84,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     let nextState = processTick(currentState);
     let tickEvents: GameEvent[] = [];
 
-    if(currentState.meta.turn % 10 === 0){
+    if(currentState.meta.turn % CYCLE_CONFIG.ECONOMY.ECONOMY_INTERVAL === 0){
       const ecoResults = processEconomy(nextState);
       nextState = ecoResults.newState;
       tickEvents.push(...ecoResults.events);
@@ -110,7 +110,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       }
     }
 
-    if(nextState.meta.turn % 50 === 0){
+    if(nextState.meta.turn % CYCLE_CONFIG.LANES.LANESHIFT_INTERVAL === 0){
       nextState = shiftLanes(nextState);
       nextState = reevaluateCurrentPaths(nextState);
     }

@@ -1,6 +1,6 @@
 import type { GameState, Fleet, Ship, IntelStatus } from '../types/gameState';
 
-
+import { CYCLE_CONFIG } from '../constants/cycle_config';
 
 function evaluateIntelStatus(currentState: GameState): GameState {
   let newIntelStatus: Record<number, IntelStatus> = {};
@@ -84,7 +84,7 @@ export function processTick(currentState: GameState): GameState {
     }
     else{ //evaluate certain Ship assignments
       //evaluate an ongoing survey
-      if(updatedShip.type === 'survey_ship' && updatedShip.assignmentTargetId && (currentState.meta.turn % 20) === 0){
+      if(updatedShip.type === 'survey_ship' && updatedShip.assignmentTargetId && (currentState.meta.turn % CYCLE_CONFIG.SURVEY.SURVEY_INTERVAL) === 0){
         let targetPlanetoid =  updatedPlanetoidEntities[updatedShip.assignmentTargetId];
         if(targetPlanetoid.locationSystemId === updatedShip.locationSystemId){
           hasChanges = true;

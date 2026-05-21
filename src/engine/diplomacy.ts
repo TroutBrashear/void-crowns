@@ -2,6 +2,8 @@ import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType, DiploR
 import { evaluateDiploRequest, evaluateAiRelations, evaluateTradeDeal, evaluateAiTradeNeeds } from './ai/diplomacy';
 import { applyProcess } from './economy';
 
+import { CYCLE_CONFIG } from '../constants/cycle_config';
+
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
 	const firstOrg = gameState.orgs.entities[firstOrgId];
 
@@ -177,7 +179,7 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 
 		let currentOrg = { ...nextState.orgs.entities[orgId]};
 
-		if(nextState.meta.turn % 10 === 0){
+		if(nextState.meta.turn % CYCLE_CONFIG.DIPLOMACY.DIPLOMAT_INTERVAL === 0){
 			//handle resident diplomats - loop through and update relations with originOrgId
 			for(const diplomatId of currentOrg.diplomacy.residentDiplomats){
 
