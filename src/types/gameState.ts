@@ -148,6 +148,7 @@ export interface Ship {
 export interface Resources {
   credits: number;
   rocks: number;
+  gas: number;
   consumerGoods: number;
 }
 

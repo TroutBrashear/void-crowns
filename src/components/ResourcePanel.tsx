@@ -14,6 +14,8 @@ export function ResourcePanel({ resources }: ResourcePanelProps) {
 				<span>{resources.credits}</span>
 				<span>Rocks: </span>
 				<span>{resources.rocks}</span>
+				<span>Gas: </span>
+				<span>{resources.gas}</span>
 			</div>
 		</div>
 	);
