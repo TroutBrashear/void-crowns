@@ -12,5 +12,9 @@ export const CYCLE_CONFIG = {
     },
     DIPLOMACY: {
         DIPLOMAT_INTERVAL: 10,
+        DIPLO_MISSION_DURATION: 50,
+    },
+    CHARACTER: {
+        AGING_INTERVAL: 50,
     }
 };

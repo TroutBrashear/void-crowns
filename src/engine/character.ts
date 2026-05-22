@@ -2,6 +2,9 @@ import type { GameState, Character, SkillName, CharProcess, CharacterAssignment,
 import { NAME_LISTS } from '../data/names';
 import { CHARACTER_EVENTS } from '../data/events';
 
+//constants
+import { CYCLE_CONFIG } from '../constants/cycle_config';
+
 
 export function engineApplyCharacterProcess(currentState: GameState, charId: number, process: CharProcess): GameState {
 	let currentCharacter = { ...currentState.characters.entities[charId] };
@@ -105,7 +108,7 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	else if(assignmentType === 'diplomat'){
 		newOrgs[assignmentTargetId] = { ...newOrgs[assignmentTargetId], diplomacy: { ...newOrgs[assignmentTargetId].diplomacy, residentDiplomats: [...newOrgs[assignmentTargetId].diplomacy.residentDiplomats, charId] }};
 		isMission = true;
-		missionDuration = 50 + functionState.meta.turn;
+		missionDuration = CYCLE_CONFIG.DIPLOMACY.DIPLO_MISSION_DURATION + functionState.meta.turn;
 	}
 	else{
 		return functionState;
@@ -120,7 +123,6 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 		newCharacters[charId] = { ...newCharacters[charId], assignment: { type: assignmentType, id: assignmentTargetId }, history: { ...newCharacters[charId].history, events: [ ...newCharacters[charId].history.events, newEvent]}};
 	}
 	
-	console.log(newCharacters[charId]);
 
 	return {
 		...functionState,
@@ -318,7 +320,7 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 		if(currentCharacter){
 
 			let newAge = currentCharacter.age;
-			if(functionState.meta.turn % 50 === 0) {
+			if(functionState.meta.turn % CYCLE_CONFIG.CHARACTER.AGING_INTERVAL === 0) {
 				newAge +=1;
 			}
 			if(newAge >= 100){

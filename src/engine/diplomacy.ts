@@ -2,6 +2,7 @@ import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType, DiploR
 import { evaluateDiploRequest, evaluateAiRelations, evaluateTradeDeal, evaluateAiTradeNeeds } from './ai/diplomacy';
 import { applyProcess } from './economy';
 
+//constants
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
