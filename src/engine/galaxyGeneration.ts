@@ -1,6 +1,7 @@
-import type { System, Planetoid, Org, OrgRelation, OrgCategory, Deposit, Lane } from '../types/gameState';
+import type { System, Planetoid, Org, OrgRelation, OrgCategory, Character, Deposit, Lane } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { findPath } from './pathfinding';
+import { generateCharacter } from './character';
 import { colorPicker } from '../utils/colors';
 import { PLANETOID_TAGS } from '../data/tags';
 import type { PlanetoidGenerationProcess } from '../data/tags';
@@ -165,7 +166,7 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	return newDeposits;
 }
 
-export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[], lanes: Lane[]} {
+export function generateGalaxy (numSystems: number ): {systems: System[],  planetoids: Planetoid[], lanes: Lane[]} {
 	let newGalaxy: System[] = [];
 	let newPlanetoids: Planetoid[] = [];
 	let nextPlanId = 0;
@@ -465,8 +466,10 @@ function determineChildOrgType(org: Org): OrgCategory {
 	return 'corporation';
 }
 
-export function generateStartingOrgs(numOrgs: number): Org[] {
+export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Character[]} {
 	let newOrgs: Org[] = [];
+	let newChars: Character[] = [];
+
 
 	for(let i = 0; i < numOrgs; i++){
 		let nextOrg: Org = {
@@ -502,6 +505,11 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 				}
 			}
 		};
+
+		//generate org's starting leader
+		let character = generateCharacter(i + 1, nextOrg.flavor.nameList);
+		nextOrg.characters.leaderId = character.id;
+		newChars.push(character);
 
 
 		let childType = determineChildOrgType(nextOrg);
@@ -564,5 +572,5 @@ export function generateStartingOrgs(numOrgs: number): Org[] {
 		}
 	}
 
-	return newOrgs;
+	return { orgs: newOrgs, chars: newChars };
 }
