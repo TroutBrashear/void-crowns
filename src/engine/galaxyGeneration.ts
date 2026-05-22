@@ -1,4 +1,4 @@
-import type { System, Planetoid, Org, OrgRelation, OrgCategory, Deposit, Lane } from '../types/gameState';
+import type { System, Planetoid, Org, OrgRelation, OrgCategory, Character, Deposit, Lane } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { findPath } from './pathfinding';
 import { generateCharacter } from './character';
@@ -166,7 +166,7 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	return newDeposits;
 }
 
-export function generateGalaxy (numSystems: number ): {systems: System[], planetoids: Planetoid[], lanes: Lane[]} {
+export function generateGalaxy (numSystems: number ): {systems: System[], chars: Character[]} {
 	let newGalaxy: System[] = [];
 	let newPlanetoids: Planetoid[] = [];
 	let nextPlanId = 0;
@@ -466,7 +466,7 @@ function determineChildOrgType(org: Org): OrgCategory {
 	return 'corporation';
 }
 
-export function generateStartingOrgs(numOrgs: number): Org[] {
+export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Planetoid[], lanes: Lane[]} {
 	let newOrgs: Org[] = [];
 	let newChars: Character[] = [];
 
