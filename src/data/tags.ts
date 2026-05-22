@@ -44,4 +44,16 @@ export const PLANETOID_TAGS: Record<string, TagDefinition> = {
         playerVisible: true,
         description: "This body has less rocks than average.",
     },
+
+    "gas_rich": {
+        name: "Gas Rich",
+        playerVisible: true,
+        description: "This body has more gas than average.",
+    },
+
+    "gas_poor": {
+        name: "Gas Poor",
+        playerVisible: true,
+        description: "This body has less gas than average.",
+    }
 }

@@ -131,8 +131,9 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 		numRockDeposits += 3;
 	}
 	else if(planetoid.tags.includes("mineral_poor")){
-		numRockDeposits += 3;
+		numRockDeposits -= 3;
 	}
+
 
 	for(let i = 0; i < numRockDeposits; i++){
 		lastDepositId += 1;
@@ -148,7 +149,14 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	}
 
 	//----GAS DEPOSITS----
-	const numGasDeposits = Math.floor((Math.random() * 6) + (Math.random() * planetoid.size));
+	let numGasDeposits = Math.floor((Math.random() * 6) + (Math.random() * planetoid.size));
+	if(planetoid.tags.includes("gas_rich")){
+		numGasDeposits += 3;
+	}
+	else if(planetoid.tags.includes("gas_poor")){
+		numGasDeposits -= 3;
+	}
+
 
 	for(let i = 0; i < numGasDeposits; i++){
 		lastDepositId += 1;
