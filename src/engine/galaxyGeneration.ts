@@ -166,7 +166,7 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	return newDeposits;
 }
 
-export function generateGalaxy (numSystems: number ): {systems: System[], chars: Character[]} {
+export function generateGalaxy (numSystems: number ): {systems: System[],  planetoids: Planetoid[], lanes: Lane[]} {
 	let newGalaxy: System[] = [];
 	let newPlanetoids: Planetoid[] = [];
 	let nextPlanId = 0;
@@ -466,7 +466,7 @@ function determineChildOrgType(org: Org): OrgCategory {
 	return 'corporation';
 }
 
-export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Planetoid[], lanes: Lane[]} {
+export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Character[]} {
 	let newOrgs: Org[] = [];
 	let newChars: Character[] = [];
 
