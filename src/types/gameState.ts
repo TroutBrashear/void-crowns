@@ -344,6 +344,7 @@ export interface GameState {
 	lastCharacterId: number;
     lastDiploId: number;
     lastPlanetoidId: number;
+    lastOrgId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
