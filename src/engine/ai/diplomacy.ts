@@ -29,7 +29,7 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
         return false;
     }
 
-    let thinkingOrg = currentState.orgs.entities[orgId];
+    const thinkingOrg = currentState.orgs.entities[orgId];
 
     if(!thinkingOrg){
         return false;
@@ -95,9 +95,9 @@ function isRequestPending(currentState: GameState, originOrgId: number, targetOr
 
 export function evaluateAiTradeNeeds(currentState: GameState, currentOrgId: number): GameState {
     let nextState = { ...currentState };
-    let thinkingOrg = { ...currentState.orgs.entities[currentOrgId] };
+    const thinkingOrg = { ...currentState.orgs.entities[currentOrgId] };
 
-    let targetOrg = { ...currentState.orgs.entities[1] };   //placeholder: player Org is currently always target.
+    const targetOrg = { ...currentState.orgs.entities[1] };   //placeholder: player Org is currently always target.
 
     //avoid request spam by checking to see if thinkingOrg is already waiting on a response
     if(isRequestPending(nextState, thinkingOrg.id, targetOrg.id)){

@@ -96,7 +96,7 @@ export function engineCreateFleet(currentState: GameState, locationId: number, o
 
   const nameList = NAME_LISTS[ownerOrg.flavor.nameList];
 
-  let fleetName = nameList.fleetNames[Math.floor(Math.random()* nameList.fleetNames.length)];
+  const fleetName = nameList.fleetNames[Math.floor(Math.random()* nameList.fleetNames.length)];
 
   const newFleet = {
     id: newId,
@@ -138,7 +138,7 @@ export function addShipToFleet(currentState: GameState, fleetId: number, shipId:
     return currentState;
   }
 
-  let fleetShips = [ ... fleet.ships];
+  const fleetShips = [ ... fleet.ships];
 
   fleetShips.push(shipId);
 
@@ -395,7 +395,7 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
   const newId = currentState.meta.lastPlanetoidId + 1;
   const parentPlanetoid = currentState.planetoids.entities[parentPlanetoidId];
 
-  let newPlanetoid = {
+  const newPlanetoid = {
     id: newId,
     name: `${parentPlanetoid.name} 1`, //TODO
     parentPlanetoidId: parentPlanetoidId,
@@ -410,7 +410,7 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
     deposits: [],
   }
 
-  let newOrg = {
+  const newOrg = {
     ...org,
     resources: {
       ...org.resources,
@@ -468,7 +468,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
   const newId = currentState.meta.lastPlanetoidId + 1;
   const parentPlanetoid = currentState.planetoids.entities[parentPlanetoidId];
 
-  let newPlanetoid: Planetoid = {
+  const newPlanetoid: Planetoid = {
     id: newId,
     name: `${parentPlanetoid.name} Anchor ${newId}`, //TODO
     parentPlanetoidId: parentPlanetoidId,
@@ -486,7 +486,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     }
   }
 
-  let newOrg = {
+  const newOrg = {
     ...org,
     resources: {
       ...org.resources,
@@ -494,7 +494,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     }
   };
 
-  let newLane: Lane = {
+  const newLane: Lane = {
     ...lane,
     status: 'anchored',
   };

@@ -1,7 +1,7 @@
 import type { EntitiesState, System, Lane, GameState } from '../types/gameState';
 
 export function findPath(startingSystemId: number, endingSystemId: number, systems: EntitiesState<System>, lanes: EntitiesState<Lane>): number[] {
-	let finalPath: number[] = [];
+	const finalPath: number[] = [];
 
 	//set up for BFS
 	const queue: number[] = [];
@@ -49,8 +49,8 @@ export function findPath(startingSystemId: number, endingSystemId: number, syste
 
 
 export function reevaluateCurrentPaths(currentState: GameState): GameState {
-	let ships = { ...currentState.ships.entities };
-	let fleets = { ...currentState.fleets.entities };
+	const ships = { ...currentState.ships.entities };
+	const fleets = { ...currentState.fleets.entities };
 
 	for(const fleetId of currentState.fleets.ids){
 		const fleet = fleets[fleetId];

@@ -56,11 +56,11 @@ function calculateFleetCombatScore(currentState: GameState, fleetId: number): nu
 		combatScore += combatRoll;
 	}
 
-	let techBonus = currentState.orgs.entities[fleet.ownerNationId].research.researchBonuses.fleetCombat;
+	const techBonus = currentState.orgs.entities[fleet.ownerNationId].research.researchBonuses.fleetCombat;
 	combatScore += techBonus;
 
 	if(fleet.assignedCharacter){
-		let admiral = currentState.characters.entities[fleet.assignedCharacter];
+		const admiral = currentState.characters.entities[fleet.assignedCharacter];
 		if(admiral){
 			combatScore = combatScore * (1 + (admiral.skills.navalCombat / 10));
 		}
@@ -71,14 +71,14 @@ function calculateFleetCombatScore(currentState: GameState, fleetId: number): nu
 
 export function createDebris(currentState: GameState, invShipIds: number[], locationId: number): GameState {
 	let shipIds = [ ...currentState.milShips.ids ];
-	let ships = { ...currentState.milShips.entities };
+	const ships = { ...currentState.milShips.entities };
 
-	let debrisIds: number[] = [];
-	let dropIds: number[] = [];
+	const debrisIds: number[] = [];
+	const dropIds: number[] = [];
 
 	//for each ship, swap status to wreck and add it to our array
 	for(const shipId of invShipIds){
-		let newShip = { ...ships[shipId]};
+		const newShip = { ...ships[shipId]};
 
 		const coinFlip = Math.random() * 5;
 
@@ -105,7 +105,7 @@ export function createDebris(currentState: GameState, invShipIds: number[], loca
 	planId++;
 	let locationSystem = { ...currentState.systems.entities[locationId]};
 
-	let newDebrisField: Planetoid = {
+	const newDebrisField: Planetoid = {
 		id: planId,
 		name: 'Debris Field',
 		parentPlanetoidId: locationSystem.planetoids[0],
@@ -230,7 +230,7 @@ export function processCombat(currentState: GameState): EngineResult {
 
 
 	for(const systemId of currentState.systems.ids) {
-		let noBattle = false;
+		const noBattle = false;
 
 		while(!noBattle){
 			const fleetsInSystem = getFleetsInSystem(nextState, systemId);

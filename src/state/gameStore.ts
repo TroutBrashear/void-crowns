@@ -83,7 +83,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   tick: () => {
     const currentState = get();
     let nextState = processTick(currentState);
-    let tickEvents: GameEvent[] = [];
+    const tickEvents: GameEvent[] = [];
 
     if(currentState.meta.turn % CYCLE_CONFIG.ECONOMY.ECONOMY_INTERVAL === 0){
       const ecoResults = processEconomy(nextState);
@@ -272,12 +272,12 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string }) => {
     //currently, generate functions are using a set value. This will later be based on game settings.
     const { systems, planetoids, lanes } = generateGalaxy(500);
-    let { orgs, chars } = generateStartingOrgs(6);
+    const { orgs, chars } = generateStartingOrgs(6);
 
     orgs[0].flavor.name = payload.playerOrgName;
     orgs[0].flavor.color = payload.playerOrgColor;
 
-    let intelState: Record<number, PlanetoidIntel> = {};
+    const intelState: Record<number, PlanetoidIntel> = {};
 
     for(const currentOrg of orgs) {
       //temp solution, can randomize later

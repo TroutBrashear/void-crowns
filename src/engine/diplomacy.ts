@@ -26,7 +26,7 @@ export function getRelationship(gameState: GameState, firstOrgId: number, second
 }
 
 export function engineUpdateRelationship(currentState: GameState, firstOrgId: number, secondOrgId: number, newStatus: 'war' | 'peace'): GameState {
-	let nextState = { ...currentState };
+	const nextState = { ...currentState };
 
 	let firstOrg = nextState.orgs.entities[firstOrgId];
 	let secondOrg = nextState.orgs.entities[secondOrgId];
@@ -79,7 +79,7 @@ export function resolveTrade(currentState: GameState, request: DiploRequest): Ga
 export function enginePlayerDiploResponse(currentState: GameState, requestId: number, accepted: boolean): GameState {
 	let nextState = { ...currentState };
 
-	let request = nextState.orgs.entities[1].diplomacy.incomingRequests.find(req => req.id === requestId);
+	const request = nextState.orgs.entities[1].diplomacy.incomingRequests.find(req => req.id === requestId);
 
 	if(!request){
 		return nextState;
@@ -169,7 +169,7 @@ export function sendDiploRequest(currentState: GameState, targetOrgId: number, o
 export function processDiplomacy(currentState: GameState): EngineResult {
 	let nextState = { ...currentState };
 
-	let allDiploEvents: GameEvent[] = [];
+	const allDiploEvents: GameEvent[] = [];
 
 	for(const orgId of nextState.orgs.ids){
 		if(orgId == 1){

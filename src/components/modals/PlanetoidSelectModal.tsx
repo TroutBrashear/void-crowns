@@ -74,7 +74,7 @@ function PlanetoidSelectModal() {
       	  <h4>Buildings:</h4>
 		  <ul>
 			{planetToShow.buildings.map(buildingId => {
-				let building = getBuildingById(buildingId);
+				const building = getBuildingById(buildingId);
 				if (!building) return null; 
 				return(
 					<li key={building.id}>

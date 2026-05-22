@@ -12,7 +12,7 @@ export function getAllResearchOptions(currentState: GameState, orgId: number): s
 
 	const allResearch = (Object.values(RESEARCH_CATALOG) as ResearchDefinition[]);
 
-	let filteredOptions = allResearch.filter(researchItem => {
+	const filteredOptions = allResearch.filter(researchItem => {
 		if(org.research.researched.includes(researchItem.researchId)){
 			return false;
 		}
@@ -52,8 +52,8 @@ export function engineAssignResearch(currentState: GameState, buildingId: number
 }
 
 export function evaluateAcademySpawnChance(currentState: GameState, buildingId: number): boolean {
-	let building = currentState.buildings.entities[buildingId];
-	let org = currentState.orgs.entities[building.ownerNationId];
+	const building = currentState.buildings.entities[buildingId];
+	const org = currentState.orgs.entities[building.ownerNationId];
 
 	let baseChance = 1 + org.characters.characterPool.length;
 
@@ -75,7 +75,7 @@ export function evaluateAcademySpawnChance(currentState: GameState, buildingId: 
 }
 
 export function spawnAcademyCharacter(currentState: GameState, buildingId: number, nextId: number): Character {
-	let building = currentState.buildings.entities[buildingId];
+	const building = currentState.buildings.entities[buildingId];
 	const org = currentState.orgs.entities[building.ownerNationId];
 
 	let newCharacter = generateCharacter(nextId, org.flavor.nameList);
@@ -112,7 +112,7 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 	if(!target){
 		return currentState;
 	}
-	let processResult = {
+	const processResult = {
 			credits: target.resources.credits,
 			rocks: target.resources.rocks,
 			consumerGoods: target.resources.consumerGoods,
@@ -157,14 +157,14 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 
 function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
 	//TODO: can add modifiers based on planet environment, owning org, etc.
-	let finalGrowth = targetPlanetoid.population * 0.001;
+	const finalGrowth = targetPlanetoid.population * 0.001;
 	return finalGrowth;
 }
 
 export function processEconomy(currentState: GameState): EngineResult {
-	let newOrgs = { ...currentState.orgs.entities };
-	let newBuildings = { ...currentState.buildings.entities };
-  	let newPlanetoidEntities = { ...currentState.planetoids.entities };
+	const newOrgs = { ...currentState.orgs.entities };
+	const newBuildings = { ...currentState.buildings.entities };
+  	const newPlanetoidEntities = { ...currentState.planetoids.entities };
 
 	const roundIncome: Record<number, Resources> = {}; //number is an orgId
 
@@ -186,7 +186,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 			}
 
 			if(currentSystem.assignedCharacter){
-				let governor = currentState.characters.entities[currentSystem.assignedCharacter];
+				const governor = currentState.characters.entities[currentSystem.assignedCharacter];
 				if(governor){
 					roundIncome[systemOwner].credits += 100 * governor.skills.administration;
 				}
@@ -194,9 +194,9 @@ export function processEconomy(currentState: GameState): EngineResult {
 		}
 
 		for(const planetoidId of currentSystem.planetoids){
-			let currentPlanetoid = { ...currentState.planetoids.entities[planetoidId]};
-			let planetoidOwner = currentPlanetoid.ownerNationId;
-			let planetoidDeposits = [...currentPlanetoid.deposits];
+			const currentPlanetoid = { ...currentState.planetoids.entities[planetoidId]};
+			const planetoidOwner = currentPlanetoid.ownerNationId;
+			const planetoidDeposits = [...currentPlanetoid.deposits];
 
 			if(planetoidOwner){
 				if(!roundIncome[planetoidOwner]){
@@ -221,7 +221,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 			//check buildings for processes
 			if(currentPlanetoid.buildings.length > 0){
 				for(const buildingId of currentPlanetoid.buildings){
-					let building = { ...currentState.buildings.entities[buildingId]};
+					const building = { ...currentState.buildings.entities[buildingId]};
 					//processes are in building definition
 					const bDefinition = BUILDING_CATALOG[building.type];
 					const buildingOwner = building.ownerNationId;
@@ -232,14 +232,14 @@ export function processEconomy(currentState: GameState): EngineResult {
 						if(building.assignedCharacter && building.research.project){
 							const character = currentState.characters.entities[building.assignedCharacter];
 							if(character){
-								let researchRoll = building.research.progress + (10 + character.skills.academics);
+								const researchRoll = building.research.progress + (10 + character.skills.academics);
 
 								const researchProject = RESEARCH_CATALOG[building.research.project];
 
 								//is the project complete?
 								if(researchRoll > researchProject.cost){
 									//TODO: swap processEconomy to return an EngineResult so we can inform player of completion!
-									let orgResearches = [ ... newOrgs[building.ownerNationId].research.researched ];
+									const orgResearches = [ ... newOrgs[building.ownerNationId].research.researched ];
 									orgResearches.push(building.research.project);
 									newOrgs[building.ownerNationId] = {
 										...newOrgs[building.ownerNationId],
@@ -307,10 +307,10 @@ export function processEconomy(currentState: GameState): EngineResult {
 					//output processing
 					roundIncome[buildingOwner].credits += bDefinition.process.output?.credits ?? 0;
 					if(bDefinition.process.output?.rocks){
-						let depositIndex = planetoidDeposits.findIndex(deposit => deposit.isVisible && deposit.type === 'rocks' && deposit.amount > 0);
+						const depositIndex = planetoidDeposits.findIndex(deposit => deposit.isVisible && deposit.type === 'rocks' && deposit.amount > 0);
 
 						if(planetoidDeposits[depositIndex]){
-							let extractionAmount = Math.min(bDefinition.process.output.rocks, planetoidDeposits[depositIndex].amount);
+							const extractionAmount = Math.min(bDefinition.process.output.rocks, planetoidDeposits[depositIndex].amount);
 							roundIncome[buildingOwner].rocks += extractionAmount;
 							planetoidDeposits[depositIndex] = {
 								...planetoidDeposits[depositIndex],
@@ -319,10 +319,10 @@ export function processEconomy(currentState: GameState): EngineResult {
 						}
 					}
 					if(bDefinition.process.output?.gas){
-						let depositIndex = planetoidDeposits.findIndex(deposit => deposit.isVisible && deposit.type === 'gas' && deposit.amount > 0);
+						const depositIndex = planetoidDeposits.findIndex(deposit => deposit.isVisible && deposit.type === 'gas' && deposit.amount > 0);
 
 						if(planetoidDeposits[depositIndex]){
-							let extractionAmount = Math.min(bDefinition.process.output.gas, planetoidDeposits[depositIndex].amount);
+							const extractionAmount = Math.min(bDefinition.process.output.gas, planetoidDeposits[depositIndex].amount);
 							roundIncome[buildingOwner].gas += extractionAmount;
 							planetoidDeposits[depositIndex] = {
 								...planetoidDeposits[depositIndex],
@@ -376,7 +376,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 	for(const buildingId of spawnedCharacters){
 		const building = currentState.buildings.entities[buildingId];
 
-		let genCharacter = spawnAcademyCharacter(currentState, buildingId, nextId);
+		const genCharacter = spawnAcademyCharacter(currentState, buildingId, nextId);
 		nextId++;
 		newOrgs[building.ownerNationId] = {
 			...newOrgs[building.ownerNationId],
@@ -432,9 +432,9 @@ export function processEconomy(currentState: GameState): EngineResult {
 
 	//resolve research effects
 	for(const resObj of completedResearch){
-		let research = RESEARCH_CATALOG[resObj.researchId];
+		const research = RESEARCH_CATALOG[resObj.researchId];
 
-		let planetoid = nextState.planetoids.entities[resObj.labLocationId];
+		const planetoid = nextState.planetoids.entities[resObj.labLocationId];
 
 		const researchCompleteEvent: GameEvent = {
 			type: 'research_complete',

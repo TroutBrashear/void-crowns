@@ -8,7 +8,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 	let nextState = currentState;
 
 	let thinkingOrg = nextState.orgs.entities[orgId];
-	let buildPlan = [...thinkingOrg.contextHistory.buildPlan];
+	const buildPlan = [...thinkingOrg.contextHistory.buildPlan];
 
 	//evaluate buildPlan
 	const buildIntent = buildPlan.shift();

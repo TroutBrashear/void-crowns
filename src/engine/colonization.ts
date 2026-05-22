@@ -34,7 +34,7 @@ export function evaluateSystemValue(currentState: GameState, systemId: number): 
   const system = currentState.systems.entities[systemId];
 
   for(const planetoidId of system.planetoids){
-    let planetoid = currentState.planetoids.entities[planetoidId];
+    const planetoid = currentState.planetoids.entities[planetoidId];
 
     if(planetoid){
       systemValue += evaluatePlanetoidValue(planetoid);

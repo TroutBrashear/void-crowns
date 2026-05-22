@@ -16,7 +16,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 
 	let atWar = false;
 	const thinkingOrg = currentState.orgs.entities[orgId];
-	let opponentOrgs = Object.values(thinkingOrg.diplomacy.relations).filter(relation => relation.status === 'war').map(relation => relation.targetOrgId);
+	const opponentOrgs = Object.values(thinkingOrg.diplomacy.relations).filter(relation => relation.status === 'war').map(relation => relation.targetOrgId);
 
 
 	if(opponentOrgs.length > 0){
@@ -53,7 +53,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 				targetSystemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
 			}
 			else{
-				let targetSystem = Object.values(currentState.systems.entities).find(system => system.ownerNationId === orgId);
+				const targetSystem = Object.values(currentState.systems.entities).find(system => system.ownerNationId === orgId);
 				if(targetSystem){
 					targetSystemId = targetSystem.id;
 				}
@@ -77,7 +77,7 @@ export function processAiFleetMoves(currentState: GameState, orgId: number): Gam
 				targetSystemId = lane.systemIdA === currentSystem.id ? lane.systemIdB : lane.systemIdA;
 			}
 			else{
-				let targetSystem = Object.values(currentState.systems.entities).find(system => system.ownerNationId !== null && opponentOrgs.includes(system.ownerNationId));
+				const targetSystem = Object.values(currentState.systems.entities).find(system => system.ownerNationId !== null && opponentOrgs.includes(system.ownerNationId));
 				if(targetSystem){
 					targetSystemId = targetSystem.id;
 				}
@@ -130,14 +130,14 @@ export function processAiShipMoves(currentState: GameState, orgId: number): Game
   	}
 
   	const thinkingOrg = currentState.orgs.entities[orgId];
-	let orgNoProspects = currentState.intelligence.planetoidIntel[orgId].noProspects;
+	const orgNoProspects = currentState.intelligence.planetoidIntel[orgId].noProspects;
   	let hasMadeChanges = false;
 
   	//loop for idle ships to take actions if necessary. Right now, this means a colony ship is in a target system and colonizes a world.
   	for(const ship of idleShips) {
   		if(ship.type === 'colony_ship') {
 			const locationSystem = nextState.systems.entities[ship.locationSystemId];
-			let targetSystems = thinkingOrg.contextHistory.targetSystems.map(planetoidId => nextState.planetoids.entities[planetoidId].locationSystemId);
+			const targetSystems = thinkingOrg.contextHistory.targetSystems.map(planetoidId => nextState.planetoids.entities[planetoidId].locationSystemId);
 			if(!targetSystems.includes(locationSystem.id)){
 				continue;
 			}

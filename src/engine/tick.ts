@@ -3,10 +3,10 @@ import type { GameState, Fleet, Ship, IntelStatus } from '../types/gameState';
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 
 function evaluateIntelStatus(currentState: GameState): GameState {
-  let newIntelStatus: Record<number, IntelStatus> = {};
+  const newIntelStatus: Record<number, IntelStatus> = {};
   const fleets = Object.values(currentState.fleets.entities);
 
-  let fleetStrength: Record<number, number> = {};
+  const fleetStrength: Record<number, number> = {};
 
   for(const orgId of currentState.orgs.ids){
     fleetStrength[orgId] = 0;
@@ -63,8 +63,8 @@ export function processTick(currentState: GameState): GameState {
   //Process Ship Movements
   const updatedShipEntities: { [id: number]: Ship } = {};
 
-  let updatedPlanetoidEntities = { ...currentState.planetoids.entities };
-  let planetoidIntel = { ...currentState.intelligence.planetoidIntel };
+  const updatedPlanetoidEntities = { ...currentState.planetoids.entities };
+  const planetoidIntel = { ...currentState.intelligence.planetoidIntel };
 
   for (const shipId of currentState.ships.ids) {
     let updatedShip = { ...currentState.ships.entities[shipId] };
@@ -85,13 +85,13 @@ export function processTick(currentState: GameState): GameState {
     else{ //evaluate certain Ship assignments
       //evaluate an ongoing survey
       if(updatedShip.type === 'survey_ship' && updatedShip.assignmentTargetId && (currentState.meta.turn % CYCLE_CONFIG.SURVEY.SURVEY_INTERVAL) === 0){
-        let targetPlanetoid =  updatedPlanetoidEntities[updatedShip.assignmentTargetId];
+        const targetPlanetoid =  updatedPlanetoidEntities[updatedShip.assignmentTargetId];
         if(targetPlanetoid.locationSystemId === updatedShip.locationSystemId){
           hasChanges = true;
           let surveyRoll = Math.random() * 6;
 
           if(updatedShip.assignedCharacter){
-            let techBonus = nextState.orgs.entities[updatedShip.ownerNationId].research.researchBonuses.depositSurvey;
+            const techBonus = nextState.orgs.entities[updatedShip.ownerNationId].research.researchBonuses.depositSurvey;
             surveyRoll += ((nextState.characters.entities[updatedShip.assignedCharacter].skills.exploration + nextState.characters.entities[updatedShip.assignedCharacter].skills.academics)/2) + techBonus;
 
           }
@@ -100,7 +100,7 @@ export function processTick(currentState: GameState): GameState {
 
           if(depositIndex !== -1){
             hasChanges = true;
-            let newDeposits = [ ...targetPlanetoid.deposits ];
+            const newDeposits = [ ...targetPlanetoid.deposits ];
             newDeposits[depositIndex] = {
               ...newDeposits[depositIndex],
               isVisible: true,
@@ -130,7 +130,7 @@ export function processTick(currentState: GameState): GameState {
 
             if(updatedShip.contextHistory.assignmentProgress > 10){
               //enable noProspects
-              let orgPlanetoidIntel = [ ...planetoidIntel[updatedShip.ownerNationId].noProspects];
+              const orgPlanetoidIntel = [ ...planetoidIntel[updatedShip.ownerNationId].noProspects];
               if(updatedShip.assignmentTargetId !== null){
                 orgPlanetoidIntel.push(updatedShip.assignmentTargetId);
               }

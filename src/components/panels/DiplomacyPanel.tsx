@@ -28,7 +28,7 @@ function DiplomacyPanel() {
 
             <h3>Incoming requests:</h3>
             {incomingRequests.map(request => {
-                let originOrg = getOrgById(request.originOrgId);
+                const originOrg = getOrgById(request.originOrgId);
                 if(!originOrg){
                     return null;
                 }

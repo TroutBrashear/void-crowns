@@ -8,7 +8,7 @@ import { getAllResearchOptions, engineAssignResearch } from '../economy';
 
 
 export function evaluateResearchOptions(currentState: GameState, orgId: number): string {
-	let researchOptions = getAllResearchOptions(currentState, orgId);
+	const researchOptions = getAllResearchOptions(currentState, orgId);
 	let bestOption = "";
 	let currentScore = -1;
 
@@ -89,9 +89,9 @@ export function evaluateBestCandidate(assignmentType: CharacterAssignment, chara
 }
 
 export function processAiCharacterManagement(currentState: GameState, orgId: number): GameState {
-	let thinkingOrg = { ...currentState.orgs.entities[orgId]};
+	const thinkingOrg = { ...currentState.orgs.entities[orgId]};
 
-	let characterPool = thinkingOrg.characters.characterPool.map(characterId => currentState.characters.entities[characterId]);
+	const characterPool = thinkingOrg.characters.characterPool.map(characterId => currentState.characters.entities[characterId]);
 
 	let nextState = { ...currentState };
 
@@ -101,32 +101,32 @@ export function processAiCharacterManagement(currentState: GameState, orgId: num
 
 	//Priority 1 - does the org have a leader?
 	if(!thinkingOrg.characters.leaderId){
-		let bestCandidateId = evaluateBestCandidate('leader', characterPool);
+		const bestCandidateId = evaluateBestCandidate('leader', characterPool);
 		if(bestCandidateId > -1) {
 			nextState = engineAssignCharacter(nextState, bestCandidateId, orgId, 'leader');
 		}
 	}
 
 	//Priority 2 - do fleets have leaders?
-	let leaderlessFleets = Object.values(currentState.fleets.entities).filter(fleet => (fleet.ownerNationId === orgId && !fleet.assignedCharacter));
+	const leaderlessFleets = Object.values(currentState.fleets.entities).filter(fleet => (fleet.ownerNationId === orgId && !fleet.assignedCharacter));
 	for(const fleet of leaderlessFleets){
-		let bestCandidateId = evaluateBestCandidate('admiral', characterPool);
+		const bestCandidateId = evaluateBestCandidate('admiral', characterPool);
 		if(bestCandidateId > -1) {
 			nextState = engineAssignCharacter(nextState, bestCandidateId, fleet.id, 'admiral');
 		}
 	}
 
 	//Priority 3 - do labs have scientists?
-	let emptyLabs = Object.values(currentState.buildings.entities).filter(building => (building.type === 'researchLab' && building.ownerNationId === orgId && !building.assignedCharacter));
+	const emptyLabs = Object.values(currentState.buildings.entities).filter(building => (building.type === 'researchLab' && building.ownerNationId === orgId && !building.assignedCharacter));
 	for(const lab of emptyLabs){
-		let bestCandidateId = evaluateBestCandidate('scientist', characterPool);
+		const bestCandidateId = evaluateBestCandidate('scientist', characterPool);
 		if(bestCandidateId > -1) {
 			nextState = engineAssignCharacter(nextState, bestCandidateId, lab.id, 'scientist');
 		}
 
 		//also... do they have research?
 		if(!lab.research.project){
-			let researchOption = evaluateResearchOptions(nextState, orgId);
+			const researchOption = evaluateResearchOptions(nextState, orgId);
 			if(researchOption){
 				nextState = engineAssignResearch(nextState, lab.id, researchOption);
 			}
@@ -185,12 +185,12 @@ function processAiBuildPlanningCorporation(currentState: GameState, orgId: numbe
 		return currentState;
 	}
 
-	let newBuildPlan =  [...thinkingOrg.contextHistory.buildPlan];
+	const newBuildPlan =  [...thinkingOrg.contextHistory.buildPlan];
 
 
 	//do we need a mine?
 	if(thinkingOrg.contextHistory.previousIncome.rocks < 300){
-		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
+		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
 			if(planetoid.ownerNationId === orgId) {
 				return true;
 			}
@@ -201,7 +201,7 @@ function processAiBuildPlanningCorporation(currentState: GameState, orgId: numbe
 			}
 		});
 		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'mine')){
-			let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
+			const targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
 			if(targetPlanetoid){
 				newBuildPlan.push({type: "building", buildingType: 'mine', location: targetPlanetoid.id });
 			}
@@ -210,7 +210,7 @@ function processAiBuildPlanningCorporation(currentState: GameState, orgId: numbe
 
 	//do we need a consumerFactory?
 	if(thinkingOrg.contextHistory.previousIncome.consumerGoods < 200){
-		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
+		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
 			if(planetoid.ownerNationId === orgId) {
 				return true;
 			}
@@ -221,7 +221,7 @@ function processAiBuildPlanningCorporation(currentState: GameState, orgId: numbe
 			}
 		});
 		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'consumerFactory')){
-			let targetPlanetoid = evaluateBuildLocation('consumerFactory', orgPlanetoids);
+			const targetPlanetoid = evaluateBuildLocation('consumerFactory', orgPlanetoids);
 			if(targetPlanetoid){
 				newBuildPlan.push({type: "building", buildingType: 'consumerFactory', location: targetPlanetoid.id });
 			}
@@ -230,7 +230,7 @@ function processAiBuildPlanningCorporation(currentState: GameState, orgId: numbe
 
 	//do we need a consumerCenter?
 	if(thinkingOrg.resources.consumerGoods > thinkingOrg.resources.rocks){
-		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
+		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
 			if(planetoid.ownerNationId === orgId) {
 				return true;
 			}
@@ -241,7 +241,7 @@ function processAiBuildPlanningCorporation(currentState: GameState, orgId: numbe
 			}
 		});
 		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'consumerCenter')){
-			let targetPlanetoid = evaluateBuildLocation('consumerCenter', orgPlanetoids);
+			const targetPlanetoid = evaluateBuildLocation('consumerCenter', orgPlanetoids);
 			if(targetPlanetoid){
 				newBuildPlan.push({type: "building", buildingType: 'consumerCenter', location: targetPlanetoid.id });
 			}
@@ -269,8 +269,8 @@ function processAiBuildPlanningCorporation(currentState: GameState, orgId: numbe
 }
 
 export function processAiBuildPlanning(currentState: GameState, orgId: number): GameState {
-	let newOrgs = { ...currentState.orgs.entities };
-	let thinkingOrg = { ...currentState.orgs.entities[orgId]};
+	const newOrgs = { ...currentState.orgs.entities };
+	const thinkingOrg = { ...currentState.orgs.entities[orgId]};
 	
 	if(!thinkingOrg){
 		return currentState;
@@ -304,11 +304,11 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 
 	const finalTargets = weightedPlanetoids.slice(0,3).map(object => object.planetoid.id);
 
-	let newBuildPlan =  [...thinkingOrg.contextHistory.buildPlan];
+	const newBuildPlan =  [...thinkingOrg.contextHistory.buildPlan];
 	
 	//do we need a mine?
 	if(thinkingOrg.contextHistory.previousIncome.rocks < 300){
-		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
+		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
 			if(planetoid.ownerNationId === orgId) {
 				return true;
 			}
@@ -319,7 +319,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 			}
 		});
 		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'mine')){
-			let targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
+			const targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
 			if(targetPlanetoid){
 				newBuildPlan.push({type: "building", buildingType: 'mine', location: targetPlanetoid.id });
 			}
@@ -327,9 +327,9 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	}
 
 	if(thinkingOrg.resources.credits > 20000){
-		let orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);
+		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);
 		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'researchLab')){
-			let targetPlanetoid = evaluateBuildLocation('researchLab', orgPlanetoids);
+			const targetPlanetoid = evaluateBuildLocation('researchLab', orgPlanetoids);
 			if(targetPlanetoid){
 				newBuildPlan.push({type: "building", buildingType: 'researchLab', location: targetPlanetoid.id });
 			}
@@ -344,7 +344,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	//do we need a survey ship?
 	if(orgSurvShips.length < orgSystems.length - 2){
 		if(!newBuildPlan.some(intent => intent.type === 'ship' && intent.shipType === 'survey_ship')){
-			let targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
+			const targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
 			newBuildPlan.push({type: "ship", shipType: 'survey_ship', location: targetSystem });
 		}
 	}
@@ -352,7 +352,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	//do we need a colony ship?
 	if(candidatePlanetoids.length > 0){
 		if(!newBuildPlan.some(intent => intent.type === 'ship' && intent.shipType === 'colony_ship')){
-			let targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
+			const targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
 			newBuildPlan.push({type: "ship", shipType: 'colony_ship', location: targetSystem });
 		}
 	}
@@ -360,7 +360,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 	//do we need a construction ship?
 	if(orgConstShips.length < orgSystems.length / 8){
 		if(!newBuildPlan.some(intent => intent.type === 'ship' && intent.shipType === 'construction_ship')){
-			let targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
+			const targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
 			newBuildPlan.push({type: "ship", shipType: 'construction_ship', location: targetSystem });
 		}
 	}
@@ -370,7 +370,7 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 
 	if(orgFleets.length < (orgSystems.length / 5)){
 		if(!newBuildPlan.some(intent => intent.type === 'milShip')){
-			let targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
+			const targetSystem = orgSystems[Math.floor(Math.random() * orgSystems.length)].id;
 			newBuildPlan.push({type: "milShip", shipType: 'destroyer', location: targetSystem });
 		}
 	}

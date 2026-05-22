@@ -7,8 +7,8 @@ import { CYCLE_CONFIG } from '../constants/cycle_config';
 
 
 export function engineApplyCharacterProcess(currentState: GameState, charId: number, process: CharProcess): GameState {
-	let currentCharacter = { ...currentState.characters.entities[charId] };
-	let nextSkills = { ...currentCharacter.skills };
+	const currentCharacter = { ...currentState.characters.entities[charId] };
+	const nextSkills = { ...currentCharacter.skills };
 	
 	
 	if(process.addSkill){
@@ -33,7 +33,7 @@ export function engineApplyCharacterProcess(currentState: GameState, charId: num
 		nextTraits = nextTraits.filter(trait => !process.removeTrait!.includes(trait));
 	}
 	
-	let newCharacters = { ...currentState.characters.entities };
+	const newCharacters = { ...currentState.characters.entities };
 	newCharacters[charId] = { ...newCharacters[charId], skills: nextSkills, traits: nextTraits };
 	
 	
@@ -48,7 +48,7 @@ export function engineApplyCharacterProcess(currentState: GameState, charId: num
 
 
 export function engineRunCharacterEvent(currentState: GameState, charId: number, eventId: number): GameState {
-	let eventDefinition = CHARACTER_EVENTS[eventId];
+	const eventDefinition = CHARACTER_EVENTS[eventId];
 	
 	if(!eventDefinition){
 		return currentState;
@@ -61,7 +61,7 @@ export function engineRunCharacterEvent(currentState: GameState, charId: number,
 	//handle potential choices
 	if(eventDefinition.choices){
 		//todo choice weighting
-		let decision = Math.floor(Math.random()*eventDefinition.choices.length);
+		const decision = Math.floor(Math.random()*eventDefinition.choices.length);
 		
 		nextState = engineApplyCharacterProcess(currentState, charId, eventDefinition.choices[decision].effect as CharProcess);
 	}
@@ -72,10 +72,10 @@ export function engineRunCharacterEvent(currentState: GameState, charId: number,
 
 export function engineAssignCharacter(currentState: GameState, charId: number, assignmentTargetId: number, assignmentType: CharacterAssignment): GameState {
 	
-	let functionState = engineUnassignCharacter(currentState, charId);
+	const functionState = engineUnassignCharacter(currentState, charId);
 
 	//address character first
-	let newCharacters = { ...functionState.characters.entities };
+	const newCharacters = { ...functionState.characters.entities };
 	
 	if(!newCharacters[charId]){
 		return functionState;
@@ -85,11 +85,11 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 	let missionDuration = 0;
 
 	//then the other way from target
-	let newFleets = { ...functionState.fleets.entities };
-	let newSystems = { ...functionState.systems.entities };
-	let newOrgs = { ...functionState.orgs.entities };
-	let newShips = { ...functionState.ships.entities };
-	let newBuildings = { ...functionState.buildings.entities };
+	const newFleets = { ...functionState.fleets.entities };
+	const newSystems = { ...functionState.systems.entities };
+	const newOrgs = { ...functionState.orgs.entities };
+	const newShips = { ...functionState.ships.entities };
+	const newBuildings = { ...functionState.buildings.entities };
 	if(assignmentType === 'admiral'){
 		newFleets[assignmentTargetId] = { ...newFleets[assignmentTargetId], assignedCharacter: charId };
 	}
@@ -155,16 +155,16 @@ export function engineAssignCharacter(currentState: GameState, charId: number, a
 
 //unassign Character, mirroring assign Character...
 export function engineUnassignCharacter(currentState: GameState, charId: number): GameState {
-	let newCharacters = { ...currentState.characters.entities };
+	const newCharacters = { ...currentState.characters.entities };
 	
 	if(!newCharacters[charId] || !newCharacters[charId].assignment){
 		return currentState;
 	}
-	let newFleets = { ...currentState.fleets.entities };
-	let newSystems = { ...currentState.systems.entities };
-	let newOrgs = { ...currentState.orgs.entities };
-	let newShips = { ...currentState.ships.entities };
-	let newBuildings = { ...currentState.buildings.entities };
+	const newFleets = { ...currentState.fleets.entities };
+	const newSystems = { ...currentState.systems.entities };
+	const newOrgs = { ...currentState.orgs.entities };
+	const newShips = { ...currentState.ships.entities };
+	const newBuildings = { ...currentState.buildings.entities };
 	if(newCharacters[charId].assignment.type === 'admiral'){
 		newFleets[newCharacters[charId].assignment.id] = { ...newFleets[newCharacters[charId].assignment.id], assignedCharacter: null };
 	}
@@ -221,13 +221,13 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 }
 
 export function killCharacter(currentState: GameState, charId: number): GameState {
-	let functionState = engineUnassignCharacter(currentState, charId);
+	const functionState = engineUnassignCharacter(currentState, charId);
 
-	let newCharacters = { ...functionState.characters.entities };
+	const newCharacters = { ...functionState.characters.entities };
 	let newCharacterIds = [ ...functionState.characters.ids ];
-	let newOrgs = { ...functionState.orgs.entities };
+	const newOrgs = { ...functionState.orgs.entities };
 
-	let currentCharacter = newCharacters[charId];
+	const currentCharacter = newCharacters[charId];
 
 	if(!currentCharacter){
 		return functionState;
@@ -264,12 +264,12 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 	
 	const nameList = NAME_LISTS[nameListId];
 	
-	let firstName = nameList.firstNames[Math.floor(Math.random()* nameList.firstNames.length)];
-	let lastName = nameList.lastNames[Math.floor(Math.random()* nameList.lastNames.length)];
+	const firstName = nameList.firstNames[Math.floor(Math.random()* nameList.firstNames.length)];
+	const lastName = nameList.lastNames[Math.floor(Math.random()* nameList.lastNames.length)];
 	
-	let age = 22 + Math.floor((Math.random() * 5) + (Math.random() * 5) + (Math.random() * 5));
+	const age = 22 + Math.floor((Math.random() * 5) + (Math.random() * 5) + (Math.random() * 5));
 
-	let newCharacter: Character = {
+	const newCharacter: Character = {
 		id: nextId,
 		name: `${firstName} ${lastName}`,
 		age: age,
@@ -301,7 +301,7 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 //processCharacterCycles will be a function handling: ensuring that orgs have pools of eligible characters, and that characters age and die.
 export function processCharacterCycles(currentState: GameState): EngineResult {
 	let functionState = { ...currentState };
-	let allCharEvents: GameEvent[] = [];
+	const allCharEvents: GameEvent[] = [];
 	
 	let newCharacters = { ...functionState.characters.entities };
 	const characterIds = functionState.characters.ids;
@@ -312,11 +312,11 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 	
 	let nextCId = functionState.meta.lastCharacterId ;
 
-	let deadCharacterIds: number[] = [];
+	const deadCharacterIds: number[] = [];
 	
 	//step 1: process each character, advancing age, evaluating deaths
 	for(const charId of characterIds){
-		let currentCharacter = { ...newCharacters[charId] };
+		const currentCharacter = { ...newCharacters[charId] };
 		if(currentCharacter){
 
 			let newAge = currentCharacter.age;
@@ -339,7 +339,7 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 			
 			//does the character get a random event
 			if(Math.floor(Math.random() * 5) > 3){
-				let eventId = 1; //todo: actually random
+				const eventId = 1; //todo: actually random
 				
 				functionState = engineRunCharacterEvent(functionState, charId, eventId);
 			}
@@ -369,7 +369,7 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 					citizenOrg: orgId
 				};
 				newIds.push(nextCId);
-				let newPool = [...currentOrg.characters.characterPool];
+				const newPool = [...currentOrg.characters.characterPool];
 				newPool.push(nextCId);
 				currentOrg = { ...currentOrg, characters: { ...currentOrg.characters, characterPool: newPool } };
 				newCharacters[nextCId] = newCharacter;
@@ -397,7 +397,7 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 
 	//resolve character deaths
 	for(const id of deadCharacterIds){
-		let char = functionState.characters.entities[id];
+		const char = functionState.characters.entities[id];
 		if(char.citizenOrg){
 			const charEvent: GameEvent = {
 				type: 'char_result',

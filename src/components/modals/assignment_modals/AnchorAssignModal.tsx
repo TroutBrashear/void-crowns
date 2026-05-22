@@ -24,7 +24,7 @@ function AnchorAssignModal() {
         return null;
     }
 
-    let laneOptions = hostSystem.adjacentLanes.map(laneId => lanes[laneId]);
+    const laneOptions = hostSystem.adjacentLanes.map(laneId => lanes[laneId]);
 
     return(
           <div className={styles.assignModal}>

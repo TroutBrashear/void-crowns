@@ -86,7 +86,7 @@ function applyPlanetoidGenerationProcess(process: PlanetoidGenerationProcess, pl
 }
 
 export function generatePlanet(starId: number, system: System, nextPlanId: number): Planetoid {
-	let planetoidTagKeys = Object.keys(PLANETOID_TAGS);
+	const planetoidTagKeys = Object.keys(PLANETOID_TAGS);
 
 	let planet: Planetoid = {
 		id: nextPlanId,
@@ -123,7 +123,7 @@ export function generatePlanet(starId: number, system: System, nextPlanId: numbe
 
 
 export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
-	let newDeposits: Deposit[] = [];
+	const newDeposits: Deposit[] = [];
 
 	//----ROCK DEPOSITS----
 	let numRockDeposits = Math.floor((Math.random() * 10) + (Math.random() * planetoid.size));
@@ -136,7 +136,7 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 
 	for(let i = 0; i < numRockDeposits; i++){
 		lastDepositId += 1;
-		let newDeposit: Deposit = {
+		const newDeposit: Deposit = {
 			id: lastDepositId,
 			type: 'rocks',
 			amount: Math.floor(((Math.random() * 10) + 2) * 10000),
@@ -148,11 +148,11 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 	}
 
 	//----GAS DEPOSITS----
-	let numGasDeposits = Math.floor((Math.random() * 6) + (Math.random() * planetoid.size));
+	const numGasDeposits = Math.floor((Math.random() * 6) + (Math.random() * planetoid.size));
 
 	for(let i = 0; i < numGasDeposits; i++){
 		lastDepositId += 1;
-		let newDeposit: Deposit = {
+		const newDeposit: Deposit = {
 			id: lastDepositId,
 			type: 'gas',
 			amount: Math.floor(((Math.random() * 12) + 4) * 10000),
@@ -167,16 +167,16 @@ export function generatePlanetoidDeposits(planetoid: Planetoid): Deposit[] {
 }
 
 export function generateGalaxy (numSystems: number ): {systems: System[],  planetoids: Planetoid[], lanes: Lane[]} {
-	let newGalaxy: System[] = [];
-	let newPlanetoids: Planetoid[] = [];
+	const newGalaxy: System[] = [];
+	const newPlanetoids: Planetoid[] = [];
 	let nextPlanId = 0;
 
-	let newLanes: Lane[] = [];
+	const newLanes: Lane[] = [];
 	let nextLaneId = 0;
-	let createdLanes = new Set<string>();
+	const createdLanes = new Set<string>();
 
 	//naming dicts
-	let availableSystemNames = shuffle([...SYSTEM_NAMES]);
+	const availableSystemNames = shuffle([...SYSTEM_NAMES]);
 
 	for(let i = 0; i < numSystems; i++){
 		let systemName: string;
@@ -225,7 +225,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 			const systemPlanetoids: Planetoid[] = []; //we'll stack them all up before pushing to system's object
 
 			//set up one star. TODO: allow for binary systems?
-			let star: Planetoid = {
+			const star: Planetoid = {
 				id: nextPlanId++,
 				name: `Star ${nextSystem.name}`,
 				parentPlanetoidId: null,
@@ -285,7 +285,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 				}
 
 				for(let k = 0; k < numMoons; k++){
-					let moon: Planetoid = {
+					const moon: Planetoid = {
 						id: nextPlanId++,
 						name: `${planet.name} ${k + 1}`,
 						parentPlanetoidId: planet.id,
@@ -333,12 +333,12 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 		}
 
 		focusSystem.adjacentSystemIds = neighbors.map(nSystem => {
-			let systemIdA = Math.min(nSystem.id, focusSystem.id);
-			let systemIdB = Math.max(nSystem.id, focusSystem.id);
-			let laneKey = `${systemIdA}-${systemIdB}`;
+			const systemIdA = Math.min(nSystem.id, focusSystem.id);
+			const systemIdB = Math.max(nSystem.id, focusSystem.id);
+			const laneKey = `${systemIdA}-${systemIdB}`;
 
 			if(!createdLanes.has(laneKey)){
-				let lane: Lane = {
+				const lane: Lane = {
 					id: nextLaneId++,
 					status: "stable",
 
@@ -349,8 +349,8 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 				};
 				createdLanes.add(laneKey);
 				newLanes.push(lane);
-				let systemA = newGalaxy.find(system => system.id === systemIdA);
-				let systemB = newGalaxy.find(system => system.id === systemIdB);
+				const systemA = newGalaxy.find(system => system.id === systemIdA);
+				const systemB = newGalaxy.find(system => system.id === systemIdB);
 				if(systemA && systemB){
 					systemA.adjacentLanes.push(lane.id);
 					systemB.adjacentLanes.push(lane.id);
@@ -363,7 +363,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 	//make sure adjacencies reciprocate
 	for(const focusSystem of newGalaxy) {
 		for(const neighborId of focusSystem.adjacentSystemIds) {
-			let neighborSystem = newGalaxy.find(system => system.id === neighborId);
+			const neighborSystem = newGalaxy.find(system => system.id === neighborId);
 			if(neighborSystem && !neighborSystem.adjacentSystemIds.includes(focusSystem.id)) {
 				neighborSystem.adjacentSystemIds.push(focusSystem.id);
 			}
@@ -427,12 +427,12 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
   		closestOrphan.adjacentSystemIds.push(closestSystem.id);
   		closestSystem.adjacentSystemIds.push(closestOrphan.id);
 
-		let systemIdA = Math.min(closestOrphan.id, closestSystem.id);
-		let systemIdB = Math.max(closestOrphan.id, closestSystem.id);
-		let laneKey = `${Math.min(systemIdA, systemIdB)}-${Math.max(systemIdA, systemIdB)}`;
+		const systemIdA = Math.min(closestOrphan.id, closestSystem.id);
+		const systemIdB = Math.max(closestOrphan.id, closestSystem.id);
+		const laneKey = `${Math.min(systemIdA, systemIdB)}-${Math.max(systemIdA, systemIdB)}`;
 
 		if(!createdLanes.has(laneKey)){
-			let lane: Lane = {
+			const lane: Lane = {
 				id: nextLaneId++,
 				status: "stable",
 
@@ -443,8 +443,8 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 			};
 			createdLanes.add(laneKey);
 			newLanes.push(lane);
-			let systemA = newGalaxy.find(system => system.id === systemIdA);
-			let systemB = newGalaxy.find(system => system.id === systemIdB);
+			const systemA = newGalaxy.find(system => system.id === systemIdA);
+			const systemB = newGalaxy.find(system => system.id === systemIdB);
 			if(systemA && systemB){
 				systemA.adjacentLanes.push(lane.id);
 				systemB.adjacentLanes.push(lane.id);
@@ -467,12 +467,12 @@ function determineChildOrgType(org: Org): OrgCategory {
 }
 
 export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Character[]} {
-	let newOrgs: Org[] = [];
-	let newChars: Character[] = [];
+	const newOrgs: Org[] = [];
+	const newChars: Character[] = [];
 
 
 	for(let i = 0; i < numOrgs; i++){
-		let nextOrg: Org = {
+		const nextOrg: Org = {
 			id: i + 1,
 			category: 'nationState',
 			flavor: {
@@ -507,14 +507,14 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 		};
 
 		//generate org's starting leader
-		let character = generateCharacter(i + 1, nextOrg.flavor.nameList);
+		const character = generateCharacter(i + 1, nextOrg.flavor.nameList);
 		nextOrg.characters.leaderId = character.id;
 		newChars.push(character);
 
 
-		let childType = determineChildOrgType(nextOrg);
+		const childType = determineChildOrgType(nextOrg);
 
-		let nextChildOrg: Org = {
+		const nextChildOrg: Org = {
 			id: i + numOrgs + 1,
 			category: childType,
 			flavor: {
@@ -562,7 +562,7 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 				continue;
 			}
 
-			let relation: OrgRelation = {
+			const relation: OrgRelation = {
 				targetOrgId: targetOrg.id,
 				status: 'peace',
 				opinion: 0,
