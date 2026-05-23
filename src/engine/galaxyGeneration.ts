@@ -26,19 +26,30 @@ function planetEnvironment(): string {
 	const wetnessRoll = Math.random() * 100;
 	const temperatureRoll = Math.random() * 100; //TODO: based on star type and distance?
 
-	//TODO: restore Gaseous world type
+	//TODO: gas giants also affected by star
+	const gasRoll = Math.random() * 10;
+	if(gasRoll > 7){
+		return 'Gaseous';
+	}
 
-	if(wetnessRoll < 20 && temperatureRoll < 20){
-		return 'Barren';
+
+	if(temperatureRoll > 92){
+		return 'Molten';
+	}
+	else if(wetnessRoll > 90){
+		return 'Ocean';
+	}
+	else if((wetnessRoll > 60 && wetnessRoll < 80) && (temperatureRoll > 50 && temperatureRoll < 70)){
+		return 'Temperate';
 	}
 	else if(wetnessRoll < 20 && temperatureRoll > 75){
 		return 'Desert';
 	}
 	else if(wetnessRoll > 70 && temperatureRoll < 20){
-		return 'Frozen'
+		return 'Frozen';
 	}
-	else if((wetnessRoll > 60 && wetnessRoll < 80) && (temperatureRoll > 50 && temperatureRoll < 70)){
-		return 'Temperate';
+	else if((wetnessRoll < 45 && temperatureRoll < 35) && (wetnessRoll > 20 && temperatureRoll > 20)){
+		return 'Tundra';
 	}
 	else if(wetnessRoll > 75 && temperatureRoll > 70){
 		return 'Humid';
