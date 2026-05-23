@@ -26,7 +26,11 @@ function planetEnvironment(): string {
 	const wetnessRoll = Math.random() * 100;
 	const temperatureRoll = Math.random() * 100; //TODO: based on star type and distance?
 
-	//TODO: restore Gaseous world type
+	//TODO: gas giants also affected by star
+	const gasRoll = Math.random() * 10;
+	if(gasRoll > 7){
+		return 'Gaseous';
+	}
 
 
 	if(temperatureRoll > 92){
