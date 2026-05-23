@@ -352,6 +352,7 @@ export interface GameState {
     lastDiploId: number;
     lastPlanetoidId: number;
     lastOrgId: number;
+    lastSpeciesId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
@@ -362,6 +363,7 @@ export interface GameState {
   characters: EntitiesState<Character>;
   lanes: EntitiesState<Lane>;
   buildings: EntitiesState<Building>;
+  species: EntitiesState<Species>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
