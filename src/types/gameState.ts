@@ -162,6 +162,13 @@ export interface Deposit {
 }
 
 
+//-----------POPULATION AND SPECIES-------------------
+export interface Species {
+  readonly id: number;
+  name: string;
+  traits: string[];
+}
+
 //-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------
 export type OrgCategory = 'nationState' | 'corporation';
 
@@ -345,6 +352,7 @@ export interface GameState {
     lastDiploId: number;
     lastPlanetoidId: number;
     lastOrgId: number;
+    lastSpeciesId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
@@ -355,6 +363,7 @@ export interface GameState {
   characters: EntitiesState<Character>;
   lanes: EntitiesState<Lane>;
   buildings: EntitiesState<Building>;
+  species: EntitiesState<Species>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
@@ -388,7 +397,7 @@ export interface GameActions {
   sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType, trade?: { send: Resources, receive: Resources } }) => void;
   colonizePlanetoid: (payload: ColonizePayload) => void;
   beginPlanetoidSurvey: (payload: ColonizePayload) => void;
-  initializeNewGame: (payload: {playerOrgName: string, playerOrgColor: string} ) => void;
+  initializeNewGame: (payload: {playerOrgName: string, playerOrgColor: string, playerSpecies: string} ) => void;
   assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: CharacterAssignment}) => void;
   assignResearch: (payload: {buildingId: number, researchId: string }) => void;
   getOrgResearchOptions: (orgId: number) => string[];

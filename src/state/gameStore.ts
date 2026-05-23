@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, MilShipType, BuildingClass, DiploType, Resources, PlanetoidClassification } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, MilShipType, BuildingClass, DiploType, Resources, PlanetoidClassification, Species } from '../types/gameState';
 import type { Fleet, PlanetoidIntel } from '../types/gameState';
 
 //engine imports
@@ -67,6 +67,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
      lastDiploId: 0,
      lastPlanetoidId: 0,
      lastOrgId: 0,
+     lastSpeciesId: 0,
     },
     systems: { entities: {}, ids: [] }, 
 	ships: { entities: {}, ids: [] },
@@ -77,8 +78,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     lanes: { entities: {}, ids: [] },
 	characters: { entities: {}, ids: [] },
     buildings: { entities: {}, ids: [] },
+    species: { entities: {}, ids: [] },
     fleetLocationIndex: {},   
     intelligence: { trueStatus: {}, planetoidIntel: {}},
+
 
   tick: () => {
     const currentState = get();
@@ -269,10 +272,14 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     set(engineAssignResearch(get(), payload.buildingId, payload.researchId));
   },
 
-  initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string }) => {
+  initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string, playerSpecies: string }) => {
     //currently, generate functions are using a set value. This will later be based on game settings.
     const { systems, planetoids, lanes } = generateGalaxy(500);
     const { orgs, chars } = generateStartingOrgs(6);
+
+    let species: Species[] = [];
+
+    species[0] = { id: 0, name: payload.playerSpecies, traits: [] };
 
     orgs[0].flavor.name = payload.playerOrgName;
     orgs[0].flavor.color = payload.playerOrgColor;
@@ -314,6 +321,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         lastDiploId:0,
         lastPlanetoidId: planetoids.length + 1,
         lastOrgId: orgs.length + 1,
+        lastSpeciesId: species.length + 1,
       },
       systems: normalize(systems),
       fleets: { entities: {}, ids: [] },   
@@ -323,6 +331,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       orgs: normalize(orgs),
       lanes: normalize(lanes),
       characters: normalize(chars),
+      species: normalize(species),
       intelligence: { trueStatus: {}, planetoidIntel: intelState },
     });
   },
