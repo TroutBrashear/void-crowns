@@ -6,13 +6,14 @@ export function OrgCreation() {
 
     const [name, setName] = useState('');
     const [color, setColor] = useState('#ff0000');
+    const [speciesName, setSpeciesName] = useState('');
 
     const setAppState = useUiStore(state => state.setAppState);
     const initializeNewGame = useGameStore(state => state.initializeNewGame);
 
 
     const startGame = () => {
-        initializeNewGame({playerOrgName: name, playerOrgColor: color});
+        initializeNewGame({playerOrgName: name, playerOrgColor: color, playerSpecies: speciesName});
         setAppState('in_game');
     };
 
@@ -22,6 +23,11 @@ export function OrgCreation() {
             <input type="text" id="orgName" value={name} onChange={(e) => setName(e.target.value)} />
             <label htmlFor="orgColor">Color: </label>
             <input type="color" id="orgColor" value={color} onChange={(e) => setColor(e.target.value)} />
+            <div>
+                <p>Species Info:</p>
+                <label htmlFor="speciesName">Name: </label>
+                <input type="text" id="speciesName" value={speciesName} onChange={(e) => setSpeciesName(e.target.value)}/>
+            </div>
             <button onClick= {startGame}>Submit</button>
         </div>
     );

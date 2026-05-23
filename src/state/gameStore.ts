@@ -269,7 +269,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     set(engineAssignResearch(get(), payload.buildingId, payload.researchId));
   },
 
-  initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string }) => {
+  initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string, playerSpecies: string }) => {
     //currently, generate functions are using a set value. This will later be based on game settings.
     const { systems, planetoids, lanes } = generateGalaxy(500);
     const { orgs, chars } = generateStartingOrgs(6);

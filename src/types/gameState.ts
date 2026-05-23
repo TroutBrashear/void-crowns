@@ -395,7 +395,7 @@ export interface GameActions {
   sendDiploRequest: (payload: {targetOrgId: number, originOrgId: number, requestType: DiploType, trade?: { send: Resources, receive: Resources } }) => void;
   colonizePlanetoid: (payload: ColonizePayload) => void;
   beginPlanetoidSurvey: (payload: ColonizePayload) => void;
-  initializeNewGame: (payload: {playerOrgName: string, playerOrgColor: string} ) => void;
+  initializeNewGame: (payload: {playerOrgName: string, playerOrgColor: string, playerSpecies: string} ) => void;
   assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: CharacterAssignment}) => void;
   assignResearch: (payload: {buildingId: number, researchId: string }) => void;
   getOrgResearchOptions: (orgId: number) => string[];
