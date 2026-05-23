@@ -162,6 +162,13 @@ export interface Deposit {
 }
 
 
+//-----------POPULATION AND SPECIES-------------------
+export interface Species {
+  readonly id: number;
+  name: string;
+  traits: string[];
+}
+
 //-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------
 export type OrgCategory = 'nationState' | 'corporation';
 
