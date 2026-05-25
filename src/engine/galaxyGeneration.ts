@@ -45,8 +45,14 @@ function planetEnvironment(): string {
 	else if(wetnessRoll < 20 && temperatureRoll > 75){
 		return 'Desert';
 	}
-	else if(wetnessRoll > 70 && temperatureRoll < 20){
+	else if(wetnessRoll < 40 && temperatureRoll > 50){
+		return 'Outback';
+	}
+	else if(wetnessRoll > 50 && temperatureRoll < 20){
 		return 'Frozen';
+	}
+	else if(wetnessRoll > 50 && temperatureRoll < 50){
+		return 'Taiga';
 	}
 	else if((wetnessRoll < 45 && temperatureRoll < 35) && (wetnessRoll > 20 && temperatureRoll > 20)){
 		return 'Tundra';
