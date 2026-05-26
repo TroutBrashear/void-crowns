@@ -82,6 +82,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     species: { entities: {}, ids: [] },
     fleetLocationIndex: {},   
     intelligence: { trueStatus: {}, planetoidIntel: {}},
+    pops: { entities: {}, ids:[] },
 
 
   tick: () => {
@@ -302,7 +303,6 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         return p.id === homeId;
       });
       if(home){
-        home.population = 8000000000;
         home.ownerNationId = currentOrg.id;
       }
 

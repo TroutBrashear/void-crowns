@@ -52,7 +52,6 @@ export interface Planetoid {
   classification: PlanetoidClassification;
   environment: string;
   size: number;
-  population: number;
   buildings: number[];
   ownerNationId: number | null;
   tags: string[];

@@ -1,4 +1,4 @@
-import type { GameState, Planetoid, Resources, Process, GameEvent, EngineResult, Character } from '../types/gameState';
+import type { GameState, Resources, Process, GameEvent, EngineResult, Character } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
@@ -155,11 +155,6 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 	};
 }
 
-function calcPopulationGrowth(targetPlanetoid: Planetoid): number {
-	//TODO: can add modifiers based on planet environment, owning org, etc.
-	const finalGrowth = targetPlanetoid.population * 0.001;
-	return finalGrowth;
-}
 
 export function processEconomy(currentState: GameState): EngineResult {
 	const newOrgs = { ...currentState.orgs.entities };
@@ -209,11 +204,9 @@ export function processEconomy(currentState: GameState): EngineResult {
 				}
 
 				//check population for credits income
-				if(currentPlanetoid.population > 0){
-					roundIncome[planetoidOwner].credits += Math.ceil(currentPlanetoid.population / 1000000);
+				if(currentPlanetoid.ownerNationId){
+					roundIncome[planetoidOwner].credits += 10000;
 
-					//update Planetoid population
-					currentPlanetoid.population += calcPopulationGrowth(currentPlanetoid);
 
 				}
 			}
