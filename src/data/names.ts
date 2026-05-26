@@ -44,3 +44,7 @@ export const SYSTEM_NAMES: string[] = [
 	"Yad", "Yaqut", "Yu Heng", "Ye Zhe", "You Geng", "Yeddo", "Yafin",
 	"Zawiyah", "Zawraq", "Zubana", "Zao Fu", "Zhu Wang", "Zi Xiu"
 ];
+
+export const SPECIES_NAMES: string[] = [
+		"Lizarb", "Slamand", "Gorbusian", "Blaarb", "Baboo",  "Eckon", "BigAlien"
+];
