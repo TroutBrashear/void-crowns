@@ -169,6 +169,12 @@ export interface Species {
   traits: string[];
 }
 
+export interface Pop {
+  readonly id: number;
+  species: number; //a species id
+  locationId: number; //a planetoid id
+}
+
 //-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------
 export type OrgCategory = 'nationState' | 'corporation';
 
@@ -353,6 +359,7 @@ export interface GameState {
     lastPlanetoidId: number;
     lastOrgId: number;
     lastSpeciesId: number;
+    lastPopId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
@@ -364,6 +371,7 @@ export interface GameState {
   lanes: EntitiesState<Lane>;
   buildings: EntitiesState<Building>;
   species: EntitiesState<Species>;
+  pops: EntitiesState<Pop>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;

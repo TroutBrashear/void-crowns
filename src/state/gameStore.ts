@@ -68,6 +68,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
      lastPlanetoidId: 0,
      lastOrgId: 0,
      lastSpeciesId: 0,
+     lastPopId: 0,
     },
     systems: { entities: {}, ids: [] }, 
 	ships: { entities: {}, ids: [] },
@@ -322,6 +323,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         lastPlanetoidId: planetoids.length + 1,
         lastOrgId: orgs.length + 1,
         lastSpeciesId: species.length + 1,
+        lastPopId: 0,
       },
       systems: normalize(systems),
       fleets: { entities: {}, ids: [] },   
@@ -332,6 +334,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       lanes: normalize(lanes),
       characters: normalize(chars),
       species: normalize(species),
+      pops: { entities: {}, ids: [] },
       intelligence: { trueStatus: {}, planetoidIntel: intelState },
     });
   },
