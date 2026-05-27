@@ -52,7 +52,6 @@ export interface Planetoid {
   classification: PlanetoidClassification;
   environment: string;
   size: number;
-  population: number;
   buildings: number[];
   ownerNationId: number | null;
   tags: string[];
@@ -167,6 +166,12 @@ export interface Species {
   readonly id: number;
   name: string;
   traits: string[];
+}
+
+export interface Pop {
+  readonly id: number;
+  species: number; //a species id
+  locationId: number; //a planetoid id
 }
 
 //-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------
@@ -353,6 +358,7 @@ export interface GameState {
     lastPlanetoidId: number;
     lastOrgId: number;
     lastSpeciesId: number;
+    lastPopId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
@@ -364,6 +370,7 @@ export interface GameState {
   lanes: EntitiesState<Lane>;
   buildings: EntitiesState<Building>;
   species: EntitiesState<Species>;
+  pops: EntitiesState<Pop>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;

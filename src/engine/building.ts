@@ -404,7 +404,6 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
     environment: 'construct', //TODO
     ownerNationId: orgId,
     size: 1,
-    population: 0,
     buildings: [],
     tags: [],
     deposits: [],
@@ -477,7 +476,6 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     environment: 'construct-utility', //TODO
     ownerNationId: orgId,
     size: 1,
-    population: 0,
     buildings: [],
     tags: [],
     deposits: [],
