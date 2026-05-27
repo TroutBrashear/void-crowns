@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, MilShipType, BuildingClass, DiploType, Resources, PlanetoidClassification, Species } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, MilShipType, BuildingClass, DiploType, Resources, PlanetoidClassification, Pop } from '../types/gameState';
 import type { Fleet, PlanetoidIntel } from '../types/gameState';
 
 //engine imports
@@ -12,7 +12,7 @@ import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
 import { processDiplomacy, enginePlayerDiploResponse, sendDiploRequest} from '../engine/diplomacy';
-import { generateGalaxy, generateStartingOrgs } from '../engine/galaxyGeneration';
+import { generateGalaxy, generateStartingOrgs, generateStartingSpecies } from '../engine/galaxyGeneration';
 import { engineBuildShip, engineBuildBuilding, engineBuildMilShip, engineBuildPlanetoid, engineBuildAnchor } from '../engine/building';
 import { colonizePlanetoid, beginPlanetoidSurvey, getHabitablesInSystem } from '../engine/colonization';
 import { engineAssignCharacter } from '../engine/character';
@@ -278,8 +278,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     //currently, generate functions are using a set value. This will later be based on game settings.
     const { systems, planetoids, lanes } = generateGalaxy(500);
     const { orgs, chars } = generateStartingOrgs(6);
-
-    let species: Species[] = [];
+    const species = generateStartingSpecies(6);
+    const pops: Pop[] = [];
+    let popId = 0;
 
     species[0] = { id: 1, name: payload.playerSpecies, traits: [] };
 
@@ -304,6 +305,15 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       });
       if(home){
         home.ownerNationId = currentOrg.id;
+        for(let i = 0; i < 10; i++){
+          const newPop: Pop = {
+              id: popId++,
+              species: currentOrg.id,
+              locationId: home.id,
+          };
+
+          pops.push(newPop);
+        }
       }
 
       intelState[currentOrg.id] = { noProspects: [] };
@@ -334,7 +344,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       lanes: normalize(lanes),
       characters: normalize(chars),
       species: normalize(species),
-      pops: { entities: {}, ids: [] },
+      pops: normalize(pops),
       intelligence: { trueStatus: {}, planetoidIntel: intelState },
     });
   },
