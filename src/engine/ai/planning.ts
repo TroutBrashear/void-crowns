@@ -165,7 +165,7 @@ export function evaluateBuildLocation(buildingType: BuildingClass, locations: Pl
 		}
 
 		if(buildingType === 'consumerCenter'){
-			locationScore += (location.population/200000000);
+			locationScore += 1; //placeholder, consumercenters getting a rework
 		}
 
 

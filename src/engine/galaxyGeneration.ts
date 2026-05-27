@@ -1,11 +1,11 @@
-import type { System, Planetoid, Org, OrgRelation, OrgCategory, Character, Deposit, Lane } from '../types/gameState';
+import type { System, Planetoid, Org, OrgRelation, OrgCategory, Character, Deposit, Lane, Species } from '../types/gameState';
 import { shuffle } from '../utils/shuffle';
 import { findPath } from './pathfinding';
 import { generateCharacter } from './character';
 import { colorPicker } from '../utils/colors';
 import { PLANETOID_TAGS } from '../data/tags';
 import type { PlanetoidGenerationProcess } from '../data/tags';
-import { SYSTEM_NAMES } from '../data/names';
+import { SYSTEM_NAMES, SPECIES_NAMES } from '../data/names';
 
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
 const WIDTH_DEFAULT = 5000;
@@ -594,4 +594,23 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 	}
 
 	return { orgs: newOrgs, chars: newChars };
+}
+
+export function generateStartingSpecies(numOrgs: number): Species[] {
+	const specieses: Species[] = [];
+
+	//naming dicts
+	const availableSpeciesNames = shuffle([...SPECIES_NAMES]);
+
+	for(let i = 0; i < numOrgs; i++){
+		const newSpecies: Species = {
+			id: i + 1,
+			name: availableSpeciesNames.pop() || `Generic Alien ${i+1}`,
+			traits: [],
+		}
+
+		specieses.push(newSpecies);
+	}
+
+	return specieses;
 }
