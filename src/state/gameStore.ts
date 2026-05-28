@@ -305,6 +305,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       });
       if(home){
         home.ownerNationId = currentOrg.id;
+        home.population = {
+          total: 10,
+          progress: 0,
+        };
         for(let i = 0; i < 10; i++){
           const newPop: Pop = {
               id: popId++,

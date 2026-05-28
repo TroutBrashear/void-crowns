@@ -61,6 +61,10 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
       const updatedPlanetoid = {
         ...planetoid,
         ownerNationId: ship.ownerNationId,
+        population: {
+          total: 1,
+          progress: 0,
+        }
       };
 
       const shipEntities = { ...currentState.ships.entities };
