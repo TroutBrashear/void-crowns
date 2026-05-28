@@ -1,4 +1,4 @@
-import type { GameState, Resources, Process, GameEvent, EngineResult, Character } from '../types/gameState';
+import type { GameState, Resources, Process, GameEvent, EngineResult, Character, Pop } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
@@ -161,6 +161,10 @@ export function processEconomy(currentState: GameState): EngineResult {
 	const newBuildings = { ...currentState.buildings.entities };
   	const newPlanetoidEntities = { ...currentState.planetoids.entities };
 
+	let lastPopId = currentState.meta.lastPopId;
+	let newPops = { ...currentState.pops.entities };
+	let newPopIds = [ ...currentState.pops.ids ];
+
 	const roundIncome: Record<number, Resources> = {}; //number is an orgId
 
 	const completedResearch: { orgId: number, researchId: string, labLocationId: number }[] = [];
@@ -189,7 +193,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 		}
 
 		for(const planetoidId of currentSystem.planetoids){
-			const currentPlanetoid = { ...currentState.planetoids.entities[planetoidId]};
+			let currentPlanetoid = { ...currentState.planetoids.entities[planetoidId]};
 			const planetoidOwner = currentPlanetoid.ownerNationId;
 			const planetoidDeposits = [...currentPlanetoid.deposits];
 
@@ -203,12 +207,35 @@ export function processEconomy(currentState: GameState): EngineResult {
 					};
 				}
 
-				//check population for credits income
-				if(currentPlanetoid.ownerNationId){
-					roundIncome[planetoidOwner].credits += 10000;
 
 
+				//population calculations
+				if(currentPlanetoid.population){
+					//check population for credits income
+					if(currentPlanetoid.ownerNationId){
+						roundIncome[planetoidOwner].credits += 500 * currentPlanetoid.population.total;
+					}
+
+					const popProgress = currentPlanetoid.population.progress + 1;
+
+					//trigger new Pop if needed
+					if(popProgress > 10){
+
+						const newPop: Pop = {
+							id: lastPopId++,
+							species: 0,
+							locationId: currentPlanetoid.id
+						}
+
+						newPops[newPop.id] = newPop;
+						newPopIds.push(newPop.id);
+						currentPlanetoid.population = {
+							total: currentPlanetoid.population.total + 1,
+							progress: 0
+						}
+					}
 				}
+
 			}
 
 			//check buildings for processes
@@ -231,7 +258,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 
 								//is the project complete?
 								if(researchRoll > researchProject.cost){
-									//TODO: swap processEconomy to return an EngineResult so we can inform player of completion!
 									const orgResearches = [ ... newOrgs[building.ownerNationId].research.researched ];
 									orgResearches.push(building.research.project);
 									newOrgs[building.ownerNationId] = {
@@ -401,6 +427,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 		meta: {
 			...currentState.meta,
 			lastCharacterId: nextId,
+			lastPopId: lastPopId,
 		},
 		orgs: {
 			...currentState.orgs,
@@ -418,6 +445,10 @@ export function processEconomy(currentState: GameState): EngineResult {
 			...currentState.characters,
 			ids: newCharacterIds,
 			entities: newCharacters,
+		},
+		pops: {
+			ids: newPopIds,
+			entities: newPops
 		}
 	};
 
