@@ -289,35 +289,44 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
     const intelState: Record<number, PlanetoidIntel> = {};
 
+    let systemIndex = 1;
+
     for(const currentOrg of orgs) {
       //temp solution, can randomize later
       if(currentOrg.category !== 'nationState'){
         continue;
       }
-      systems[currentOrg.id].ownerNationId = currentOrg.id; 
+      let foundHome = false;
 
-      const homeId = systems[currentOrg.id].planetoids.find(p => {
-       const planetoidCandidate = planetoids.find(planetoid => planetoid.id === p);
-       return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'Barren';
-      });
-      const home = planetoids.find(p => {
-        return p.id === homeId;
-      });
-      if(home){
-        home.ownerNationId = currentOrg.id;
-        home.population = {
-          total: 10,
-          progress: 0,
-        };
-        for(let i = 0; i < 10; i++){
-          const newPop: Pop = {
-              id: popId++,
-              species: currentOrg.id,
-              locationId: home.id,
+      while(!foundHome){
+        const homeId = systems[systemIndex].planetoids.find(p => {
+        const planetoidCandidate = planetoids.find(planetoid => planetoid.id === p);
+        return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'Barren';
+        });
+        const home = planetoids.find(p => {
+          return p.id === homeId;
+        });
+        if(home){
+          foundHome = true;
+          home.ownerNationId = currentOrg.id;
+          home.population = {
+            total: 10,
+            progress: 0,
           };
+          for(let i = 0; i < 10; i++){
+            const newPop: Pop = {
+                id: popId++,
+                species: currentOrg.id,
+                locationId: home.id,
+            };
 
-          pops.push(newPop);
+            pops.push(newPop);
+          }
+
+          systems[systemIndex].ownerNationId = currentOrg.id;
         }
+
+        systemIndex++;
       }
 
       intelState[currentOrg.id] = { noProspects: [] };
