@@ -54,6 +54,10 @@ export interface Planetoid {
   size: number;
   buildings: number[];
   ownerNationId: number | null;
+  population?: {
+    total: number;
+    progress: number;
+  }
   tags: string[];
   deposits: Deposit[];
   construct?: {
