@@ -9,6 +9,9 @@ export const CYCLE_CONFIG = {
     },
     ECONOMY: {
         ECONOMY_INTERVAL: 10,
+        POP_PROGRESS_GOAL: 10,
+        DEFAULT_POP_TAX: 500,
+        GOVERNOR_TAX_BONUS: 100,
     },
     DIPLOMACY: {
         DIPLOMAT_INTERVAL: 10,
@@ -16,5 +19,7 @@ export const CYCLE_CONFIG = {
     },
     CHARACTER: {
         AGING_INTERVAL: 50,
+        ACADEMY_SPAWN_FLOOR: 6,
+        ACADEMY_SPAWN_CHANCE: 5,
     }
 };

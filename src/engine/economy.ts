@@ -4,6 +4,8 @@ import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
 import { generateCharacter } from './character';
 
+import { CYCLE_CONFIG } from '../constants/cycle_config';
+
 //------RESARCH FUNCTIONS------
 
 export function getAllResearchOptions(currentState: GameState, orgId: number): string[] {
@@ -63,11 +65,11 @@ export function evaluateAcademySpawnChance(currentState: GameState, buildingId: 
 
 	}
 
-	if(baseChance < 6){
-		baseChance = 6;
+	if(baseChance < CYCLE_CONFIG.CHARACTER.ACADEMY_SPAWN_FLOOR){
+		baseChance = CYCLE_CONFIG.CHARACTER.ACADEMY_SPAWN_FLOOR;
 	}
 
-	if((Math.random() * baseChance) < 5){
+	if((Math.random() * baseChance) < CYCLE_CONFIG.CHARACTER.ACADEMY_SPAWN_CHANCE){
 		return true;
 	}
 
@@ -187,7 +189,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 			if(currentSystem.assignedCharacter){
 				const governor = currentState.characters.entities[currentSystem.assignedCharacter];
 				if(governor){
-					roundIncome[systemOwner].credits += 100 * governor.skills.administration;
+					roundIncome[systemOwner].credits += CYCLE_CONFIG.ECONOMY.GOVERNOR_TAX_BONUS * governor.skills.administration;
 				}
 			}
 		}
@@ -213,13 +215,13 @@ export function processEconomy(currentState: GameState): EngineResult {
 				if(currentPlanetoid.population){
 					//check population for credits income
 					if(currentPlanetoid.ownerNationId){
-						roundIncome[planetoidOwner].credits += 500 * currentPlanetoid.population.total;
+						roundIncome[planetoidOwner].credits += CYCLE_CONFIG.ECONOMY.DEFAULT_POP_TAX  * currentPlanetoid.population.total;
 					}
 
 					const popProgress = currentPlanetoid.population.progress + 1;
 
 					//trigger new Pop if needed
-					if(popProgress > 10){
+					if(popProgress > CYCLE_CONFIG.ECONOMY.POP_PROGRESS_GOAL){
 
 						const newPop: Pop = {
 							id: lastPopId++,
