@@ -268,6 +268,7 @@ export interface Character {
 
   history: {
     events: string[];
+    parentId?: number;
   }
 }
 

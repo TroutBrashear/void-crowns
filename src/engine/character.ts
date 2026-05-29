@@ -263,6 +263,8 @@ export function killCharacter(currentState: GameState, charId: number): GameStat
 	};
 }
 
+
+
 export function generateCharacter(nextId: number, nameListId: string): Character {
 	
 	const nameList = NAME_LISTS[nameListId];
@@ -302,6 +304,14 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 	};
 	
 	return newCharacter; 
+}
+
+export function generateCharacterOffspring(nextId: number, nameListId: string, lastName: string, parentId: number ): Character {
+	let newCharacter = generateCharacter(nextId, nameListId);
+	newCharacter.name.lastName = lastName;
+	newCharacter.history.parentId = parentId;
+
+	return newCharacter;
 }
  
 //processCharacterCycles will be a function handling: ensuring that orgs have pools of eligible characters, and that characters age and die.
