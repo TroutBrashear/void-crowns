@@ -35,7 +35,7 @@ function FleetSelectModal() {
     <div className={styles.modal}>
       <h2>Fleet: {fleetToShow.name}</h2>
       <p>Location: System {fleetToShow.locationSystemId}</p>
-       {comCharacter && <p>Commander: { comCharacter.name} </p>}
+       {comCharacter && <p>Commander: { `${comCharacter.name.firstName} ${comCharacter.name.lastName}` } </p>}
 	    {fleetToShow.ownerNationId === 1 && <button onClick={() => openAssignModal("assign_character", {targetId: selection.id, position: 'admiral'})}>Assign new Commander</button>}
 
       <p>Ships:</p>

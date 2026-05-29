@@ -42,7 +42,7 @@ function ShipSelectModal() {
     <div className={styles.modal}>
       <h2>Ship: {shipToShow.name}</h2>
       <p>Location: System {shipToShow.locationSystemId}</p>
-      {assignedCharacter && <p>Surveyor: { assignedCharacter.name} </p>}
+      {assignedCharacter && <p>Surveyor: `${assignedCharacter.name.firstName} ${assignedCharacter.name.lastName}`</p>}
 
       { (colonizablePlanetoids.length > 0 && shipToShow.type === 'colony_ship' && shipToShow.ownerNationId === 1) && <div>
           <select name="colonyTarget" value={selectedPlanetoid || ''} onChange={(e) => setSelectedPlanetoid(Number(e.target.value))}>
