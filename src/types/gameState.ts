@@ -251,7 +251,10 @@ export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporat
 
 export interface Character {
   readonly id: number;
-  name: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  }
   age: number; 
   traits: string[];
   skills: Record<SkillName, number>;

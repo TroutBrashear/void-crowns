@@ -220,6 +220,9 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	};
 }
 
+
+
+
 export function killCharacter(currentState: GameState, charId: number): GameState {
 	const functionState = engineUnassignCharacter(currentState, charId);
 
@@ -271,7 +274,10 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 
 	const newCharacter: Character = {
 		id: nextId,
-		name: `${firstName} ${lastName}`,
+		name: {
+			firstName:`${firstName}`,
+			lastName: `${lastName}`,
+		},
 		age: age,
 		traits: [],
 		assignment: null,
