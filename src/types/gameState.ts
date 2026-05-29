@@ -198,6 +198,11 @@ export interface Org {
 	color: string;
 	nameList: string;
   }
+  government: {
+    succession: string;
+  }
+
+
   resources: Resources;
 
   research: {

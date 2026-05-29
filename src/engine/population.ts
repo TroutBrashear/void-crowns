@@ -22,7 +22,7 @@ export function popIncreaseSpeciesRoll(currentState: GameState, planetoidId: num
 
     const speciesRoll = Math.random() * popTotal;
     let weight = 0;
-    let rolledSpecies = localPops[0].id;
+    let rolledSpecies = localPops[0].species;
 
     for(const [speciesId, speciesTotal] of Object.entries(speciesTotals)){
         weight += speciesTotal;
