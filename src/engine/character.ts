@@ -300,6 +300,7 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 
 		history: {
 			events: [],
+			childrenIds: [],
 		},
 	};
 	
@@ -380,6 +381,8 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 					newPool.push(nextCId);
 					newOrgs[currentCharacter.citizenOrg] = { ...newOrgs[currentCharacter.citizenOrg], characters: { ...newOrgs[currentCharacter.citizenOrg].characters, characterPool: newPool } };
 					newCharacters[nextCId] = newCharacter;
+
+					currentCharacter.history.childrenIds.push(nextCId);
 				}
 			}
 			
