@@ -365,6 +365,9 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 			//character offspring check!
 			if(currentCharacter.age > 45 && currentCharacter.citizenOrg){
 				let offspringRoll = Math.random() * 100;
+
+				offspringRoll -= (currentCharacter.history.childrenIds.length * 3);
+
 				if(currentCharacter.assignment && currentCharacter.assignment.type === 'leader'){
 					offspringRoll + 5;
 				}
