@@ -246,7 +246,7 @@ export function killCharacter(currentState: GameState, charId: number): GameStat
 		}
 	}
 
-	delete newCharacters[charId];
+	newCharacters[charId].status = 'dead';
 	newCharacterIds = newCharacterIds.filter(id => charId !== id);
 
 	return {
@@ -276,6 +276,7 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 
 	const newCharacter: Character = {
 		id: nextId,
+		status: 'alive',
 		name: {
 			firstName:`${firstName}`,
 			lastName: `${lastName}`,

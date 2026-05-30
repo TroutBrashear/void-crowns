@@ -249,8 +249,13 @@ export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'acad
 
 export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
 
+export type CharacterStatus = 'alive' | 'dead';
+
 export interface Character {
   readonly id: number;
+
+  status: CharacterStatus;
+
   name: {
     firstName: string;
     lastName: string;
