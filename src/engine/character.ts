@@ -335,7 +335,7 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 	//step 1: process each character, advancing age, evaluating deaths
 	for(const charId of characterIds){
 		const currentCharacter = { ...newCharacters[charId] };
-		if(currentCharacter){
+		if(currentCharacter && currentCharacter.status === 'alive'){
 
 			//handle aging and death
 			let newAge = currentCharacter.age;
