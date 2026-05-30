@@ -501,6 +501,9 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 				color: colorPicker(),
 				nameList: 'default',
 			},
+			government: {
+				succession: "monarchy",
+			},
 			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
 			characters: {
 				characterPool: [],
@@ -542,6 +545,9 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 				name:`Nation ${i + numOrgs + 1}`,
 				color: colorPicker(),
 				nameList: 'default',
+			},
+			government: {
+				succession: "council"
 			},
 			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
 			characters: {

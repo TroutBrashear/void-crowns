@@ -51,7 +51,7 @@ function SystemSelectModal() {
     {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'survey_ship'})}>Construct Survey Ship</button>}
     {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'construction_ship'})}>Construct Construction Ship</button>}
 
-    {govCharacter && <p>Governor: { govCharacter.name} </p>}
+    {govCharacter && <p>Governor: `${govCharacter.name.firstName} ${govCharacter.name.lastName}` </p>}
     {systemToShow.ownerNationId === 1 && <button onClick={() => openAssignModal( "assign_character", {targetId: selection.id, position: 'governor'})}>Assign new Governor</button>}
     <h3>Planetoids:</h3>
     <ul>
