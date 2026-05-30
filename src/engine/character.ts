@@ -335,6 +335,7 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 		const currentCharacter = { ...newCharacters[charId] };
 		if(currentCharacter){
 
+			//handle aging and death
 			let newAge = currentCharacter.age;
 			if(functionState.meta.turn % CYCLE_CONFIG.CHARACTER.AGING_INTERVAL === 0) {
 				newAge +=1;
@@ -358,6 +359,28 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 				const eventId = 1; //todo: actually random
 				
 				functionState = engineRunCharacterEvent(functionState, charId, eventId);
+			}
+
+			//character offspring check!
+			if(currentCharacter.age > 45 && currentCharacter.citizenOrg){
+				let offspringRoll = Math.random() * 100;
+				if(currentCharacter.assignment && currentCharacter.assignment.type === 'leader'){
+					offspringRoll + 5;
+				}
+
+				if(offspringRoll > 95){
+					nextCId++;
+					let newCharacter = generateCharacterOffspring(nextCId, functionState.orgs.entities[currentCharacter.citizenOrg].flavor.nameList, currentCharacter.name.lastName, currentCharacter.id);
+					newCharacter = {
+						...newCharacter,
+						citizenOrg: currentCharacter.citizenOrg
+					};
+					newIds.push(nextCId);
+					const newPool = [...newOrgs[currentCharacter.citizenOrg].characters.characterPool];
+					newPool.push(nextCId);
+					newOrgs[currentCharacter.citizenOrg] = { ...newOrgs[currentCharacter.citizenOrg], characters: { ...newOrgs[currentCharacter.citizenOrg].characters, characterPool: newPool } };
+					newCharacters[nextCId] = newCharacter;
+				}
 			}
 			
 			//is the character carrying out a Mission Assignment?
