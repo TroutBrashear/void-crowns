@@ -25,6 +25,7 @@ function PoliticsPanel() {
       leaderChar = getCharacterById(playerOrg.characters.leaderId);
     }
 
+    const isAssignable = playerOrg.government.succession !== 'heriditary';
 
     return (
       <div className={styles.panel}>
@@ -34,7 +35,7 @@ function PoliticsPanel() {
 
         <h3>Leader:</h3>
         {leaderChar ? <p>`${leaderChar.name.firstName} ${leaderChar.name.lastName}`</p> : <p>Vacant</p>}
-        <button onClick={() => openAssignModal("assign_character", {targetId: 1, position: 'leader'})}>Assign new Leader</button>
+        {isAssignable && <button onClick={() => openAssignModal("assign_character", {targetId: 1, position: 'leader'})}>Assign new Leader</button>}
       </div>
     );
 

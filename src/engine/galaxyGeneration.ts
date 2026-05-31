@@ -502,7 +502,7 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 				nameList: 'default',
 			},
 			government: {
-				succession: "monarchy",
+				succession: "heriditary",
 			},
 			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
 			characters: {
