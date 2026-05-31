@@ -222,17 +222,21 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 
 export function governmentSuccession(currentState: GameState, orgId: number): GameState {
 	let nextState = { ...currentState };
-	let functionOrg = { ...nextState.orgs.entities[orgId]};
+	let functionOrg = { ...currentState.orgs.entities[orgId]};
 
 	if(functionOrg.government.succession === 'hereditary' && functionOrg.characters.leaderId){
 		const leader = nextState.characters.entities[functionOrg.characters.leaderId];
 
-		let nextLeader: Character;
+		let nextLeader: Character | null = null;
 
-		if(leader.history.childrenIds.length > 0){
-			nextLeader = { ...nextState.characters.entities[leader.history.childrenIds[0]]};
+		for(const characterId of leader.history.childrenIds){
+			if(nextState.characters.entities[characterId].status === 'alive'){
+				nextLeader = { ...nextState.characters.entities[characterId]};
+				break;
+			}
 		}
-		else{
+
+		if(!nextLeader){
 			nextLeader = generateCharacter(nextState.meta.lastCharacterId + 1, functionOrg.flavor.nameList);
 			nextLeader = {
 				...nextLeader,
@@ -240,6 +244,8 @@ export function governmentSuccession(currentState: GameState, orgId: number): Ga
 			}
 			nextState = { ...nextState, meta: { ...nextState.meta, lastCharacterId: nextState.meta.lastCharacterId + 1}, characters: { ids: [...nextState.characters.ids, nextLeader.id], entities: { ...nextState.characters.entities, [nextLeader.id]: nextLeader} }};
 		}
+
+		nextState = engineUnassignCharacter(nextState, functionOrg.characters.leaderId);
 
 		nextLeader = {
 			...nextLeader,
@@ -290,7 +296,7 @@ export function killCharacter(currentState: GameState, charId: number): GameStat
 		return functionState;
 	}
 
-	if(currentCharacter.assignment && currentCharacter.assignment.type === 'leader'){
+	if(currentCharacter.assignment && currentCharacter.assignment.type === 'leader' && currentCharacter.citizenOrg !== null){
 		functionState = governmentSuccession(functionState, currentCharacter.citizenOrg);
 	}
 
