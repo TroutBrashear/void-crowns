@@ -282,17 +282,21 @@ export function governmentSuccession(currentState: GameState, orgId: number): Ga
 
 
 export function killCharacter(currentState: GameState, charId: number): GameState {
-	const functionState = engineUnassignCharacter(currentState, charId);
+	let functionState = engineUnassignCharacter(currentState, charId);
 
-	const newCharacters = { ...functionState.characters.entities };
-	let newCharacterIds = [ ...functionState.characters.ids ];
-	const newOrgs = { ...functionState.orgs.entities };
-
-	const currentCharacter = newCharacters[charId];
+	const currentCharacter = functionState.characters.entities[charId];
 
 	if(!currentCharacter){
 		return functionState;
 	}
+
+	if(currentCharacter.assignment && currentCharacter.assignment.type === 'leader'){
+		functionState = governmentSuccession(functionState, currentCharacter.citizenOrg);
+	}
+
+	const newCharacters = { ...functionState.characters.entities };
+	let newCharacterIds = [ ...functionState.characters.ids ];
+	const newOrgs = { ...functionState.orgs.entities };
 
 	if(currentCharacter.citizenOrg){
 		newOrgs[currentCharacter.citizenOrg] = {
