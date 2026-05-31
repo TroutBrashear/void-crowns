@@ -220,21 +220,89 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 	};
 }
 
+export function governmentSuccession(currentState: GameState, orgId: number): GameState {
+	let nextState = { ...currentState };
+	let functionOrg = { ...currentState.orgs.entities[orgId]};
 
+	if(functionOrg.government.succession === 'hereditary' && functionOrg.characters.leaderId){
+		const leader = nextState.characters.entities[functionOrg.characters.leaderId];
+
+		let nextLeader: Character | null = null;
+
+		for(const characterId of leader.history.childrenIds){
+			if(nextState.characters.entities[characterId].status === 'alive'){
+				nextLeader = { ...nextState.characters.entities[characterId]};
+				break;
+			}
+		}
+
+		if(!nextLeader){
+			nextLeader = generateCharacter(nextState.meta.lastCharacterId + 1, functionOrg.flavor.nameList);
+			nextLeader = {
+				...nextLeader,
+				citizenOrg: orgId,
+			}
+			nextState = { ...nextState, meta: { ...nextState.meta, lastCharacterId: nextState.meta.lastCharacterId + 1}, characters: { ids: [...nextState.characters.ids, nextLeader.id], entities: { ...nextState.characters.entities, [nextLeader.id]: nextLeader} }};
+		}
+
+		nextState = engineUnassignCharacter(nextState, functionOrg.characters.leaderId);
+
+		nextLeader = {
+			...nextLeader,
+			assignment: {
+				type: 'leader',
+				id: orgId,
+			}
+		};
+		functionOrg = {
+			...functionOrg,
+			characters: {
+				...functionOrg.characters,
+				leaderId: nextLeader.id
+			}
+		};
+
+		nextState = {
+			...nextState,
+			characters: {
+				...nextState.characters,
+				entities: {
+					...nextState.characters.entities,
+					[nextLeader.id]: nextLeader
+				}
+			},
+			orgs: {
+				...nextState.orgs,
+				entities: {
+					...nextState.orgs.entities,
+					[orgId]: functionOrg
+				}
+			}
+		}
+	}
+
+
+
+	return nextState;
+}
 
 
 export function killCharacter(currentState: GameState, charId: number): GameState {
-	const functionState = engineUnassignCharacter(currentState, charId);
+	let functionState = engineUnassignCharacter(currentState, charId);
 
-	const newCharacters = { ...functionState.characters.entities };
-	let newCharacterIds = [ ...functionState.characters.ids ];
-	const newOrgs = { ...functionState.orgs.entities };
-
-	const currentCharacter = newCharacters[charId];
+	const currentCharacter = functionState.characters.entities[charId];
 
 	if(!currentCharacter){
 		return functionState;
 	}
+
+	if(currentCharacter.assignment && currentCharacter.assignment.type === 'leader' && currentCharacter.citizenOrg !== null){
+		functionState = governmentSuccession(functionState, currentCharacter.citizenOrg);
+	}
+
+	const newCharacters = { ...functionState.characters.entities };
+	let newCharacterIds = [ ...functionState.characters.ids ];
+	const newOrgs = { ...functionState.orgs.entities };
 
 	if(currentCharacter.citizenOrg){
 		newOrgs[currentCharacter.citizenOrg] = {
