@@ -1,5 +1,6 @@
 import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
+import { hierarchizeSystem, getPlanetoidDepth } from '../../utils/system_view';
 import styles from './Modal.module.css';
 
 function SystemSelectModal() {
@@ -9,9 +10,9 @@ function SystemSelectModal() {
   const closeModal = useUiStore(state => state.closeModal);
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
+  const planetoids = useGameStore(state => state.planetoids.entities);
 
   const getSystemById = useGameStore(state => state.getSystemById);
-  const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
   const getCharacterById = useGameStore(state => state.getCharacterById);
   const getOrgById = useGameStore(state => state.getOrgById);
   const buildShip = useGameStore(state => state.buildShip);
@@ -30,8 +31,7 @@ function SystemSelectModal() {
     return null;
   }
 
-  const planetoidIds = systemToShow.planetoids;
-  const systemPlanetoids = planetoidIds.map(id => getPlanetoidById(id)).filter(Boolean);
+  const systemPlanetoids = hierarchizeSystem(planetoids, systemToShow.id);
   const systemOwnerOrg = systemToShow.ownerNationId
   ? getOrgById(systemToShow.ownerNationId)
   : null;
@@ -58,10 +58,13 @@ function SystemSelectModal() {
     {systemPlanetoids.map(planetoid => {
       if (!planetoid) return null;
 
+      const depth = getPlanetoidDepth(planetoids, planetoid.id);
+
       const owner = planetoid.ownerNationId ? getOrgById(planetoid.ownerNationId) : null;
 
       const buttonStyle = {
-        backgroundColor: owner ? owner.flavor.color : '#aaa'
+        backgroundColor: owner ? owner.flavor.color : '#aaa',
+        marginLeft: `${depth * 10}px`
       };
 
       return(
