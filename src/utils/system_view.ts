@@ -14,10 +14,12 @@ function orderChildren(planetoids: Planetoid[], parent: Planetoid): Planetoid[]{
     let children: Planetoid[] = [];
     children.push(parent);
     for(const planetoid of planetoids){
+
         if(planetoid.parentPlanetoidId === parent.id){
             children = [...children, ...orderChildren(planetoids, planetoid)];
         }
     }
+
 
     return children;
 }
@@ -27,10 +29,11 @@ export function hierarchizeSystem(planetoids: Record<number, Planetoid>, systemI
 
     let stars = systemPlanetoids.filter(planetoid => planetoid.parentPlanetoidId === null);
 
+    let results: Planetoid[] = [];
+
     for(const star of stars){
-         systemPlanetoids.push(...orderChildren(systemPlanetoids, star));
+        results.push(...orderChildren(systemPlanetoids, star));
     }
 
-
-    return systemPlanetoids;
+    return results;
 }
