@@ -1,4 +1,3 @@
-import './App.css'
 import Map from './components/map';
 import { GameClock } from './components/GameClock';
 import { Header } from './components/Header';
