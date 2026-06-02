@@ -3,6 +3,8 @@ import { useGameStore } from '../../state/gameStore';
 import styles from './Modal.module.css';
 import { useState } from 'react';
 
+import { Button } from '../pure/Button';
+
 function ShipSelectModal() {
   const selection = useUiStore(state => state.selection);
   const closeModal = useUiStore(state => state.closeModal);
@@ -42,7 +44,7 @@ function ShipSelectModal() {
     <div className={styles.modal}>
       <h2>Ship: {shipToShow.name}</h2>
       <p>Location: System {shipToShow.locationSystemId}</p>
-      {assignedCharacter && <p>Surveyor: { assignedCharacter.name} </p>}
+      {assignedCharacter && <p>Surveyor: `${assignedCharacter.name.firstName} ${assignedCharacter.name.lastName}`</p>}
 
       { (colonizablePlanetoids.length > 0 && shipToShow.type === 'colony_ship' && shipToShow.ownerNationId === 1) && <div>
           <select name="colonyTarget" value={selectedPlanetoid || ''} onChange={(e) => setSelectedPlanetoid(Number(e.target.value))}>
@@ -54,9 +56,9 @@ function ShipSelectModal() {
              </option>);
             })}
           </select>
-          <button onClick={() => {if(selectedPlanetoid){
+          <Button onClick={() => {if(selectedPlanetoid){
             colonizePlanetoid({shipId: shipToShow.id, planetoidId: selectedPlanetoid}); closeModal();}
-          }}>Colonize World</button>
+          }}>Colonize World</Button>
         </div>
       }
 
@@ -71,20 +73,20 @@ function ShipSelectModal() {
             </option>);
         })}
         </select>
-        <button onClick={() => {if(selectedPlanetoid){
+        <Button onClick={() => {if(selectedPlanetoid){
           beginPlanetoidSurvey({shipId: shipToShow.id, planetoidId: selectedPlanetoid}); closeModal();}
-        }}>Survey World</button>
+        }}>Survey World</Button>
 
         {shipToShow.ownerNationId === 1 && <button onClick={() => openAssignModal("assign_character", {targetId: selection.id, position: 'surveyor'})}>Assign new Surveyor</button>}
         </div>
       }
 
       { (shipToShow.type === 'construction_ship' && shipToShow.ownerNationId === 1) && <div>
-         <button onClick={() => openAssignModal("assign_anchor", {targetId: shipToShow.locationSystemId, position: 'surveyor'})}>Construct Anchor</button>
+         <Button onClick={() => openAssignModal("assign_anchor", {targetId: shipToShow.locationSystemId, position: 'surveyor'})}>Construct Anchor</Button>
         </div>
       }
 
-      <button onClick={closeModal}>Close</button>
+      <Button onClick={closeModal}>Close</Button>
     </div>
   );
 }

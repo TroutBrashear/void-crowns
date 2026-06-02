@@ -1,5 +1,7 @@
 import type { GameState } from '../types/gameState';
 
+import { CYCLE_CONFIG } from '../constants/cycle_config';
+
 export function shiftLanes (currentState: GameState): GameState {
     const lanes = { ...currentState.lanes.entities };
     const laneIds = currentState.lanes.ids;
@@ -15,7 +17,7 @@ export function shiftLanes (currentState: GameState): GameState {
         }
         else if(lane.status === 'stable'){
             const randomRoll = Math.random() * 100;
-            if(randomRoll > 98){
+            if(randomRoll > (100 - CYCLE_CONFIG.ECOLOGY.LANE_FADE_CHANCE)){
                 lanes[laneId] = {
                     ...lanes[laneId],
                     status: 'fading',
@@ -23,8 +25,8 @@ export function shiftLanes (currentState: GameState): GameState {
             };
         }
         else{
-            const randomRoll = Math.random() * 50;
-            if(randomRoll > 48){
+            const randomRoll = Math.random() * 100;
+            if(randomRoll > (100 - CYCLE_CONFIG.ECOLOGY.LANE_STABLE_CHANCE)){
                 lanes[laneId] = {
                     ...lanes[laneId],
                     status: 'stable',

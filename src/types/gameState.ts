@@ -198,6 +198,11 @@ export interface Org {
 	color: string;
 	nameList: string;
   }
+  government: {
+    succession: string;
+  }
+
+
   resources: Resources;
 
   research: {
@@ -244,9 +249,17 @@ export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'acad
 
 export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
 
+export type CharacterStatus = 'alive' | 'dead';
+
 export interface Character {
   readonly id: number;
-  name: string;
+
+  status: CharacterStatus;
+
+  name: {
+    firstName: string;
+    lastName: string;
+  }
   age: number; 
   traits: string[];
   skills: Record<SkillName, number>;
@@ -260,6 +273,8 @@ export interface Character {
 
   history: {
     events: string[];
+    parentId?: number;
+    childrenIds: number[];
   }
 }
 

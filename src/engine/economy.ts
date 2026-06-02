@@ -3,6 +3,7 @@ import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
 import { generateCharacter } from './character';
+import { popIncreaseSpeciesRoll } from './population';
 
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 import { PLANET_ENVIRONMENTS } from '../data/planets';
@@ -223,18 +224,21 @@ export function processEconomy(currentState: GameState): EngineResult {
 
 					//trigger new Pop if needed
 					if(popProgress > CYCLE_CONFIG.ECONOMY.POP_PROGRESS_GOAL){
+						let  speciesRoll = popIncreaseSpeciesRoll(currentState, currentPlanetoid.id);
 
-						const newPop: Pop = {
-							id: lastPopId++,
-							species: 0,
-							locationId: currentPlanetoid.id
-						}
+						if(speciesRoll){
+							const newPop: Pop = {
+								id: lastPopId++,
+								species: speciesRoll,
+								locationId: currentPlanetoid.id
+							}
 
-						newPops[newPop.id] = newPop;
-						newPopIds.push(newPop.id);
-						currentPlanetoid.population = {
-							total: currentPlanetoid.population.total + 1,
-							progress: 0
+							newPops[newPop.id] = newPop;
+							newPopIds.push(newPop.id);
+							currentPlanetoid.population = {
+								total: currentPlanetoid.population.total + 1,
+								progress: 0
+							}
 						}
 					}
 				}

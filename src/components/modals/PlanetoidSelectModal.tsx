@@ -6,6 +6,8 @@ import { BUILDING_CATALOG } from '../../data/buildings';
 import styles from './Modal.module.css';
 import { useState } from 'react';
 
+import { Button } from '../pure/Button';
+
 function PlanetoidSelectModal() {
     const gameState = useGameStore(state => state); 
 	
@@ -68,9 +70,9 @@ function PlanetoidSelectModal() {
              </option>);
             })}
           </select>
-		  <button onClick={() => {if(selectedBuilding){ 
+		  <Button onClick={() => {if(selectedBuilding){
             constructBuilding({planetoidId: planetToShow.id, buildingType: selectedBuilding, orgId: parentSystem.ownerNationId!}); closeModal();}
-          }}>Construct Building</button>
+          }}>Construct Building</Button>
 		  </>)}
 		  
       	  <h4>Buildings:</h4>
@@ -98,8 +100,8 @@ function PlanetoidSelectModal() {
 			})}
 		  </ul>
 
-      	  <button onClick={backModal}>Back</button>
-      	  <button onClick={closeModal}>Close</button>
+      	  <Button onClick={backModal}>Back</Button>
+      	  <Button onClick={closeModal}>Close</Button>
     	</div>
 	);
 

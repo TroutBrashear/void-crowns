@@ -4,6 +4,7 @@ import { useState } from 'react';
 import type { Fleet, System, Org, Ship, Building } from '../../../types/gameState';
 import styles from './AssignModal.module.css';
 
+import { Button } from '../../pure/Button';
 
 function CharacterAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget);
@@ -97,15 +98,15 @@ function CharacterAssignModal() {
                     if (!character) return null;
                     return(
                         <button key={character.id} className={`${styles.characterButton} ${character.id === selectedCharacter ? styles.selected : ''}`} onClick={() => setSelectedCharacter(character.id)}>
-                        {character.name}
+                        `${character.name.firstName} ${character.name.lastName}`
                         </button>);
                 })}
             </div>
 
-            <button  disabled={!selectedCharacter} className={styles.characterButton} onClick={() => {if(selectedCharacter){
-                assignCharacter({charId: selectedCharacter, assignmentTargetId: targetEntity.id, assignmentType: characterAssignTarget.position}); closeAssignModal();}}}>Assign </button>
+            <Button  disabled={!selectedCharacter} className={styles.characterButton} onClick={() => {if(selectedCharacter){
+                assignCharacter({charId: selectedCharacter, assignmentTargetId: targetEntity.id, assignmentType: characterAssignTarget.position}); closeAssignModal();}}}>Assign </Button>
 
-            <button className={styles.characterButton} onClick={closeAssignModal}>Close</button>
+            <Button className={styles.characterButton} onClick={closeAssignModal}>Close</Button>
         </div>
     );
 }

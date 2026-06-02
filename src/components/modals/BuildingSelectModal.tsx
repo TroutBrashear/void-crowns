@@ -2,6 +2,8 @@ import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
 import styles from './Modal.module.css';
 
+import { Button } from '../pure/Button';
+
 
 function BuildingSelectModal() {
 
@@ -35,20 +37,20 @@ function BuildingSelectModal() {
             <h2>Building: {buildingToShow.type}</h2>
             {buildingToShow.tags.includes("academy") &&
                 <div>
-                    <p>Academy President: { assignedCharacter ? assignedCharacter.name : null } </p>
+                    <p>Academy President: { assignedCharacter ? `${assignedCharacter.name.firstName} ${assignedCharacter.name.lastName}`  : null } </p>
                     {buildingToShow.ownerNationId === 1 && <button onClick={() => openAssignModal("assign_character", {targetId: selection.id, position: "academyPresident"})}>Assign Academy President</button>}
                 </div>
             }
 
             {buildingToShow.type === 'researchLab' &&
                 <div>
-                <p>Scientist: { assignedCharacter ? assignedCharacter.name : null } </p>
+                <p>Scientist: { assignedCharacter ? `${assignedCharacter.name.firstName} ${assignedCharacter.name.lastName}`  : null } </p>
                 {buildingToShow.ownerNationId === 1 && <button onClick={() => openAssignModal("assign_character", {targetId: selection.id, position: "scientist"})}>Assign Scientist</button>}
                 </div>
             }
 
-            <button onClick={backModal}>Back</button>
-            <button onClick={closeModal}>Close</button>
+            <Button onClick={backModal}>Back</Button>
+            <Button onClick={closeModal}>Close</Button>
        </div>
     );
 }

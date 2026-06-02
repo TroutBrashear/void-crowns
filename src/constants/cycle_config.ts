@@ -21,5 +21,9 @@ export const CYCLE_CONFIG = {
         AGING_INTERVAL: 50,
         ACADEMY_SPAWN_FLOOR: 6,
         ACADEMY_SPAWN_CHANCE: 5,
+    },
+    ECOLOGY: {
+        LANE_FADE_CHANCE: 2,
+        LANE_STABLE_CHANCE: 5,
     }
 };

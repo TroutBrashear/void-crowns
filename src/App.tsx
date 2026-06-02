@@ -1,7 +1,7 @@
-import './App.css'
 import Map from './components/map';
 import { GameClock } from './components/GameClock';
 import { Header } from './components/Header';
+import { Button } from './components/pure/Button';
 import type { Selection } from './types/gameState'; 
 import { useUiStore } from './state/uiStore';
 import { ModalManager } from './components/modals/ModalManager';
@@ -52,8 +52,8 @@ function App() {
     return (
       <div>
         <h1>VOID CROWNS (Main Menu)</h1>
-        <button onClick= {initOrg}>Start New Game</button>
-        <button onClick= {settings}>Settings</button>
+        <Button onClick= {initOrg}>Start New Game</Button>
+        <Button onClick= {settings}>Settings</Button>
       </div>
     );
   }

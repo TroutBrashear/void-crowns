@@ -6,6 +6,7 @@ import { RESEARCH_CATALOG } from '../../../data/research';
 
 import styles from './AssignModal.module.css';
 
+import { Button } from '../../pure/Button';
 
 function ResearchAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget); //which should be called simply assignTarget
@@ -45,17 +46,17 @@ function ResearchAssignModal() {
                     const research = RESEARCH_CATALOG[researchId];
                     if (!research) return null;
                     return(
-                        <button key={research.researchId} className={`${styles.characterButton} ${research.researchId === selectedResearch ? styles.selected : ''}`} onClick={() => setSelectedResearch(research.researchId)}>
+                        <Button key={research.researchId} className={`${styles.characterButton} ${research.researchId === selectedResearch ? styles.selected : ''}`} onClick={() => setSelectedResearch(research.researchId)}>
                         {research.researchId}
-                        </button>);
+                        </Button>);
                 })}
             </div>
 
-            <button  disabled={!selectedResearch} className={styles.characterButton} onClick={() => {if(selectedResearch){
+            <Button  disabled={!selectedResearch} className={styles.characterButton} onClick={() => {if(selectedResearch){
                  assignResearch({buildingId: targetBuilding.id, researchId: selectedResearch});
-                 closeAssignModal();}}}>Assign </button>
+                 closeAssignModal();}}}>Assign </Button>
 
-            <button className={styles.characterButton} onClick={closeAssignModal}>Close</button>
+            <Button className={styles.characterButton} onClick={closeAssignModal}>Close</Button>
         </div>
     );
 }

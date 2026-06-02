@@ -1,6 +1,7 @@
 import { useGameStore } from '../state/gameStore'; 
 import { useUiStore } from '../state/uiStore';
 
+import { Button } from './pure/Button';
 import { TimeControls } from './controls/TimeControls';
 import { ResourcePanel } from './ResourcePanel';
 import styles from './Header.module.css';
@@ -14,9 +15,9 @@ export function Header() {
     <header className={styles.header}>
       <div className={styles.controls}>
         <TimeControls />
-        <button onClick = {() => openPanel("diplomacy_panel")}>Diplomacy</button>
-        <button onClick = {() => openPanel("politics_panel")}>Politics</button>
-        <button onClick = {() => openPanel("research_panel")}>Research</button>
+        <Button onClick = {() => openPanel("diplomacy_panel")}>Diplomacy</Button>
+        <Button onClick = {() => openPanel("politics_panel")}>Politics</Button>
+        <Button onClick = {() => openPanel("research_panel")}>Research</Button>
       </div>
        <ResourcePanel resources={playerOrg.resources}/>
     </header>
