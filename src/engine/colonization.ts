@@ -11,6 +11,8 @@ export function evaluatePlanetoidValue(planetoid: Planetoid): number {
   switch(planetoid.environment){
     case "Frozen":
       planetoidValue = 10; break;
+    case "Ocean":
+      planetoidValue = 15; break;
     case "Temperate":
       planetoidValue = 50; break;
     case "Humid":
@@ -120,7 +122,7 @@ export function getHabitablesInSystem(currentState: GameState, systemId: number)
 
 
     return system.planetoids.map(planetoidId => currentState.planetoids.entities[planetoidId]).filter(planetoid => {
-      if((planetoid.classification !== 'gravWell' && planetoid.classification !== 'station') && planetoid.environment !== 'Barren' && planetoid.environment !== 'Molten' && planetoid.ownerNationId === null){
+      if((planetoid.classification !== 'gravWell' && planetoid.classification !== 'station' && planetoid.classification !== 'asteroid') && planetoid.environment !== 'Barren' && planetoid.environment !== 'Molten' && planetoid.ownerNationId === null){
         return planetoid;
       }
     });
