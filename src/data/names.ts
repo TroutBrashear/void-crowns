@@ -20,7 +20,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 export const SYSTEM_NAMES: string[] = [
 	"'Anaq", "'Uqdah", "'Awa", "'Aqiq",
 	"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Asvini", "Ayilyam", "Asttam", "Anusham", "Ailm", "Añañuca",
-	"Bayd", "Bari'", "Bie", "Barani", "Baradi", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe",
+	"Bayd", "Bari'", "Bie", "Barani", "Baradi", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bimac",
 	"Cong Guan", "Cittirai", "Corydon", "Cunot", "Coll", "Ceirt", "Ceibo", "Cleyre",
 	"Dabaran", "Dhanab", "Dubb", "Dun Wan", "Dair",
 	"Eadhadh",
@@ -30,7 +30,7 @@ export const SYSTEM_NAMES: string[] = [
 	"Iodhadh", "Ifin",
 	"Jabbar", "Jabhah", "Jathi", "Jubhah", "Jiao Xiu", "Jin Xian", "Ji Shui", "Jun Jing",
 	"Kawkab", "Khaytan", "Kui Xiu", "Kongque", "Karthigai", "Kettai", "Koad", "Kurusan", "Kinoko", "Karaka",
-	"Lang Jiang", "Ling Tai", "Lei Bi Zhen", "Li Gong", "Lourenn", "Layotto", "Luise",
+	"Lang Jiang", "Ling Tai", "Lei Bi Zhen", "Li Gong", "Lourenn", "Layotto", "Luise", "LaQuinli",
 	"Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Mirugali", "Maghriz", "Minkhar", "Magam", "Maqbudah", "Maraq", "Muqadam", "Mulam", "Mao Xiu", "Maram", "Martolod", "Morchella", "Mervyn", "Muin", "Mishmish", "Magon",
 	"Najmah", "Natah", "Nasaqan", "Narakh", "Nan Men", "Nu Xiu", "Nan Chuan", "Naeretaer", "Nin", "Noquisi",
 	"Oolitic", "Ohia", "Osisi", "Onn",

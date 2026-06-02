@@ -2,6 +2,8 @@ import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
 import styles from './Modal.module.css';
 
+import { Button } from '../pure/Button';
+
 
 function BuildingSelectModal() {
 
@@ -47,8 +49,8 @@ function BuildingSelectModal() {
                 </div>
             }
 
-            <button onClick={backModal}>Back</button>
-            <button onClick={closeModal}>Close</button>
+            <Button onClick={backModal}>Back</Button>
+            <Button onClick={closeModal}>Close</Button>
        </div>
     );
 }

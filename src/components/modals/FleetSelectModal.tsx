@@ -2,6 +2,8 @@ import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
 import styles from './Modal.module.css';
 
+import { Button } from '../pure/Button';
+
 function FleetSelectModal() {
   const selection = useUiStore(state => state.selection);
   const closeModal = useUiStore(state => state.closeModal);
@@ -49,7 +51,7 @@ function FleetSelectModal() {
             </li>);
         })}
       </ul>
-      <button onClick={closeModal}>Close</button>
+      <Button onClick={closeModal}>Close</Button>
     </div>
   );
 }

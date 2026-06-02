@@ -1,5 +1,6 @@
 import { useUiStore } from '../state/uiStore';
 import styles from './Notification.module.css';
+import { Button } from './pure/Button';
 
 function Notification() {
 	const notification = useUiStore((state) => state.notification);
@@ -15,7 +16,7 @@ function Notification() {
 	return(
 		<div className={notificationClassName}>
 			<p>{notification.notificationMessage}</p>
-			<button onClick={hideNotification}>X</button>
+			<Button onClick={hideNotification}>X</Button>
 		</div>
 	);
 }

@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import styles from './AssignModal.module.css';
 
+import { Button } from '../../pure/Button';
+
 function AnchorAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget); //which should be called simply assignTarget
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
@@ -33,16 +35,16 @@ function AnchorAssignModal() {
             <div>
                 {laneOptions.map(lane => {
                     return(
-                        <button key={lane.id} className={`${styles.characterButton} ${lane.id === selectedLane ? styles.selected : ''}`} onClick={() => setSelectedLane(lane.id)}>
+                        <Button key={lane.id} className={`${styles.characterButton} ${lane.id === selectedLane ? styles.selected : ''}`} onClick={() => setSelectedLane(lane.id)}>
                             {lane.id}
-                        </button>);
+                        </Button>);
                 })}
             </div>
-            <button  disabled={!selectedLane} className={styles.characterButton} onClick={() => {if(selectedLane){
+            <Button  disabled={!selectedLane} className={styles.characterButton} onClick={() => {if(selectedLane){
                 constructAnchor({parentPlanetoidId: hostSystem.planetoids[0], targetLaneId: selectedLane});
-                closeAssignModal();}}}>Construct </button>
+                closeAssignModal();}}}>Construct </Button>
 
-                <button className={styles.characterButton} onClick={closeAssignModal}>Close</button>
+                <Button className={styles.characterButton} onClick={closeAssignModal}>Close</Button>
           </div>
     );
 }

@@ -4,6 +4,8 @@ import { useSettingStore } from '../state/settingStore';
 
 import type { SPronoun } from '../types/settingState';
 
+import { Button } from './pure/Button';
+
 export function SessionSettings() {
     const SPronoun = ['you', 'thou', 'Usted'];
 
@@ -38,7 +40,7 @@ export function SessionSettings() {
         </select>
         <label htmlFor="tPronoun">Pronoun: </label>
         <input type="text" id="tPronoun" value={tPronoun} onChange={(e) => setTPronoun(e.target.value)}/>
-        <button onClick={submitSettings}>Submit</button>
+        <Button onClick={submitSettings}>Submit</Button>
       </div>
     );
 }

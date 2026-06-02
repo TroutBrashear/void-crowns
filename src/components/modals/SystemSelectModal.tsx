@@ -3,6 +3,8 @@ import { useGameStore } from '../../state/gameStore';
 import { hierarchizeSystem, getPlanetoidDepth } from '../../utils/system_view';
 import styles from './Modal.module.css';
 
+import { Button } from '../pure/Button';
+
 function SystemSelectModal() {
   const selection = useUiStore(state => state.selection);
   //const setSelection = useUiStore(state => state.setSelection);
@@ -44,15 +46,15 @@ function SystemSelectModal() {
   return (
     <div className={styles.modal}>
     <h2>System: {systemToShow.name}</h2>
-    {systemOwnerOrg && <button onClick={() => {changeModal('org_modal', {type: 'org', id: systemOwnerOrg.id}); }}>{systemOwnerOrg.flavor.name}</button>}
-    {systemToShow.ownerNationId === 1 && <button onClick={() => buildMilShip({locationId: systemToShow.id, shipType: 'destroyer'})}>Construct Destroyer</button>}
+    {systemOwnerOrg && <Button onClick={() => {changeModal('org_modal', {type: 'org', id: systemOwnerOrg.id}); }}>{systemOwnerOrg.flavor.name}</Button>}
+    {systemToShow.ownerNationId === 1 && <Button onClick={() => buildMilShip({locationId: systemToShow.id, shipType: 'destroyer'})}>Construct Destroyer</Button>}
 
-    {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'colony_ship'})}>Construct Colony Ship</button>}
-    {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'survey_ship'})}>Construct Survey Ship</button>}
-    {systemToShow.ownerNationId === 1 && <button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'construction_ship'})}>Construct Construction Ship</button>}
+    {systemToShow.ownerNationId === 1 && <Button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'colony_ship'})}>Construct Colony Ship</Button>}
+    {systemToShow.ownerNationId === 1 && <Button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'survey_ship'})}>Construct Survey Ship</Button>}
+    {systemToShow.ownerNationId === 1 && <Button onClick={() => buildShip({locationId: systemToShow.id, shipType: 'construction_ship'})}>Construct Construction Ship</Button>}
 
     {govCharacter && <p>Governor: `${govCharacter.name.firstName} ${govCharacter.name.lastName}` </p>}
-    {systemToShow.ownerNationId === 1 && <button onClick={() => openAssignModal( "assign_character", {targetId: selection.id, position: 'governor'})}>Assign new Governor</button>}
+    {systemToShow.ownerNationId === 1 && <Button onClick={() => openAssignModal( "assign_character", {targetId: selection.id, position: 'governor'})}>Assign new Governor</Button>}
     <h3>Planetoids:</h3>
     <ul>
     {systemPlanetoids.map(planetoid => {
@@ -63,18 +65,18 @@ function SystemSelectModal() {
       const owner = planetoid.ownerNationId ? getOrgById(planetoid.ownerNationId) : null;
 
       const buttonStyle = {
-        backgroundColor: owner ? owner.flavor.color : '#aaa',
+        backgroundColor: owner ? owner.flavor.color : '#446',
         marginLeft: `${depth * 10}px`
       };
 
       return(
         <li key={planetoid.id}>
-          <button style={buttonStyle} onClick={() => {changeModal('planet_modal', {type: 'planetoid', id: planetoid.id}); }}>{planetoid.name}</button>
+          <Button style={buttonStyle} onClick={() => {changeModal('planet_modal', {type: 'planetoid', id: planetoid.id}); }}>{planetoid.name}</Button>
         </li>);
     })}
     </ul>
 
-    <button onClick={closeModal}>Close</button>
+    <Button onClick={closeModal}>Close</Button>
     </div>
     );
 }

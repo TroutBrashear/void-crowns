@@ -2,6 +2,7 @@ import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
 
 import  ProgressBar  from '../pure/ProgressBar';
+import { Button } from '../pure/Button';
 
 import { RESEARCH_CATALOG } from '../../data/research';
 import type { ResearchDefinition } from '../../data/research';
@@ -31,11 +32,11 @@ function LabCard({ buildingId }: { buildingId: number }) {
         <div>
             <p>{researchLab.type} : {researchLab.id}</p>
             { researchProject ?  <div><p>Current project: {researchLab.research.project}</p> <ProgressBar fill={researchLab.research.progress} full={researchProject.cost ?? "10000"}/></div> : <p> No Project</p>}
-            <button onClick={() => openAssignModal("assign_research", { targetId: researchLab.id, position: "scientist"})}>Assign Research Project</button>
+            <Button onClick={() => openAssignModal("assign_research", { targetId: researchLab.id, position: "scientist"})}>Assign Research Project</Button>
 
 
             { assignedCharacter ? <p> Scientist: {`${assignedCharacter.name.firstName} ${assignedCharacter.name.lastName}` }</p> : <p> No Scientist </p>}
-            <button onClick={() => openAssignModal("assign_character", { targetId: researchLab.id, position: "scientist"})}>Assign Scientist</button>
+            <Button onClick={() => openAssignModal("assign_character", { targetId: researchLab.id, position: "scientist"})}>Assign Scientist</Button>
         </div>
     );
 }

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useUiStore } from '../state/uiStore';
 import { useGameStore } from '../state/gameStore';
 
+import { Button } from '../../pure/Button';
+
 export function OrgCreation() {
 
     const [name, setName] = useState('');
@@ -28,7 +30,7 @@ export function OrgCreation() {
                 <label htmlFor="speciesName">Name: </label>
                 <input type="text" id="speciesName" value={speciesName} onChange={(e) => setSpeciesName(e.target.value)}/>
             </div>
-            <button onClick= {startGame}>Submit</button>
+            <Button onClick= {startGame}>Submit</Button>
         </div>
     );
 }
