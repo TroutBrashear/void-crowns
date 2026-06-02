@@ -5,6 +5,7 @@ import type { ResearchDefinition } from '../data/research';
 import { generateCharacter } from './character';
 
 import { CYCLE_CONFIG } from '../constants/cycle_config';
+import { PLANET_ENVIRONMENTS } from '../data/planets';
 
 //------RESARCH FUNCTIONS------
 
@@ -218,7 +219,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 						roundIncome[planetoidOwner].credits += CYCLE_CONFIG.ECONOMY.DEFAULT_POP_TAX  * currentPlanetoid.population.total;
 					}
 
-					const popProgress = currentPlanetoid.population.progress + 1;
+					const popProgress = currentPlanetoid.population.progress + 1 * PLANET_ENVIRONMENTS[currentPlanetoid.environment].popGrowthModifier;
 
 					//trigger new Pop if needed
 					if(popProgress > CYCLE_CONFIG.ECONOMY.POP_PROGRESS_GOAL){
