@@ -29,39 +29,39 @@ function planetEnvironment(): string {
 	//TODO: gas giants also affected by star
 	const gasRoll = Math.random() * 10;
 	if(gasRoll > 7){
-		return 'Gaseous';
+		return 'gaseous';
 	}
 
 
 	if(temperatureRoll > 92){
-		return 'Molten';
+		return 'molten';
 	}
 	else if(wetnessRoll > 90){
-		return 'Ocean';
+		return 'ocean';
 	}
 	else if((wetnessRoll > 60 && wetnessRoll < 80) && (temperatureRoll > 50 && temperatureRoll < 70)){
-		return 'Temperate';
+		return 'temperate';
 	}
 	else if(wetnessRoll < 20 && temperatureRoll > 75){
-		return 'Desert';
+		return 'desert';
 	}
 	else if(wetnessRoll < 40 && temperatureRoll > 50){
-		return 'Outback';
+		return 'outback';
 	}
 	else if(wetnessRoll > 50 && temperatureRoll < 20){
-		return 'Frozen';
+		return 'frozen';
 	}
 	else if(wetnessRoll > 50 && temperatureRoll < 50){
-		return 'Taiga';
+		return 'taiga';
 	}
 	else if((wetnessRoll < 45 && temperatureRoll < 35) && (wetnessRoll > 20 && temperatureRoll > 20)){
-		return 'Tundra';
+		return 'tundra';
 	}
 	else if(wetnessRoll > 75 && temperatureRoll > 70){
-		return 'Humid';
+		return 'humid';
 	}
 	else{
-		return 'Barren';
+		return 'barren';
 	}
 }
 
@@ -296,7 +296,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 				systemPlanetoids.push(planet);
 
 				let numMoons;
-				if(planet.environment === 'Gaseous'){
+				if(planet.environment === 'gaseous'){
 					numMoons = Math.floor(Math.random() * 8);
 				}
 				else if(planet.environment === 'Asteroid Belt'){
@@ -313,7 +313,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 						parentPlanetoidId: planet.id,
 						locationSystemId: nextSystem.id,
 						classification: 'moon',
-						environment: 'Barren',
+						environment: 'barren',
 						ownerNationId: null,
 						size: 2 + Math.floor(Math.random() * 5),
 						buildings: [],
