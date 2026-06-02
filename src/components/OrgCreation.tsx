@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useUiStore } from '../state/uiStore';
 import { useGameStore } from '../state/gameStore';
 
-import { Button } from '../../pure/Button';
+import { Button } from './pure/Button';
 
 export function OrgCreation() {
 

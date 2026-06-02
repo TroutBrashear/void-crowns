@@ -3,6 +3,8 @@ import { useGameStore } from '../../state/gameStore';
 import LabCard  from '../cards/LabCard';
 import styles from './Panel.module.css';
 
+import { Button } from '../pure/Button';
+
 function ResearchPanel() {
 
     const closePanel = useUiStore(state => state.closePanel);
@@ -13,7 +15,7 @@ function ResearchPanel() {
     return (
         <div className={styles.panel}>
             <h1>Research</h1>
-            <button onClick={() => closePanel()}>Close</button>
+            <Button onClick={() => closePanel()}>Close</Button>
 
             <h3>Labs:</h3>
             <ul>

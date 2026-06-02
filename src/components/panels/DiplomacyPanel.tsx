@@ -2,6 +2,8 @@ import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
 import styles from './Panel.module.css';
 
+import { Button } from '../pure/Button';
+
 function DiplomacyPanel() {
 
     const changeModal = useUiStore(state => state.changeModal);
@@ -24,7 +26,7 @@ function DiplomacyPanel() {
     return (
         <div className={styles.panel}>
             <h1>Diplomacy</h1>
-            <button onClick={() => closePanel()}>Close</button>
+            <Button onClick={() => closePanel()}>Close</Button>
 
             <h3>Incoming requests:</h3>
             {incomingRequests.map(request => {
@@ -36,8 +38,8 @@ function DiplomacyPanel() {
                     return(
                         <div key={request.id}>
                             <p>{originOrg.flavor.name} is requesting {request.type}</p>
-                            <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: true})} >Accept</button>
-                            <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: false})}>Decline</button>
+                            <Button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: true})} >Accept</Button>
+                            <Button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: false})}>Decline</Button>
                         </div>
                     )
                 }
@@ -45,8 +47,8 @@ function DiplomacyPanel() {
                     <div key={request.id}>
                         <p>{originOrg.flavor.name} is requesting {request.type}</p>
                         <p>Credits: {request.trade.senderProcess.input?.credits ?? 0} - {(request.trade.senderProcess.output?.credits ?? 0)} // {request.trade.senderProcess.input?.rocks ?? 0} - {request.trade.senderProcess.output?.rocks ?? 0} // {request.trade.senderProcess.input?.consumerGoods ?? 0} - {request.trade.senderProcess.output?.consumerGoods ?? 0}</p>
-                        <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: true})} >Accept</button>
-                        <button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: false})}>Decline</button>
+                        <Button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: true})} >Accept</Button>
+                        <Button onClick = {() => processPlayerDiplo({requestId: request.id, accepted: false})}>Decline</Button>
                     </div>
                 )
             })}
@@ -65,7 +67,7 @@ function DiplomacyPanel() {
                 }
                 return(
                     <li key={relation.targetOrgId}>
-                        <button onClick={() => {changeModal('org_modal', {type: 'org', id: relation.targetOrgId}); }}>{targetOrg.flavor.name}</button>
+                        <Button onClick={() => {changeModal('org_modal', {type: 'org', id: relation.targetOrgId}); }}>{targetOrg.flavor.name}</Button>
                         <p>Current Relations: {relation.status}</p>
                     </li>);
             })}
