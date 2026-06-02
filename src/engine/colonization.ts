@@ -13,10 +13,18 @@ export function evaluatePlanetoidValue(planetoid: Planetoid): number {
       planetoidValue = 10; break;
     case "Ocean":
       planetoidValue = 15; break;
+    case "Desert":
+      planetoidValue = 10; break;
     case "Temperate":
       planetoidValue = 50; break;
     case "Humid":
       planetoidValue = 40; break;
+    case "Outback":
+      planetoidValue = 35; break;
+    case "Taiga":
+      planetoidValue = 30; break;
+    case "Tundra":
+      planetoidValue = 30; break;
   }
 
   for(const deposit of planetoid.deposits){
@@ -122,7 +130,7 @@ export function getHabitablesInSystem(currentState: GameState, systemId: number)
 
 
     return system.planetoids.map(planetoidId => currentState.planetoids.entities[planetoidId]).filter(planetoid => {
-      if((planetoid.classification !== 'gravWell' && planetoid.classification !== 'station' && planetoid.classification !== 'asteroid') && planetoid.environment !== 'Barren' && planetoid.environment !== 'Molten' && planetoid.ownerNationId === null){
+      if((planetoid.classification !== 'gravWell' && planetoid.classification !== 'station' && planetoid.classification !== 'asteroid') && (planetoid.environment !== 'Barren' && planetoid.environment !== 'Molten' && planetoid.environment !== 'Gaseous') && planetoid.ownerNationId === null){
         return planetoid;
       }
     });
