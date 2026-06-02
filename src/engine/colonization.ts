@@ -1,5 +1,7 @@
 import type { GameState, ColonizePayload, Planetoid } from '../types/gameState';
 
+import { PLANET_ENVIRONMENTS } from '../data/planets';
+
 export function evaluatePlanetoidValue(planetoid: Planetoid): number {
 
   if(planetoid.classification === 'gravWell'){
@@ -8,24 +10,7 @@ export function evaluatePlanetoidValue(planetoid: Planetoid): number {
 
   let planetoidValue = 0;
 
-  switch(planetoid.environment){
-    case "Frozen":
-      planetoidValue = 10; break;
-    case "Ocean":
-      planetoidValue = 15; break;
-    case "Desert":
-      planetoidValue = 10; break;
-    case "Temperate":
-      planetoidValue = 50; break;
-    case "Humid":
-      planetoidValue = 40; break;
-    case "Outback":
-      planetoidValue = 35; break;
-    case "Taiga":
-      planetoidValue = 30; break;
-    case "Tundra":
-      planetoidValue = 30; break;
-  }
+  planetoidValue = PLANET_ENVIRONMENTS[planetoid.environment].defaultValue;
 
   for(const deposit of planetoid.deposits){
     if(deposit.isVisible){
@@ -130,7 +115,7 @@ export function getHabitablesInSystem(currentState: GameState, systemId: number)
 
 
     return system.planetoids.map(planetoidId => currentState.planetoids.entities[planetoidId]).filter(planetoid => {
-      if((planetoid.classification !== 'gravWell' && planetoid.classification !== 'station' && planetoid.classification !== 'asteroid') && (planetoid.environment !== 'Barren' && planetoid.environment !== 'Molten' && planetoid.environment !== 'Gaseous') && planetoid.ownerNationId === null){
+      if((planetoid.classification !== 'gravWell' && planetoid.classification !== 'station' && planetoid.classification !== 'asteroid') && (planetoid.environment !== 'barren' && planetoid.environment !== 'molten' && planetoid.environment !== 'gaseous') && planetoid.ownerNationId === null){
         return planetoid;
       }
     });

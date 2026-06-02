@@ -298,7 +298,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
       const homeId = systems[currentOrg.id].planetoids.find(p => {
        const planetoidCandidate = planetoids.find(planetoid => planetoid.id === p);
-       return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'Barren';
+       return planetoidCandidate && planetoidCandidate.classification === 'planet' && planetoidCandidate.environment !== 'barren';
       });
       const home = planetoids.find(p => {
         return p.id === homeId;
