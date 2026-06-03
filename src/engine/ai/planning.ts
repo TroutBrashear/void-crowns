@@ -39,10 +39,8 @@ export function evaluateResearchOptions(currentState: GameState, orgId: number):
 		}
 	}
 
-
 	return bestOption;
 }
-
 
 
 

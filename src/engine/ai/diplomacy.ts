@@ -105,11 +105,11 @@ export function evaluateAiTradeNeeds(currentState: GameState, currentOrgId: numb
     }
 
     if(thinkingOrg.resources.rocks < 1000 && thinkingOrg.contextHistory.previousIncome.rocks < 0){
-        nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade',  { send: {credits: 2000, rocks: 0, consumerGoods: 0, gas: 0}, receive: {credits: 0, rocks: 1500, consumerGoods: 0, gas: 0 }});
+        nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade',  { send: {credits: 2000, rocks: 0, consumerGoods: 0, gas: 0, food: 0}, receive: {credits: 0, rocks: 1500, consumerGoods: 0, gas: 0, food: 0 }});
     }
 
     if(thinkingOrg.resources.consumerGoods < 1000 && thinkingOrg.contextHistory.previousIncome.consumerGoods < 0){
-        nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade', { send: {credits: 2000, rocks: 0, consumerGoods: 0, gas: 0}, receive: {credits: 0, rocks: 0, consumerGoods: 1500, gas: 0 }});
+        nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade', { send: {credits: 2000, rocks: 0, consumerGoods: 0, gas: 0, food: 0}, receive: {credits: 0, rocks: 0, consumerGoods: 1500, gas: 0, food: 0 }});
     }
 
     return nextState;

@@ -17,7 +17,7 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
     const newId = currentState.meta.lastShipId + 1;
     const ownerOrg = currentState.orgs.entities[buildSystem.ownerNationId];
 
-    let cost: Resources = { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 };
+    let cost: Partial<Resources> = { credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 0 };
 
     switch(shipType){
       case 'colony_ship':
@@ -32,7 +32,7 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
 
 
       //if the org can't afford the ship, do nothing.
-      if(ownerOrg.resources.credits < cost.credits || ownerOrg.resources.rocks < cost.rocks) {
+      if(ownerOrg.resources.credits < (cost?.credits ?? 0) || ownerOrg.resources.rocks < (cost?.rocks ?? 0)) {
         return currentState; 
       }
 
@@ -54,8 +54,8 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
         ...ownerOrg,
         resources: {
           ...ownerOrg.resources,
-          credits: ownerOrg.resources.credits - cost.credits,
-          rocks: ownerOrg.resources.rocks - cost.rocks,
+          credits: ownerOrg.resources.credits - (cost?.credits ?? 0),
+          rocks: ownerOrg.resources.rocks - (cost?.rocks ?? 0),
         }
       };
 
@@ -283,7 +283,7 @@ export function canBuildBuilding(currentState: GameState, planetoidId: number, b
 
 	
 	//check cost - can org afford the Building
-	if((org.resources.credits < bDefinition.cost.credits || org.resources.rocks < bDefinition.cost.rocks)){
+	if((org.resources.credits < (bDefinition.cost?.credits ?? 0) || org.resources.rocks < (bDefinition.cost?.rocks ?? 0 ))) {
 		return false;
 	}
 	
@@ -341,10 +341,11 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
   const updatedOrg = {
     ...org,
     resources: {
-      credits: org.resources.credits - bDefinition.cost.credits,
-      rocks: org.resources.rocks - bDefinition.cost.rocks,
-      consumerGoods: org.resources.consumerGoods - bDefinition.cost.consumerGoods,
-      gas: org.resources.gas - bDefinition.cost.gas,
+      credits: org.resources.credits - (bDefinition.cost?.credits ?? 0),
+      rocks: org.resources.rocks - (bDefinition.cost?.rocks ?? 0),
+      consumerGoods: org.resources.consumerGoods - (bDefinition.cost?.consumerGoods ?? 0),
+      gas: org.resources.gas - (bDefinition.cost?.gas ?? 0),
+      food: org.resources.gas - (bDefinition.cost?.food ?? 0)
     }
   };
   

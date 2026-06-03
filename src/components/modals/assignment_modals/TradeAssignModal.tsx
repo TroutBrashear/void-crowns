@@ -10,8 +10,8 @@ function TradeAssignModal() {
 
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
-    const [send, setSend] = useState({ credits: 0, rocks: 0, consumerGoods: 0, gas: 0});
-    const [receive, setReceive] = useState({ credits: 0, rocks: 0, consumerGoods: 0, gas: 0 });
+    const [send, setSend] = useState({ credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 0});
+    const [receive, setReceive] = useState({ credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 0 });
 
     const getOrgById = useGameStore(state => state.getOrgById);
     const sendDiploRequest = useGameStore(state => state.sendDiploRequest);

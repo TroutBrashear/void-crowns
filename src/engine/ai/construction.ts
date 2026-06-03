@@ -17,7 +17,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 	}
 
 	if(buildIntent.type === 'building'){
-		if(thinkingOrg.resources.credits < BUILDING_CATALOG[buildIntent.buildingType].cost.credits || thinkingOrg.resources.rocks < BUILDING_CATALOG[buildIntent.buildingType].cost.rocks){
+		if(thinkingOrg.resources.credits < (BUILDING_CATALOG[buildIntent.buildingType].cost?.credits ?? 0) || thinkingOrg.resources.rocks < (BUILDING_CATALOG[buildIntent.buildingType].cost?.rocks ?? 0 )){
 			return nextState;
 		}
 
@@ -27,7 +27,7 @@ export function processAiConstruction(currentState: GameState, orgId: number): G
 	}
 
 	if(buildIntent.type === 'ship'){
-		if(thinkingOrg.resources.credits < SHIP_CATALOG[buildIntent.shipType].cost.credits || thinkingOrg.resources.rocks < SHIP_CATALOG[buildIntent.shipType].cost.rocks) {
+		if(thinkingOrg.resources.credits < (SHIP_CATALOG[buildIntent.shipType].cost?.credits ?? 0) || thinkingOrg.resources.rocks < (SHIP_CATALOG[buildIntent.shipType].cost?.rocks ?? 0)) {
 			return nextState;
 		}
 
