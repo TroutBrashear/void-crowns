@@ -120,7 +120,8 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 			credits: target.resources.credits,
 			rocks: target.resources.rocks,
 			consumerGoods: target.resources.consumerGoods,
-			gas: target.resources.gas
+			gas: target.resources.gas,
+			food: target.resources.food,
 	};
 
 
@@ -129,6 +130,7 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 		processResult.rocks -= process.input?.rocks ?? 0;
 		processResult.consumerGoods -= process.input?.consumerGoods ?? 0;
 		processResult.gas -= process.input?.gas ?? 0;
+		processResult.food -= process.input?.food ?? 0;
 	}
 
 	if(process.output){
@@ -136,6 +138,7 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 		processResult.rocks += process.output?.rocks ?? 0;
 		processResult.consumerGoods += process.output?.consumerGoods ?? 0;
 		processResult.gas += process.input?.gas ?? 0;
+		processResult.food += process.input?.food ?? 0;
 	}
 
 
@@ -151,7 +154,8 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 						credits: processResult.credits,
 						rocks: processResult.rocks,
 						consumerGoods: processResult.consumerGoods,
-						gas: processResult.gas
+						gas: processResult.gas,
+						food: processResult.food
 					},
 				},
 			},
@@ -184,7 +188,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 					credits: 0,
 					rocks: 0,
 					consumerGoods: 0,
-					gas: 0
+					gas: 0,
+					food: 0
 				};
 			}
 
@@ -207,7 +212,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 						credits: 0,
 						rocks: 0,
 						consumerGoods: 0,
-						gas: 0
+						gas: 0,
+						food: 0
 					};
 				}
 
@@ -313,7 +319,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 							credits: 0,
 							rocks: 0,
 							consumerGoods: 0,
-							gas: 0
+							gas: 0,
+							food: 0
 						};
 					}
 
@@ -325,6 +332,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 						roundIncome[buildingOwner].rocks -= bDefinition.process.input?.rocks ?? 0;
 						roundIncome[buildingOwner].consumerGoods -= bDefinition.process.input?.consumerGoods ?? 0;
 						roundIncome[buildingOwner].gas -= bDefinition.process.input?.gas ?? 0;
+						roundIncome[buildingOwner].food -= bDefinition.process.input?.food ?? 0;
 					}
 					else{
 						continue;
@@ -357,6 +365,10 @@ export function processEconomy(currentState: GameState): EngineResult {
 						}
 					}
 
+					roundIncome[buildingOwner].consumerGoods += bDefinition.process.output?.consumerGoods ?? 0;
+					roundIncome[buildingOwner].food += bDefinition.process.output?.food ?? 0;
+
+
 					//tax processing
 					//TODO: planetoid owner should set a tax rate on the planetoid, to be charged here instead of flat 100
 					if(planetoidOwner && planetoidOwner !== buildingOwner){
@@ -365,7 +377,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 					}
 
 
-					roundIncome[buildingOwner].consumerGoods += bDefinition.process.output?.consumerGoods ?? 0;
+
 
 
 

@@ -504,7 +504,7 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 			government: {
 				succession: "heriditary",
 			},
-			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
+			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 1000 },
 			characters: {
 				characterPool: [],
 				leaderId: null,
@@ -517,7 +517,7 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 				residentDiplomats: [],
 			},
 			contextHistory: {
-				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0},
+				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 1000 },
 				buildPlan: [],
 				targetSystems: [],
 			},
@@ -549,7 +549,7 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 			government: {
 				succession: "council"
 			},
-			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
+			resources: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 1000 },
 			characters: {
 				characterPool: [],
 				leaderId: null,
@@ -562,7 +562,7 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 				residentDiplomats: [],
 			},
 			contextHistory: {
-				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0 },
+				previousIncome: { credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 1000 },
 				buildPlan: [],
 				targetSystems: [],
 			},

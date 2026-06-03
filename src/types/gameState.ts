@@ -154,6 +154,7 @@ export interface Resources {
   rocks: number;
   gas: number;
   consumerGoods: number;
+  food: number;
 }
 
 export interface Deposit {
