@@ -368,6 +368,25 @@ export function processEconomy(currentState: GameState): EngineResult {
 					roundIncome[buildingOwner].consumerGoods += bDefinition.process.output?.consumerGoods ?? 0;
 					roundIncome[buildingOwner].food += bDefinition.process.output?.food ?? 0;
 
+					//goods output
+					if(bDefinition.process.goodsOutput && currentPlanetoid.resources.goodsStockpiles){
+						let stockpile = { ...currentPlanetoid.resources.goodsStockpiles };
+
+						for(const [goodId, amount] of Object.entries(bDefinition.process.goodsOutput)){
+							const currentAmount = stockpile[Number(goodId)] || 0;;
+
+							stockpile[Number(goodId)] = currentAmount + amount;
+						}
+
+						currentPlanetoid = {
+							...currentPlanetoid,
+							resources: {
+								...currentPlanetoid.resources,
+								goodsStockpiles: stockpile
+							}
+						}
+					}
+
 
 					//tax processing
 					//TODO: planetoid owner should set a tax rate on the planetoid, to be charged here instead of flat 100
@@ -375,11 +394,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 						roundIncome[buildingOwner].credits -= 60;
 						roundIncome[planetoidOwner].credits += 60;
 					}
-
-
-
-
-
 
 				}
 			}

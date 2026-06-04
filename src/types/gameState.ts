@@ -15,6 +15,7 @@ export interface System {
 export interface Process {
   input?: Partial<Resources>;
   output?: Partial<Resources>;
+  goodsOutput?: Record<number, number>; //Good.id and amount produced
 }
 
 export interface CharProcess {
@@ -60,8 +61,8 @@ export interface Planetoid {
   }
   tags: string[];
   deposits: Deposit[];
-  resources?: {
-    goodsStockpiles: Record<number, number>; //number #1 is a Good.id, number #2 is the amount stored
+  resources: {
+    goodsStockpiles?: Record<number, number>; //number #1 is a Good.id, number #2 is the amount stored
   }
   construct?: {
     anchorTarget?: number; //a Lane id
