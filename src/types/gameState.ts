@@ -165,10 +165,11 @@ export interface Deposit {
   difficulty: number; //an org needs to beat difficulty with a dice roll to reveal the Deposit. Some will be generated with a number higher than can be rolled - can be beaten with tech bonuses later.
 }
 
-export type GoodCategory = 'food' | 'toasters';
+export type GoodCategory = 'food' | 'homeGoods';
 
 export interface Good {
-  id: string;
+  readonly id: number;
+  name: string;
   type: GoodCategory;
   traits: string[];
 }
