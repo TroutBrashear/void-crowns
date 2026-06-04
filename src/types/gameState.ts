@@ -165,6 +165,13 @@ export interface Deposit {
   difficulty: number; //an org needs to beat difficulty with a dice roll to reveal the Deposit. Some will be generated with a number higher than can be rolled - can be beaten with tech bonuses later.
 }
 
+export type GoodCategory = 'food' | 'toasters';
+
+export interface Good {
+  id: string;
+  type: GoodCategory;
+  traits: string[];
+}
 
 //-----------POPULATION AND SPECIES-------------------
 export interface Species {
@@ -187,7 +194,6 @@ export interface OrgRelation {
   status: 'peace' | 'war';
   opinion: number;
 }
-
 
 
 export interface Org {
@@ -391,6 +397,7 @@ export interface GameState {
   buildings: EntitiesState<Building>;
   species: EntitiesState<Species>;
   pops: EntitiesState<Pop>;
+  goods: EntitiesState<Good>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;

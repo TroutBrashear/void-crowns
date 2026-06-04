@@ -83,6 +83,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     fleetLocationIndex: {},   
     intelligence: { trueStatus: {}, planetoidIntel: {}},
     pops: { entities: {}, ids:[] },
+    goods: { entities: {}, ids:[]},
 
 
   tick: () => {
@@ -359,6 +360,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       species: normalize(species),
       pops: normalize(pops),
       intelligence: { trueStatus: {}, planetoidIntel: intelState },
+      goods: { entities: {}, ids: [] },
     });
   },
 
