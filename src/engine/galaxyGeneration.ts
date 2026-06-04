@@ -117,6 +117,7 @@ export function generatePlanet(starId: number, system: System, nextPlanId: numbe
 		buildings: [],
 		tags: [],
 		deposits: [],
+		resources: {}
 	};
 
 	//apply potential tag(s)
@@ -261,6 +262,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 				buildings: [],
 				tags: [],
 				deposits: [],
+				resources: {}
 			};
 
 			systemPlanetoids.push(star);
@@ -287,6 +289,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 						buildings: [],
 						tags: [],
 						deposits: [],
+						resources: {}
 					}
 
 					planet.deposits = generatePlanetoidDeposits(planet);
@@ -319,6 +322,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 						buildings: [],
 						tags: [],
 						deposits: [],
+						resources: {}
 					};
 
 					moon.deposits = generatePlanetoidDeposits(moon);
