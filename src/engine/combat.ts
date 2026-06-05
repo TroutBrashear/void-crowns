@@ -117,6 +117,7 @@ export function createDebris(currentState: GameState, invShipIds: number[], loca
 		buildings: [],
 		tags: [],
 		deposits: [],
+		resources: {},
 		construct:{
 			shipDebris: debrisIds
 		}
