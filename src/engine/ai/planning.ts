@@ -162,10 +162,6 @@ export function evaluateBuildLocation(buildingType: BuildingClass, locations: Pl
 			locationScore += 1; //placeholder, I'm sure there's some reason to prefer one planetoid over another. (research category bonuses!)
 		}
 
-		if(buildingType === 'consumerCenter'){
-			locationScore += 1; //placeholder, consumercenters getting a rework
-		}
-
 
 		if(locationScore > winningScore){
 			bestLocation = location;
