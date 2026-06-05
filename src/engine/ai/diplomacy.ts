@@ -34,7 +34,7 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
     if(!thinkingOrg){
         return false;
     }
-    if(thinkingOrg.resources.credits < (request.trade.targetProcess.input?.credits ?? 0) || thinkingOrg.resources.rocks < (request.trade.targetProcess.input?.rocks ?? 0) || thinkingOrg.resources.consumerGoods < (request.trade.targetProcess.input?.consumerGoods ?? 0)){
+    if(thinkingOrg.resources.credits < (request.trade.targetProcess.input?.credits ?? 0) || thinkingOrg.resources.rocks < (request.trade.targetProcess.input?.rocks ?? 0)){
         return false;
     }
 
@@ -42,8 +42,8 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
     let rockScore = 1;
     let consumerGoodScore = 1;
 
-    const receiving = (request.trade.targetProcess.output?.credits ?? 0) + (request.trade.targetProcess.output?.rocks ?? 0) + (request.trade.targetProcess.output?.consumerGoods ?? 0);
-    const sending = (request.trade.targetProcess.input?.credits ?? 0) + (request.trade.targetProcess.input?.rocks ?? 0) + (request.trade.targetProcess.input?.consumerGoods ?? 0)
+    const receiving = (request.trade.targetProcess.output?.credits ?? 0) + (request.trade.targetProcess.output?.rocks ?? 0);
+    const sending = (request.trade.targetProcess.input?.credits ?? 0) + (request.trade.targetProcess.input?.rocks ?? 0);
 
     //check if it is at least CLOSE to fair
     if(receiving < 0.8 * sending){
@@ -57,12 +57,6 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
     if(thinkingOrg.resources.rocks < 1000 && (request.trade.targetProcess.output?.rocks ?? 0) > 0){
         rockScore += 10
     }
-    if(thinkingOrg.resources.consumerGoods < 2000 && thinkingOrg.category === 'corporation' && (request.trade.targetProcess.output?.consumerGoods ?? 0) > 0){
-        consumerGoodScore += 10
-    }
-    else if(thinkingOrg.resources.consumerGoods < 1000 && (request.trade.targetProcess.output?.consumerGoods ?? 0) > 0){
-        consumerGoodScore += 10;
-    }
 
     //not overly taxing
     if((thinkingOrg.resources.credits * .5) < (request.trade.targetProcess.input?.credits ?? 0)){
@@ -71,9 +65,7 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
     if((thinkingOrg.resources.rocks * .5) < (request.trade.targetProcess.input?.rocks ?? 0)){
         rockScore -= 5;
     }
-    if((thinkingOrg.resources.consumerGoods * .5) < (request.trade.targetProcess.input?.consumerGoods ?? 0)){
-        consumerGoodScore -= 5;
-    }
+
 
     if(creditScore + rockScore + consumerGoodScore > 0){
         return true;
@@ -105,11 +97,7 @@ export function evaluateAiTradeNeeds(currentState: GameState, currentOrgId: numb
     }
 
     if(thinkingOrg.resources.rocks < 1000 && thinkingOrg.contextHistory.previousIncome.rocks < 0){
-        nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade',  { send: {credits: 2000, rocks: 0, consumerGoods: 0, gas: 0, food: 0}, receive: {credits: 0, rocks: 1500, consumerGoods: 0, gas: 0, food: 0 }});
-    }
-
-    if(thinkingOrg.resources.consumerGoods < 1000 && thinkingOrg.contextHistory.previousIncome.consumerGoods < 0){
-        nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade', { send: {credits: 2000, rocks: 0, consumerGoods: 0, gas: 0, food: 0}, receive: {credits: 0, rocks: 0, consumerGoods: 1500, gas: 0, food: 0 }});
+        nextState = sendDiploRequest(nextState, 1, currentOrgId, 'trade',  { send: {credits: 2000, rocks: 0, gas: 0}, receive: {credits: 0, rocks: 1500, gas: 0 }});
     }
 
     return nextState;

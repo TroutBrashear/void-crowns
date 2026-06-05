@@ -206,46 +206,6 @@ function processAiBuildPlanningCorporation(currentState: GameState, orgId: numbe
 		}
 	}
 
-	//do we need a consumerFactory?
-	if(thinkingOrg.contextHistory.previousIncome.consumerGoods < 200){
-		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
-			if(planetoid.ownerNationId === orgId) {
-				return true;
-			}
-			if(thinkingOrg.parentId){
-				if(planetoid.ownerNationId === thinkingOrg.parentId){
-					return true;
-				}
-			}
-		});
-		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'consumerFactory')){
-			const targetPlanetoid = evaluateBuildLocation('consumerFactory', orgPlanetoids);
-			if(targetPlanetoid){
-				newBuildPlan.push({type: "building", buildingType: 'consumerFactory', location: targetPlanetoid.id });
-			}
-		}
-	}
-
-	//do we need a consumerCenter?
-	if(thinkingOrg.resources.consumerGoods > thinkingOrg.resources.rocks){
-		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
-			if(planetoid.ownerNationId === orgId) {
-				return true;
-			}
-			if(thinkingOrg.parentId){
-				if(planetoid.ownerNationId === thinkingOrg.parentId){
-					return true;
-				}
-			}
-		});
-		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'consumerCenter')){
-			const targetPlanetoid = evaluateBuildLocation('consumerCenter', orgPlanetoids);
-			if(targetPlanetoid){
-				newBuildPlan.push({type: "building", buildingType: 'consumerCenter', location: targetPlanetoid.id });
-			}
-		}
-	}
-
 	thinkingOrg = {
 		...thinkingOrg,
 		contextHistory: {
