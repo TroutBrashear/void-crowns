@@ -17,7 +17,7 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
     const newId = currentState.meta.lastShipId + 1;
     const ownerOrg = currentState.orgs.entities[buildSystem.ownerNationId];
 
-    let cost: Partial<Resources> = { credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 0 };
+    let cost: Partial<Resources> = { credits: 0, rocks: 0,  gas: 0 };
 
     switch(shipType){
       case 'colony_ship':
@@ -343,9 +343,7 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
     resources: {
       credits: org.resources.credits - (bDefinition.cost?.credits ?? 0),
       rocks: org.resources.rocks - (bDefinition.cost?.rocks ?? 0),
-      consumerGoods: org.resources.consumerGoods - (bDefinition.cost?.consumerGoods ?? 0),
       gas: org.resources.gas - (bDefinition.cost?.gas ?? 0),
-      food: org.resources.gas - (bDefinition.cost?.food ?? 0)
     }
   };
   
@@ -408,6 +406,7 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
     buildings: [],
     tags: [],
     deposits: [],
+    resources: {}
   }
 
   const newOrg = {
@@ -480,6 +479,7 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     buildings: [],
     tags: [],
     deposits: [],
+    resources: {},
     construct: {
       anchorTarget: laneTargetId
     }

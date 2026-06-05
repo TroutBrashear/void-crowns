@@ -162,10 +162,6 @@ export function evaluateBuildLocation(buildingType: BuildingClass, locations: Pl
 			locationScore += 1; //placeholder, I'm sure there's some reason to prefer one planetoid over another. (research category bonuses!)
 		}
 
-		if(buildingType === 'consumerCenter'){
-			locationScore += 1; //placeholder, consumercenters getting a rework
-		}
-
 
 		if(locationScore > winningScore){
 			bestLocation = location;
@@ -202,46 +198,6 @@ function processAiBuildPlanningCorporation(currentState: GameState, orgId: numbe
 			const targetPlanetoid = evaluateBuildLocation('mine', orgPlanetoids);
 			if(targetPlanetoid){
 				newBuildPlan.push({type: "building", buildingType: 'mine', location: targetPlanetoid.id });
-			}
-		}
-	}
-
-	//do we need a consumerFactory?
-	if(thinkingOrg.contextHistory.previousIncome.consumerGoods < 200){
-		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
-			if(planetoid.ownerNationId === orgId) {
-				return true;
-			}
-			if(thinkingOrg.parentId){
-				if(planetoid.ownerNationId === thinkingOrg.parentId){
-					return true;
-				}
-			}
-		});
-		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'consumerFactory')){
-			const targetPlanetoid = evaluateBuildLocation('consumerFactory', orgPlanetoids);
-			if(targetPlanetoid){
-				newBuildPlan.push({type: "building", buildingType: 'consumerFactory', location: targetPlanetoid.id });
-			}
-		}
-	}
-
-	//do we need a consumerCenter?
-	if(thinkingOrg.resources.consumerGoods > thinkingOrg.resources.rocks){
-		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
-			if(planetoid.ownerNationId === orgId) {
-				return true;
-			}
-			if(thinkingOrg.parentId){
-				if(planetoid.ownerNationId === thinkingOrg.parentId){
-					return true;
-				}
-			}
-		});
-		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'consumerCenter')){
-			const targetPlanetoid = evaluateBuildLocation('consumerCenter', orgPlanetoids);
-			if(targetPlanetoid){
-				newBuildPlan.push({type: "building", buildingType: 'consumerCenter', location: targetPlanetoid.id });
 			}
 		}
 	}

@@ -46,19 +46,19 @@ export const BUILDING_CATALOG: Record<BuildingClass, BuildingDefinition> = {
       { },
     tags: [],
   },
-  consumerCenter: {
-    type: 'consumerCenter',
-    cost: { credits: 1000},
-    process:
-      { input: { consumerGoods: 100 }, output: { credits: 400 } },
-    tags: [],
-  },
   consumerFactory: {
     type: 'consumerFactory',
     cost: { credits: 1000 },
     process:
-      { input: { rocks: 50 }, output: { consumerGoods: 100 } },
+      { input: { rocks: 50 }, goodsOutput: { 2: 100 } },
     tags: [],
+  },
+  farm: {
+    type: 'farm',
+    cost: { credits: 1000 },
+    process:
+      { goodsOutput: { 1: 100 } },
+      tags: [],
   },
   navalAcademy: {
     type: 'navalAcademy',

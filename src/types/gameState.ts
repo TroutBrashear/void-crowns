@@ -15,6 +15,7 @@ export interface System {
 export interface Process {
   input?: Partial<Resources>;
   output?: Partial<Resources>;
+  goodsOutput?: Record<number, number>; //Good.id and amount produced
 }
 
 export interface CharProcess {
@@ -25,7 +26,7 @@ export interface CharProcess {
     killCharacter?: boolean;
 }
 
-export type BuildingClass = 'mine' | 'gasWell' |  'powerPlant' | 'militaryBase' | 'researchLab' | 'consumerCenter' | 'consumerFactory' | 'navalAcademy' | 'scienceAcademy';
+export type BuildingClass = 'mine' | 'gasWell' |  'powerPlant' | 'militaryBase' | 'researchLab' | 'farm' | 'consumerFactory' | 'navalAcademy' | 'scienceAcademy';
 
 export interface Building {
   readonly id: number;
@@ -60,6 +61,9 @@ export interface Planetoid {
   }
   tags: string[];
   deposits: Deposit[];
+  resources: {
+    goodsStockpiles?: Record< number, Record<number, number>>; //number #1 is a Good.id, number #2 is the amount stored
+  }
   construct?: {
     anchorTarget?: number; //a Lane id
     shipDebris?: number[]; //array of ships contained in a debris field
@@ -153,8 +157,6 @@ export interface Resources {
   credits: number;
   rocks: number;
   gas: number;
-  consumerGoods: number;
-  food: number;
 }
 
 export interface Deposit {
@@ -165,6 +167,14 @@ export interface Deposit {
   difficulty: number; //an org needs to beat difficulty with a dice roll to reveal the Deposit. Some will be generated with a number higher than can be rolled - can be beaten with tech bonuses later.
 }
 
+export type GoodCategory = 'food' | 'homeGoods';
+
+export interface Good {
+  readonly id: number;
+  name: string;
+  type: GoodCategory;
+  traits: string[];
+}
 
 //-----------POPULATION AND SPECIES-------------------
 export interface Species {
@@ -187,7 +197,6 @@ export interface OrgRelation {
   status: 'peace' | 'war';
   opinion: number;
 }
-
 
 
 export interface Org {
@@ -391,6 +400,7 @@ export interface GameState {
   buildings: EntitiesState<Building>;
   species: EntitiesState<Species>;
   pops: EntitiesState<Pop>;
+  goods: EntitiesState<Good>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;

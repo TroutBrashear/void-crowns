@@ -22,6 +22,7 @@ import { normalize } from '../utils/normalize';
 
 //constant imports
 import { CYCLE_CONFIG } from '../constants/cycle_config';
+import { DEFAULT_GOODS} from '../data/goods';
 
 
 export const useGameStore = create<GameStoreState>((set, get) => {
@@ -83,6 +84,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     fleetLocationIndex: {},   
     intelligence: { trueStatus: {}, planetoidIntel: {}},
     pops: { entities: {}, ids:[] },
+    goods: { entities: {}, ids:[]},
 
 
   tick: () => {
@@ -95,8 +97,6 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       nextState = ecoResults.newState;
       tickEvents.push(...ecoResults.events);
     }
-
-
 
     const combatResults = processCombat(nextState);
     nextState = combatResults.newState;
@@ -359,6 +359,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       species: normalize(species),
       pops: normalize(pops),
       intelligence: { trueStatus: {}, planetoidIntel: intelState },
+      goods: normalize(Object.values(DEFAULT_GOODS)), //load in our default goods from their dict
     });
   },
 

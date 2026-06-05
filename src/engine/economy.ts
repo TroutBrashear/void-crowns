@@ -119,26 +119,20 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 	const processResult = {
 			credits: target.resources.credits,
 			rocks: target.resources.rocks,
-			consumerGoods: target.resources.consumerGoods,
 			gas: target.resources.gas,
-			food: target.resources.food,
 	};
 
 
 	if(process.input){
 		processResult.credits -= process.input?.credits ?? 0;
 		processResult.rocks -= process.input?.rocks ?? 0;
-		processResult.consumerGoods -= process.input?.consumerGoods ?? 0;
 		processResult.gas -= process.input?.gas ?? 0;
-		processResult.food -= process.input?.food ?? 0;
 	}
 
 	if(process.output){
 		processResult.credits += process.output?.credits ?? 0;
 		processResult.rocks += process.output?.rocks ?? 0;
-		processResult.consumerGoods += process.output?.consumerGoods ?? 0;
 		processResult.gas += process.input?.gas ?? 0;
-		processResult.food += process.input?.food ?? 0;
 	}
 
 
@@ -153,9 +147,7 @@ export function applyProcess(currentState: GameState, process: Process, targetOr
 					resources: {
 						credits: processResult.credits,
 						rocks: processResult.rocks,
-						consumerGoods: processResult.consumerGoods,
 						gas: processResult.gas,
-						food: processResult.food
 					},
 				},
 			},
@@ -187,9 +179,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 				roundIncome[systemOwner] = {
 					credits: 0,
 					rocks: 0,
-					consumerGoods: 0,
 					gas: 0,
-					food: 0
 				};
 			}
 
@@ -211,9 +201,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 					roundIncome[planetoidOwner] = {
 						credits: 0,
 						rocks: 0,
-						consumerGoods: 0,
 						gas: 0,
-						food: 0
 					};
 				}
 
@@ -318,21 +306,17 @@ export function processEconomy(currentState: GameState): EngineResult {
 						roundIncome[buildingOwner] = {
 							credits: 0,
 							rocks: 0,
-							consumerGoods: 0,
 							gas: 0,
-							food: 0
 						};
 					}
 
 					//processes now have Partial<Resources>, so any of these may be undefined
 					//input processing
 
-					if(newOrgs[buildingOwner].resources.credits >= (bDefinition.process.input?.credits ?? 0) && newOrgs[buildingOwner].resources.rocks >= (bDefinition.process.input?.rocks ?? 0 ) && newOrgs[buildingOwner].resources.consumerGoods >= (bDefinition.process.input?.consumerGoods ?? 0)){
+					if(newOrgs[buildingOwner].resources.credits >= (bDefinition.process.input?.credits ?? 0) && newOrgs[buildingOwner].resources.rocks >= (bDefinition.process.input?.rocks ?? 0 )){
 						roundIncome[buildingOwner].credits -= bDefinition.process.input?.credits ?? 0;
 						roundIncome[buildingOwner].rocks -= bDefinition.process.input?.rocks ?? 0;
-						roundIncome[buildingOwner].consumerGoods -= bDefinition.process.input?.consumerGoods ?? 0;
 						roundIncome[buildingOwner].gas -= bDefinition.process.input?.gas ?? 0;
-						roundIncome[buildingOwner].food -= bDefinition.process.input?.food ?? 0;
 					}
 					else{
 						continue;
@@ -365,8 +349,30 @@ export function processEconomy(currentState: GameState): EngineResult {
 						}
 					}
 
-					roundIncome[buildingOwner].consumerGoods += bDefinition.process.output?.consumerGoods ?? 0;
-					roundIncome[buildingOwner].food += bDefinition.process.output?.food ?? 0;
+					//goods output
+					if(bDefinition.process.goodsOutput && currentPlanetoid.resources.goodsStockpiles){
+						let stockpile = { ...currentPlanetoid.resources.goodsStockpiles };
+
+						for(const [goodId, amount] of Object.entries(bDefinition.process.goodsOutput)){
+							let orgStockpile= { ...stockpile[building.ownerNationId] || {}};
+							const currentAmount = orgStockpile[Number(goodId)] || 0;;
+
+							orgStockpile = {
+								...orgStockpile,
+								[Number(goodId)]: currentAmount + amount
+							}
+
+							stockpile[building.ownerNationId] = { ... orgStockpile};
+						}
+
+						currentPlanetoid = {
+							...currentPlanetoid,
+							resources: {
+								...currentPlanetoid.resources,
+								goodsStockpiles: stockpile
+							}
+						}
+					}
 
 
 					//tax processing
@@ -375,11 +381,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 						roundIncome[buildingOwner].credits -= 60;
 						roundIncome[planetoidOwner].credits += 60;
 					}
-
-
-
-
-
 
 				}
 			}
@@ -400,7 +401,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 				...newOrgs[orgId].resources,
 				credits: newOrgs[orgId].resources.credits + income.credits,
 				rocks: newOrgs[orgId].resources.rocks + income.rocks,
-				consumerGoods: newOrgs[orgId].resources.consumerGoods + income.consumerGoods,
 			}
 		};
 	}
