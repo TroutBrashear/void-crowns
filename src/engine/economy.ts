@@ -354,9 +354,15 @@ export function processEconomy(currentState: GameState): EngineResult {
 						let stockpile = { ...currentPlanetoid.resources.goodsStockpiles };
 
 						for(const [goodId, amount] of Object.entries(bDefinition.process.goodsOutput)){
-							const currentAmount = stockpile[Number(goodId)] || 0;;
+							let orgStockpile= { ...stockpile[building.ownerNationId] || {}};
+							const currentAmount = orgStockpile[Number(goodId)] || 0;;
 
-							stockpile[Number(goodId)] = currentAmount + amount;
+							orgStockpile = {
+								...orgStockpile,
+								[Number(goodId)]: currentAmount + amount
+							}
+
+							stockpile[building.ownerNationId] = { ... orgStockpile};
 						}
 
 						currentPlanetoid = {

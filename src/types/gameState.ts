@@ -62,7 +62,7 @@ export interface Planetoid {
   tags: string[];
   deposits: Deposit[];
   resources: {
-    goodsStockpiles?: Record<number, number>; //number #1 is a Good.id, number #2 is the amount stored
+    goodsStockpiles?: Record< number, Record<number, number>>; //number #1 is a Good.id, number #2 is the amount stored
   }
   construct?: {
     anchorTarget?: number; //a Lane id
