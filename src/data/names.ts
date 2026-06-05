@@ -19,7 +19,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 
 export const SYSTEM_NAMES: string[] = [
 	"'Anaq", "'Uqdah", "'Awa", "'Aqiq",
-	"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ayilyam", "Asttam", "Ailm", "Añañuca", "Aušrinė",
+	"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ayilyam", "Asttam", "Ailm", "Añañuca", "Aušrinė", "Athshe",
 	"Bayd", "Bari'", "Bie", "Barani", "Baradi", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bimac", "Bisclavret",
 	"Cong Guan", "Cittirai", "Corydon", "Cunot", "Coll", "Ceirt", "Ceibo", "Cleyre", "Coudre",
 	"Dabaran", "Dhanab", "Dubb", "Dun Wan", "Dair",
@@ -43,7 +43,7 @@ export const SYSTEM_NAMES: string[] = [
 	"Vakarinė",
 	"Waqi'", "Wazn", "Wardah", "Wegan",
 	"Xuan Ge", "Xiang", "Xing Chen", "Xia Tai", "Xin Xiu", "Xi Zhong",
-	"Yad", "Yaqut", "Yu Heng", "Ye Zhe", "You Geng", "Yeddo", "Yafin", "Yanqul",
+	"Yad", "Yaqut", "Yu Heng", "Ye Zhe", "You Geng", "Yeddo", "Yafin", "Yanqul", "Yumen",
 	"Zawiyah", "Zawraq", "Zubana", "Zao Fu", "Zhu Wang", "Zi Xiu", "Zimbrah"
 ];
 
