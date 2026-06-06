@@ -27,9 +27,9 @@ function Map({ onSelect }: MapProps) {
   const selection = useUiStore(state => state.selection);
 
   return (
-    <TransformWrapper initialScale={1} minScale={0.5} maxScale={5} limitToBounds={true} panning={{velocityDisabled: true}}>
+    <TransformWrapper initialScale={1} minScale={1} maxScale={5} limitToBounds={true}  panning={{velocityDisabled: true}}>
     <TransformComponent wrapperClass={styles.mapWrapper}>
-    <svg className={styles.mapSvg} viewBox="0 0 5000 1500">
+    <svg className={styles.mapSvg} viewBox="-200 200 5400 1500">
       
 
       {lanes.ids.map((laneId: number) => {
