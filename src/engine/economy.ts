@@ -169,7 +169,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 
 	const completedResearch: { orgId: number, researchId: string, labLocationId: number }[] = [];
 	const spawnedCharacters: number[] = [];
-
 	for(const systemId of currentState.systems.ids) {
 		const currentSystem = currentState.systems.entities[systemId];
 		const systemOwner = currentSystem.ownerNationId;
@@ -205,8 +204,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 					};
 				}
 
-
-
 				//population calculations
 				if(currentPlanetoid.population){
 					//check population for credits income
@@ -236,7 +233,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 						}
 					}
 				}
-
 			}
 
 			//check buildings for processes

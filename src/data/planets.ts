@@ -56,5 +56,10 @@ export const PLANET_ENVIRONMENTS: Record<string, planetType> = {
             type: "molten",
             popGrowthModifier: 0.1,
             defaultValue: 0
+        },
+        frozen: {
+            type: "frozen",
+            popGrowthModifier: 0.1,
+            defaultValue: 0
         }
 }

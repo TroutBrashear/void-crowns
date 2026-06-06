@@ -27,7 +27,7 @@ function Map({ onSelect }: MapProps) {
   const selection = useUiStore(state => state.selection);
 
   return (
-    <TransformWrapper initialScale={1} minScale={0.5} maxScale={5} limitToBounds={false} panning={{velocityDisabled: true}}>
+    <TransformWrapper initialScale={1} minScale={0.5} maxScale={5} limitToBounds={true} panning={{velocityDisabled: true}}>
     <TransformComponent wrapperClass={styles.mapWrapper}>
     <svg className={styles.mapSvg} viewBox="0 0 5000 1500">
       
