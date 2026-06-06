@@ -157,6 +157,13 @@ export function evaluateBuildLocation(buildingType: BuildingClass, locations: Pl
 				}
 			}
 		}
+		else if(buildingType === 'gasWell'){
+			for(const deposit of location.deposits){
+				if(deposit.type === 'gas' && deposit.isVisible){
+					locationScore += 1;
+				}
+			}
+		}
 
 		if(buildingType === 'researchLab'){
 			locationScore += 1; //placeholder, I'm sure there's some reason to prefer one planetoid over another. (research category bonuses!)
@@ -279,6 +286,27 @@ export function processAiBuildPlanning(currentState: GameState, orgId: number): 
 			}
 		}
 	}
+
+	//do we need a gas well?
+	if(thinkingOrg.contextHistory.previousIncome.gas < 500){
+		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => {
+			if(planetoid.ownerNationId === orgId) {
+				return true;
+			}
+			if(thinkingOrg.parentId){
+				if(planetoid.ownerNationId === thinkingOrg.parentId){
+					return true;
+				}
+			}
+		});
+		if(!newBuildPlan.some(intent => intent.type === 'building' && intent.buildingType === 'gasWell')){
+			const targetPlanetoid = evaluateBuildLocation('gasWell', orgPlanetoids);
+			if(targetPlanetoid){
+				newBuildPlan.push({type: "building", buildingType: 'gasWell', location: targetPlanetoid.id });
+			}
+		}
+	}
+
 
 	if(thinkingOrg.resources.credits > 20000){
 		const orgPlanetoids = Object.values(currentState.planetoids.entities).filter(planetoid => planetoid.ownerNationId === orgId);

@@ -66,8 +66,8 @@ export function resolveTrade(currentState: GameState, request: DiploRequest): Ga
 	}
 
 	//can each org afford what it is sending?
-	const senderValid = (sender.resources.credits >= (request.trade.senderProcess.input?.credits ?? 0)) && (sender.resources.rocks >= (request.trade.senderProcess.input?.rocks ?? 0));
-	const receiverValid = (receiver.resources.credits >= (request.trade.targetProcess.input?.credits ?? 0)) && (receiver.resources.rocks >= (request.trade.targetProcess.input?.rocks ?? 0));
+	const senderValid = (sender.resources.credits >= (request.trade.senderProcess.input?.credits ?? 0)) && (sender.resources.rocks >= (request.trade.senderProcess.input?.rocks ?? 0) && (sender.resources.gas >= (request.trade.senderProcess.input?.gas ?? 0)));
+	const receiverValid = (receiver.resources.credits >= (request.trade.targetProcess.input?.credits ?? 0)) && (receiver.resources.rocks >= (request.trade.targetProcess.input?.rocks ?? 0) && (receiver.resources.gas >= (request.trade.targetProcess.input?.gas ?? 0)));
 
 	if(senderValid && receiverValid){
 		nextState = applyProcess(nextState, request.trade.senderProcess, request.originOrgId);
