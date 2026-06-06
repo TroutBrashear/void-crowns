@@ -40,7 +40,7 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
 
     let creditScore = 1;
     let rockScore = 1;
-    let consumerGoodScore = 1;
+    let gasScore = 1;
 
     const receiving = (request.trade.targetProcess.output?.credits ?? 0) + (request.trade.targetProcess.output?.rocks ?? 0);
     const sending = (request.trade.targetProcess.input?.credits ?? 0) + (request.trade.targetProcess.input?.rocks ?? 0);
@@ -57,6 +57,9 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
     if(thinkingOrg.resources.rocks < 1000 && (request.trade.targetProcess.output?.rocks ?? 0) > 0){
         rockScore += 10
     }
+    if(thinkingOrg.resources.gas < 1000 && (request.trade.targetProcess.output?.gas ?? 0) > 0){
+        gasScore += 10
+    }
 
     //not overly taxing
     if((thinkingOrg.resources.credits * .5) < (request.trade.targetProcess.input?.credits ?? 0)){
@@ -65,9 +68,12 @@ export function evaluateTradeDeal(currentState: GameState, orgId: number, reques
     if((thinkingOrg.resources.rocks * .5) < (request.trade.targetProcess.input?.rocks ?? 0)){
         rockScore -= 5;
     }
+    if((thinkingOrg.resources.gas * .5) < (request.trade.targetProcess.input?.gas ?? 0)){
+        gasScore -= 5;
+    }
 
 
-    if(creditScore + rockScore + consumerGoodScore > 0){
+    if(creditScore + rockScore + gasScore > 0){
         return true;
     }
     else{
