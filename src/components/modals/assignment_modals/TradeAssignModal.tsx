@@ -10,8 +10,8 @@ function TradeAssignModal() {
 
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
-    const [send, setSend] = useState({ credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 0});
-    const [receive, setReceive] = useState({ credits: 0, rocks: 0, consumerGoods: 0, gas: 0, food: 0 });
+    const [send, setSend] = useState({ credits: 0, rocks: 0, gas: 0});
+    const [receive, setReceive] = useState({ credits: 0, rocks: 0, gas: 0 });
 
     const getOrgById = useGameStore(state => state.getOrgById);
     const sendDiploRequest = useGameStore(state => state.sendDiploRequest);
@@ -41,8 +41,8 @@ function TradeAssignModal() {
                     <input type="number" id="sendCredits" value={send.credits} onChange={(e) => setSend( { ...send, credits: parseInt(e.target.value) })} />
                     <p>Rocks:</p>
                     <input type="number" id="sendRocks" value={send.rocks} onChange={(e) => setSend( { ...send, rocks: parseInt(e.target.value) })} />
-                    <p>Consumer Goods:</p>
-                    <input type="number" id="sendConsumerGoods" value={send.consumerGoods} onChange={(e) => setSend( { ...send, consumerGoods: parseInt(e.target.value) })} />
+                    <p>Gas:</p>
+                    <input type="number" id="sendGas" value={send.gas} onChange={(e) => setSend( { ...send, gas: parseInt(e.target.value) })} />
                 </div>
                 <div>
                     <p>{targetOrg.flavor.name} </p>
@@ -52,7 +52,7 @@ function TradeAssignModal() {
                     <p>Rocks:</p>
                     <input type="number" id="receiveRocks" value={receive.rocks} onChange={(e) => setReceive( { ...receive, rocks: parseInt(e.target.value) })} />
                     <p>Consumer Goods:</p>
-                    <input type="number" id="receiveConsumerGoods" value={receive.consumerGoods} onChange={(e) => setReceive( { ...receive, consumerGoods: parseInt(e.target.value) })} />
+                    <input type="number" id="receiveGas" value={receive.gas} onChange={(e) => setReceive( { ...receive, gas: parseInt(e.target.value) })} />
                 </div>
             </div>
             <Button className={styles.characterButton} onClick={()=> sendDiploRequest({targetOrgId: target.targetId, originOrgId: senderOrg.id, requestType: 'trade', trade: { send: send, receive: receive} })}>Send</Button>
