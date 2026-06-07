@@ -1,4 +1,6 @@
-import type { GameState, Fleet, Planetoid, GameEvent, EngineResult } from '../types/gameState';
+import type { GameState,  Planetoid, GameEvent, EngineResult } from '../types/gameState';
+import type { Fleet } from '../types/shipTypes';
+
 import { getRelationship } from './diplomacy';
 
 function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] {

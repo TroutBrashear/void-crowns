@@ -1,7 +1,8 @@
 import { useUiStore } from '../../../state/uiStore';
 import { useGameStore } from '../../../state/gameStore';
 import { useState } from 'react';
-import type { Fleet, System, Org, Ship, Building } from '../../../types/gameState';
+import type { System, Org, Building } from '../../../types/gameState';
+import type { Fleet, Ship } from '../../../types/shipTypes';
 import styles from './AssignModal.module.css';
 
 import { Button } from '../../pure/Button';

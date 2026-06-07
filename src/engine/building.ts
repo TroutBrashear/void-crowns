@@ -1,4 +1,5 @@
-import type { GameState, Ship, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources, PlanetoidClassification, Lane, Planetoid } from '../types/gameState';
+import type { GameState, Building, BuildingClass, EngineResult, GameEvent, Resources, PlanetoidClassification, Lane, Planetoid } from '../types/gameState';
+import type { Ship, ShipType, MilShip, MilShipType } from '../types/shipTypes';
 
 import { applyProcess } from './economy';
 import { popIncreaseSpeciesRoll } from './population';

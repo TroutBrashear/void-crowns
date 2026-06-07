@@ -1,4 +1,5 @@
-import type { GameState, Fleet, Ship, IntelStatus } from '../types/gameState';
+import type { GameState,  IntelStatus } from '../types/gameState';
+import type { Fleet, Ship } from '../types/shipTypes';
 
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 
