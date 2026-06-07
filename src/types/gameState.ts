@@ -58,6 +58,7 @@ export interface Planetoid {
   population?: {
     total: number;
     progress: number;
+    popIds: number[];
   }
   tags: string[];
   deposits: Deposit[];

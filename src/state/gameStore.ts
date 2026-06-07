@@ -312,19 +312,23 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         if(home){
           foundHome = true;
           home.ownerNationId = currentOrg.id;
+          let localPops:  number[] = [];
+          for(let i = 0; i < 10; i++){
+            const newPop: Pop = {
+              id: popId++,
+              species: currentOrg.id,
+              locationId: home.id,
+            };
+            localPops.push(newPop.id);
+            pops.push(newPop);
+          }
+
           home.population = {
             total: 10,
             progress: 0,
+            popIds: localPops
           };
-          for(let i = 0; i < 10; i++){
-            const newPop: Pop = {
-                id: popId++,
-                species: currentOrg.id,
-                locationId: home.id,
-            };
 
-            pops.push(newPop);
-          }
 
           systems[systemIndex].ownerNationId = currentOrg.id;
         }

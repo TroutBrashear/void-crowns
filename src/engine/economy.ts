@@ -228,7 +228,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 							newPopIds.push(newPop.id);
 							currentPlanetoid.population = {
 								total: currentPlanetoid.population.total + 1,
-								progress: 0
+								progress: 0,
+								popIds: [...currentPlanetoid.population.popIds, newPop.id]
 							}
 						}
 					}
