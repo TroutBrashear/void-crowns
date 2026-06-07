@@ -1,6 +1,7 @@
-import type { GameState, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources, PlanetoidClassification, Lane, Planetoid } from '../types/gameState';
+import type { GameState, Ship, ShipType, MilShip, MilShipType, Building, BuildingClass, EngineResult, GameEvent, Resources, PlanetoidClassification, Lane, Planetoid } from '../types/gameState';
 
 import { applyProcess } from './economy';
+import { popIncreaseSpeciesRoll } from './population';
 
 import { BUILDING_CATALOG } from '../data/buildings';
 import { SHIP_CATALOG } from '../data/ships';
@@ -36,7 +37,7 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
         return currentState; 
       }
 
-      const newShip = {
+      let newShip: Ship = {
         id: newId,
         name: "new Ship",
         type: shipType,
@@ -49,6 +50,21 @@ export function engineBuildShip(currentState: GameState, locationId: number, shi
           assignmentProgress: 0,
         }
       };
+
+      if(shipType === 'colony_ship'){
+        const localPlanetoid = buildSystem.planetoids.find(planetoidId => currentState.planetoids.entities[planetoidId].ownerNationId);
+        if(!localPlanetoid){
+          return currentState;
+        }
+        const speciesTarget  = popIncreaseSpeciesRoll(currentState, localPlanetoid);
+        if(!speciesTarget){
+          return currentState;
+        }
+        newShip = {
+          ...newShip,
+          assignmentTargetId: speciesTarget
+        }
+      }
 
       const updatedOrg = {
         ...ownerOrg,

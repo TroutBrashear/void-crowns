@@ -145,6 +145,7 @@ export interface Ship {
   assignedCharacter: number | null;
 
   //survey_ship has an assignmentTargetId pointing to the Planetoid it is surveying
+  //colony_ship has an assignmentTargetId pointing to the Species on board
   assignmentTargetId: number | null;
 
   contextHistory: {

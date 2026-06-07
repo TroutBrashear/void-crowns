@@ -45,7 +45,7 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
       const ship = currentState.ships.entities[payload.shipId]; //the colony ship will be used up and removed from the game
       const system = currentState.systems.entities[planetoid.locationSystemId]; //we may return the system with a new onwer
 
-      if(!planetoid) {
+      if(!planetoid || !ship.assignmentTargetId) {
         return currentState;
       }
 
@@ -58,7 +58,7 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
 
       const newPop: Pop = {
         id: lastPopId++,
-        species: 1,
+        species: ship.assignmentTargetId ,
         locationId: planetoid.id
       };
 
@@ -108,7 +108,7 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
             [newPop.id]: newPop
           }
         }
-      };    
+      };
 }
 
 export function beginPlanetoidSurvey(currentState: GameState, payload: ColonizePayload ): GameState {
