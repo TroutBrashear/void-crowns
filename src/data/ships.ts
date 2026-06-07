@@ -1,6 +1,7 @@
 //definitions for ships
 
-import type { ShipType, Resources } from '../types/gameState';
+import type { Resources } from '../types/gameState';
+import type { ShipType } from '../types/shipTypes';
 
 export interface ShipDefinition {
     type: ShipType;

@@ -1,5 +1,6 @@
 import type { GameState } from '../../types/gameState';
-import { engineBuildShip, engineBuildBuilding, engineBuildMilShip } from '../building';
+import { engineBuildBuilding } from '../building';
+import { engineBuildShip, engineBuildMilShip } from '../building/shipBuilding';
 import { BUILDING_CATALOG } from '../../data/buildings';
 import { SHIP_CATALOG } from '../../data/ships';
 
