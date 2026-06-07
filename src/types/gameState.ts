@@ -181,6 +181,7 @@ export interface Species {
   readonly id: number;
   name: string;
   traits: string[];
+  baseNeeds: Record<GoodCategory, number>;
 }
 
 export interface Pop {

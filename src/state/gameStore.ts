@@ -282,7 +282,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     const pops: Pop[] = [];
     let popId = 0;
 
-    species[0] = { id: 1, name: payload.playerSpecies, traits: [] };
+    species[0] = { id: 1, name: payload.playerSpecies, traits: [], baseNeeds: {
+      food: 5,
+      homeGoods: 5
+    } };
 
     orgs[0].flavor.name = payload.playerOrgName;
     orgs[0].flavor.color = payload.playerOrgColor;
