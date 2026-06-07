@@ -1,4 +1,4 @@
-import type { GameState, ColonizePayload, Planetoid } from '../types/gameState';
+import type { GameState, ColonizePayload, Planetoid, Pop } from '../types/gameState';
 
 import { PLANET_ENVIRONMENTS } from '../data/planets';
 
@@ -54,12 +54,21 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
         ownerNationId: ship.ownerNationId,
       }; 
 
+      let lastPopId = currentState.meta.lastPopId;
+
+      const newPop: Pop = {
+        id: lastPopId++,
+        species: 1,
+        locationId: planetoid.id
+      };
+
       const updatedPlanetoid = {
         ...planetoid,
         ownerNationId: ship.ownerNationId,
         population: {
           total: 1,
           progress: 0,
+          popIds: [newPop.id]
         }
       };
 
@@ -70,6 +79,10 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
 
       return  {
       	...currentState,
+        meta: {
+          ...currentState.meta,
+          lastPopId: lastPopId
+        },
         planetoids: {
           ...currentState.planetoids,
           entities: {
@@ -87,6 +100,13 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
         ships: {
           entities: shipEntities,
           ids: shipIds,
+        },
+        pops: {
+          ids: [...currentState.pops.ids, newPop.id],
+          entities: {
+            ...currentState.pops.entities,
+            [newPop.id]: newPop
+          }
         }
       };    
 }
