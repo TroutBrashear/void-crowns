@@ -59,7 +59,12 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
       const newPop: Pop = {
         id: lastPopId++,
         species: ship.assignmentTargetId ,
-        locationId: planetoid.id
+        locationId: planetoid.id,
+        feelings: {
+          happiness: 50,
+          fear: 0,
+          recentEvents: []
+        }
       };
 
       const updatedPlanetoid = {
