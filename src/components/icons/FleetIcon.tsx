@@ -1,4 +1,5 @@
-import type { Fleet, Org, System } from '../../types/gameState';
+import type { Org, System } from '../../types/gameState';
+import type { Fleet } from '../../types/shipTypes';
 
 interface FleetIconProps {
   fleet: Fleet;

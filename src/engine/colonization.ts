@@ -1,4 +1,4 @@
-import type { GameState, ColonizePayload, Planetoid } from '../types/gameState';
+import type { GameState, ColonizePayload, Planetoid, Pop } from '../types/gameState';
 
 import { PLANET_ENVIRONMENTS } from '../data/planets';
 
@@ -45,7 +45,7 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
       const ship = currentState.ships.entities[payload.shipId]; //the colony ship will be used up and removed from the game
       const system = currentState.systems.entities[planetoid.locationSystemId]; //we may return the system with a new onwer
 
-      if(!planetoid) {
+      if(!planetoid || !ship.assignmentTargetId) {
         return currentState;
       }
 
@@ -54,12 +54,26 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
         ownerNationId: ship.ownerNationId,
       }; 
 
+      let lastPopId = currentState.meta.lastPopId;
+
+      const newPop: Pop = {
+        id: lastPopId++,
+        species: ship.assignmentTargetId ,
+        locationId: planetoid.id,
+        feelings: {
+          happiness: 50,
+          fear: 0,
+          recentEvents: []
+        }
+      };
+
       const updatedPlanetoid = {
         ...planetoid,
         ownerNationId: ship.ownerNationId,
         population: {
           total: 1,
           progress: 0,
+          popIds: [newPop.id]
         }
       };
 
@@ -70,6 +84,10 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
 
       return  {
       	...currentState,
+        meta: {
+          ...currentState.meta,
+          lastPopId: lastPopId
+        },
         planetoids: {
           ...currentState.planetoids,
           entities: {
@@ -87,8 +105,15 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
         ships: {
           entities: shipEntities,
           ids: shipIds,
+        },
+        pops: {
+          ids: [...currentState.pops.ids, newPop.id],
+          entities: {
+            ...currentState.pops.entities,
+            [newPop.id]: newPop
+          }
         }
-      };    
+      };
 }
 
 export function beginPlanetoidSurvey(currentState: GameState, payload: ColonizePayload ): GameState {

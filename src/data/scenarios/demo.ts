@@ -1,4 +1,5 @@
-import type { System, Fleet, Org, Planetoid, Ship, Lane, MilShip, Species } from '../../types/gameState';
+import type { System, Org, Planetoid, Lane, Species } from '../../types/gameState';
+import type { Fleet, Ship, MilShip } from '../../types/shipTypes';
 
 export const initialOrgs: Org[] = [
   { id: 1, category: 'nationState', flavor: { name: 'Human Republic', color: '#3498db', nameList: 'default'}, government: { succession: 'monarchy' }, resources: { credits: 100, rocks: 0, gas: 0 }, characters: {characterPool: [], leaderId: null}, parentId: null, childIds: [], diplomacy: {relations: {2: { targetOrgId: 2, status: 'war', opinion: -100 }}, incomingRequests: [], residentDiplomats: []}, contextHistory: {previousIncome: { credits: 100, rocks: 0, gas: 0 }, buildPlan: [], targetSystems: [] }, research: { researched: [], researchBonuses: { depositSurvey: 0, fleetCombat: 0 }} },

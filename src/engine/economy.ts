@@ -4,6 +4,7 @@ import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
 import { generateCharacter } from './character';
 import { popIncreaseSpeciesRoll } from './population';
+import { shuffle } from '../utils/shuffle';
 
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 import { PLANET_ENVIRONMENTS } from '../data/planets';
@@ -221,16 +222,89 @@ export function processEconomy(currentState: GameState): EngineResult {
 							const newPop: Pop = {
 								id: lastPopId++,
 								species: speciesRoll,
-								locationId: currentPlanetoid.id
+								locationId: currentPlanetoid.id,
+								feelings: {
+									happiness: 50,
+									fear: 0,
+									recentEvents: []
+								}
 							}
 
 							newPops[newPop.id] = newPop;
 							newPopIds.push(newPop.id);
 							currentPlanetoid.population = {
 								total: currentPlanetoid.population.total + 1,
-								progress: 0
+								progress: 0,
+								popIds: [...currentPlanetoid.population.popIds, newPop.id]
 							}
 						}
+					}
+
+					//satisfy pop needs
+					let shortNeeds = false;
+					let goodsStockpiles = { ...currentPlanetoid.resources.goodsStockpiles };
+					if(currentPlanetoid.resources.goodsStockpiles){
+						let allNeeds: Record<string, number> = {};
+
+						//collect total pop needs on the planetoid
+						for(const popId of currentPlanetoid.population.popIds){
+							let pop = { ...currentState.pops.entities[popId] }
+							const species = currentState.species.entities[pop.species];
+
+							for(const [need, quantity] of Object.entries(species.baseNeeds)){
+								if(allNeeds[need]){
+									allNeeds[need] += Number(quantity);
+								}
+								else{
+									allNeeds[need] = Number(quantity);
+								}
+							}
+						}
+
+
+						let orgKeys = shuffle(Object.keys(currentPlanetoid.resources.goodsStockpiles));
+						for(const orgId of orgKeys){
+							for(const need of Object.keys(allNeeds)){
+								if(allNeeds[need] <= 0){
+									continue;
+								}
+
+								let targetNeed = Object.keys(goodsStockpiles[Number(orgId)]).find(id => currentState.goods.entities[Number(id)].type === need);
+								if(targetNeed){
+									let value = Math.min(goodsStockpiles[Number(orgId)][Number(targetNeed)], allNeeds[need]);
+									allNeeds[need] -= value;
+									goodsStockpiles[Number(orgId)][Number(targetNeed)] -= value;
+									if(roundIncome[Number(orgId)]){
+										roundIncome[Number(orgId)].credits += (value/2);
+									}
+									else{
+										roundIncome[Number(orgId)] = {
+											credits: (value/2),
+											rocks: 0,
+											gas: 0,
+										};
+									}
+								}
+							}
+						}
+
+						for(const need of Object.keys(allNeeds)){
+							if(allNeeds[need] > 0){
+								shortNeeds = true;
+								break;
+							}
+						}
+					}
+
+					currentPlanetoid = {
+						...currentPlanetoid,
+						resources: {
+							...currentPlanetoid.resources,
+							goodsStockpiles: goodsStockpiles,
+						}
+					};
+					if(shortNeeds){
+						console.log('Short!');
 					}
 				}
 			}

@@ -617,6 +617,10 @@ export function generateStartingSpecies(numOrgs: number): Species[] {
 			id: i + 1,
 			name: availableSpeciesNames.pop() || `Generic Alien ${i+1}`,
 			traits: [],
+			baseNeeds: {
+				food: 5,
+				homeGoods: 5
+			}
 		}
 
 		specieses.push(newSpecies);

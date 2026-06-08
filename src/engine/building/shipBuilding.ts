@@ -1,0 +1,273 @@
+import type { GameState, Resources } from '../../types/gameState';
+import type { Ship, ShipType, MilShip, MilShipType } from '../../types/shipTypes';
+
+import { applyProcess } from '../economy';
+import { popIncreaseSpeciesRoll } from '../population';
+
+import { SHIP_CATALOG } from '../../data/ships';
+import { NAME_LISTS } from '../../data/names';
+
+
+export function engineBuildShip(currentState: GameState, locationId: number, shipType: ShipType){
+    const buildSystem = currentState.systems.entities[locationId];
+
+    if(!buildSystem || buildSystem.ownerNationId === null)
+    {
+        return currentState;
+    }
+    const newId = currentState.meta.lastShipId + 1;
+    const ownerOrg = currentState.orgs.entities[buildSystem.ownerNationId];
+
+    let cost: Partial<Resources> = { credits: 0, rocks: 0,  gas: 0 };
+
+    switch(shipType){
+        case 'colony_ship':
+            cost = SHIP_CATALOG['colony_ship'].cost;
+            break;
+        case 'survey_ship':
+            cost = SHIP_CATALOG['survey_ship'].cost;
+            break;
+        case 'construction_ship':
+            cost = SHIP_CATALOG['construction_ship'].cost;
+    }
+
+
+    //if the org can't afford the ship, do nothing.
+    if(ownerOrg.resources.credits < (cost?.credits ?? 0) || ownerOrg.resources.rocks < (cost?.rocks ?? 0)) {
+        return currentState;
+    }
+
+    let newShip: Ship = {
+        id: newId,
+        name: "new Ship",
+        type: shipType,
+        ownerNationId: buildSystem.ownerNationId,
+        locationSystemId: locationId,
+        movementPath: [],
+        assignmentTargetId: null,
+        assignedCharacter: null,
+        contextHistory: {
+            assignmentProgress: 0,
+        }
+    };
+
+    if(shipType === 'colony_ship'){
+        const localPlanetoid = buildSystem.planetoids.find(planetoidId => currentState.planetoids.entities[planetoidId].ownerNationId);
+        if(!localPlanetoid){
+            return currentState;
+        }
+        const speciesTarget  = popIncreaseSpeciesRoll(currentState, localPlanetoid);
+        if(!speciesTarget){
+            return currentState;
+        }
+        newShip = {
+            ...newShip,
+            assignmentTargetId: speciesTarget
+        }
+    }
+
+    const updatedOrg = {
+        ...ownerOrg,
+        resources: {
+            ...ownerOrg.resources,
+            credits: ownerOrg.resources.credits - (cost?.credits ?? 0),
+            rocks: ownerOrg.resources.rocks - (cost?.rocks ?? 0),
+        }
+    };
+
+    return {
+        ...currentState,
+        ships: {
+            ...currentState.ships,
+            entities: {
+                ...currentState.ships.entities,
+                [newId]: newShip,
+            },
+            ids: [...currentState.ships.ids, newId],
+        },
+        orgs: {
+            ...currentState.orgs,
+            entities: {
+                ...currentState.orgs.entities,
+                [ownerOrg.id]: updatedOrg,
+            }
+        },
+        meta: {
+            ...currentState.meta,
+            lastShipId: newId,
+        },
+    };
+}
+
+export function engineCreateFleet(currentState: GameState, locationId: number, orgId: number): { state: GameState, newFleetId: number} {
+
+    const buildSystem = currentState.systems.entities[locationId];
+
+    if(!buildSystem)
+    {
+        return { state: currentState, newFleetId: -1 };
+    }
+    const newId = currentState.meta.lastFleetId + 1;
+    const ownerOrg = currentState.orgs.entities[orgId];
+
+    const nameList = NAME_LISTS[ownerOrg.flavor.nameList];
+
+    const fleetName = nameList.fleetNames[Math.floor(Math.random()* nameList.fleetNames.length)];
+
+    const newFleet = {
+        id: newId,
+        name: fleetName,
+        ownerNationId: orgId,
+        locationSystemId: locationId,
+        movementPath: [],
+        movesRemaining: 3,
+        assignedCharacter: null,
+        ships: [],
+        contextHistory: {
+            previousSystemId: locationId,
+        },
+    };
+
+    return { state: {
+        ...currentState,
+        fleets: {
+            ...currentState.fleets,
+            entities: {
+                ...currentState.fleets.entities,
+                [newId]: newFleet,
+            },
+            ids: [...currentState.fleets.ids, newId],
+        },
+        meta: {
+            ...currentState.meta,
+            lastFleetId: newId,
+        },
+    }, newFleetId: newId };
+}
+
+export function addShipToFleet(currentState: GameState, fleetId: number, shipId: number): GameState {
+    let fleets = { ...currentState.fleets.entities };
+    const fleet = fleets[fleetId];
+    const ship = currentState.milShips.entities[shipId];
+
+    if(!fleet || !ship || ship.parentFleet === fleetId){
+        return currentState;
+    }
+
+    const fleetShips = [ ... fleet.ships];
+
+    fleetShips.push(shipId);
+
+    fleets = {
+        ...fleets,
+        [fleetId]: {
+            ...fleets[fleetId],
+            ships: fleetShips,
+        }
+    };
+
+    if(ship.parentFleet){
+        const formerFleet = fleets[ship.parentFleet];
+
+        if(formerFleet){
+            let formerFleetShips = [...formerFleet.ships];
+
+            formerFleetShips = formerFleetShips.filter(f => f !== shipId);
+
+            fleets = {
+                ...fleets,
+                [ship.parentFleet]: {
+                    ...fleets[ship.parentFleet],
+                    ships: formerFleetShips,
+                }
+            };
+        }
+    }
+
+    return {
+        ...currentState,
+        fleets: {
+            ...currentState.fleets,
+            entities: fleets,
+        },
+        milShips: {
+            ...currentState.milShips,
+            entities: {
+                ...currentState.milShips.entities,
+                [shipId]: {
+                    ...currentState.milShips.entities[shipId],
+                    parentFleet: fleetId,
+                }
+            }
+        }
+    }
+}
+
+export function engineCreateMilShip(currentState: GameState, orgId: number, shipType: MilShipType): { state: GameState, newShipId: number } {
+    const newId = currentState.meta.lastMilShipId + 1;
+
+    const newShip: MilShip = {
+        id: newId,
+        flavor: {
+            name: "new Ship",
+            traits: [],
+            type: shipType,
+        },
+        stats: {
+            size: 1,
+            speed: 1,
+            strength: 1,
+        },
+        ownerNationId: orgId,
+        parentFleet: null,
+        status: 'active',
+        assignedCharacter: null,
+        history: {
+            events: [],
+            statusChange: currentState.meta.turn,
+        }
+    };
+
+    return { state: {
+        ...currentState,
+        milShips: {
+            ...currentState.milShips,
+            entities: {
+                ...currentState.milShips.entities,
+                [newId]: newShip,
+            },
+            ids: [...currentState.milShips.ids, newId],
+        },
+        meta: {
+            ...currentState.meta,
+            lastMilShipId: newId,
+        },
+    }, newShipId: newId };
+}
+
+export function engineBuildMilShip(currentState: GameState, orgId: number, locationId: number, shipType: MilShipType): GameState {
+    let nextState = { ...currentState };
+
+    //finances check
+    const org = nextState.orgs.entities[orgId];
+    if(org.resources.credits < 4000){
+        return nextState;
+    }
+
+    const response = engineCreateMilShip(nextState, orgId, shipType);
+
+    const candidateFleets = Object.values(nextState.fleets.entities).filter(fleet => fleet.locationSystemId === locationId && fleet.ownerNationId === orgId);
+
+    if(candidateFleets.length === 0){
+        const fleetResponse = engineCreateFleet(response.state, locationId, orgId);
+        nextState = addShipToFleet(fleetResponse.state, fleetResponse.newFleetId, response.newShipId);
+    }
+    else{
+        nextState = addShipToFleet(response.state, candidateFleets[0].id, response.newShipId);
+    }
+
+    //deduct cost
+    nextState = applyProcess(nextState, { input: { credits: 4000}}, orgId);
+
+    return nextState;
+}

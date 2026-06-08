@@ -1,4 +1,5 @@
 import type { AiIntent } from './aiState';
+import type { Fleet, Ship, MilShip, ShipType, MilShipType } from './shipTypes';
 
 export interface System {
   readonly id: number;
@@ -58,6 +59,7 @@ export interface Planetoid {
   population?: {
     total: number;
     progress: number;
+    popIds: number[];
   }
   tags: string[];
   deposits: Deposit[];
@@ -81,74 +83,6 @@ export interface Lane {
   //the systems the lane connects
   systemIdA: number;
   systemIdB: number;
-}
-
-//---------------SHIPS AND FLEETS---------------------
-export interface Fleet {
-  readonly id: number;
-  name: string;
-  ownerNationId: number;
-  locationSystemId: number;
-  movementPath: number[]; //ids of systems in order of movement
-  movesRemaining: number;
-  assignedCharacter: number | null;
-
-  ships: number[]; //ids of MilShips assigned to this fleet
-
-  contextHistory: {
-    previousSystemId: number;
-  }
-}
-
-export type MilShipType = 'destroyer' | 'cruiser' | 'battleship';
-export type MilShipStatus = 'active' | 'mothball' | 'wreck';
-
-export interface MilShip {
-  readonly id: number;
-  flavor: {
-    name: string;
-    traits: string[];
-    type: MilShipType;
-  }
-
-  stats: {
-    size: number;
-    speed: number;
-    strength: number;
-  }
-
-  ownerNationId: number;
-  parentFleet: number | null;
-  status: MilShipStatus;
-
-  assignedCharacter: number | null;
-
-  history: {
-    events: string[];
-    statusChange: number; //documents the turn the last status change occurred, mostly to prevent new traits from developing too quickly
-  }
-}
-
-export type ShipType = 'colony_ship' | 'survey_ship' | 'construction_ship';
-
-export interface Ship {
-  readonly id: number;
-  name: string;
-  type: ShipType;
-  ownerNationId: number;
-  locationSystemId: number;
-
-  movementPath: number[];
-
-  //some ShipTypes have the potential for an assignedCharacter. - survey_ship
-  assignedCharacter: number | null;
-
-  //survey_ship has an assignmentTargetId pointing to the Planetoid it is surveying
-  assignmentTargetId: number | null;
-
-  contextHistory: {
-    assignmentProgress: number;
-  }
 }
 
 
@@ -181,12 +115,18 @@ export interface Species {
   readonly id: number;
   name: string;
   traits: string[];
+  baseNeeds: Record<GoodCategory, number>;
 }
 
 export interface Pop {
   readonly id: number;
   species: number; //a species id
   locationId: number; //a planetoid id
+  feelings: {
+    happiness: number;
+    fear: number;
+    recentEvents: string[];
+  }
 }
 
 //-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------

@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, Ship, ShipType, MilShipType, BuildingClass, DiploType, Resources, PlanetoidClassification, Pop } from '../types/gameState';
-import type { Fleet, PlanetoidIntel } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, BuildingClass, DiploType, Resources, PlanetoidClassification, Pop, PlanetoidIntel } from '../types/gameState';
+import type { Fleet, Ship, ShipType, MilShipType } from '../types/shipTypes';
 
 //engine imports
 import { processTick } from '../engine/tick';
@@ -13,7 +13,8 @@ import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
 import { processDiplomacy, enginePlayerDiploResponse, sendDiploRequest} from '../engine/diplomacy';
 import { generateGalaxy, generateStartingOrgs, generateStartingSpecies } from '../engine/galaxyGeneration';
-import { engineBuildShip, engineBuildBuilding, engineBuildMilShip, engineBuildPlanetoid, engineBuildAnchor } from '../engine/building';
+import { engineBuildBuilding, engineBuildPlanetoid, engineBuildAnchor } from '../engine/building';
+import { engineBuildShip, engineBuildMilShip } from '../engine/building/shipBuilding';
 import { colonizePlanetoid, beginPlanetoidSurvey, getHabitablesInSystem } from '../engine/colonization';
 import { engineAssignCharacter } from '../engine/character';
 import { shiftLanes } from '../engine/ecology';
@@ -282,7 +283,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     const pops: Pop[] = [];
     let popId = 0;
 
-    species[0] = { id: 1, name: payload.playerSpecies, traits: [] };
+    species[0] = { id: 1, name: payload.playerSpecies, traits: [], baseNeeds: {
+      food: 5,
+      homeGoods: 5
+    } };
 
     orgs[0].flavor.name = payload.playerOrgName;
     orgs[0].flavor.color = payload.playerOrgColor;
@@ -309,19 +313,28 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         if(home){
           foundHome = true;
           home.ownerNationId = currentOrg.id;
+          let localPops:  number[] = [];
+          for(let i = 0; i < 10; i++){
+            const newPop: Pop = {
+              id: popId++,
+              species: currentOrg.id,
+              locationId: home.id,
+              feelings: {
+                happiness: 50,
+                fear: 0,
+                recentEvents: []
+              }
+            };
+            localPops.push(newPop.id);
+            pops.push(newPop);
+          }
+
           home.population = {
             total: 10,
             progress: 0,
+            popIds: localPops
           };
-          for(let i = 0; i < 10; i++){
-            const newPop: Pop = {
-                id: popId++,
-                species: currentOrg.id,
-                locationId: home.id,
-            };
 
-            pops.push(newPop);
-          }
 
           systems[systemIndex].ownerNationId = currentOrg.id;
         }
