@@ -269,6 +269,16 @@ export function processEconomy(currentState: GameState): EngineResult {
 									let value = Math.min(goodsStockpiles[Number(orgId)][Number(targetNeed)], allNeeds[need]);
 									allNeeds[need] -= value;
 									goodsStockpiles[Number(orgId)][Number(targetNeed)] -= value;
+									if(roundIncome[Number(orgId)]){
+										roundIncome[Number(orgId)].credits += (value/2);
+									}
+									else{
+										roundIncome[Number(orgId)] = {
+											credits: (value/2),
+											rocks: 0,
+											gas: 0,
+										};
+									}
 								}
 							}
 						}
