@@ -222,7 +222,12 @@ export function processEconomy(currentState: GameState): EngineResult {
 							const newPop: Pop = {
 								id: lastPopId++,
 								species: speciesRoll,
-								locationId: currentPlanetoid.id
+								locationId: currentPlanetoid.id,
+								feelings: {
+									happiness: 50,
+									fear: 0,
+									recentEvents: []
+								}
 							}
 
 							newPops[newPop.id] = newPop;

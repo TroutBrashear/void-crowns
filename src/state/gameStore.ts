@@ -319,6 +319,11 @@ export const useGameStore = create<GameStoreState>((set, get) => {
               id: popId++,
               species: currentOrg.id,
               locationId: home.id,
+              feelings: {
+                happiness: 50,
+                fear: 0,
+                recentEvents: []
+              }
             };
             localPops.push(newPop.id);
             pops.push(newPop);

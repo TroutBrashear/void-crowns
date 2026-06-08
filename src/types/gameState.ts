@@ -122,6 +122,11 @@ export interface Pop {
   readonly id: number;
   species: number; //a species id
   locationId: number; //a planetoid id
+  feelings: {
+    happiness: number;
+    fear: number;
+    recentEvents: string[];
+  }
 }
 
 //-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------
