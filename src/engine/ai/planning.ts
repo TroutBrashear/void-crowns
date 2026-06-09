@@ -1,4 +1,5 @@
-import type { GameState, Character, BuildingClass, Planetoid, CharacterAssignment } from '../../types/gameState';
+import type { GameState, Character, BuildingClass, CharacterAssignment } from '../../types/gameState';
+import type { Planetoid } from '../../types/geoState';
 import { evaluatePlanetoidValue, getHabitablesInSystem } from '../colonization';
 import { engineAssignCharacter } from '../character';
 import { RESEARCH_CATALOG } from '../../data/research';

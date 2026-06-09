@@ -1,4 +1,5 @@
-import type { GameState, ColonizePayload, Planetoid, Pop } from '../types/gameState';
+import type { GameState, ColonizePayload, Pop } from '../types/gameState';
+import type { Planetoid } from '../types/geoState';
 
 import { PLANET_ENVIRONMENTS } from '../data/planets';
 

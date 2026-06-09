@@ -1,4 +1,5 @@
-import type { EntitiesState, System, Lane, GameState } from '../types/gameState';
+import type { EntitiesState, GameState } from '../types/gameState';
+import type { System, Lane } from '../types/geoState';
 
 export function findPath(startingSystemId: number, endingSystemId: number, systems: EntitiesState<System>, lanes: EntitiesState<Lane>): number[] {
 	const finalPath: number[] = [];

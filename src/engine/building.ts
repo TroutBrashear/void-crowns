@@ -1,4 +1,5 @@
-import type { GameState, Building, BuildingClass, EngineResult, GameEvent, PlanetoidClassification, Lane, Planetoid } from '../types/gameState';
+import type { GameState, Building, BuildingClass, EngineResult, GameEvent } from '../types/gameState';
+import type {  PlanetoidClassification, Lane, Planetoid } from '../types/geoState';
 
 import { BUILDING_CATALOG } from '../data/buildings';
 

@@ -1,4 +1,5 @@
-import type { System, Org, Planetoid, Lane, Species } from '../../types/gameState';
+import type { Org, Species } from '../../types/gameState';
+import type { Planetoid, Lane, System } from '../../types/geoState';
 import type { Fleet, Ship, MilShip } from '../../types/shipTypes';
 
 export const initialOrgs: Org[] = [

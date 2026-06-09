@@ -1,4 +1,5 @@
-import type { GameState,  Planetoid, GameEvent, EngineResult } from '../types/gameState';
+import type { GameState, GameEvent, EngineResult } from '../types/gameState';
+import type { Planetoid } from '../types/geoState';
 import type { Fleet } from '../types/shipTypes';
 
 import { getRelationship } from './diplomacy';
