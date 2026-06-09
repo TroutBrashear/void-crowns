@@ -1,4 +1,4 @@
-import type { Planetoid } from '../types/gameState';
+import type { Planetoid } from '../types/geoState';
 
 export function getPlanetoidDepth(planetoids: Record<number, Planetoid>, planetoidId: number): number {
     const currentPlanetoid = planetoids[planetoidId];
