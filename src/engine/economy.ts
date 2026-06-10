@@ -241,7 +241,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 					}
 
 					//satisfy pop needs
-					let shortNeeds = false;
+					let shortNeeds = 0;
 					let goodsStockpiles = { ...currentPlanetoid.resources.goodsStockpiles };
 					if(currentPlanetoid.resources.goodsStockpiles){
 						let allNeeds: Record<string, number> = {};
@@ -290,7 +290,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 
 						for(const need of Object.keys(allNeeds)){
 							if(allNeeds[need] > 0){
-								shortNeeds = true;
+								shortNeeds += 1;
 								break;
 							}
 						}
@@ -303,8 +303,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 							goodsStockpiles: goodsStockpiles,
 						}
 					};
-					if(shortNeeds){
-						console.log('Short!');
+					if(shortNeeds > 0){
+						console.log(`Short ${shortNeeds} needs!`);
 					}
 				}
 			}
