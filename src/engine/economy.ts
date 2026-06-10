@@ -261,6 +261,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 							}
 						}
 
+						console.log(allNeeds);
 
 						let orgKeys = shuffle(Object.keys(currentPlanetoid.resources.goodsStockpiles));
 						for(const orgId of orgKeys){
@@ -289,9 +290,9 @@ export function processEconomy(currentState: GameState): EngineResult {
 						}
 
 						for(const need of Object.keys(allNeeds)){
+							console.log(need);
 							if(allNeeds[need] > 0){
 								shortNeeds += 1;
-								break;
 							}
 						}
 					}
@@ -304,8 +305,21 @@ export function processEconomy(currentState: GameState): EngineResult {
 						}
 					};
 					if(shortNeeds > 0){
-						console.log(`Short ${shortNeeds} needs!`);
+						for(let pop of Object.values(newPops)){
+							let happRoll = Math.random();
+							if(happRoll < (0.5 * shortNeeds)){
+								newPops[pop.id] = {
+									...newPops[pop.id],
+									feelings: {
+										...newPops[pop.id].feelings,
+										happiness: newPops[pop.id].feelings.happiness - 5,
+									}
+								};
+							}
+						}
 					}
+
+
 				}
 			}
 
