@@ -11,7 +11,6 @@ export function evaluatePlanetoidValue(planetoid: Planetoid): number {
 
   let planetoidValue = 0;
 
-  console.log(planetoid.environment);
   planetoidValue = PLANET_ENVIRONMENTS[planetoid.environment].defaultValue;
 
   for(const deposit of planetoid.deposits){

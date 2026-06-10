@@ -4,9 +4,10 @@ import { canBuildBuilding } from '../../engine/building';
 import type { BuildingClass } from '../../types/gameState';
 import { BUILDING_CATALOG } from '../../data/buildings';
 import styles from './Modal.module.css';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import { Button } from '../pure/Button';
+import { aggregateStockpiles } from '../../utils/system_view';
 
 function PlanetoidSelectModal() {
     const gameState = useGameStore(state => state); 
@@ -20,7 +21,7 @@ function PlanetoidSelectModal() {
     const getSystemById = useGameStore(state => state.getSystemById);
     const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
 	const getBuildingById = useGameStore(state => state.getBuildingById);
-    //const getOrgById = useGameStore(state => state.getOrgById);
+    const getGoodById = useGameStore(state => state.getGoodById);
 	const constructBuilding = useGameStore(state => state.constructBuilding);
 
 	const [selectedBuilding, setSelectedBuilding] = useState<BuildingClass | null>(null);
@@ -52,6 +53,8 @@ function PlanetoidSelectModal() {
 			type: definition.type,
 		};
 	});
+
+	const planetStockpiles = useMemo(() => aggregateStockpiles(planetToShow), [planetToShow.resources.goodsStockpiles]);
 
 	return (
 		<div className={styles.modal}>
@@ -87,6 +90,20 @@ function PlanetoidSelectModal() {
 				);
 			})}
 		  </ul>
+
+		  <h4>Stockpiles:</h4>
+		  <ul>
+			{Object.entries(planetStockpiles).map( ([goodId, amount]) => {
+				const good = getGoodById(Number(goodId));
+				if(!good) return null;
+				return(
+					<li key={good.id}>
+						<p>{good.name}: {amount}</p>
+					</li>
+				);
+			})}
+		  </ul>
+
 		  <h4>Known Deposits:</h4>
 		  <ul>
 			{planetToShow.deposits.map(deposit => {
