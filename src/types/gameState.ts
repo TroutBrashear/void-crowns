@@ -294,6 +294,7 @@ export interface GameState {
   getMilShipById: (id: number) => MilShip | undefined;
   getCharacterById: (id: number) => Character | undefined;
   getBuildingById: (id: number) => Building | undefined;
+  getGoodById: (id: number) => Good | undefined;
 
   intelligence: IntelOverall;
 }
