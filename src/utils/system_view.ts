@@ -37,3 +37,26 @@ export function hierarchizeSystem(planetoids: Record<number, Planetoid>, systemI
 
     return results;
 }
+
+
+
+
+//planetoid display functions
+export function aggregateStockpiles(planetoid: Planetoid): Record<string, number> {
+    let allGoods: Record<string, number> = {};
+    if(planetoid.resources.goodsStockpiles){
+        let orgKeys = Object.keys(planetoid.resources.goodsStockpiles);
+        for(const orgId of orgKeys){
+            for(const goodId of Object.keys(planetoid.resources.goodsStockpiles[Number(orgId)])){
+                if(allGoods[goodId]){
+                    allGoods[goodId] += planetoid.resources.goodsStockpiles[Number(orgId)][Number(goodId)];
+                }
+                else{
+                    allGoods[goodId] = planetoid.resources.goodsStockpiles[Number(orgId)][Number(goodId)];
+                }
+            }
+        }
+    }
+
+    return allGoods;
+}

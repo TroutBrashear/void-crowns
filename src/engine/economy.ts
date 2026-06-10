@@ -261,8 +261,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 							}
 						}
 
-						console.log(allNeeds);
-
 						let orgKeys = shuffle(Object.keys(currentPlanetoid.resources.goodsStockpiles));
 						for(const orgId of orgKeys){
 							for(const need of Object.keys(allNeeds)){
@@ -290,7 +288,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 						}
 
 						for(const need of Object.keys(allNeeds)){
-							console.log(need);
 							if(allNeeds[need] > 0){
 								shortNeeds += 1;
 							}
