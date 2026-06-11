@@ -111,6 +111,66 @@ export function spawnAcademyCharacter(currentState: GameState, buildingId: numbe
 	return newCharacter;
 }
 
+export function resolveCharacterSpawns(currentState: GameState, spawnedCharacters: number[]): EngineResult {
+	//resolve character spawns
+	let newCharacters = { ...currentState.characters.entities };
+	let newCharacterIds = [ ...currentState.characters.ids ];
+	let nextId =  currentState.meta.lastCharacterId;
+	let newOrgs = { ...currentState.orgs.entities };
+
+	let events: GameEvent[] = [];
+
+	for(const buildingId of spawnedCharacters){
+		const building = currentState.buildings.entities[buildingId];
+
+		const genCharacter = spawnAcademyCharacter(currentState, buildingId, nextId);
+		nextId++;
+		newOrgs[building.ownerNationId] = {
+			...newOrgs[building.ownerNationId],
+			characters: {
+				...newOrgs[building.ownerNationId].characters,
+				characterPool: [...newOrgs[building.ownerNationId].characters.characterPool, genCharacter.id]
+			}
+		}
+		newCharacterIds = [ ...newCharacterIds, genCharacter.id];
+		newCharacters = {
+			...newCharacters,
+			[genCharacter.id]: genCharacter
+		}
+
+		const charGenEvent: GameEvent = {
+			type: 'char_result',
+			message: `Character Spawned! ${genCharacter.name} graduated from a ${building.type}.`,
+			locationId: building.locationId,
+			involvedOrgIds: [building.ownerNationId],
+			isPlayerVisible: building.ownerNationId === 1,
+		};
+
+		events.push(charGenEvent);
+	}
+
+	let nextState = {
+		...currentState,
+		meta: {
+			...currentState.meta,
+			lastCharacterId: nextId,
+		},
+		characters: {
+			...currentState.characters,
+			ids: newCharacterIds,
+			entities: newCharacters,
+		},
+		orgs: {
+			...currentState.orgs,
+			entities: newOrgs,
+		}
+	}
+
+	return {
+		newState: nextState,
+		events: events,
+	};
+}
 
 export function applyProcess(currentState: GameState, process: Process, targetOrg: number): GameState {
 	const target = currentState.orgs.entities[targetOrg];
@@ -502,47 +562,13 @@ export function processEconomy(currentState: GameState): EngineResult {
 		};
 	}
 
-	const events: GameEvent[] = [];
-
-	//resolve character spawns
-	let newCharacters = { ...currentState.characters.entities };
-	let newCharacterIds = [ ...currentState.characters.ids ];
-	let nextId =  currentState.meta.lastCharacterId;
-	for(const buildingId of spawnedCharacters){
-		const building = currentState.buildings.entities[buildingId];
-
-		const genCharacter = spawnAcademyCharacter(currentState, buildingId, nextId);
-		nextId++;
-		newOrgs[building.ownerNationId] = {
-			...newOrgs[building.ownerNationId],
-			characters: {
-				...newOrgs[building.ownerNationId].characters,
-				characterPool: [...newOrgs[building.ownerNationId].characters.characterPool, genCharacter.id]
-			}
-		}
-		newCharacterIds = [ ...newCharacterIds, genCharacter.id];
-		newCharacters = {
-			...newCharacters,
-			[genCharacter.id]: genCharacter
-		}
-
-		const charGenEvent: GameEvent = {
-			type: 'char_result',
-			message: `Character Spawned! ${genCharacter.name} graduated from a ${building.type}.`,
-			locationId: building.locationId,
-			involvedOrgIds: [building.ownerNationId],
-			isPlayerVisible: building.ownerNationId === 1,
-		};
-
-		events.push(charGenEvent);
-	}
-
+	//RESOLUTION AND WRAP-UP
+	let events: GameEvent[] = [];
 
 	let nextState = {
 		...currentState,
 		meta: {
 			...currentState.meta,
-			lastCharacterId: nextId,
 			lastPopId: lastPopId,
 		},
 		orgs: {
@@ -557,18 +583,15 @@ export function processEconomy(currentState: GameState): EngineResult {
 			...currentState.buildings,
 			entities: newBuildings,
 		},
-		characters: {
-			...currentState.characters,
-			ids: newCharacterIds,
-			entities: newCharacters,
-		},
 		pops: {
 			ids: newPopIds,
 			entities: newPops
 		}
 	};
 
-
+	let characterResult = resolveCharacterSpawns(nextState, spawnedCharacters);
+	nextState = characterResult.newState;
+	events = characterResult.events;
 
 	//resolve research effects
 	for(const resObj of completedResearch){
@@ -590,8 +613,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 			nextState = research.onComplete(nextState, resObj.orgId);
 		}
 	}
-
-
 
 	return {
 		newState: nextState,
