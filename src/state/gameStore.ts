@@ -343,7 +343,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         systemIndex++;
       }
 
-      intelState[currentOrg.id] = { noProspects: [] };
+      intelState[currentOrg.id] = { noProspects: [], shortGoods: [] };
     }
 
     set({

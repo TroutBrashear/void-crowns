@@ -175,6 +175,7 @@ export interface IntelStatus {
 
 export interface PlanetoidIntel {
   noProspects: number[];
+  shortGoods: string[];
 }
 
 export interface IntelOverall {
