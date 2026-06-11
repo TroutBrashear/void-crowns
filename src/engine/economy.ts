@@ -273,8 +273,23 @@ export function processEconomy(currentState: GameState): EngineResult {
 									let value = Math.min(goodsStockpiles[Number(orgId)][Number(targetNeed)], allNeeds[need]);
 									allNeeds[need] -= value;
 									goodsStockpiles[Number(orgId)][Number(targetNeed)] -= value;
+
+									//the org that owns the stockpile gets paid
 									if(roundIncome[Number(orgId)]){
-										roundIncome[Number(orgId)].credits += (value/2);
+										const pay = (value/2);
+										if(Number(orgId) === currentPlanetoid.ownerNationId){
+											roundIncome[Number(orgId)].credits += pay;
+										}
+										else if(currentPlanetoid.ownerNationId){
+											roundIncome[Number(orgId)].credits += pay * .9;
+											if(roundIncome[currentPlanetoid.ownerNationId]){
+												roundIncome[currentPlanetoid.ownerNationId].credits += pay *.1;
+											}
+											else{
+												roundIncome[currentPlanetoid.ownerNationId].credits = pay *.1;
+											}
+										}
+
 									}
 									else{
 										roundIncome[Number(orgId)] = {
