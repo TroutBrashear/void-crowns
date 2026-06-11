@@ -1,3 +1,4 @@
+import { CYCLE_CONFIG } from '../constants/cycle_config';
 import type { GameState } from '../types/gameState';
 
 
@@ -33,4 +34,15 @@ export function popIncreaseSpeciesRoll(currentState: GameState, planetoidId: num
     }
 
     return rolledSpecies;
+}
+
+
+export function pushPopEvent(currentEvents: string[], newEvent: string): string[] {
+    let functionEvents = [ ...currentEvents ];
+
+    functionEvents.push(newEvent);
+
+    functionEvents.slice(-1 * CYCLE_CONFIG.POPULATION.MAX_RECENT_EVENTS);
+
+    return functionEvents;
 }

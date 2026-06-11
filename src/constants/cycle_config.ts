@@ -25,5 +25,8 @@ export const CYCLE_CONFIG = {
     ECOLOGY: {
         LANE_FADE_CHANCE: 2,
         LANE_STABLE_CHANCE: 5,
+    },
+    POPULATION: {
+        MAX_RECENT_EVENTS: 3
     }
 };

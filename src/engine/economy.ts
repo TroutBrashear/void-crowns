@@ -3,7 +3,7 @@ import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
 import { generateCharacter } from './character';
-import { popIncreaseSpeciesRoll } from './population';
+import { popIncreaseSpeciesRoll, pushPopEvent } from './population';
 import { shuffle } from '../utils/shuffle';
 
 import { CYCLE_CONFIG } from '../constants/cycle_config';
@@ -325,6 +325,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 									feelings: {
 										...newPops[pop.id].feelings,
 										happiness: newPops[pop.id].feelings.happiness - 5,
+										recentEvents: pushPopEvent(newPops[pop.id].feelings.recentEvents, "Needs went unmet"),
 									}
 								};
 							}
