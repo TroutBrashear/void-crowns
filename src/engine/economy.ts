@@ -593,7 +593,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 		pops: {
 			ids: newPopIds,
 			entities: newPops
-		}
+		},
+		intelligence: newIntel,
 	};
 
 	let characterResult = resolveCharacterSpawns(nextState, spawnedCharacters);

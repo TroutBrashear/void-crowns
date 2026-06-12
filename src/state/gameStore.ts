@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, BuildingClass, DiploType, Resources, Pop, PlanetoidIntel } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, BuildingClass, DiploType, Resources, Pop, PlanetoidIntel, Building } from '../types/gameState';
 import type { PlanetoidClassification } from '../types/geoState';
 import type { Fleet, Ship, ShipType, MilShipType } from '../types/shipTypes';
 
@@ -295,6 +295,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     const intelState: Record<number, PlanetoidIntel> = {};
 
     let systemIndex = 1;
+    let buildingId = 1;
+
+    let buildings: Building[] = [];
 
     for(const currentOrg of orgs) {
       //temp solution, can randomize later
@@ -337,7 +340,45 @@ export const useGameStore = create<GameStoreState>((set, get) => {
             popIds: localPops
           };
 
+          let homeBuildings: number[] = [];
 
+          let startingFactory: Building = {
+            id: buildingId++,
+            type: 'consumerFactory',
+            ownerNationId: currentOrg.id,
+            locationId: home.id,
+            tags: [],
+
+            assignedCharacter: null,
+
+            research:{
+              progress: 0,
+              project:  null,
+            }
+          };
+
+          homeBuildings.push(startingFactory.id);
+          buildings.push(startingFactory);
+
+          let startingFarm: Building = {
+            id: buildingId++,
+            type: 'farm',
+            ownerNationId: currentOrg.id,
+            locationId: home.id,
+            tags: [],
+
+            assignedCharacter: null,
+
+            research:{
+              progress: 0,
+              project:  null,
+            }
+          };
+
+          homeBuildings.push(startingFarm.id);
+          buildings.push(startingFarm);
+
+          home.buildings = homeBuildings;
           systems[systemIndex].ownerNationId = currentOrg.id;
         }
 
@@ -367,6 +408,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       fleets: { entities: {}, ids: [] },   
       ships: { entities: {}, ids: [] },
       milShips: { entities: {}, ids: [] },
+      buildings: normalize(buildings),
       planetoids: normalize(planetoids),
       orgs: normalize(orgs),
       lanes: normalize(lanes),
