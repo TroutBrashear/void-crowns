@@ -337,7 +337,12 @@ export function processEconomy(currentState: GameState): EngineResult {
 									goodsStockpiles[Number(orgId)][Number(targetNeed)] -= value;
 
 									if(goodsStockpiles[Number(orgId)][Number(targetNeed)] === 0 || value === 0){
-										[ ...newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id], targetNeed];
+										if(newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id]){
+											[ ...newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id], need];
+										}
+										else{
+											newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id] = [need];
+										}
 									}
 
 									//the org that owns the stockpile gets paid
@@ -366,7 +371,12 @@ export function processEconomy(currentState: GameState): EngineResult {
 									}
 								}
 								else{
-									[ ...newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id], targetNeed];
+									if(newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id]){
+										[ ...newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id], need];
+									}
+									else{
+										newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id] = [need];
+									}
 								}
 							}
 						}
