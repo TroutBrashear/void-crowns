@@ -299,6 +299,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     for(const currentOrg of orgs) {
       //temp solution, can randomize later
       if(currentOrg.category !== 'nationState'){
+        intelState[currentOrg.id] = { noProspects: [], shortGoods: {} };
         continue;
       }
       let foundHome = false;
@@ -343,7 +344,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         systemIndex++;
       }
 
-      intelState[currentOrg.id] = { noProspects: [], shortGoods: [] };
+      intelState[currentOrg.id] = { noProspects: [], shortGoods: {} };
     }
 
     set({

@@ -226,6 +226,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 	let newPops = { ...currentState.pops.entities };
 	let newPopIds = [ ...currentState.pops.ids ];
 
+	let newIntel = { ...currentState.intelligence };
+
 	const roundIncome: Record<number, Resources> = {}; //number is an orgId
 
 	const completedResearch: { orgId: number, researchId: string, labLocationId: number }[] = [];
@@ -334,6 +336,10 @@ export function processEconomy(currentState: GameState): EngineResult {
 									allNeeds[need] -= value;
 									goodsStockpiles[Number(orgId)][Number(targetNeed)] -= value;
 
+									if(goodsStockpiles[Number(orgId)][Number(targetNeed)] === 0 || value === 0){
+										[ ...newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id], targetNeed];
+									}
+
 									//the org that owns the stockpile gets paid
 									if(roundIncome[Number(orgId)]){
 										const pay = (value/2);
@@ -358,6 +364,9 @@ export function processEconomy(currentState: GameState): EngineResult {
 											gas: 0,
 										};
 									}
+								}
+								else{
+									[ ...newIntel.planetoidIntel[Number(orgId)].shortGoods[currentPlanetoid.id], targetNeed];
 								}
 							}
 						}
@@ -391,8 +400,6 @@ export function processEconomy(currentState: GameState): EngineResult {
 							}
 						}
 					}
-
-
 				}
 			}
 
