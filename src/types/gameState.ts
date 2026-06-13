@@ -67,6 +67,9 @@ export interface Pop {
     fear: number;
     recentEvents: string[];
   }
+  politics: {
+    movement?: number; // the id of a Movement the pop supports
+  }
 }
 
 //-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------
@@ -90,6 +93,7 @@ export interface Org {
   }
   government: {
     succession: string;
+    homeSystem: number; //a System.id
   }
 
 
@@ -134,6 +138,8 @@ export interface Cell {
   type: CellType;
 
   strength: number;
+
+  locationId: number; //a planetoidId with the Cell's location'
 
   leader: number; //a Character's id
 
