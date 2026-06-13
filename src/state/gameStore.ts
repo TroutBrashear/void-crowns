@@ -72,6 +72,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
      lastOrgId: 0,
      lastSpeciesId: 0,
      lastPopId: 0,
+     lastMovementId: 0,
+     lastCellId: 0,
     },
     systems: { entities: {}, ids: [] }, 
 	ships: { entities: {}, ids: [] },
@@ -87,6 +89,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     intelligence: { trueStatus: {}, planetoidIntel: {}},
     pops: { entities: {}, ids:[] },
     goods: { entities: {}, ids:[]},
+    cells: { entities: {}, ids:[]},
+    movements: { entities: {}, ids:[]},
 
 
   tick: () => {
@@ -403,6 +407,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         lastOrgId: orgs.length + 1,
         lastSpeciesId: species.length + 1,
         lastPopId: 0,
+        lastCellId: 0,
+        lastMovementId: 0,
       },
       systems: normalize(systems),
       fleets: { entities: {}, ids: [] },   

@@ -122,8 +122,35 @@ export interface Org {
 	buildPlan: AiIntent[];
     targetSystems: number[];
   }
-
 }
+
+export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
+
+export type CellType = 'rebel' | 'criminal' | 'corporate';
+export type CellAssignmentType = 'sabotage';
+
+export interface Cell {
+  readonly id: number;
+  type: CellType;
+
+  strength: number;
+
+  leader: number; //a Character's id
+
+  assignment: {
+    type: CellAssignmentType;
+    progress: number;
+  }
+}
+
+export interface Movement {
+  readonly id: number;
+  ideology: Ideology;
+
+  fervor: number; //a number from 0-10
+}
+
+
 
 export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'scientist' | 'academyPresident' | 'diplomat';
 
@@ -137,7 +164,8 @@ export interface charAssignment {
 
 export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'academics' | 'diplomacy';
 
-export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
+
+
 
 export type CharacterStatus = 'alive' | 'dead';
 
@@ -269,6 +297,8 @@ export interface GameState {
     lastOrgId: number;
     lastSpeciesId: number;
     lastPopId: number;
+    lastCellId: number;
+    lastMovementId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
@@ -282,6 +312,8 @@ export interface GameState {
   species: EntitiesState<Species>;
   pops: EntitiesState<Pop>;
   goods: EntitiesState<Good>;
+  cells: EntitiesState<Cell>;
+  movements: EntitiesState<Movement>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
