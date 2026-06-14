@@ -153,6 +153,8 @@ export interface Movement {
   readonly id: number;
   ideology: Ideology;
 
+  originLocation: number; //a planetoidId
+
   fervor: number; //a number from 0-10
 }
 
