@@ -1,5 +1,13 @@
 import type { GameState, Ideology } from '../../types/gameState';
 
+//stub
+export function determinePotentialIdeology(currentState: GameState): Ideology {
+    if(currentState){
+        return 'republican';
+    }
+     return 'republican';
+}
+
 
 export function spawnMovement(currentState: GameState, planetoidId: number, ideology: Ideology): GameState {
     const originatingPlanetoid = currentState.planetoids.entities[planetoidId];

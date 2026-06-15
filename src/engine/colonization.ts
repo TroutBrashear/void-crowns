@@ -64,7 +64,8 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
           happiness: 50,
           fear: 0,
           recentEvents: []
-        }
+        },
+        politics: {}
       };
 
       const updatedPlanetoid = {
