@@ -8,7 +8,27 @@ export function spawnMovement(currentState: GameState, planetoidId: number, ideo
         return currentState;
     }
 
+    let nextId = currentState.meta.lastMovementId;
+
+    let newMovement = {
+        id: nextId++,
+        ideology: ideology,
+        originLocation: planetoidId,
+        fervor: 0
+    };
+
     return {
-        ...currentState
+        ...currentState,
+        meta: {
+            ...currentState.meta,
+            lastMovementId: nextId,
+        },
+        movements: {
+            ids: [...currentState.movements.ids, nextId],
+            entities: {
+                ...currentState.movements.entities,
+                [nextId]: newMovement
+            }
+        }
     }
 }
