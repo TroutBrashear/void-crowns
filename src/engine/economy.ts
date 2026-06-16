@@ -289,6 +289,8 @@ export function processEconomy(currentState: GameState): EngineResult {
 									happiness: 50,
 									fear: 0,
 									recentEvents: []
+								},
+								politics: {
 								}
 							}
 

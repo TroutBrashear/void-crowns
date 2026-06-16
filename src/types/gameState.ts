@@ -67,6 +67,9 @@ export interface Pop {
     fear: number;
     recentEvents: string[];
   }
+  politics: {
+    movement?: number; // the id of a Movement the pop supports
+  }
 }
 
 //-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------
@@ -90,6 +93,7 @@ export interface Org {
   }
   government: {
     succession: string;
+    homeSystem: number; //a System.id
   }
 
 
@@ -122,8 +126,39 @@ export interface Org {
 	buildPlan: AiIntent[];
     targetSystems: number[];
   }
-
 }
+
+export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
+
+export type CellType = 'rebel' | 'criminal' | 'corporate';
+export type CellAssignmentType = 'sabotage';
+
+export interface Cell {
+  readonly id: number;
+  type: CellType;
+
+  strength: number;
+
+  locationId: number; //a planetoidId with the Cell's location'
+
+  leader: number; //a Character's id
+
+  assignment: {
+    type: CellAssignmentType;
+    progress: number;
+  }
+}
+
+export interface Movement {
+  readonly id: number;
+  ideology: Ideology;
+
+  originLocation: number; //a planetoidId
+
+  fervor: number; //a number from 0-10
+}
+
+
 
 export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'scientist' | 'academyPresident' | 'diplomat';
 
@@ -137,7 +172,8 @@ export interface charAssignment {
 
 export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'academics' | 'diplomacy';
 
-export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
+
+
 
 export type CharacterStatus = 'alive' | 'dead';
 
@@ -233,7 +269,7 @@ export interface DiploRequest {
 }
 
 //definitions for game events 
-export type GameEventType = 'battle_result' | 'construction_complete' | 'research_complete' | 'insufficient_resources' | 'diplo_result' | 'char_result';
+export type GameEventType = 'battle_result' | 'construction_complete' | 'research_complete' | 'insufficient_resources' | 'diplo_result' | 'char_result' | 'pol_event';
 
 export interface GameEvent {
   type: GameEventType;
@@ -269,6 +305,8 @@ export interface GameState {
     lastOrgId: number;
     lastSpeciesId: number;
     lastPopId: number;
+    lastCellId: number;
+    lastMovementId: number;
   };
   systems: EntitiesState<System>;
   fleets: EntitiesState<Fleet>;
@@ -282,6 +320,8 @@ export interface GameState {
   species: EntitiesState<Species>;
   pops: EntitiesState<Pop>;
   goods: EntitiesState<Good>;
+  cells: EntitiesState<Cell>;
+  movements: EntitiesState<Movement>;
 
   getFleetById: (id: number) => Fleet | undefined;
   getFleetsBySystem: (id: number) => Fleet[] | undefined;

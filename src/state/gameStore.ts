@@ -25,6 +25,7 @@ import { normalize } from '../utils/normalize';
 //constant imports
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 import { DEFAULT_GOODS} from '../data/goods';
+import { processPolitics } from '../engine/politics/politics';
 
 
 export const useGameStore = create<GameStoreState>((set, get) => {
@@ -72,6 +73,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
      lastOrgId: 0,
      lastSpeciesId: 0,
      lastPopId: 0,
+     lastMovementId: 0,
+     lastCellId: 0,
     },
     systems: { entities: {}, ids: [] }, 
 	ships: { entities: {}, ids: [] },
@@ -87,6 +90,8 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     intelligence: { trueStatus: {}, planetoidIntel: {}},
     pops: { entities: {}, ids:[] },
     goods: { entities: {}, ids:[]},
+    cells: { entities: {}, ids:[]},
+    movements: { entities: {}, ids:[]},
 
 
   tick: () => {
@@ -111,6 +116,12 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     const diploResults = processDiplomacy(nextState);
     nextState = diploResults.newState;
     tickEvents.push(...diploResults.events);
+
+    if(currentState.meta.turn % CYCLE_CONFIG.POLITICS.POLITICS_INTERVAL === 0){
+      const polResults = processPolitics(nextState);
+      nextState = polResults.newState;
+      tickEvents.push(...polResults.events);
+    }
 
     for(const orgId of nextState.orgs.ids){
       if(orgId !== 1){
@@ -303,6 +314,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       //temp solution, can randomize later
       if(currentOrg.category !== 'nationState'){
         intelState[currentOrg.id] = { noProspects: [], shortGoods: {} };
+        if(currentOrg.parentId){
+          currentOrg.government.homeSystem = orgs[currentOrg.parentId].government.homeSystem;
+        }
         continue;
       }
       let foundHome = false;
@@ -318,6 +332,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         if(home){
           foundHome = true;
           home.ownerNationId = currentOrg.id;
+          currentOrg.government.homeSystem = home.locationSystemId;
           let localPops:  number[] = [];
           for(let i = 0; i < 10; i++){
             const newPop: Pop = {
@@ -328,6 +343,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
                 happiness: 50,
                 fear: 0,
                 recentEvents: []
+              },
+              politics: {
+
               }
             };
             localPops.push(newPop.id);
@@ -396,13 +414,15 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         lastFleetId: 0,
         lastShipId: 0,
         lastMilShipId: 0,
-		lastBuildingId: 0,
+		lastBuildingId: buildingId + 1,
 		lastCharacterId:chars.length + 1,
         lastDiploId:0,
         lastPlanetoidId: planetoids.length + 1,
         lastOrgId: orgs.length + 1,
         lastSpeciesId: species.length + 1,
         lastPopId: 0,
+        lastCellId: 0,
+        lastMovementId: 0,
       },
       systems: normalize(systems),
       fleets: { entities: {}, ids: [] },   
