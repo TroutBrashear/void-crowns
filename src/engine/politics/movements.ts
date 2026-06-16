@@ -1,4 +1,4 @@
-import type { GameState, Ideology } from '../../types/gameState';
+import type { GameEvent, GameState, Ideology } from '../../types/gameState';
 
 //stub
 export function determinePotentialIdeology(currentState: GameState): Ideology {
@@ -9,12 +9,21 @@ export function determinePotentialIdeology(currentState: GameState): Ideology {
 }
 
 
-export function spawnMovement(currentState: GameState, planetoidId: number, ideology: Ideology): GameState {
+export function spawnMovement(currentState: GameState, planetoidId: number, ideology: Ideology): {newState: GameState, event: GameEvent} {
     const originatingPlanetoid = currentState.planetoids.entities[planetoidId];
 
+    let event: GameEvent = {
+        type: 'pol_event',
+        message: 'a',
+        locationId: planetoidId,
+        involvedOrgIds: [],
+        isPlayerVisible: false,
+    };
+
     if(!originatingPlanetoid){
-        return currentState;
+        return {newState: currentState, event: event };
     }
+
 
     let nextId = currentState.meta.lastMovementId;
 
@@ -25,7 +34,14 @@ export function spawnMovement(currentState: GameState, planetoidId: number, ideo
         fervor: 0
     };
 
-    return {
+     event = {
+         ...event,
+        message: `a ${ideology} movement appeared on ${originatingPlanetoid.name}.`,
+        locationId: originatingPlanetoid.locationSystemId,
+        isPlayerVisible: originatingPlanetoid.ownerNationId === 1,
+    };
+
+    let nextState =  {
         ...currentState,
         meta: {
             ...currentState.meta,
@@ -38,5 +54,7 @@ export function spawnMovement(currentState: GameState, planetoidId: number, ideo
                 [nextId]: newMovement
             }
         }
-    }
+    };
+
+    return { newState: nextState, event: event };
 }

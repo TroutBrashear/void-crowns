@@ -28,5 +28,8 @@ export const CYCLE_CONFIG = {
     },
     POPULATION: {
         MAX_RECENT_EVENTS: 3
+    },
+    POLITICS: {
+        POLITICS_INTERVAL: 20,
     }
 };

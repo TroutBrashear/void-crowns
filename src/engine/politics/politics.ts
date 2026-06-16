@@ -31,7 +31,9 @@ export function processPolitics(currentState: GameState ): EngineResult {
      for(const target of movementTargets){
          const targetIdeology = determinePotentialIdeology(nextState);
 
-         nextState = spawnMovement(nextState, target, targetIdeology);
+         let spawnResults = spawnMovement(nextState, target, targetIdeology);
+         nextState = spawnResults.newState;
+         allPoliticsEvents.push(spawnResults.event);
     }
 
 

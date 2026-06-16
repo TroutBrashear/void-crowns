@@ -117,9 +117,11 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     nextState = diploResults.newState;
     tickEvents.push(...diploResults.events);
 
-    const polResults = processPolitics(nextState);
-    nextState = polResults.newState;
-    tickEvents.push(...polResults.events);
+    if(currentState.meta.turn % CYCLE_CONFIG.POLITICS.POLITICS_INTERVAL === 0){
+      const polResults = processPolitics(nextState);
+      nextState = polResults.newState;
+      tickEvents.push(...polResults.events);
+    }
 
     for(const orgId of nextState.orgs.ids){
       if(orgId !== 1){
