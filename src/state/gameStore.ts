@@ -25,6 +25,7 @@ import { normalize } from '../utils/normalize';
 //constant imports
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 import { DEFAULT_GOODS} from '../data/goods';
+import { processPolitics } from '../engine/politics/politics';
 
 
 export const useGameStore = create<GameStoreState>((set, get) => {
@@ -115,6 +116,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     const diploResults = processDiplomacy(nextState);
     nextState = diploResults.newState;
     tickEvents.push(...diploResults.events);
+
+    const polResults = processPolitics(nextState);
+    nextState = polResults.newState;
+    tickEvents.push(...polResults.events);
 
     for(const orgId of nextState.orgs.ids){
       if(orgId !== 1){
