@@ -15,7 +15,15 @@ export const NAME_LISTS: Record<string, NameList> = {
 	}
 }
 
+export type OriginType = 'Star' | 'Plant' | 'Place' | 'Fiction';
+export type OriginLang = 'Arabic' | 'Hoosier' | 'Tamil' | 'Breton' | 'Chinese' | 'Conlang' | 'Machine Generated';
 
+export interface StarInfo {
+	name: string;
+	type: OriginType;
+	lang: OriginLang;
+	blurb: string;
+}
 
 export const SYSTEM_NAMES: string[] = [
 	"'Anaq", "'Uqdah", "'Awa", "'Aqiq",
@@ -46,6 +54,15 @@ export const SYSTEM_NAMES: string[] = [
 "Yad", "Yaqut", "Yu Heng", "Ye Zhe", "You Geng", "Yeddo", "Yafin", "Yanqul", "Yumen", "Yaanai", "Ysbaddaden",
 "Zawiyah", "Zawraq", "Zuban", "Zao Fu", "Zhu Wang", "Zi Xiu", "Zimbrah", "Zayt", "Zomia"
 ];
+
+export const SYSTEM_METADATA: Record<string, StarInfo> = {
+	"'Anaq": {
+		name: "'Anaq",
+		type: 'Star',
+		lang: 'Arabic',
+		blurb: ''
+	}
+};
 
 
 export const SPECIES_NAMES: string[] = [
