@@ -15,7 +15,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 	}
 }
 
-export type OriginType = 'Star' | 'Plant' | 'Place' | 'Fiction';
+export type OriginType = 'Star' | 'Plant' | 'Place' | 'Fiction' | 'Machine Generated';
 export type OriginLang = 'Arabic' | 'Hoosier' | 'Tamil' | 'Breton' | 'Chinese' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {

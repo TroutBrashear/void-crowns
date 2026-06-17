@@ -3,6 +3,9 @@ import { useGameStore } from '../../state/gameStore';
 import { hierarchizeSystem, getPlanetoidDepth } from '../../utils/system_view';
 import styles from './Modal.module.css';
 
+import { SYSTEM_METADATA } from '../../data/names';
+
+import { Tooltip } from 'react-tooltip';
 import { Button } from '../pure/Button';
 
 function SystemSelectModal() {
@@ -42,10 +45,11 @@ function SystemSelectModal() {
   ? getCharacterById(systemToShow.assignedCharacter)
   : null;
 
+  const starMetadata = SYSTEM_METADATA[systemToShow.name] ?? { name: systemToShow.name, type: 'Machine Generated', lang: 'Machine Generated', blurb: 'N/A'};
 
   return (
     <div className={styles.modal}>
-    <h2>System: {systemToShow.name}</h2>
+    <h2 data-tooltip-id='star tooltip'  data-tooltip-content={`Name: ${starMetadata.name} Type: ${starMetadata.type}  Language: ${starMetadata.lang}  Info: ${starMetadata.blurb}`}>System: {systemToShow.name}</h2>
     {systemOwnerOrg && <Button onClick={() => {changeModal('org_modal', {type: 'org', id: systemOwnerOrg.id}); }}>{systemOwnerOrg.flavor.name}</Button>}
     {systemToShow.ownerNationId === 1 && <Button onClick={() => buildMilShip({locationId: systemToShow.id, shipType: 'destroyer'})}>Construct Destroyer</Button>}
 
@@ -76,7 +80,9 @@ function SystemSelectModal() {
     })}
     </ul>
 
+
     <Button onClick={closeModal}>Close</Button>
+    <Tooltip id='star tooltip'  />
     </div>
     );
 }
