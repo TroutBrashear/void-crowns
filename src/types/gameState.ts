@@ -336,6 +336,7 @@ export interface GameState {
   getCharacterById: (id: number) => Character | undefined;
   getBuildingById: (id: number) => Building | undefined;
   getGoodById: (id: number) => Good | undefined;
+  getPopById: (id:number) => Pop | undefined;
 
   intelligence: IntelOverall;
 }

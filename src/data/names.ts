@@ -15,8 +15,8 @@ export const NAME_LISTS: Record<string, NameList> = {
 	}
 }
 
-export type OriginType = 'Star' | 'Plant' | 'Place' | 'Fiction' | 'Machine Generated';
-export type OriginLang = 'Arabic' | 'Hoosier' | 'Tamil' | 'Breton' | 'Chinese' | 'Conlang' | 'Machine Generated';
+export type OriginType = 'Star' | 'Plant' | 'Place' | 'Fiction' | 'Machine Generated' | 'Jewel';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'Irish' | 'Hoosier' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -26,8 +26,8 @@ export interface StarInfo {
 }
 
 export const SYSTEM_NAMES: string[] = [
-	"'Anaq", "'Uqdah", "'Awa", "'Aqiq",
-"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ayilyam", "Asttam", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Almat",
+	"'Anaqi", "'Uqdah", "'Aqiq",
+"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ayilyam", "Asttam", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Almat", "Aghnam",
 "Bayd", "Bari'", "Bie", "Barani", "Baradi", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bimac", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
 "Cong Guan", "Cittirai", "Corydon", "Cunot", "Coll", "Ceirt", "Ceibo", "Cleyre", "Coudre", "Cleveland",
 "Dabaran", "Dhanab", "Dubb", "Dun Wan", "Dair", "Donovia", "Dobbrewa",
@@ -56,11 +56,47 @@ export const SYSTEM_NAMES: string[] = [
 ];
 
 export const SYSTEM_METADATA: Record<string, StarInfo> = {
-	"'Anaq": {
-		name: "'Anaq",
+	"'Anaqi": {
+		name: "'Anaqi",
 		type: 'Star',
 		lang: 'Arabic',
 		blurb: ''
+	},
+	"'Uqdah": {
+		name: "'Uqdah",
+		type: 'Star',
+		lang: 'Arabic',
+		blurb: ''
+	},
+	"'Aqiq": {
+		name: "'Aqiq",
+		type: 'Jewel',
+		lang: 'Arabic',
+		blurb: 'An Agate.'
+	},
+	"Akhir": {
+		name: "Akhir",
+		type: 'Star',
+		lang: 'Arabic',
+		blurb: 'Akhir, or End, is derived from Akhir an-Nahr: End of the River. The star is commonly known as Achernar, directly from this name.'
+	},
+	"A'yn": {
+		name: "A'yn",
+		type: 'Star',
+		lang: 'Arabic',
+		blurb: "A'yn is the Arabic word for Eye. It has been adopted for common use as a star name."
+	},
+	"Athafi": {
+		name: "Athafi",
+		type: 'Star',
+		lang: 'Arabic',
+		blurb: 'From al-Athafi'
+	},
+	"Alyah": {
+		name: "Alyah",
+		type: 'Star',
+		lang: 'Arabic',
+		blurb: 'From al-Alyah'
 	}
 };
 
