@@ -150,6 +150,9 @@ export function engineBuildPlanetoid(currentState: GameState, orgId: number, par
     ownerNationId: orgId,
     size: 1,
     buildings: [],
+    structures: {
+      habitats: 0
+    },
     tags: [],
     deposits: [],
     resources: {}
@@ -223,6 +226,9 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     ownerNationId: orgId,
     size: 1,
     buildings: [],
+    structures: {
+      habitats: 0
+    },
     tags: [],
     deposits: [],
     resources: {},

@@ -23,6 +23,9 @@ export interface Planetoid {
   environment: string;
   size: number;
   buildings: number[];
+  structures: {
+      habitats: number;
+  }
   ownerNationId: number | null;
   population?: {
     total: number;

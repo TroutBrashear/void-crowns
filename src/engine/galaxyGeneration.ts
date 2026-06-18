@@ -116,6 +116,9 @@ export function generatePlanet(starId: number, system: System, nextPlanId: numbe
 		ownerNationId: null,
 		size: 2 + Math.floor(Math.random() * 20), //no clue what scaling we're actually going to use here. right now does nothing
 		buildings: [],
+		structures: {
+			habitats: 0
+		},
 		tags: [],
 		deposits: [],
 		resources: {}
@@ -261,6 +264,9 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 				ownerNationId: null,
 				size: 80,
 				buildings: [],
+				structures: {
+					habitats: 0
+				},
 				tags: [],
 				deposits: [],
 				resources: {}
@@ -288,6 +294,9 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 						ownerNationId: null,
 						size: 10,
 						buildings: [],
+						structures: {
+							habitats: 0
+						},
 						tags: [],
 						deposits: [],
 						resources: {}
@@ -321,6 +330,9 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 						ownerNationId: null,
 						size: 2 + Math.floor(Math.random() * 5),
 						buildings: [],
+						structures: {
+							habitats: 0
+						},
 						tags: [],
 						deposits: [],
 						resources: {}

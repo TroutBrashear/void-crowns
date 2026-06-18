@@ -355,7 +355,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
           home.population = {
             total: 10,
             progress: 0,
-            popIds: localPops
+            popIds: localPops,
           };
 
           let homeBuildings: number[] = [];

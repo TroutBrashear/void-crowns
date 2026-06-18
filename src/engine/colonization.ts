@@ -74,7 +74,7 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
         population: {
           total: 1,
           progress: 0,
-          popIds: [newPop.id]
+          popIds: [newPop.id],
         }
       };
 
