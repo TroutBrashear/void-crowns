@@ -34,11 +34,12 @@ function PopsInfoModal() {
                     if(!pop){
                         return null;
                     }
+                    return(
                     <li key={pop.id}>
                         <p>{pop.species} {pop.id}</p>
                         <p>Happiness: {pop.feelings.happiness}</p>
                         <p>Fear: {pop.feelings.fear}</p>
-                    </li>
+                    </li>);
                 })};
             </ul>
 

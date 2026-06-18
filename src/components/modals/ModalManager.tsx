@@ -5,6 +5,7 @@ import OrgSelectModal from './OrgSelectModal';
 import ShipSelectModal from './ShipSelectModal';
 import PlanetoidSelectModal from './PlanetoidSelectModal';
 import BuildingSelectModal from './BuildingSelectModal';
+import PopsInfoModal from './PopsInfoModal';
 
 import CharacterAssignModal from './assignment_modals/CharacterAssignModal';
 import ResearchAssignModal from './assignment_modals/ResearchAssignModal';
@@ -35,6 +36,8 @@ export function ModalManager() {
 			modal = <PlanetoidSelectModal/>; break;
 		case 'building_modal':
 			modal = <BuildingSelectModal/>; break;
+		case 'pops_modal':
+			modal = <PopsInfoModal/>; break;
 	}
 
 	let assignModal = null;
