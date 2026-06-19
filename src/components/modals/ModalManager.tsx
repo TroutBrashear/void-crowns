@@ -15,6 +15,7 @@ import AnchorAssignModal from './assignment_modals/AnchorAssignModal';
 import DiplomacyPanel from '../panels/DiplomacyPanel';
 import PoliticsPanel from '../panels/PoliticsPanel';
 import ResearchPanel from '../panels/ResearchPanel';
+import HabitatAssignModal from './assignment_modals/HabitatAssignModal';
 
 export function ModalManager() {
 	const activeModal = useUiStore(state => state.activeModal);
@@ -51,6 +52,8 @@ export function ModalManager() {
 			assignModal = <TradeAssignModal/>; break;
 		case 'assign_anchor':
 			assignModal = <AnchorAssignModal/>; break;
+		case 'assign_habitat':
+			assignModal = <HabitatAssignModal/>; break;
 	}
 
 	let panel = null;

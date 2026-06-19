@@ -118,6 +118,9 @@ export function createDebris(currentState: GameState, invShipIds: number[], loca
 		ownerNationId: null,
 		size: debrisIds.length,
 		buildings: [],
+		structures: {
+			habitats: 0
+		},
 		tags: [],
 		deposits: [],
 		resources: {},

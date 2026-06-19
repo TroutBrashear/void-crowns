@@ -277,7 +277,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 					const popProgress = currentPlanetoid.population.progress + 1 * PLANET_ENVIRONMENTS[currentPlanetoid.environment].popGrowthModifier;
 
 					//trigger new Pop if needed
-					if(popProgress > CYCLE_CONFIG.ECONOMY.POP_PROGRESS_GOAL){
+					if(popProgress > CYCLE_CONFIG.ECONOMY.POP_PROGRESS_GOAL && (currentPlanetoid.structures.habitats > 0 && currentPlanetoid.population.total < currentPlanetoid.structures.habitats)){
 						let  speciesRoll = popIncreaseSpeciesRoll(currentState, currentPlanetoid.id);
 
 						if(speciesRoll){
