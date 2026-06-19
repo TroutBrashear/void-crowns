@@ -83,7 +83,7 @@ function ShipSelectModal() {
 
       { (shipToShow.type === 'construction_ship' && shipToShow.ownerNationId === 1) && <div>
          <Button onClick={() => openAssignModal("assign_anchor", {targetId: shipToShow.locationSystemId, position: 'surveyor'})}>Construct Anchor</Button>
-         <Button>Construct Habitat</Button>
+         <Button onClick={() => openAssignModal("assign_habitat", {targetId: shipToShow.locationSystemId, position: 'surveyor'})}>Construct Habitat</Button>
         </div>
       }
 
