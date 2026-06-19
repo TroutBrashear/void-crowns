@@ -12,9 +12,9 @@ import { processEconomy, getAllResearchOptions, engineAssignResearch } from '../
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
-import { processDiplomacy, enginePlayerDiploResponse, sendDiploRequest} from '../engine/diplomacy';
+import { processDiplomacy, enginePlayerDiploResponse, sendDiploRequest } from '../engine/diplomacy';
 import { generateGalaxy, generateStartingOrgs, generateStartingSpecies } from '../engine/galaxyGeneration';
-import { engineBuildBuilding, engineBuildPlanetoid, engineBuildAnchor } from '../engine/building';
+import { engineBuildBuilding, engineBuildPlanetoid, engineBuildAnchor, engineBuildHabitat } from '../engine/building';
 import { engineBuildShip, engineBuildMilShip } from '../engine/building/shipBuilding';
 import { colonizePlanetoid, beginPlanetoidSurvey, getHabitablesInSystem } from '../engine/colonization';
 import { engineAssignCharacter } from '../engine/character';
@@ -253,6 +253,9 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     set(engineBuildAnchor(get(), 1, payload.parentPlanetoidId, payload.targetLaneId));
   },
 
+  constructHabitat: (payload: { targetPlanetoid: number }) => {
+    set(engineBuildHabitat(get(), payload.targetPlanetoid, 1))
+  },
 
    declareWar: ({ actorId, targetId }) => {
     updateBilateralRelation(actorId, targetId, 'war');

@@ -351,6 +351,7 @@ export interface GameActions {
   constructBuilding: (payload: { planetoidId: number, buildingType: BuildingClass, orgId: number }) => void;
   constructPlanetoid: (payload: { parentPlanetoidId: number, newType: PlanetoidClassification } ) => void;
   constructAnchor: (payload: { parentPlanetoidId: number, targetLaneId: number }) => void;
+  constructHabitat: (payload: { targetPlanetoid: number }) => void;
   declareWar: (payload: DiploStatusPayload) => void;
   declarePeace: (payload: DiploStatusPayload) => void;
   processPlayerDiplo: (payload: { requestId: number, accepted: boolean }) => void;

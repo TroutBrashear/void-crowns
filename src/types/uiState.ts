@@ -2,7 +2,7 @@ import type { Selection, CharacterAssignment} from './gameState';
 
 export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_modal" | "planet_modal" | "building_modal" | "pops_modal";
 
-export type AssignType = "assign_character" | "assign_research" | "send_trade" | "assign_anchor";
+export type AssignType = "assign_character" | "assign_research" | "send_trade" | "assign_anchor" | "assign_habitat";
 
 export type PanelType = "diplomacy_panel" | "politics_panel" | "research_panel";
 
