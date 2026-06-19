@@ -291,3 +291,53 @@ export function engineBuildAnchor(currentState: GameState, orgId: number, parent
     }
   };
 }
+
+export function engineBuildHabitat(currentState: GameState, planetoidId: number, orgId: number): GameState {
+  let targetPlanetoid = currentState.planetoids.entities[planetoidId];
+
+  let org = currentState.orgs.entities[orgId];
+  if(!org || !targetPlanetoid){
+    return currentState;
+  }
+
+  //cost check - these are seperate checks because I will probably want to return a GameEvent at some point
+  if(org.resources.credits < 20000){
+    return currentState;
+  }
+
+  const habitatCount = targetPlanetoid.structures.habitats + 1;
+
+  targetPlanetoid = {
+    ...targetPlanetoid,
+    structures: {
+      ...targetPlanetoid.structures,
+      habitats: habitatCount
+    }
+  };
+
+   org = {
+    ...org,
+    resources: {
+      ...org.resources,
+      credits: org.resources.credits - 10000,
+    }
+  };
+
+  return {
+    ...currentState,
+    planetoids: {
+      ...currentState.planetoids,
+      entities: {
+        ...currentState.planetoids.entities,
+        [planetoidId]: targetPlanetoid
+      }
+    },
+    orgs: {
+      ...currentState.orgs,
+      entities: {
+        ...currentState.orgs.entities,
+        [orgId]: org
+      }
+    }
+  }
+}
