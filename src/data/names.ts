@@ -15,8 +15,8 @@ export const NAME_LISTS: Record<string, NameList> = {
 	}
 }
 
-export type OriginType = 'Star' | 'Plant' | 'Place' | 'Fiction' | 'Machine Generated' | 'Jewel';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'Irish' | 'Hoosier' | 'Conlang' | 'Machine Generated';
+export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'Welsh' |  'Ogham' |  'Spanish' | 'Lithuanian' | 'Hoosier' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -27,10 +27,10 @@ export interface StarInfo {
 
 export const SYSTEM_NAMES: string[] = [
 	"'Anaqi", "'Uqdah", "'Aqiq",
-"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ayilyam", "Asttam", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Almat", "Aghnam",
-"Bayd", "Bari'", "Bie", "Barani", "Baradi", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bimac", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
-"Cong Guan", "Cittirai", "Corydon", "Cunot", "Coll", "Ceirt", "Ceibo", "Cleyre", "Coudre", "Cleveland",
-"Dabaran", "Dhanab", "Dubb", "Dun Wan", "Dair", "Donovia", "Dobbrewa",
+	"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Aghnam",
+	"Bayd", "Bari'", "Bie", "Barani", "Baradi", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bimac", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
+	"Cong Guan", "Cittirai", "Corydon", "Cunot", "Coll", "Ceirt", "Ceibo", "Cleyre", "Coudre", "Cleveland",
+	"Dabaran", "Dhanab", "Dubb", "Dun Wan", "Dair", "Donovia", "Dobbrewa",
 "Eadhadh", "Equitan", "Erminig", "Eog",
 "Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Fu Yue", "Fei Yu", "Ferne", "Fresne", "Ferrer",
 "Ghul", "Gumaysa", "Ghafar", "Geng He", "Gou Guo", "Gai Wu", "Guan", "Gevelled", "Gwezenn", "Glenn Ayr", "Greeb", "Gort", "Geadal", "Grybu", "Gorgas",
@@ -97,6 +97,60 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: 'Star',
 		lang: 'Arabic',
 		blurb: 'From al-Alyah'
+	},
+	"Akhbiyah": {
+		name: "Akhbiyah",
+		type: "Lunar Mansion",
+		lang: 'Arabic',
+		blurb: "Sa'd al-Akhbiyah is a lunar mansion"
+	},
+	"Aqarib": {
+		name: "Aqarib",
+		type: "Constellation",
+		lang: 'Arabic',
+		blurb: "Aqarib, or Scorpions"
+	},
+	"Ailm": {
+		name: "Ailm",
+		type: "Plant",
+		lang: 'Ogham',
+		blurb: "Ailm is the Ogham letter resembling A. It represents the conifer."
+	},
+	"Añañuca": {
+		name: "Añañuca",
+		type: "Star",
+		lang: "Spanish",
+		blurb: "Añañuca is a star, named for a Chilean wildflower."
+	},
+	"Aušrinė": {
+		name: "Aušrinė",
+		type: 'Mythology',
+		lang: 'Lithuanian',
+		blurb: "Aušrinė is the goddess of the morning star in Lithuanian mythology."
+	},
+	"Athshe": {
+		name: "Athshe",
+		type: 'Fiction',
+		lang: 'Conlang',
+		blurb: "Athshe is the setting of Le Guin's The Word for World is Forest."
+	},
+	"Afank": {
+		name: "Afank",
+		type: "Mythology",
+		lang: 'Welsh',
+		blurb: "The Afanc was a monster in Welsh mythology that resembled a giant beaver."
+	},
+	"Atropia": {
+		name: "Atropia",
+		type: "Fiction",
+		lang: 'Conlang',
+		blurb: "Atropia is a fictional country used in US military training."
+	},
+	"Aghnam": {
+		name: "Aghnam",
+		type: "Constellation",
+		lang: 'Arabic',
+		blurb: "Aghnam, or Sheep, was part of the old Arabic Pasture represented in the stars."
 	}
 };
 
