@@ -1,10 +1,12 @@
 import type { GameState, EngineResult, GameEvent } from '../../types/gameState';
-import { averagePopHappiness } from '../population';
+import { averagePopHappiness, findMigrationTarget, migratePop } from '../population';
 import { determinePotentialIdeology, spawnMovement } from './movements';
 
 export function processPolitics(currentState: GameState ): EngineResult {
     const planetoids = Object.values(currentState.planetoids.entities);
     const allPoliticsEvents: GameEvent[] = [];
+
+     let nextState = { ...currentState };
 
     let movementTargets: number[] = [];
 
@@ -22,10 +24,19 @@ export function processPolitics(currentState: GameState ): EngineResult {
                     movementTargets.push(planetoid.id);
                 }
             }
+
+            for(const pop of planetoidPops){
+                if(pop.feelings.happiness < 20){
+                    const migrationRoll = Math.random() * 100;
+                    if(migrationRoll > 98){
+                        nextState = migratePop(nextState, pop.id, findMigrationTarget(nextState, pop.id))
+                    }
+                }
+            }
         }
     }
 
-    let nextState = { ...currentState };
+
 
 
      for(const target of movementTargets){
