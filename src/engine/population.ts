@@ -1,5 +1,6 @@
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 import type { GameState, Pop } from '../types/gameState';
+import { evaluatePlanetoidValue, getHabitablesInSystem } from './colonization';
 
 
 export function popIncreaseSpeciesRoll(currentState: GameState, planetoidId: number): number | null {
@@ -79,6 +80,36 @@ export function gatherCitizenPops(currentState: GameState, orgId: number): Pop[]
     }
 
     return citizenPops;
+}
+
+export function findMigrationTarget(currentState: GameState, popId: number): number {
+    const pop = currentState.pops.entities[popId];
+
+    let currentOption = pop.locationId;
+    let topValue = 0;
+
+    const popSystem = currentState.systems.entities[currentState.planetoids.entities[pop.locationId].locationSystemId];
+
+    //poss TODO: allow looking at neighbors of neighbors?
+
+    for(const sysId of popSystem.adjacentSystemIds){
+        const sysHabitables = getHabitablesInSystem(currentState, sysId);
+        for(const habitable of sysHabitables){
+            let habValue = evaluatePlanetoidValue(habitable);
+
+            if(habitable.population){
+                const planetoidPops = habitable.population.popIds.map(popId => currentState.pops.entities[popId]);
+                habValue += (averagePopHappiness(planetoidPops) - 50) / 10;
+            }
+
+            if(habValue > topValue){
+                currentOption = habitable.id;
+                topValue = habValue;
+            }
+        }
+    }
+
+    return currentOption;
 }
 
 export function migratePop(currentState: GameState, popId: number, destinationId: number): GameState {
