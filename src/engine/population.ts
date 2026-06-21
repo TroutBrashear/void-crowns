@@ -80,3 +80,73 @@ export function gatherCitizenPops(currentState: GameState, orgId: number): Pop[]
 
     return citizenPops;
 }
+
+export function migratePop(currentState: GameState, popId: number, destinationId: number): GameState {
+    let pop = { ... currentState.pops.entities[popId]};
+    const originId = pop.locationId;
+
+
+    let originPlanetoid = { ...currentState.planetoids.entities[originId]};
+    let destinationPlanetoid = { ...currentState.planetoids.entities[destinationId]};
+
+    if(!originPlanetoid.population){
+        return currentState;
+    }
+
+    pop = {
+        ...pop,
+        locationId: destinationId
+    };
+
+    let originPops = originPlanetoid.population.popIds.filter(cPopId => cPopId !== popId);
+
+    originPlanetoid = {
+        ...originPlanetoid,
+        population: {
+            ...originPlanetoid.population,
+            popIds: originPops,
+            total: originPlanetoid.population.total - 1
+        }
+    };
+
+    if(destinationPlanetoid.population){
+        destinationPlanetoid = {
+            ...destinationPlanetoid,
+            population: {
+                ...destinationPlanetoid.population,
+                popIds: [ ...destinationPlanetoid.population.popIds, popId],
+                total: destinationPlanetoid.population.total + 1
+            }
+        };
+    }
+    else{
+        destinationPlanetoid =  {
+            ...destinationPlanetoid,
+            population: {
+                popIds: [popId],
+                total: 1,
+                progress: 0
+            }
+        };
+    }
+
+    return {
+        ...currentState,
+        pops: {
+            ...currentState.pops,
+            entities: {
+                ...currentState.pops.entities,
+                [popId]: pop
+            }
+        },
+        planetoids: {
+            ...currentState.planetoids,
+            entities: {
+                ...currentState.planetoids.entities,
+                [originId]: originPlanetoid,
+                [destinationId]: destinationPlanetoid
+            }
+        }
+    }
+
+}
