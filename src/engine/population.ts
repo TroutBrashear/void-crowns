@@ -126,7 +126,7 @@ export function migratePop(currentState: GameState, popId: number, destinationId
 
     pop = {
         ...pop,
-        locationId: destinationId
+        locationId: destinationId,
         feelings: {
             ...pop.feelings,
             happiness: 70 //reset so that the pop doesn't want to immediately migrate again
