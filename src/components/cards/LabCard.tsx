@@ -7,7 +7,7 @@ import { Button } from '../pure/Button';
 import { RESEARCH_CATALOG } from '../../data/research';
 import type { ResearchDefinition } from '../../data/research';
 
-import type { Character } from '../../types/gameState';
+import type { Character } from '../../types/charState';
 
 function LabCard({ buildingId }: { buildingId: number }) {
 

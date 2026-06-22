@@ -1,5 +1,6 @@
-import type {  Org, OrgRelation, OrgCategory, Character, Species } from '../types/gameState';
+import type {  Org, OrgRelation, OrgCategory, Species } from '../types/gameState';
 import type { System, Planetoid, Deposit, Lane } from '../types/geoState';
+import type { Character } from '../types/charState';
 import { shuffle } from '../utils/shuffle';
 import { findPath } from './pathfinding';
 import { generateCharacter } from './character';

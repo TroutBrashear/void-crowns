@@ -15,7 +15,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 	}
 }
 
-export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel';
+export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel';
 export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'Welsh' |  'Ogham' |  'Spanish' | 'Lithuanian' | 'Hoosier' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
@@ -28,7 +28,7 @@ export interface StarInfo {
 export const SYSTEM_NAMES: string[] = [
 	"'Anaqi", "'Uqdah", "'Aqiq",
 	"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Aghnam",
-	"Bayd", "Bari'", "Bie", "Barani", "Baradi", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bimac", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
+	"Bayd", "Bari'", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
 	"Cong Guan", "Cittirai", "Corydon", "Cunot", "Coll", "Ceirt", "Ceibo", "Cleyre", "Coudre", "Cleveland",
 	"Dabaran", "Dhanab", "Dubb", "Dun Wan", "Dair", "Donovia", "Dobbrewa",
 "Eadhadh", "Equitan", "Erminig", "Eog",
@@ -151,6 +151,72 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Constellation",
 		lang: 'Arabic',
 		blurb: "Aghnam, or Sheep, was part of the old Arabic Pasture represented in the stars."
+	},
+	"Bayd": {
+		name: "Bayd",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Bayd, Arabic for Eggs."
+	},
+	"Bari'": {
+		name: "Bari'",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Sa'd al-Bari' is the Arabic name of Sadalbari."
+	},
+	"Bidbid": {
+		name: "Bidbid",
+		type: "Place",
+		lang: "Arabic",
+		blurb: "Bidbid is a town in Oman"
+	},
+	"Bleiz": {
+		name: "Bleiz",
+		type: "Animal",
+		lang: "Breton",
+		blurb: "Bleiz is Breton for wolf."
+	},
+	"Bandurah": {
+		name: "Bandurah",
+		type: "Plant",
+		lang: "Arabic",
+		blurb: "Bandurah is an Arabic word for Tomato"
+	},
+	"Blewit": {
+		name: "Blewit",
+		type: "Plant",
+		lang: "Conlang",
+		blurb: "Blewits are a variety of mushroom"
+	},
+	"Beithe": {
+		name: "Beithe",
+		type: "Plant",
+		lang: "Ogham",
+		blurb: "Beithe is the Ogham letter resembling B. It also means birch."
+	},
+	"Bisclavret": {
+		name: "Bisclavret",
+		type: "Fiction",
+		lang: "Breton",
+		blurb: "The Breton word for Werewolf, and a lai of Marie de France."
+	},
+	"Baydaq": {
+		name: "Baydaq",
+		type: "Fiction",
+		lang: "Arabic",
+		blurb: "The Arabic word for the Pawn in Chess."
+	},
+	"Bokštas": {
+		name: "Bokštas",
+		type: "Fiction",
+		lang: "Lithuanian",
+		blurb: "Bokštas is the Lithuanian word for the Rook in Chess."
+	},
+	"Bebras": {
+		name: "Bebras",
+		type: "Animal",
+		lang: "Lithuanian",
+		blurb: "Bebras is Lithuanian for beaver."
 	}
 };
 

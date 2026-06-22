@@ -1,4 +1,5 @@
-import type { Selection, CharacterAssignment} from './gameState';
+import type { Selection } from './gameState';
+import type { CharacterAssignment } from './charState';
 
 export type ModalType = "fleet_modal" | "system_modal" | "org_modal" | "ship_modal" | "planet_modal" | "building_modal" | "pops_modal";
 
