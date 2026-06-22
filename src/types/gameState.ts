@@ -1,6 +1,7 @@
 import type { AiIntent } from './aiState';
 import type { Fleet, Ship, MilShip, ShipType, MilShipType } from './shipTypes';
 import type { Lane, System, Planetoid, PlanetoidClassification } from './geoState';
+import type { Resources, Good, GoodCategory } from './ecoState';
 
 export interface Process {
   input?: Partial<Resources>;
@@ -33,22 +34,6 @@ export interface Building {
   }
 }
 
-
-//------------ECONOMY------------------
-export interface Resources {
-  credits: number;
-  rocks: number;
-  gas: number;
-}
-
-export type GoodCategory = 'food' | 'homeGoods';
-
-export interface Good {
-  readonly id: number;
-  name: string;
-  type: GoodCategory;
-  traits: string[];
-}
 
 //-----------POPULATION AND SPECIES-------------------
 export interface Species {

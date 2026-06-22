@@ -1,8 +1,9 @@
 import { create } from 'zustand';
 import { useUiStore } from '../state/uiStore';
 
-import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, BuildingClass, DiploType, Resources, Pop, PlanetoidIntel, Building } from '../types/gameState';
+import type { GameStoreState, MoveOrderPayload, ShipMoveOrderPayload, GameEvent, ColonizePayload, BuildingClass, DiploType, Pop, PlanetoidIntel, Building } from '../types/gameState';
 import type { PlanetoidClassification } from '../types/geoState';
+import type { Resources } from '../types/ecoState';
 import type { Fleet, Ship, ShipType, MilShipType } from '../types/shipTypes';
 
 //engine imports

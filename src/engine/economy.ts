@@ -1,4 +1,4 @@
-import type { GameState, Resources, Process, GameEvent, EngineResult, Character, Pop } from '../types/gameState';
+import type { GameState, Process, GameEvent, EngineResult, Character, Pop } from '../types/gameState';
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
@@ -8,6 +8,7 @@ import { shuffle } from '../utils/shuffle';
 
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 import { PLANET_ENVIRONMENTS } from '../data/planets';
+import type { Resources } from '../types/ecoState';
 
 //------RESARCH FUNCTIONS------
 
