@@ -2,6 +2,7 @@ import type { AiIntent } from './aiState';
 import type { Fleet, Ship, MilShip, ShipType, MilShipType } from './shipTypes';
 import type { Lane, System, Planetoid, PlanetoidClassification } from './geoState';
 import type { Resources, Good, GoodCategory } from './ecoState';
+import type { SkillName, Character, CharacterAssignment } from './charState';
 
 export interface Process {
   input?: Partial<Resources>;
@@ -141,52 +142,6 @@ export interface Movement {
   originLocation: number; //a planetoidId
 
   fervor: number; //a number from 0-10
-}
-
-
-
-export type CharacterAssignment = 'leader' | 'admiral' | 'governor' | 'surveyor' | 'scientist' | 'academyPresident' | 'diplomat';
-
-
-//a helper that holds information about what a character is currently doing
-export interface charAssignment {
-  type: CharacterAssignment;
-  id: number;
-  duration?: number; //turn that the character's assignment will end - used for Mission-based Assignments
-}
-
-export type SkillName = 'navalCombat' | 'administration' | 'exploration' | 'academics' | 'diplomacy';
-
-
-
-
-export type CharacterStatus = 'alive' | 'dead';
-
-export interface Character {
-  readonly id: number;
-
-  status: CharacterStatus;
-
-  name: {
-    firstName: string;
-    lastName: string;
-  }
-  age: number; 
-  traits: string[];
-  skills: Record<SkillName, number>;
-  assignment: charAssignment | null;
-
-  citizenOrg: number | null; //refers to the Org this character is a part of
-
-  politics: {
-    leaning: Ideology;
-  }
-
-  history: {
-    events: string[];
-    parentId?: number;
-    childrenIds: number[];
-  }
 }
 
 //types related to intelligence, fog of war, stength calculations

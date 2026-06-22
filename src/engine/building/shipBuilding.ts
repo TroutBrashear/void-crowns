@@ -1,4 +1,5 @@
-import type { GameState, Resources } from '../../types/gameState';
+import type { GameState } from '../../types/gameState';
+import type { Resources } from '../../types/ecoState';
 import type { Ship, ShipType, MilShip, MilShipType } from '../../types/shipTypes';
 
 import { applyProcess } from '../economy';

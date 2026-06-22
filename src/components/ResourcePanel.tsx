@@ -1,4 +1,4 @@
-import type { Resources } from '../types/gameState'; 
+import type { Resources } from '../types/ecoState';
 import styles from './ResourcePanel.module.css';
 
 interface ResourcePanelProps {

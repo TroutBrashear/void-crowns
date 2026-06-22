@@ -1,4 +1,6 @@
-import type { GameState, Process, GameEvent, EngineResult, Character, Pop } from '../types/gameState';
+import type { GameState, Process, GameEvent, EngineResult, Pop } from '../types/gameState';
+import type { Character } from '../types/charState';
+
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';

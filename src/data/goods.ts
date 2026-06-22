@@ -1,4 +1,4 @@
- import type { Good } from '../types/gameState';
+ import type { Good } from '../types/ecoState';
 
  export const GOODS_IDS = {
      GENERIC_FOOD_ID: 1,

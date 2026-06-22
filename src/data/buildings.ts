@@ -1,6 +1,7 @@
 //definitions for all buildings in the game
 
-import type { BuildingClass, Resources, Process } from '../types/gameState';
+import type { BuildingClass, Process } from '../types/gameState';
+import type { Resources } from '../types/ecoState';
 
 export interface BuildingDefinition {
   type: BuildingClass;
