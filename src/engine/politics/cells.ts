@@ -1,11 +1,36 @@
 import type { CellType, GameState, Cell } from '../../types/gameState';
+import { generateCharacter } from '../character';
+
+export function spawnCellRandomLeader(currentState: GameState, planetoidId: number, cellType: CellType): GameState {
+
+    let nextId = currentState.meta.lastCharacterId + 1;
+
+    let leader = generateCharacter(nextId, 'default');
+
+    let nextState = {
+        ...currentState,
+        meta: {
+            ...currentState.meta,
+            lastCharacterId: nextId,
+        },
+        characters: {
+            ids: [...currentState.characters.ids, leader.id],
+            entities: {
+                ...currentState.characters.entities,
+                [leader.id]: leader
+            }
+        }
+    };
+
+    return spawnCell(nextState, planetoidId, cellType, leader.id);
+}
 
 
-export function spawnCell(currentState: GameState, planetoidId: number, cellType: CellType): {newState: GameState} {
+export function spawnCell(currentState: GameState, planetoidId: number, cellType: CellType, leaderId: number): GameState {
     const originatingPlanetoid = currentState.planetoids.entities[planetoidId];
 
     if(!originatingPlanetoid){
-        return {newState: currentState };
+        return currentState;
     }
 
     let nextId = currentState.meta.lastCellId + 1;
@@ -18,7 +43,7 @@ export function spawnCell(currentState: GameState, planetoidId: number, cellType
 
         locationId: planetoidId,
 
-        leader: 0,
+        leader: leaderId,
 
         assignment: {
             type: 'idle',
@@ -41,5 +66,5 @@ export function spawnCell(currentState: GameState, planetoidId: number, cellType
         }
     };
 
-    return { newState: nextState };
+    return nextState;
 }
