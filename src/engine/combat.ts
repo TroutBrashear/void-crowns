@@ -2,6 +2,8 @@ import type { GameState, GameEvent, EngineResult } from '../types/gameState';
 import type { Planetoid } from '../types/geoState';
 import type { Fleet } from '../types/shipTypes';
 
+import { COMBAT_CONFIG } from '../constants/combat_config';
+
 import { getRelationship } from './diplomacy';
 
 function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] {
@@ -46,7 +48,7 @@ function calculateFleetCombatScore(currentState: GameState, fleetId: number): nu
 	for(const shipId of fleet.ships){
 		const ship = currentState.milShips.entities[shipId];
 
-		let combatRoll = Math.floor(Math.random() * 10);
+		let combatRoll = Math.floor(Math.random() * COMBAT_CONFIG.COMBAT_WEIGHTS.COMBAT_ROLL_BASE);
 
 		if(ship.assignedCharacter){
 			const captain = currentState.characters.entities[ship.assignedCharacter];

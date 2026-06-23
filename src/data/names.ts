@@ -15,8 +15,8 @@ export const NAME_LISTS: Record<string, NameList> = {
 	}
 }
 
-export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'Welsh' |  'Ogham' |  'Spanish' | 'Lithuanian' | 'Hoosier' | 'Conlang' | 'Machine Generated';
+export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Misc';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'Kurdish' | 'Welsh' |  'Ogham' |  'Spanish' | 'Lithuanian' | 'Hoosier' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -34,7 +34,7 @@ export const SYSTEM_NAMES: string[] = [
 "Eadhadh", "Equitan", "Erminig", "Eog",
 "Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Fu Yue", "Fei Yu", "Ferne", "Fresne", "Ferrer",
 "Ghul", "Gumaysa", "Ghafar", "Geng He", "Gou Guo", "Gai Wu", "Guan", "Gevelled", "Gwezenn", "Glenn Ayr", "Greeb", "Gort", "Geadal", "Grybu", "Gorgas",
-"Haddar", "Humam", "Haqa'ah", "He Gu", "Hai Shan", "Hirsh", "Hafawrang", "Harlaus", "Haqqar",
+"Haddar", "Humam", "Haqa'ah", "He Gu", "Hai Shan", "Hirsh", "Hafawrang", "Harlaus", "Haqqar", "Heval",
 "Iodhadh", "Ifin", "Iseult", "Iklil",
 "Jabbar", "Jabhah", "Jathi", "Jubhah", "Jiao Xiu", "Jin Xian", "Ji Shui", "Jun Jing", "Jūra", "Jayda",
 "Kawkab", "Khaytan", "Kui Xiu", "Kongque", "Karthigai", "Kettai", "Koad", "Kurusan", "Kinoko", "Karaka", "Kärppä", "Kuthirai", "Kangar", "Kilangaan",
@@ -202,13 +202,13 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 	},
 	"Baydaq": {
 		name: "Baydaq",
-		type: "Fiction",
+		type: "Misc",
 		lang: "Arabic",
 		blurb: "The Arabic word for the Pawn in Chess."
 	},
 	"Bokštas": {
 		name: "Bokštas",
-		type: "Fiction",
+		type: "Misc",
 		lang: "Lithuanian",
 		blurb: "Bokštas is the Lithuanian word for the Rook in Chess."
 	},
@@ -217,6 +217,13 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Animal",
 		lang: "Lithuanian",
 		blurb: "Bebras is Lithuanian for beaver."
+	},
+
+	"Heval": {
+		name: "Heval",
+		type: "Misc",
+		lang: "Kurdish",
+		blurb: "A Kurdish word for friend."
 	}
 };
 
