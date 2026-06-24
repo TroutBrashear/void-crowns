@@ -1,4 +1,5 @@
-import type { CellType, GameState, Cell } from '../../types/gameState';
+import type { GameState } from '../../types/gameState';
+import type { CellType, Cell } from '../../types/govState';
 import { generateCharacter } from '../character';
 
 export function spawnCellRandomLeader(currentState: GameState, planetoidId: number, cellType: CellType): GameState {

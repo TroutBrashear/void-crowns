@@ -1,4 +1,5 @@
-import type {  Org, OrgRelation, OrgCategory, Species } from '../types/gameState';
+import type { Species } from '../types/gameState';
+import type {  Org, OrgRelation, OrgCategory } from '../types/govState';
 import type { System, Planetoid, Deposit, Lane } from '../types/geoState';
 import type { Character } from '../types/charState';
 import { shuffle } from '../utils/shuffle';
@@ -12,7 +13,6 @@ import { SYSTEM_NAMES, SPECIES_NAMES } from '../data/names';
 //TODO: create additional sizes that can be adaptively chosen based on the number of systems we need to fit
 const WIDTH_DEFAULT = 5000;
 const HEIGHT_DEFAULT = 2000;
-
 
 
 let lastDepositId = 0;

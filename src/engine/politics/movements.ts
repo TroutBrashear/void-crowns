@@ -1,4 +1,5 @@
-import type { GameEvent, GameState, Ideology } from '../../types/gameState';
+import type { GameEvent, GameState } from '../../types/gameState';
+import type { Ideology } from '../../types/govState';
 
 //stub
 export function determinePotentialIdeology(currentState: GameState): Ideology {

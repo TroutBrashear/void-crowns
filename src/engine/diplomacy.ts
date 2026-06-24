@@ -1,10 +1,14 @@
-import type { GameState, OrgRelation, EngineResult, GameEvent, DiploType, DiploRequest } from '../types/gameState';
+import type { GameState, EngineResult, GameEvent, DiploType, DiploRequest } from '../types/gameState';
+import type { Resources } from '../types/ecoState';
+import type { OrgRelation } from '../types/govState';
+
 import { evaluateDiploRequest, evaluateAiRelations, evaluateTradeDeal, evaluateAiTradeNeeds } from './ai/diplomacy';
 import { applyProcess } from './economy';
 
+
 //constants
 import { CYCLE_CONFIG } from '../constants/cycle_config';
-import type { Resources } from '../types/ecoState';
+
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
 	const firstOrg = gameState.orgs.entities[firstOrgId];
