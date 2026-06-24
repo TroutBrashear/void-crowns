@@ -15,8 +15,8 @@ export const NAME_LISTS: Record<string, NameList> = {
 	}
 }
 
-export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Misc';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'Kurdish' | 'Welsh' |  'Ogham' |  'Spanish' | 'Lithuanian' | 'Hoosier' | 'Conlang' | 'Machine Generated';
+export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Person' | 'Misc';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Kurdish' | 'Welsh' |  'Ogham' |  'Spanish' | 'Lithuanian' | 'Hoosier' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -29,8 +29,8 @@ export const SYSTEM_NAMES: string[] = [
 	"'Anaqi", "'Uqdah", "'Aqiq",
 	"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Aghnam",
 	"Bayd", "Bari'", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
-	"Cong Guan", "Cittirai", "Corydon", "Cunot", "Coll", "Ceirt", "Ceibo", "Cleyre", "Coudre", "Cleveland",
-	"Dabaran", "Dhanab", "Dubb", "Dun Wan", "Dair", "Donovia", "Dobbrewa",
+	"Corydon", "Cunot", "Coll", "Ceirt", "Cleyre", "Coudre",
+	"Dar", "Dabaran", "Dhanab", "Dubb", "Donovia",
 "Eadhadh", "Equitan", "Erminig", "Eog",
 "Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Fu Yue", "Fei Yu", "Ferne", "Fresne", "Ferrer",
 "Ghul", "Gumaysa", "Ghafar", "Geng He", "Gou Guo", "Gai Wu", "Guan", "Gevelled", "Gwezenn", "Glenn Ayr", "Greeb", "Gort", "Geadal", "Grybu", "Gorgas",
@@ -218,7 +218,72 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		lang: "Lithuanian",
 		blurb: "Bebras is Lithuanian for beaver."
 	},
-
+	"Corydon": {
+		name: "Corydon",
+		type: "Place",
+		lang: "Hoosier",
+		blurb: "The name of the original capital of Indiana."
+	},
+	"Cunot": {
+		name: "Cunot",
+		type: "Place",
+		lang: "Hoosier",
+		blurb: "The name of a small Indiana town."
+	},
+	"Coll": {
+		name: "Coll",
+		type: "Plant",
+		lang: "Ogham",
+		blurb: "Coll is the Ogham letter approximating K. It means hazel tree."
+	},
+	"Ceirt": {
+		name: "Ceirt",
+		type: "Plant",
+		lang: "Ogham",
+		blurb: "Ceirt is the Ogham letter nearest Q."
+	},
+	"Cleyre": {
+		name: "Cleyre",
+		type: "Person",
+		lang: "French",
+		blurb: "For Voltairine de Cleyre"
+	},
+	"Coudre": {
+		name: "Coudre",
+		type: "Fiction",
+		lang: "French",
+		blurb: "La Coudre is a character appearing in the lai La Fresne."
+	},
+	"Dar": {
+		name: "Dar",
+		type: "Plant",
+		lang: "Kurdish",
+		blurb: "Dar is one Kurdish word for tree."
+	},
+	"Dabaran": {
+		name: "Dabaran",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "ad-Dabaran is a star"
+	},
+	"Dhanab": {
+		name: "Dhanab",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Dhanab al-Dajajah is a common Arabic star name meaning the chicken's tail."
+	},
+	"Dubb": {
+		name: "Dubb",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "ad-Dubb, Arabic for the bear, is part of the star name Thahr ad-Dubb al-Kabir."
+	},
+	"Donovia": {
+		name: "Donovia",
+		type: "Fiction",
+		lang: "Conlang",
+		blurb: "Donovia is a fictional nation created for US Army training."
+	},
 	"Heval": {
 		name: "Heval",
 		type: "Misc",

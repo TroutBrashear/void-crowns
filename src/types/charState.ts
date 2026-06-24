@@ -1,4 +1,4 @@
-import type { Ideology } from "./gameState";
+import type { Ideology } from "./govState";
 
 //state for characters
 

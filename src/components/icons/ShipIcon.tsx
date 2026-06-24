@@ -1,4 +1,4 @@
-import type { Org } from '../../types/gameState';
+import type { Org } from '../../types/govState';
 
 // Define the props the component needs
 interface ShipIconProps {

@@ -1,4 +1,5 @@
-import type { Org, Species } from '../../types/gameState';
+import type { Species } from '../../types/gameState';
+import type { Org } from '../../types/govState';
 import type { Planetoid, Lane, System } from '../../types/geoState';
 import type { Fleet, Ship, MilShip } from '../../types/shipTypes';
 
