@@ -1,6 +1,7 @@
 import type { GameState, EngineResult, GameEvent } from '../../types/gameState';
 import { averagePopHappiness, findMigrationTarget, migratePop } from '../population';
 import { determinePotentialIdeology, spawnMovement } from './movements';
+import { spawnCellRandomLeader } from './cells';
 
 export function processPolitics(currentState: GameState ): EngineResult {
     const planetoids = Object.values(currentState.planetoids.entities);
@@ -8,6 +9,8 @@ export function processPolitics(currentState: GameState ): EngineResult {
 
      let nextState = { ...currentState };
 
+
+     //1 - spawning new movements
     let movementTargets: number[] = [];
 
     for(const planetoid of planetoids){
@@ -36,8 +39,19 @@ export function processPolitics(currentState: GameState ): EngineResult {
         }
     }
 
+    //2 - spawning new Cells based on movements
+    const movements = Object.values(currentState.movements.entities);
 
+    for(const movement of movements){
+        if(movement.fervor < 7){
+            continue;
+        }
 
+        const cellRoll = (Math.random() * 50) + (movement.fervor/2);
+        if(cellRoll > 48){
+            nextState = spawnCellRandomLeader(nextState, movement.originLocation, 'rebel');
+        }
+    }
 
      for(const target of movementTargets){
          const targetIdeology = determinePotentialIdeology(nextState);
