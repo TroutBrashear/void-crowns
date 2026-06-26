@@ -49,6 +49,7 @@ export function spawnCell(currentState: GameState, planetoidId: number, cellType
         assignment: {
             type: 'idle',
             progress: 0,
+            target: nextId
         }
     }
 

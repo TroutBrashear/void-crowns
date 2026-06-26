@@ -78,6 +78,7 @@ export interface Cell {
 
     assignment: {
         type: CellAssignmentType;
+        target: number; //the id of a Planetoid or Cell targeted by the assignment
         progress: number;
     }
 }

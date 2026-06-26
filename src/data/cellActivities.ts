@@ -12,6 +12,8 @@ export const CASSIGNMENT_CATALOG: Record<string, CellAssignmentDefinition> = {
     "idle": {
         assignmentId: "idle",
         duration: 1000,
+        //target is irrelevant but typically Cell's ID
+
 
         onComplete: (currentState, targetId) => {
             if(targetId){
@@ -24,6 +26,7 @@ export const CASSIGNMENT_CATALOG: Record<string, CellAssignmentDefinition> = {
     "assassinateGovernor": {
         assignmentId: "assassinateGovernor",
         duration: 5,
+        //target is the Planetoid ID
 
        onComplete: (currentState, targetId) => {
             const governorId = currentState.systems.entities[currentState.planetoids.entities[targetId].locationSystemId].assignedCharacter;
@@ -36,6 +39,7 @@ export const CASSIGNMENT_CATALOG: Record<string, CellAssignmentDefinition> = {
     "gatherStrength": {
         assignmentId: "gatherStrength",
         duration: 5,
+        //target is the Cell's ID'
 
         onComplete: (currentState, targetId) => {
             return {

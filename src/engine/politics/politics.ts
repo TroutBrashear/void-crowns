@@ -73,14 +73,15 @@ export function processPolitics(currentState: GameState ): EngineResult {
         }
         else if(cell.assignment.progress === CASSIGNMENT_CATALOG[cell.assignment.type].duration){
             //complete assignment
+            nextState = CASSIGNMENT_CATALOG[cell.assignment.type].onComplete(nextState, cell.assignment.target);
         }
         else{
-            //progress assignment
+            //progress assignment - deferred to later
             incrementDuration = [ ...incrementDuration, cell.id];
         }
     }
 
-    //4 - increment durations
+    //evaluation of incrementDurations
     let newCells = { ...nextState.cells.entities };
     for(const cellId of incrementDuration){
         newCells[cellId] = {
@@ -92,6 +93,13 @@ export function processPolitics(currentState: GameState ): EngineResult {
         };
     }
 
+    nextState = {
+        ...nextState,
+        cells: {
+            ...nextState.cells,
+            entities: newCells
+        }
+    };
 
     return { newState: nextState, events: allPoliticsEvents };
 }
