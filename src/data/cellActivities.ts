@@ -5,7 +5,7 @@ export interface CellAssignmentDefinition {
     assignmentId: string;
     duration: number;
 
-    onComplete: (currentState: GameState, targetId: number) => GameState;
+    onComplete: (currentState: GameState,  targetId: number) => GameState;
 }
 
 export const CASSIGNMENT_CATALOG: Record<string, CellAssignmentDefinition> = {
@@ -20,5 +20,25 @@ export const CASSIGNMENT_CATALOG: Record<string, CellAssignmentDefinition> = {
             }
             return killCharacter(currentState, governorId);
        }
+    },
+    "gatherStrength": {
+        assignmentId: "gatherStrength",
+        duration: 5,
+
+        onComplete: (currentState, targetId) => {
+            return {
+                ...currentState,
+                cells: {
+                    ...currentState.cells,
+                    entities: {
+                        ...currentState.cells.entities,
+                        [targetId]: {
+                            ...currentState.cells.entities[targetId],
+                            strength: currentState.cells.entities[targetId].strength + 1
+                        }
+                    }
+                }
+            }
+        }
     }
 }
