@@ -64,7 +64,7 @@ export interface Org {
 export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
 
 export type CellType = 'rebel' | 'criminal' | 'corporate';
-export type CellAssignmentType = 'idle' | 'sabotage';
+export type CellAssignmentType = 'idle' | 'assassinateGovernor' | 'gatherStrength';
 
 export interface Cell {
     readonly id: number;

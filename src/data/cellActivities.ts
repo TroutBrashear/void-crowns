@@ -9,6 +9,18 @@ export interface CellAssignmentDefinition {
 }
 
 export const CASSIGNMENT_CATALOG: Record<string, CellAssignmentDefinition> = {
+    "idle": {
+        assignmentId: "idle",
+        duration: 1000,
+
+        onComplete: (currentState, targetId) => {
+            if(targetId){
+                return currentState;
+            }
+            return currentState;
+        }
+    },
+
     "assassinateGovernor": {
         assignmentId: "assassinateGovernor",
         duration: 5,

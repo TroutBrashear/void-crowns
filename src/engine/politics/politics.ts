@@ -2,6 +2,7 @@ import type { GameState, EngineResult, GameEvent } from '../../types/gameState';
 import { averagePopHappiness, findMigrationTarget, migratePop } from '../population';
 import { determinePotentialIdeology, spawnMovement } from './movements';
 import { spawnCellRandomLeader } from './cells';
+import { CASSIGNMENT_CATALOG } from '../../data/cellActivities';
 
 export function processPolitics(currentState: GameState ): EngineResult {
     const planetoids = Object.values(currentState.planetoids.entities);
@@ -59,6 +60,36 @@ export function processPolitics(currentState: GameState ): EngineResult {
          let spawnResults = spawnMovement(nextState, target, targetIdeology);
          nextState = spawnResults.newState;
          allPoliticsEvents.push(spawnResults.event);
+    }
+
+
+    //3 - evaluate Cell assignments
+    let incrementDuration: number[] = [];
+    const cells = Object.values(currentState.cells.entities);
+
+    for(const cell of cells){
+        if(cell.assignment.type === 'idle'){
+            //new assignment
+        }
+        else if(cell.assignment.progress === CASSIGNMENT_CATALOG[cell.assignment.type].duration){
+            //complete assignment
+        }
+        else{
+            //progress assignment
+            incrementDuration = [ ...incrementDuration, cell.id];
+        }
+    }
+
+    //4 - increment durations
+    let newCells = { ...nextState.cells.entities };
+    for(const cellId of incrementDuration){
+        newCells[cellId] = {
+            ...newCells[cellId],
+            assignment: {
+                ...newCells[cellId].assignment,
+                progress: newCells[cellId].assignment.progress + 1
+            }
+        };
     }
 
 
