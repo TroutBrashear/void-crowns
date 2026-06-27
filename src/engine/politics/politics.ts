@@ -1,7 +1,7 @@
 import type { GameState, EngineResult, GameEvent } from '../../types/gameState';
 import { averagePopHappiness, findMigrationTarget, migratePop } from '../population';
 import { determinePotentialIdeology, spawnMovement } from './movements';
-import { spawnCellRandomLeader } from './cells';
+import { spawnCellRandomLeader, selectNewCellAssignment } from './cells';
 import { CASSIGNMENT_CATALOG } from '../../data/cellActivities';
 
 export function processPolitics(currentState: GameState ): EngineResult {
@@ -70,6 +70,7 @@ export function processPolitics(currentState: GameState ): EngineResult {
     for(const cell of cells){
         if(cell.assignment.type === 'idle'){
             //new assignment
+            nextState = selectNewCellAssignment(nextState, cell.id);
         }
         else if(cell.assignment.progress === CASSIGNMENT_CATALOG[cell.assignment.type].duration){
             //complete assignment

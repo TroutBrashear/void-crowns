@@ -14,7 +14,6 @@ export const CASSIGNMENT_CATALOG: Record<string, CellAssignmentDefinition> = {
         duration: 1000,
         //target is irrelevant but typically Cell's ID
 
-
         onComplete: (currentState, targetId) => {
             if(targetId){
                 return currentState;
