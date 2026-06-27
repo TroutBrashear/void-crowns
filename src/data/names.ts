@@ -31,8 +31,8 @@ export const SYSTEM_NAMES: string[] = [
 	"Bayd", "Bari'", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
 	"Corydon", "Cunot", "Coll", "Ceirt", "Cleyre", "Coudre",
 	"Dar", "Dabaran", "Dhanab", "Dubb", "Donovia",
-"Eadhadh", "Equitan", "Erminig", "Eog",
-"Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Fu Yue", "Fei Yu", "Ferne", "Fresne", "Ferrer",
+	"Eadhadh", "Equitan", "Erminig", "Eog",
+"Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Ferne", "Fresne", "Ferrer",
 "Ghul", "Gumaysa", "Ghafar", "Geng He", "Gou Guo", "Gai Wu", "Guan", "Gevelled", "Gwezenn", "Glenn Ayr", "Greeb", "Gort", "Geadal", "Grybu", "Gorgas",
 "Haddar", "Humam", "Haqa'ah", "He Gu", "Hai Shan", "Hirsh", "Hafawrang", "Harlaus", "Haqqar", "Heval",
 "Iodhadh", "Ifin", "Iseult", "Iklil",
@@ -283,6 +283,66 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Fiction",
 		lang: "Conlang",
 		blurb: "Donovia is a fictional nation created for US Army training."
+	},
+	"Eadhadh": {
+		name: "Eadhadh",
+		type: "Plant",
+		lang: "Ogham",
+		blurb: "Eadhadh is the Ogham letter resembling E."
+	},
+	"Equitan": {
+		name: "Equitan",
+		type: "Fiction",
+		lang: "French",
+		blurb: "The King of Nantes in the lai of the same name."
+	},
+	"Erminig": {
+		name: "Erminig",
+		type: "Animal",
+		lang: "Breton",
+		blurb: "Erminig is the word for Ermine in Breton."
+	},
+	"Eog": {
+		name: "Eog",
+		type: "Animal",
+		lang: "Breton",
+		blurb: "Eog is Breton (and Welsh) for Salmon."
+	},
+	"Firk": {
+		name: "Firk",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "al-Firk is a well-known Arabic star name."
+	},
+	"Fard": {
+		name: "Fard",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "al-Fard is an Arabic star name."
+	},
+	"Fakkah": {
+		name: "Fakkah",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "al-Fakkah is an Arabic star name."
+	},
+	"Furud": {
+		name: "Furud",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "al-Furud is an Arabic star name. It shares a root with al-Fard, another Arabic star."
+	},
+	"Fakhidh": {
+		name: "Fakhidh",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Fakhidh ad-Dubb al-Akbar is an Arabic star name; Fakhidh meaning Thigh."
+	},
+	"Ferne": {
+		name: "Ferne",
+		type: "Plant",
+		lang: "Ogham",
+		blurb: "Fern is the Ogham letter resembling F. It means alder tree."
 	},
 	"Heval": {
 		name: "Heval",
