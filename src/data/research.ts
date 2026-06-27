@@ -73,7 +73,7 @@ export const RESEARCH_CATALOG: Record<string, ResearchDefinition> = {
                                 ...currentState.orgs.entities[orgId].research,
                                 researchBonuses: {
                                     ...currentState.orgs.entities[orgId].research.researchBonuses,
-                                    depositSurvey: currentState.orgs.entities[orgId].research.researchBonuses.fleetCombat + 5,
+                                    fleetCombat: currentState.orgs.entities[orgId].research.researchBonuses.fleetCombat + 5,
                                 }
                             }
                         }

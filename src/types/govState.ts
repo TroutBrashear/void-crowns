@@ -64,7 +64,7 @@ export interface Org {
 export type Ideology = 'monarchist' | 'authoritarian' | 'republican' | 'corporate';
 
 export type CellType = 'rebel' | 'criminal' | 'corporate';
-export type CellAssignmentType = 'idle' | 'sabotage';
+export type CellAssignmentType = 'idle' | 'assassinateGovernor' | 'gatherStrength';
 
 export interface Cell {
     readonly id: number;
@@ -78,6 +78,7 @@ export interface Cell {
 
     assignment: {
         type: CellAssignmentType;
+        target: number; //the id of a Planetoid or Cell targeted by the assignment
         progress: number;
     }
 }

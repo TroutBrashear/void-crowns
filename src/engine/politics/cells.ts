@@ -1,6 +1,44 @@
 import type { GameState } from '../../types/gameState';
-import type { CellType, Cell } from '../../types/govState';
+import type { CellType, Cell, CellAssignmentType } from '../../types/govState';
 import { generateCharacter } from '../character';
+
+
+export function selectNewCellAssignment(currentState: GameState, cellId: number): GameState {
+    let cell = { ...currentState.cells.entities[cellId] };
+
+    if(cell.type === 'rebel'){
+       const possAssignments: CellAssignmentType[] = [ "assassinateGovernor", "gatherStrength"];
+        const assignmentRoll = Math.random() * possAssignments.length;
+
+        let assignmentTarget = cellId;
+
+        if(possAssignments[assignmentRoll] === 'assassinateGovernor'){
+            assignmentTarget = cell.locationId;
+        }
+
+        cell = {
+            ...cell,
+            assignment: {
+                ...cell.assignment,
+                type: possAssignments[assignmentRoll],
+                progress: 0,
+                target: assignmentTarget
+            }
+        };
+    }
+
+    return {
+        ...currentState,
+        cells: {
+            ...currentState.cells,
+            entities: {
+                ...currentState.cells.entities,
+                [cellId]: cell
+            }
+        }
+    }
+
+}
 
 export function spawnCellRandomLeader(currentState: GameState, planetoidId: number, cellType: CellType): GameState {
 
@@ -49,6 +87,7 @@ export function spawnCell(currentState: GameState, planetoidId: number, cellType
         assignment: {
             type: 'idle',
             progress: 0,
+            target: nextId
         }
     }
 
