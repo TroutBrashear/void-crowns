@@ -32,8 +32,8 @@ export const SYSTEM_NAMES: string[] = [
 	"Corydon", "Cunot", "Coll", "Ceirt", "Cleyre", "Coudre",
 	"Dar", "Dabaran", "Dhanab", "Dubb", "Donovia",
 	"Eadhadh", "Equitan", "Erminig", "Eog",
-"Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Ferne", "Fresne", "Ferrer",
-"Ghul", "Gumaysa", "Ghafar", "Geng He", "Gou Guo", "Gai Wu", "Guan", "Gevelled", "Gwezenn", "Glenn Ayr", "Greeb", "Gort", "Geadal", "Grybu", "Gorgas",
+	"Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Ferne", "Fresne",
+	"Ghul", "Ghumaysa", "Ghafr",  "Gevelled", "Gwezenn", "Glenn Ayr", "Grybu", "Gorgas",
 "Haddar", "Humam", "Haqa'ah", "He Gu", "Hai Shan", "Hirsh", "Hafawrang", "Harlaus", "Haqqar", "Heval",
 "Iodhadh", "Ifin", "Iseult", "Iklil",
 "Jabbar", "Jabhah", "Jathi", "Jubhah", "Jiao Xiu", "Jin Xian", "Ji Shui", "Jun Jing", "Jūra", "Jayda",
@@ -343,6 +343,60 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Plant",
 		lang: "Ogham",
 		blurb: "Fern is the Ogham letter resembling F. It means alder tree."
+	},
+	"Fresne": {
+		name: "Fresne",
+		type: "Fiction",
+		lang: "French",
+		blurb: "La Fresne is one of the lais of Marie de France."
+	},
+	"Ghul": {
+		name: "Ghul",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "From the Arabic star name Ras al-Ghul"
+	},
+	"Ghumaysa": {
+		name: "Ghumaysa",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "From the  Arabic star name Mirzam al-Ghumaysa"
+	},
+	"Ghafr": {
+		name: "Ghafr",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "From the Arabic Star name al-Ghafr"
+	},
+	"Gevelled": {
+		name: "Gevelled",
+		type: "Constellation",
+		lang: "Breton",
+		blurb: "The Breton translation for the constellation Gemini."
+	},
+	"Gwezenn": {
+		name: "Gwezenn",
+		type: "Plant",
+		lang: "Breton",
+		blurb: "The Breton word for tree."
+	},
+	"Glenn Ayr": {
+		name: "Glenn Ayr",
+		type: "Place",
+		lang: "Hoosier",
+		blurb: "A town in Indiana."
+	},
+	"Grybu": {
+		name: "Grybu",
+		type: "Plant",
+		lang: "Lithuanian",
+		blurb: "Mushroom"
+	},
+	"Gorgas": {
+		name: "Gorgas",
+		type: "Fiction",
+		lang: "Conlang",
+		blurb: "Gorgas is a fictional country used for US Military training."
 	},
 	"Heval": {
 		name: "Heval",
