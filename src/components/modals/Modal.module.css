@@ -10,7 +10,10 @@
   /* Let's aim for roughly an eighth of the screen. */
   width: 350px;       /* A fixed width is often a good start. */
   max-width: 25vw;    /* Or use viewport units: 25% of the viewport width. */
-  min-height: 200px;  /* Give it a minimum height. */
+  min-height: 200px;
+
+  max-height: 500px;
+  overflow-y: auto;
   
   /* --- The "Appearance" Properties --- */
   background-color: rgba(30, 30, 30, 0.9); /* Dark, slightly transparent background */
