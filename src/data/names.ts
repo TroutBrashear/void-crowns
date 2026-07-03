@@ -34,8 +34,8 @@ export const SYSTEM_NAMES: string[] = [
 	"Eadhadh", "Equitan", "Erminig", "Eog",
 	"Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Ferne", "Fresne",
 	"Ghul", "Ghumaysa", "Ghafr",  "Gevelled", "Gwezenn", "Glenn Ayr", "Grybu", "Gorgas",
-"Haddar", "Humam", "Haqa'ah", "He Gu", "Hai Shan", "Hirsh", "Hafawrang", "Harlaus", "Haqqar", "Heval",
-"Iodhadh", "Ifin", "Iseult", "Iklil",
+	"Haddar", "Hirsh", "Haqqar", "Heval",
+	"Iodhadh", "Ifin", "Iseult",
 "Jabbar", "Jabhah", "Jathi", "Jubhah", "Jiao Xiu", "Jin Xian", "Ji Shui", "Jun Jing", "Jūra", "Jayda",
 "Kawkab", "Khaytan", "Kui Xiu", "Kongque", "Karthigai", "Kettai", "Koad", "Kurusan", "Kinoko", "Karaka", "Kärppä", "Kuthirai", "Kangar", "Kilangaan",
 "Lang Jiang", "Ling Tai", "Lei Bi Zhen", "Li Gong", "Lourenn", "Layotto", "Luise", "LaQuinli", "Lanval", "Lalgudi", "Llyn Llyw", "Lašiša",
@@ -398,12 +398,54 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		lang: "Conlang",
 		blurb: "Gorgas is a fictional country used for US Military training."
 	},
+	"Haddar": {
+		name: "Haddar",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Hadar is a known Arabic star name."
+	},
+	"Hirsh": {
+		name: "Hirsh",
+		type: "Plant",
+		lang: "Arabic",
+		blurb: "Hirsh is an Arabic word for forest."
+	},
+	"Haqqar": {
+		name: "Haqqar",
+		type: "Place",
+		lang: "Arabic",
+		blurb: "al-Haqqar is a village in Yemen."
+	},
 	"Heval": {
 		name: "Heval",
 		type: "Misc",
 		lang: "Kurdish",
 		blurb: "A Kurdish word for friend."
-	}
+	},
+	"Iodhadh": {
+		name: "Iodhadh",
+		type: "Plant",
+		lang: "Ogham",
+		blurb: "Iodhadh is the Ogham letter reembling I"
+	},
+	"Ifin": {
+		name: "Ifin",
+		type: "Plant",
+		lang: "Ogham",
+		blurb: "An Ogham letter reembling IA",
+	},
+	"Iseult": {
+		name: "Iseult",
+		type: "Fiction",
+		lang: "Welsh",
+		blurb: "A character in legends across Celtic regions"
+	},
+	"Jabbar": {
+		name: "Jabbar",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "From Sayf al-Jabbar, or 'Sword of the Giant'"
+	},
 };
 
 
