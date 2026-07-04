@@ -28,7 +28,7 @@ export interface MilShip {
     readonly id: number;
     flavor: {
         name: string;
-        traits: string[];
+        traits: number[];
         type: MilShipType;
     }
 
