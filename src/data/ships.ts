@@ -1,7 +1,7 @@
 //definitions for ships
 
 import type { Resources } from '../types/ecoState';
-import type { ShipType } from '../types/shipTypes';
+import type { ShipType, MilShipStats } from '../types/shipTypes';
 
 export interface ShipDefinition {
     type: ShipType;
@@ -23,4 +23,11 @@ export const SHIP_CATALOG: Record<ShipType, ShipDefinition> = {
         type: 'construction_ship',
         cost: { credits: 10000 }
     }
+}
+
+
+export interface ShipTrait {
+    name: string;
+    desc: string;
+    statDelta: Partial<MilShipStats>;
 }

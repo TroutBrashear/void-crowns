@@ -18,6 +18,12 @@ export interface Fleet {
 export type MilShipType = 'destroyer' | 'cruiser' | 'battleship';
 export type MilShipStatus = 'active' | 'mothball' | 'wreck';
 
+export interface MilShipStats {
+   size: number;
+   speed: number;
+   strength: number;
+}
+
 export interface MilShip {
     readonly id: number;
     flavor: {
@@ -26,11 +32,7 @@ export interface MilShip {
         type: MilShipType;
     }
 
-    stats: {
-        size: number;
-        speed: number;
-        strength: number;
-    }
+    stats: MilShipStats;
 
     ownerNationId: number;
     parentFleet: number | null;
