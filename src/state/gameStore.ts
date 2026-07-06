@@ -27,6 +27,7 @@ import { normalize } from '../utils/normalize';
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 import { DEFAULT_GOODS} from '../data/goods';
 import { processPolitics } from '../engine/politics/politics';
+import { processMilShips } from '../engine/ships/ships';
 
 
 export const useGameStore = create<GameStoreState>((set, get) => {
@@ -122,6 +123,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       const polResults = processPolitics(nextState);
       nextState = polResults.newState;
       tickEvents.push(...polResults.events);
+    }
+
+    if(currentState.meta.turn % CYCLE_CONFIG.SHIPS.MILSHIP_INTERVAL === 0){
+      nextState = processMilShips(nextState);
     }
 
     for(const orgId of nextState.orgs.ids){
