@@ -31,5 +31,9 @@ export const CYCLE_CONFIG = {
     },
     POLITICS: {
         POLITICS_INTERVAL: 20,
+    },
+    SHIPS: {
+        MILSHIP_INTERVAL: 25,
+        TRAIT_CHANCE: 500
     }
 };
