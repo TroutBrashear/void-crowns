@@ -1,13 +1,13 @@
 //definitions for NameLists
 
 export interface NameList {
-  firstNames: string[];
-  lastNames: string[];
-  fleetNames: string[];
+	firstNames: string[];
+	lastNames: string[];
+	fleetNames: string[];
 }
 
 export const NAME_LISTS: Record<string, NameList> = {
-	
+
 	default: {
 		firstNames: ['Dan', 'Maria', 'Horatio', 'Johnny', 'Clarissa', 'Henry', 'Mikael'],
 		lastNames: ['Smith', 'Baker', 'Ferrerrarri', 'Orono', 'Regist', 'Pike'],
@@ -16,7 +16,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 }
 
 export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Person' | 'Misc';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Kurdish' | 'Welsh' |  'Ogham' |  'Spanish' | 'Lithuanian' | 'Hoosier' | 'Conlang' | 'Machine Generated';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Kurdish' | 'Welsh' |  'Ogham' |  'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -27,18 +27,18 @@ export interface StarInfo {
 
 export const SYSTEM_NAMES: string[] = [
 	"'Anaqi", "'Uqdah", "'Aqiq",
-	"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Aghnam",
-	"Bayd", "Bari'", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
-	"Corydon", "Cunot", "Coll", "Ceirt", "Cleyre", "Coudre",
-	"Dar", "Dabaran", "Dhanab", "Dubb", "Donovia",
-	"Eadhadh", "Equitan", "Erminig", "Eog",
-	"Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Ferne", "Fresne",
-	"Ghul", "Ghumaysa", "Ghafr",  "Gevelled", "Gwezenn", "Glenn Ayr", "Grybu", "Gorgas",
-	"Haddar", "Hirsh", "Haqqar", "Heval",
-	"Iodhadh", "Ifin", "Iseult",
-"Jabbar", "Jabhah", "Jathi", "Jubhah", "Jiao Xiu", "Jin Xian", "Ji Shui", "Jun Jing", "Jūra", "Jayda",
-"Kawkab", "Khaytan", "Kui Xiu", "Kongque", "Karthigai", "Kettai", "Koad", "Kurusan", "Kinoko", "Karaka", "Kärppä", "Kuthirai", "Kangar", "Kilangaan",
-"Lang Jiang", "Ling Tai", "Lei Bi Zhen", "Li Gong", "Lourenn", "Layotto", "Luise", "LaQuinli", "Lanval", "Lalgudi", "Llyn Llyw", "Lašiša",
+"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Aghnam",
+"Bayd", "Bari'", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
+"Corydon", "Cunot", "Coll", "Ceirt", "Cleyre", "Coudre",
+"Dar", "Dabaran", "Dhanab", "Dubb", "Donovia",
+"Eadhadh", "Equitan", "Erminig", "Eog",
+"Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Ferne", "Fresne",
+"Ghul", "Ghumaysa", "Ghafr",  "Gevelled", "Gwezenn", "Glenn Ayr", "Grybu", "Gorgas",
+"Haddar", "Hirsh", "Haqqar", "Heval",
+"Iodhadh", "Ifin", "Iseult",
+"Jabbar", "Jabhah", "Jūra",
+"Kawkab", "Kinoko", "Kärppä", "Kuthirai", "Kilangaan",
+"Lourenn", "Layotto", "LaQuinli", "Lanval", "Lalgudi", "Llyn Llyw", "Lašiša",
 "Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Mirugali", "Maghriz", "Minkhar", "Magam", "Maqbudah", "Maraq", "Muqadam", "Mulam", "Mao Xiu", "Maram", "Martolod", "Morchella", "Mervyn", "Muin", "Mishmish", "Magon", "Medis", "Miškas", "Manthiri",
 "Najmah", "Natah", "Nasaqan", "Narakh", "Nan Men", "Nu Xiu", "Nan Chuan", "Naeretaer", "Nin", "Nelliyalam", "Nyumba",
 "Oolitic", "Ohia", "Osisi", "Onn", "Okir", "Orghret",
@@ -446,9 +446,75 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		lang: "Arabic",
 		blurb: "From Sayf al-Jabbar, or 'Sword of the Giant'"
 	},
+	"Jabhah": {
+		name: "Jabhah",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "From al-Jabhah, the forehead."
+	},
+	"Jūra": {
+		name: "Jūra",
+		type: "Misc",
+		lang: "Lithuanian",
+		blurb: "Jūra is Lithuanian for 'sea'."
+	},
+	"Kawkab": {
+		name: "Kawkab",
+		type: "Misc",
+		lang: "Arabic",
+		blurb: "Kawkab is the Arabic word for planet"
+	},
+	"Kinoko": {
+		name: "Kinoko",
+		type: "Plant",
+		lang: "Japanese",
+		blurb: "Kinoko is Japanese for 'mushroom'."
+	},
+	"Kärppä": {
+		name: "Kärppä",
+		type: "Animal",
+		lang: "Finnish",
+		blurb: "Word for 'Ermine'."
+	},
+	"Kuthirai": {
+		name: "Kuthirai",
+		type: "Misc",
+		lang: "Tamil",
+		blurb: "Kuthirai refers to the chess Knight or to 'horse'."
+	},
+	"Kilangaan": {
+		name: "Kilangaan",
+		type: "Animal",
+		lang: "Tamil",
+		blurb: "Kilangaan is a variety of fish."
+	},
+	"Lourenn": {
+		name: "Lourenn",
+		type: "Misc",
+		lang: "Conlang",
+		blurb: "?"
+	},
+	"Layotto": {
+		name: "Layotto",
+		type: "Place",
+		lang: "Hoosier",
+		blurb: "Laotto is a town in Indiana."
+	},
+	"LaQuinli": {
+		name: "LaQuinli",
+		type: "Misc",
+		lang: "Conlang",
+		blurb: "?"
+	},
+	"Lanval": {
+		name: "Lanval",
+		type: "Fiction",
+		lang: "French",
+		blurb: "Lanval refers to a knight of King Arthur who appears in a lai of Marie de France"
+	}
 };
 
 
 export const SPECIES_NAMES: string[] = [
-		"Lizarb", "Slamand", "Gorbusian", "Blaarb", "Baboo",  "Eckon", "BigAlien"
+	"Lizarb", "Slamand", "Gorbusian", "Blaarb", "Baboo",  "Eckon", "BigAlien"
 ];
