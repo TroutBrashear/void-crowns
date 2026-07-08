@@ -521,6 +521,8 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 			},
 			government: {
 				succession: "heriditary",
+				leaderTermDuration: 0,
+				presentTermEnd: 0,
 				homeSystem: 0, //temp, to be overwritten during the findHomes phase of gameInit
 			},
 			resources: { credits: 0, rocks: 0, gas: 0},
@@ -567,6 +569,8 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 			},
 			government: {
 				succession: "council",
+				leaderTermDuration: 0,
+				presentTermEnd: 0,
 				homeSystem: 0, //temp, to be overwritten during the findHomes phase of gameInit
 			},
 			resources: { credits: 0, rocks: 0,  gas: 0 },

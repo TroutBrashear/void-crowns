@@ -26,6 +26,8 @@ export interface Org {
     }
     government: {
         succession: string;
+        leaderTermDuration: number;
+        presentTermEnd: number;
         homeSystem: number; //a System.id
     }
 
