@@ -5,6 +5,7 @@ import { spawnCellRandomLeader, selectNewCellAssignment } from './cells';
 import { CASSIGNMENT_CATALOG } from '../../data/cellActivities';
 import type { Character } from '../../types/charState';
 import { generateCharacter, engineUnassignCharacter } from '../character';
+import { SUCCESSION_CATALOG } from '../../data/politics/succession';
 
 
 
@@ -12,59 +13,55 @@ export function governmentSuccession(currentState: GameState, orgId: number): Ga
     let nextState = { ...currentState };
     let functionOrg = { ...currentState.orgs.entities[orgId]};
 
-    if(functionOrg.government.succession === 'hereditary' && functionOrg.characters.leaderId){
-        const leader = nextState.characters.entities[functionOrg.characters.leaderId];
+    let nextLeader: Character | null = null;
+    let nextLeaderId = SUCCESSION_CATALOG[functionOrg.government.succession].onComplete(currentState, orgId);
 
-        let nextLeader: Character | null = null;
+    if(nextLeaderId > 0){
+        nextLeader = nextState.characters.entities[nextLeaderId];
+    }
 
-        for(const characterId of leader.history.childrenIds){
-            if(nextState.characters.entities[characterId].status === 'alive'){
-                nextLeader = { ...nextState.characters.entities[characterId]};
-                break;
-            }
-        }
-
-        if(!nextLeader){
-            nextLeader = generateCharacter(nextState.meta.lastCharacterId + 1, functionOrg.flavor.nameList);
-            nextLeader = {
-                ...nextLeader,
-                citizenOrg: orgId,
-            }
-            nextState = { ...nextState, meta: { ...nextState.meta, lastCharacterId: nextState.meta.lastCharacterId + 1}, characters: { ids: [...nextState.characters.ids, nextLeader.id], entities: { ...nextState.characters.entities, [nextLeader.id]: nextLeader} }};
-        }
-
-        nextState = engineUnassignCharacter(nextState, functionOrg.characters.leaderId);
-
+    if(!nextLeader){
+        nextLeader = generateCharacter(nextState.meta.lastCharacterId + 1, functionOrg.flavor.nameList);
         nextLeader = {
             ...nextLeader,
-            assignment: {
-                type: 'leader',
-                id: orgId,
-            }
-        };
-        functionOrg = {
-            ...functionOrg,
-            characters: {
-                ...functionOrg.characters,
-                leaderId: nextLeader.id
-            }
-        };
+            citizenOrg: orgId,
+        }
+        nextState = { ...nextState, meta: { ...nextState.meta, lastCharacterId: nextState.meta.lastCharacterId + 1}, characters: { ids: [...nextState.characters.ids, nextLeader.id], entities: { ...nextState.characters.entities, [nextLeader.id]: nextLeader} }};
+    }
 
-        nextState = {
-            ...nextState,
-            characters: {
-                ...nextState.characters,
-                entities: {
-                    ...nextState.characters.entities,
-                    [nextLeader.id]: nextLeader
-                }
-            },
-            orgs: {
-                ...nextState.orgs,
-                entities: {
-                    ...nextState.orgs.entities,
-                    [orgId]: functionOrg
-                }
+    if(functionOrg.characters.leaderId){
+        nextState = engineUnassignCharacter(nextState, functionOrg.characters.leaderId);
+    }
+
+    nextLeader = {
+        ...nextLeader,
+        assignment: {
+            type: 'leader',
+            id: orgId,
+        }
+    };
+    functionOrg = {
+        ...functionOrg,
+        characters: {
+            ...functionOrg.characters,
+            leaderId: nextLeader.id
+        }
+    };
+
+    nextState = {
+        ...nextState,
+           characters: {
+            ...nextState.characters,
+            entities: {
+                ...nextState.characters.entities,
+                [nextLeader.id]: nextLeader
+            }
+        },
+        orgs: {
+            ...nextState.orgs,
+            entities: {
+                   ...nextState.orgs.entities,
+                [orgId]: functionOrg
             }
         }
     }
