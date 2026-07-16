@@ -78,6 +78,14 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
         }
       };
 
+      let orgPlanetoids = [ ...currentState.orgs.entities[ship.ownerNationId].ownedPlanetoids ];
+      orgPlanetoids.push(updatedPlanetoid.id);
+
+      const updatedOrg = {
+        ...currentState.orgs.entities[ship.ownerNationId],
+        ownedPlanetoids: orgPlanetoids
+      };
+
       const shipEntities = { ...currentState.ships.entities };
       const shipIds = [...currentState.ships.ids];
       delete shipEntities[ship.id];
@@ -112,6 +120,13 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
           entities: {
             ...currentState.pops.entities,
             [newPop.id]: newPop
+          }
+        },
+        orgs: {
+          ...currentState.orgs,
+          entities: {
+            ...currentState.orgs.entities,
+            [ship.ownerNationId]: updatedOrg,
           }
         }
       };
