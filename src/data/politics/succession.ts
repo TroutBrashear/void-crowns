@@ -51,14 +51,14 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
 
             let candidateScore: Record<number, Candidacy> = {};
 
-            for(let i = 0; i < 3; i++){
+            for(let i = 0; i < 4; i++){
                 let addedCandidate = false;
 
-                while(true){
+                for(let j = 0; j < 3; j++){
                     const candidateRoll = Math.floor(Math.random() * potentialCandidates.length);
 
                     if(!Object.keys(candidateScore).includes(String(candidateRoll))){
-                        candidateScore[candidateRoll] = { score: 0, character: { ...currentState.characters.entities[candidateRoll]}};
+                        candidateScore[candidateRoll] = { score: 0, character: { ...currentState.characters.entities[potentialCandidates[candidateRoll]]}};
                         addedCandidate = true;
                     }
 
@@ -69,8 +69,49 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
             }
 
             //score candidates
+            for(const planetoidId of functionOrg.ownedPlanetoids){
+                const planetoid = currentState.planetoids.entities[planetoidId];
 
-            return 0;
+                if(!planetoid.population){
+                    continue;
+                }
+                for(const popId of planetoid.population.popIds){
+                    let currentFavorite = 0;
+                    let topScore = 0;
+
+                    const pop = currentState.pops.entities[popId];
+
+                    for(const key in candidateScore){
+                        let voteScore = Math.random() * 4;
+
+                        if(pop.feelings.happiness < 50){ //TODO: example modifier, should depend on candidate traits/ideology
+                            voteScore += 1;
+                        }
+
+                        //TODO: Characters have homeworlds, get a slight boost here from it being the same as the pop's home'
+
+                        if(voteScore > topScore){
+                            currentFavorite = Number(key);
+                            topScore = voteScore;
+                        }
+
+                    }
+
+                    candidateScore[currentFavorite].score++;
+                }
+            }
+
+            let winner = 0;
+            let winnerScore = 0;
+
+            for(const key in candidateScore){
+                if(candidateScore[key].score > winnerScore){
+                    winner = candidateScore[key].character.id;
+                    winnerScore = candidateScore[key].score;
+                }
+            }
+
+            return winner;
         }
     }
 }
