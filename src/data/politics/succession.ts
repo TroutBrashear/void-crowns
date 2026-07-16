@@ -70,7 +70,6 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
 
             //score candidates
 
-
             return 0;
         }
     }

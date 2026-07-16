@@ -31,6 +31,7 @@ export interface Org {
         homeSystem: number; //a System.id
     }
 
+    ownedPlanetoids: number[]; //planetoidIds
 
     resources: Resources;
 

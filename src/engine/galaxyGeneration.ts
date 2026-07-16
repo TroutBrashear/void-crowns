@@ -526,6 +526,7 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 				homeSystem: 0, //temp, to be overwritten during the findHomes phase of gameInit
 			},
 			resources: { credits: 0, rocks: 0, gas: 0},
+			ownedPlanetoids: [],
 			characters: {
 				characterPool: [],
 				leaderId: null,
@@ -574,6 +575,7 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 				homeSystem: 0, //temp, to be overwritten during the findHomes phase of gameInit
 			},
 			resources: { credits: 0, rocks: 0,  gas: 0 },
+			ownedPlanetoids: [],
 			characters: {
 				characterPool: [],
 				leaderId: null,
