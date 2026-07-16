@@ -342,6 +342,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
           foundHome = true;
           home.ownerNationId = currentOrg.id;
           currentOrg.government.homeSystem = home.locationSystemId;
+          currentOrg.ownedPlanetoids = [home.id];
           let localPops:  number[] = [];
           for(let i = 0; i < 10; i++){
             const newPop: Pop = {
