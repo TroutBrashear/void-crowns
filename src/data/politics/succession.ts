@@ -45,20 +45,29 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
         category: "democratic",
         onComplete: (currentState, orgId) => {
             let functionOrg = { ...currentState.orgs.entities[orgId]};
+            let currentLeader = (functionOrg.characters.leaderId) ? { ...currentState.characters.entities[functionOrg.characters?.leaderId]} : null;
 
             //get candidates (TODO: political parties should exist...)
             let potentialCandidates = [ ...functionOrg.characters.characterPool ];
 
+            if(potentialCandidates.length < 1){
+                return 0;
+            }
+
             let candidateScore: Record<number, Candidacy> = {};
 
-            for(let i = 0; i < 4; i++){
+            if(currentLeader && currentLeader.status === 'alive'){
+                candidateScore[currentLeader.id] = { score: 2, character: currentLeader };
+            }
+
+            for(let i = 0; i < 3; i++){
                 let addedCandidate = false;
 
                 for(let j = 0; j < 3; j++){
                     const candidateRoll = Math.floor(Math.random() * potentialCandidates.length);
 
-                    if(!Object.keys(candidateScore).includes(String(candidateRoll))){
-                        candidateScore[candidateRoll] = { score: 0, character: { ...currentState.characters.entities[potentialCandidates[candidateRoll]]}};
+                    if(!Object.keys(candidateScore).includes(String(potentialCandidates[candidateRoll]))){
+                        candidateScore[potentialCandidates[candidateRoll]] = { score: 0, character: { ...currentState.characters.entities[potentialCandidates[candidateRoll]]}};
                         addedCandidate = true;
                     }
 
