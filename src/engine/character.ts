@@ -224,16 +224,12 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 
 
 export function killCharacter(currentState: GameState, charId: number): GameState {
-	let functionState = engineUnassignCharacter(currentState, charId);
+	let functionState = { ...currentState };
 
 	const currentCharacter = functionState.characters.entities[charId];
 
 	if(!currentCharacter){
 		return functionState;
-	}
-
-	if(currentCharacter.assignment && currentCharacter.assignment.type === 'leader' && currentCharacter.citizenOrg !== null){
-		functionState = governmentSuccession(functionState, currentCharacter.citizenOrg);
 	}
 
 	const newCharacters = { ...functionState.characters.entities };
@@ -253,7 +249,7 @@ export function killCharacter(currentState: GameState, charId: number): GameStat
 	newCharacters[charId].status = 'dead';
 	newCharacterIds = newCharacterIds.filter(id => charId !== id);
 
-	return {
+	functionState = {
 		...functionState,
 		characters: {
 			...functionState.characters,
@@ -265,6 +261,17 @@ export function killCharacter(currentState: GameState, charId: number): GameStat
 			entities: newOrgs
 		}
 	};
+
+	if(currentCharacter.assignment && currentCharacter.assignment.type === 'leader' && currentCharacter.citizenOrg !== null){
+		functionState = governmentSuccession(functionState, currentCharacter.citizenOrg);
+	}
+	else {
+		functionState = engineUnassignCharacter(functionState, charId);
+	}
+
+
+
+	return functionState;
 }
 
 
