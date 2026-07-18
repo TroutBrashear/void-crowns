@@ -38,7 +38,7 @@ export const SYSTEM_NAMES: string[] = [
 "Iodhadh", "Ifin", "Iseult",
 "Jabbar", "Jabhah", "Jūra",
 "Kawkab", "Kinoko", "Kärppä", "Kuthirai", "Kilangaan",
-"Lourenn", "Layotto", "LaQuinli", "Lanval", "Lalgudi", "Llyn Llyw", "Lašiša",
+"Lourenn", "Layotto", "LaQuinli", "Lanval",  "Llyn Llyw", "Lašiša",
 "Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Mirugali", "Maghriz", "Minkhar", "Magam", "Maqbudah", "Maraq", "Muqadam", "Mulam", "Mao Xiu", "Maram", "Martolod", "Morchella", "Mervyn", "Muin", "Mishmish", "Magon", "Medis", "Miškas", "Manthiri",
 "Najmah", "Natah", "Nasaqan", "Narakh", "Nan Men", "Nu Xiu", "Nan Chuan", "Naeretaer", "Nin", "Nelliyalam", "Nyumba",
 "Oolitic", "Ohia", "Osisi", "Onn", "Okir", "Orghret",
@@ -511,6 +511,48 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Fiction",
 		lang: "French",
 		blurb: "Lanval refers to a knight of King Arthur who appears in a lai of Marie de France"
+	},
+	"Llyn Llyw": {
+		name: "Llyn Llyw",
+		type: "Place",
+		lang: "Welsh",
+		blurb: "The Salmon of Llyn Llyw appears in Arthurian legends."
+	},
+	"Lašiša": {
+		name: "Lašiša",
+		type: "Animal",
+		lang: "Lithuanian",
+		blurb: "Lašiša means Salmon."
+	},
+	"Maysan": {
+		name: "Maysan",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Al-Maysan is a traditional Arabic star name."
+	},
+	"Mi'sam": {
+		name: "Mi'sam",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Mi'sam, or wrist, is a traditional Arabic star name."
+	},
+	"Ma'z": {
+		name: "Ma'z",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Al-Ma'z is an Arabic star name."
+	},
+	"Mankib": {
+		name: "Mankib",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Mankib, or shoulder, is a traditional Arabic star name."
+	},
+	"Mabsutah": {
+		name: "Mabsutah",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Mabsutah is a traditional Arabic star name."
 	}
 };
 
