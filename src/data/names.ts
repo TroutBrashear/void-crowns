@@ -16,7 +16,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 }
 
 export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Person' | 'Misc';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Kurdish' | 'Welsh' |  'Ogham' |  'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Conlang' | 'Machine Generated';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Kurdish' | 'Welsh' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -34,12 +34,12 @@ export const SYSTEM_NAMES: string[] = [
 "Eadhadh", "Equitan", "Erminig", "Eog",
 "Firk", "Fard", "Fakkah", "Furud", "Fakhidh", "Ferne", "Fresne",
 "Ghul", "Ghumaysa", "Ghafr",  "Gevelled", "Gwezenn", "Glenn Ayr", "Grybu", "Gorgas",
-"Haddar", "Hirsh", "Haqqar", "Heval",
+"Haddar", "Hirsh", "Haqqar", "Heval", "Houyhnhnm",
 "Iodhadh", "Ifin", "Iseult",
 "Jabbar", "Jabhah", "Jūra",
 "Kawkab", "Kinoko", "Kärppä", "Kuthirai", "Kilangaan",
 "Lourenn", "Layotto", "LaQuinli", "Lanval",  "Llyn Llyw", "Lašiša",
-"Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Mirugali", "Maghriz", "Minkhar", "Magam", "Maqbudah", "Maraq", "Muqadam", "Mulam", "Mao Xiu", "Maram", "Martolod", "Morchella", "Mervyn", "Muin", "Mishmish", "Magon", "Medis", "Miškas", "Manthiri",
+"Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Maghriz", "Minkhar", "Maqbudah", "Maraq",  "Maram", "Martolod", "Morchel", "Mervyn", "Muin", "Mishmish", "Magon", "Medis", "Miškas", "Manthiri",
 "Najmah", "Natah", "Nasaqan", "Narakh", "Nan Men", "Nu Xiu", "Nan Chuan", "Naeretaer", "Nin", "Nelliyalam", "Nyumba",
 "Oolitic", "Ohia", "Osisi", "Onn", "Okir", "Orghret",
 "Ping", "Pi Li", "Punarpusam", "Puram", "Puratam", "Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut", "Padaiveeran", "Pezh", "Pirtuni",
@@ -422,6 +422,12 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		lang: "Kurdish",
 		blurb: "A Kurdish word for friend."
 	},
+	"Houyhnhnm": {
+		name: "Houyhnhnm",
+		type: "Fiction",
+		lang: "Conlang",
+		blurb: "From Gulliver's Travels."
+	},
 	"Iodhadh": {
 		name: "Iodhadh",
 		type: "Plant",
@@ -553,6 +559,54 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Star",
 		lang: "Arabic",
 		blurb: "Mabsutah is a traditional Arabic star name."
+	},
+	"Maghriz": {
+		name: "Maghriz",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Maghriz is a traditional Arabic star name."
+	},
+	"Minkhar": {
+		name: "Minkhar",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Minkhar, or nostril, is a traditional Arabic star name."
+	},
+	"Maqbudah": {
+		name: "Maqbudah",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Maqbudah is a traditional Arabic star name."
+	},
+	"Maraq": {
+		name: "Maraq",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "al-Maraq, or  is a traditional Arabic star name."
+	},
+	 "Maram": {
+		 name:  "Maram",
+		 type: "Plant",
+		 lang: "Tamil",
+		 blurb:  "Maram is the Tamil word for tree."
+	},
+	"Martolod": {
+		name: "Martolod",
+		type: "Misc",
+		lang: "Breton",
+		blurb: "Martolod is the Breton word for sailor."
+	},
+	"Morchel": {
+		name: "Morchel",
+		type: "Plant",
+		lang: "German",
+		blurb: "Morchel is an old German word for mushroom, and the origin of Morchella."
+	},
+	"Mervyn": {
+		name: "Mervyn",
+		type: "Person",
+		lang: "Welsh",
+		blurb: "For author Mervyn Peakes."
 	}
 };
 
