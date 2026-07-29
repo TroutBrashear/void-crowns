@@ -606,7 +606,7 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		name: "Mervyn",
 		type: "Person",
 		lang: "Welsh",
-		blurb: "For author Mervyn Peakes."
+		blurb: "For author Mervyn Peake."
 	}
 };
 
