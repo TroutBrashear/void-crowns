@@ -182,8 +182,6 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
                         }
                     }
 
-                    //TODO: Characters have homeworlds, get a slight boost here from it being the same as the pop's home'
-
                     if(voteScore > topScore){
                         currentFavorite = Number(key);
                         topScore = voteScore;
