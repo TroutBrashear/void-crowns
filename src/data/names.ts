@@ -40,7 +40,7 @@ export const SYSTEM_NAMES: string[] = [
 "Kawkab", "Kinoko", "Kärppä", "Kuthirai", "Kilangaan",
 "Lourenn", "Layotto", "LaQuinli", "Lanval",  "Llyn Llyw", "Lašiša",
 "Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Maghriz", "Minkhar", "Maqbudah", "Maraq",  "Maram", "Martolod", "Morchel", "Mervyn", "Muin", "Mishmish", "Magón", "Miškas", "Manthiri",
-"Najmah", "Natuh", "Nasaqan", "Narakh", "Nan Men", "Nu Xiu", "Nan Chuan", "Naeretaer", "Nin", "Nelliyalam", "Nyumba",
+"Najmah", "Nasaqan", "Narakh", "Nan Men", "Nu Xiu", "Nan Chuan", "Naeretaer", "Nin", "Nelliyalam", "Nyumba",
 "Oolitic", "Ohia", "Osisi", "Onn", "Okir", "Orghret",
 "Ping", "Pi Li", "Punarpusam", "Puram", "Puratam", "Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut", "Padaiveeran", "Pezh", "Pirtuni",
 "Qafzah", "Qaws", "Qayd", "Qurhah", "Qanturus", "Qalab", "Qi Guan", "Qaqim", "Quadinar",
@@ -643,6 +643,12 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Star",
 		lang: "Arabic",
 		blurb: "Literally the Arabic word for star."
+	},
+	"Nasaqan": {
+		name: "Nasaqan",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "an-Nasaqan is a traditional Arabic star name."
 	}
 };
 

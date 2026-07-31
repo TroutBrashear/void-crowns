@@ -63,6 +63,20 @@ export function effectiveSkill(character: Character, skill: SkillName): number {
 	return skillTally;
 }
 
+export function electabilityScore(character: Character): number {
+	let electability = 0;
+
+	for(const traitId of character.traits){
+		const trait = CHARACTER_TRAITS[traitId];
+
+		if(trait.ElectionBonus){
+			electability += trait.ElectionBonus;
+		}
+	}
+
+	return electability;
+}
+
 
 export function engineRunCharacterEvent(currentState: GameState, charId: number, eventId: number): GameState {
 	const eventDefinition = CHARACTER_EVENTS[eventId];
