@@ -2,6 +2,7 @@ import type { GameState, CharProcess, EngineResult, GameEvent } from '../types/g
 import type { Character, SkillName, CharacterAssignment } from '../types/charState';
 import { NAME_LISTS } from '../data/names';
 import { CHARACTER_EVENTS } from '../data/events';
+import { CHARACTER_TRAITS } from '../data/traits';
 
 //constants
 import { CYCLE_CONFIG } from '../constants/cycle_config';
@@ -46,6 +47,20 @@ export function engineApplyCharacterProcess(currentState: GameState, charId: num
 			entities: newCharacters
 		}
 	}
+}
+
+export function effectiveSkill(character: Character, skill: SkillName): number {
+	let skillTally = character.skills[skill];
+
+	for(const traitId of character.traits){
+		const trait = CHARACTER_TRAITS[traitId];
+
+		if(trait.SkillDelta[skill]){
+			skillTally += trait.SkillDelta[skill];
+		}
+	}
+
+	return skillTally;
 }
 
 
