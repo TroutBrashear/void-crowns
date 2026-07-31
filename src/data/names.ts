@@ -39,8 +39,8 @@ export const SYSTEM_NAMES: string[] = [
 "Jabbar", "Jabhah", "Jūra",
 "Kawkab", "Kinoko", "Kärppä", "Kuthirai", "Kilangaan",
 "Lourenn", "Layotto", "LaQuinli", "Lanval",  "Llyn Llyw", "Lašiša",
-"Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Maghriz", "Minkhar", "Maqbudah", "Maraq",  "Maram", "Martolod", "Morchel", "Mervyn", "Muin", "Mishmish", "Magon", "Medis", "Miškas", "Manthiri",
-"Najmah", "Natah", "Nasaqan", "Narakh", "Nan Men", "Nu Xiu", "Nan Chuan", "Naeretaer", "Nin", "Nelliyalam", "Nyumba",
+"Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Maghriz", "Minkhar", "Maqbudah", "Maraq",  "Maram", "Martolod", "Morchel", "Mervyn", "Muin", "Mishmish", "Magón", "Miškas", "Manthiri",
+"Najmah", "Natuh", "Nasaqan", "Narakh", "Nan Men", "Nu Xiu", "Nan Chuan", "Naeretaer", "Nin", "Nelliyalam", "Nyumba",
 "Oolitic", "Ohia", "Osisi", "Onn", "Okir", "Orghret",
 "Ping", "Pi Li", "Punarpusam", "Puram", "Puratam", "Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut", "Padaiveeran", "Pezh", "Pirtuni",
 "Qafzah", "Qaws", "Qayd", "Qurhah", "Qanturus", "Qalab", "Qi Guan", "Qaqim", "Quadinar",
@@ -607,6 +607,42 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Person",
 		lang: "Welsh",
 		blurb: "For author Mervyn Peake."
+	},
+	"Muin": {
+		name: "Muin",
+		type: "Misc",
+		lang: "Ogham",
+		blurb: "Muin is the Ogham letter representing M."
+	},
+	"Mishmish": {
+		name: "Mishmish",
+		type: "Food",
+		lang: "Arabic",
+		blurb: "Mishmish is the Arabic word for apricot."
+	},
+	"Magón": {
+		name: "Magón",
+		type: "Person",
+		lang: "Spanish",
+		blurb: "For los hermanos Flores Magón"
+	},
+	"Miškas": {
+		name: "Miškas",
+		type: "Plant",
+		lang: "Lithuanian",
+		blurb: "Miškas is the Lithuanian word for forest."
+	},
+	"Manthiri": {
+		name: "Manthiri",
+		type: "Misc",
+		lang: "Tamil",
+		blurb: "The Tamil word for minister. In chess, this is an analogue for the English bishop."
+	},
+	"Najmah": {
+		name: "Najmah",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Literally the Arabic word for star."
 	}
 };
 
