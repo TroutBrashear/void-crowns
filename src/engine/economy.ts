@@ -67,7 +67,7 @@ export function evaluateAcademySpawnChance(currentState: GameState, buildingId: 
 
 	if(building.assignedCharacter){
 		const char = currentState.characters.entities[building.assignedCharacter];
-		baseChance = baseChance - char.skills.administration;
+		baseChance = baseChance - effectiveSkill(char, 'administration');
 
 	}
 
@@ -251,7 +251,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 			if(currentSystem.assignedCharacter){
 				const governor = currentState.characters.entities[currentSystem.assignedCharacter];
 				if(governor){
-					roundIncome[systemOwner].credits += CYCLE_CONFIG.ECONOMY.GOVERNOR_TAX_BONUS * governor.skills.administration;
+					roundIncome[systemOwner].credits += CYCLE_CONFIG.ECONOMY.GOVERNOR_TAX_BONUS * effectiveSkill(governor, 'administration');
 				}
 			}
 		}
@@ -432,7 +432,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 						if(building.assignedCharacter && building.research.project){
 							const character = currentState.characters.entities[building.assignedCharacter];
 							if(character){
-								const researchRoll = building.research.progress + (10 + character.skills.academics);
+								const researchRoll = building.research.progress + (10 + effectiveSkill(character, 'academics'));
 
 								const researchProject = RESEARCH_CATALOG[building.research.project];
 

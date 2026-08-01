@@ -5,6 +5,7 @@ import type { Fleet } from '../types/shipTypes';
 import { COMBAT_CONFIG } from '../constants/combat_config';
 
 import { getRelationship } from './diplomacy';
+import { effectiveSkill } from './character';
 
 function getFleetsInSystem (currentState: GameState, systemId: number): Fleet[] {
 	const allFleets = Object.values(currentState.fleets.entities);
@@ -54,7 +55,7 @@ function calculateFleetCombatScore(currentState: GameState, fleetId: number): nu
 			const captain = currentState.characters.entities[ship.assignedCharacter];
 
 			if(captain){
-				combatRoll += captain.skills.navalCombat;
+				combatRoll += effectiveSkill(captain, 'navalCombat');
 			}
 		}
 
@@ -67,7 +68,7 @@ function calculateFleetCombatScore(currentState: GameState, fleetId: number): nu
 	if(fleet.assignedCharacter){
 		const admiral = currentState.characters.entities[fleet.assignedCharacter];
 		if(admiral){
-			combatScore = combatScore * (1 + (admiral.skills.navalCombat / 10));
+			combatScore = combatScore * (1 + (effectiveSkill(admiral, 'navalCombat') / 10));
 		}
 	}
 

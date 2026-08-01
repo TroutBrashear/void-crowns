@@ -8,6 +8,7 @@ import { applyProcess } from './economy';
 
 //constants
 import { CYCLE_CONFIG } from '../constants/cycle_config';
+import { effectiveSkill } from './character';
 
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
@@ -195,7 +196,7 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 					continue;
 				}
 
-				const diploRoll = Math.floor(Math.random() * diplomat.skills.diplomacy);
+				const diploRoll = Math.floor(Math.random() * effectiveSkill(diplomat, 'diplomacy'));
 
 				const updatedRel = { ...currentOrg.diplomacy.relations[diplomat.citizenOrg], opinion: currentOrg.diplomacy.relations[diplomat.citizenOrg].opinion + diploRoll };
 
