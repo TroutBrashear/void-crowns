@@ -212,5 +212,22 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
             return winner;
 
         }
+    },
+    "sortition": {
+        successionId: "sortition",
+        category: "democratic",
+        onComplete: (currentState, orgId) => {
+            let functionOrg = { ...currentState.orgs.entities[orgId]};
+
+            let randomCharRoll = Math.random() * 100;
+            if(randomCharRoll > 2){
+                return -1; // code to generate a random character on return
+            }
+            else{
+                let randomPoolRoll = Math.random() * functionOrg.characters.characterPool.length;
+
+                return functionOrg.characters.characterPool[randomPoolRoll];
+            }
+        }
     }
 }

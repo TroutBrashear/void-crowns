@@ -4,7 +4,7 @@ import type { Character } from '../types/charState';
 import { BUILDING_CATALOG } from '../data/buildings';
 import { RESEARCH_CATALOG } from '../data/research';
 import type { ResearchDefinition } from '../data/research';
-import { generateCharacter } from './character';
+import { effectiveSkill, generateCharacter } from './character';
 import { popIncreaseSpeciesRoll, pushPopEvent } from './population';
 import { shuffle } from '../utils/shuffle';
 
