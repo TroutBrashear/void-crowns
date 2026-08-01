@@ -1,3 +1,4 @@
+import { electabilityScore } from "../../engine/character";
 import type { Character } from "../../types/charState";
 import type { GameState } from "../../types/gameState";
 
@@ -93,11 +94,15 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
                     for(const key in candidateScore){
                         let voteScore = Math.random() * 4;
 
+                        const candidate = currentState.characters.entities[Number(key)];
+
                         if(pop.feelings.happiness < 50){ //TODO: example modifier, should depend on candidate traits/ideology
                             voteScore += 1;
                         }
 
                         //TODO: Characters have homeworlds, get a slight boost here from it being the same as the pop's home'
+
+                        voteScore += electabilityScore(candidate);
 
                         if(voteScore > topScore){
                             currentFavorite = Number(key);
@@ -181,6 +186,8 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
                             voteScore += 1;
                         }
                     }
+
+                    voteScore += electabilityScore(candidate);
 
                     if(voteScore > topScore){
                         currentFavorite = Number(key);
