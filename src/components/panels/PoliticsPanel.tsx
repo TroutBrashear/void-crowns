@@ -36,7 +36,7 @@ function PoliticsPanel() {
 
 
         <h3>Leader:</h3>
-        {leaderChar ? <p>`${leaderChar.name.firstName} ${leaderChar.name.lastName}`</p> : <p>Vacant</p>}
+        {leaderChar ? <p>`{leaderChar.name.firstName} {leaderChar.name.lastName}`</p> : <p>Vacant</p>}
         {isAssignable && <Button onClick={() => openAssignModal("assign_character", {targetId: 1, position: 'leader'})}>Assign new Leader</Button>}
       </div>
     );
