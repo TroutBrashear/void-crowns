@@ -368,6 +368,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
             popIds: localPops,
           };
 
+          home.government = {
+            status: 'Core'
+          };
+
           let homeBuildings: number[] = [];
 
           let startingFactory: Building = {

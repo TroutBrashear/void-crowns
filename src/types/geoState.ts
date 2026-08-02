@@ -1,5 +1,7 @@
 //state for locations
 
+import type { PoliticalStatus } from "./govState";
+
 export interface System {
   readonly id: number;
   name: string;
@@ -25,6 +27,9 @@ export interface Planetoid {
   buildings: number[];
   structures: {
       habitats: number;
+  }
+  government?: {
+    status: PoliticalStatus;
   }
   ownerNationId: number | null;
   population?: {
