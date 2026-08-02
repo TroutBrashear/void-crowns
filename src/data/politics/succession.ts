@@ -224,7 +224,7 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
                 return -1; // code to generate a random character on return
             }
             else{
-                let randomPoolRoll = Math.random() * functionOrg.characters.characterPool.length;
+                let randomPoolRoll = Math.floor(Math.random() * functionOrg.characters.characterPool.length);
 
                 return functionOrg.characters.characterPool[randomPoolRoll];
             }

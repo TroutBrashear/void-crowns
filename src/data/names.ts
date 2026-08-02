@@ -16,7 +16,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 }
 
 export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Person' | 'Misc';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Kurdish' | 'Welsh' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Conlang' | 'Machine Generated';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Igbo' | 'Kurdish' | 'Welsh' | 'Swahili' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -40,9 +40,9 @@ export const SYSTEM_NAMES: string[] = [
 "Kawkab", "Kinoko", "Kärppä", "Kuthirai", "Kilangaan",
 "Lourenn", "Layotto", "LaQuinli", "Lanval",  "Llyn Llyw", "Lašiša",
 "Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Maghriz", "Minkhar", "Maqbudah", "Maraq",  "Maram", "Martolod", "Morchel", "Mervyn", "Muin", "Mishmish", "Magón", "Miškas", "Manthiri",
-"Najmah", "Nasaqan", "Narakh", "Nan Men", "Nu Xiu", "Nan Chuan", "Naeretaer", "Nin", "Nelliyalam", "Nyumba",
-"Oolitic", "Ohia", "Osisi", "Onn", "Okir", "Orghret",
-"Ping", "Pi Li", "Punarpusam", "Puram", "Puratam", "Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut", "Padaiveeran", "Pezh", "Pirtuni",
+"Najmah", "Nasaqan","Naeretaer", "Nelliyalam", "Nyumba",
+"Oolitic", "Osisi", "Onn",
+"Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut", "Padaiveeran", "Pezh", "Pirtuni",
 "Qafzah", "Qaws", "Qayd", "Qurhah", "Qanturus", "Qalab", "Qi Guan", "Qaqim", "Quadinar",
 "Risha", "Rijl", "Rogini", "Ravajul", "Russula", "Ruis", "Rawdah",
 "Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Surrat", "Samak", "Shang Wei", "Shang Cheng", "Shi Lou", "Si Fei", "Suvati", "Sadayam", "Satavis", "Shajarah", "Shu", "Saezhataer", "Shram", "Saffaras", "Summaq", "Saille", "Straif", "Shapash", "Silur",
@@ -649,6 +649,48 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Star",
 		lang: "Arabic",
 		blurb: "an-Nasaqan is a traditional Arabic star name."
+	},
+	"Naeretaer": {
+		name: "Naeretaer",
+		type: "Constellation",
+		lang: "Breton",
+		blurb: "The Breton translation for Ophiuchus"
+	},
+	"Nelliyalam": {
+		name: "Nelliyalam",
+		type: "Place",
+		lang: "Tamil",
+		blurb: "Nelliyalam is the name of a Tamil town."
+	},
+	"Nyumba": {
+		name: "Nyumba",
+		type: "Misc",
+		lang: "Swahili",
+		blurb: "Nyumba is the Swahili word for home."
+	},
+	"Oolitic": {
+		name: "Oolitic",
+		type: "Place",
+		lang: "Hoosier",
+		blurb: "Oolitic is an Indiana community."
+	},
+	"Osisi": {
+		name: "Osisi",
+		type: "Plant",
+		lang: "Igbo",
+		blurb: "Osisi is the Igbo word for Tree."
+	},
+	"Onn": {
+		name: "Onn",
+		type: "Plant",
+		lang: "Ogham",
+		blurb: "Onn stands as the O of the Ogham Alphabet. It also means ash tree."
+	},
+	"Pomp Aer": {
+		name: "Pomp Aer",
+		type: "Constellation",
+		lang: "Breton",
+		blurb: "Pomp Aer is the Breton name for Antlia."
 	}
 };
 
