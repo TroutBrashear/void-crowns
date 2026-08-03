@@ -94,3 +94,6 @@ export interface Movement {
 
     fervor: number; //a number from 0-10
 }
+
+
+export type PoliticalStatus = 'Core' | 'Colony' | 'Occupied' | 'Anarchy' | 'Martial';

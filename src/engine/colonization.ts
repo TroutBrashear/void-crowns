@@ -68,9 +68,12 @@ export function colonizePlanetoid(currentState: GameState, payload: ColonizePayl
         politics: {}
       };
 
-      const updatedPlanetoid = {
+      const updatedPlanetoid: Planetoid = {
         ...planetoid,
         ownerNationId: ship.ownerNationId,
+        government: {
+          status: 'Colony',
+        },
         population: {
           total: 1,
           progress: 0,

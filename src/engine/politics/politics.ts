@@ -6,7 +6,34 @@ import { CASSIGNMENT_CATALOG } from '../../data/cellActivities';
 import type { Character } from '../../types/charState';
 import { generateCharacter, engineUnassignCharacter } from '../character';
 import { SUCCESSION_CATALOG } from '../../data/politics/succession';
+import type { PoliticalStatus } from '../../types/govState';
 
+
+export function engineAssignStatus(currentState: GameState, planetoidId: number, newStatus: PoliticalStatus){
+    let planetoid = currentState.planetoids.entities[planetoidId];
+    if(!planetoid){
+        return currentState;
+    }
+
+    //TODO: if planetoid.government does not exist, set it up. (also, spread it below)
+    planetoid = {
+        ...planetoid,
+        government: {
+            status: newStatus
+        }
+    };
+
+    return {
+        ...currentState,
+        planetoids: {
+            ...currentState.planetoids,
+            entities: {
+                ...currentState.planetoids.entities,
+                [planetoidId]: planetoid
+            }
+        }
+    };
+}
 
 
 export function governmentSuccession(currentState: GameState, orgId: number): GameState {
