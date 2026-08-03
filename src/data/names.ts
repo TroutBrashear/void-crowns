@@ -16,7 +16,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 }
 
 export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Person' | 'Misc';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Igbo' | 'Kurdish' | 'Welsh' | 'Swahili' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Conlang' | 'Machine Generated';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Igbo' | 'Kurdish' | 'Welsh' | 'Swahili' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Latin' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -42,8 +42,8 @@ export const SYSTEM_NAMES: string[] = [
 "Maysan", "Mi'sam", "Ma'z", "Mankib", "Mabsutah", "Maghriz", "Minkhar", "Maqbudah", "Maraq",  "Maram", "Martolod", "Morchel", "Mervyn", "Muin", "Mishmish", "Magón", "Miškas", "Manthiri",
 "Najmah", "Nasaqan","Naeretaer", "Nelliyalam", "Nyumba",
 "Oolitic", "Osisi", "Onn",
-"Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut", "Padaiveeran", "Pezh", "Pirtuni",
-"Qafzah", "Qaws", "Qayd", "Qurhah", "Qanturus", "Qalab", "Qi Guan", "Qaqim", "Quadinar",
+"Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut",  "Pirtuni",
+"Qaws", "Qayd", "Qanturus", "Qalab", "Qi Guan", "Qaqim", "Quadinar",
 "Risha", "Rijl", "Rogini", "Ravajul", "Russula", "Ruis", "Rawdah",
 "Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Surrat", "Samak", "Shang Wei", "Shang Cheng", "Shi Lou", "Si Fei", "Suvati", "Sadayam", "Satavis", "Shajarah", "Shu", "Saezhataer", "Shram", "Saffaras", "Summaq", "Saille", "Straif", "Shapash", "Silur",
 "Ta'ir", "Tays", "Thu'ban", "Tarf", "Turafah", "Tuwayba'", "Tiruvadirai", "Thuraya", "Tian Quan", "Tu Si", "Teng She", "Tanuwin", "Tinne", "Tittakudi",
@@ -691,6 +691,54 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Constellation",
 		lang: "Breton",
 		blurb: "Pomp Aer is the Breton name for Antlia."
+	},
+	"Pempont": {
+		name: "Pempont",
+		type: "Place",
+		lang: "Breton",
+		blurb: "Pempont is a forest in Breizh"
+	},
+	"Pholiota": {
+		name: "Pholiota",
+		type: "Plant",
+		lang: "Latin",
+		blurb: "A mushroom variety."
+	},
+	"Pallavaram": {
+		name: "Pallavaram",
+		type: "Place",
+		lang: "Tamil",
+		blurb: "A town in Tamil Nadu"
+	},
+	"Pernambut": {
+		name: "Pernambut",
+		type: "Place",
+		lang: "Tamil",
+		blurb: "A town in Tamil Nadu"
+	},
+	"Pirtuni": {
+		name: "Pirtuni",
+		type: "Fiction",
+		lang: "Conlang",
+		blurb: "Pirtuni is a fictional country used in US military training."
+	},
+	"Qaws": {
+		name: "Qaws",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "al-Qaws is a traditional Arabic star name"
+	},
+	"Qayd": {
+		name: "Qayd",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "al-Qayd is a traditional Arabic star name"
+	},
+	"Qanturus": {
+		name: "Qanturus",
+		type: "Constellation",
+		lang: "Arabic",
+		blurb: "The Arabic word for the constellation Centaurus."
 	}
 };
 
