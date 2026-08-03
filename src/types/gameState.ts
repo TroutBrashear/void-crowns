@@ -2,7 +2,7 @@ import type { Fleet, Ship, MilShip, ShipType, MilShipType } from './shipTypes';
 import type { Lane, System, Planetoid, PlanetoidClassification } from './geoState';
 import type { Resources, Good, GoodCategory } from './ecoState';
 import type { SkillName, Character, CharacterAssignment } from './charState';
-import type { Org, Cell, Movement } from './govState';
+import type { Org, Cell, Movement, PoliticalStatus } from './govState';
 
 export interface Process {
   input?: Partial<Resources>;
@@ -216,6 +216,7 @@ export interface GameActions {
   initializeNewGame: (payload: {playerOrgName: string, playerOrgColor: string, playerSpecies: string} ) => void;
   assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: CharacterAssignment}) => void;
   assignResearch: (payload: {buildingId: number, researchId: string }) => void;
+  assignStatus: (payload: {planetoidId: number, newStatus: PoliticalStatus}) => void;
   getOrgResearchOptions: (orgId: number) => string[];
 }
 

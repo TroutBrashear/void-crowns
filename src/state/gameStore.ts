@@ -26,8 +26,9 @@ import { normalize } from '../utils/normalize';
 //constant imports
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 import { DEFAULT_GOODS} from '../data/goods';
-import { processPolitics } from '../engine/politics/politics';
+import { engineAssignStatus, processPolitics } from '../engine/politics/politics';
 import { processMilShips } from '../engine/ships/ships';
+import type { PoliticalStatus } from '../types/govState';
 
 
 export const useGameStore = create<GameStoreState>((set, get) => {
@@ -294,6 +295,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
 
   assignResearch: (payload: {buildingId: number, researchId: string }) => {
     set(engineAssignResearch(get(), payload.buildingId, payload.researchId));
+  },
+
+  assignStatus: (payload: {planetoidId: number, newStatus: PoliticalStatus }) => {
+    set(engineAssignStatus(get(),payload.planetoidId, payload.newStatus));
   },
 
   initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string, playerSpecies: string }) => {
