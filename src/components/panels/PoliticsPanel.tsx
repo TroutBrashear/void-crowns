@@ -2,6 +2,8 @@ import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
 import styles from './Panel.module.css';
 
+import PlanetStatus  from '../cards/PlanetStatus';
+
 import { Button } from '../pure/Button';
 
 function PoliticsPanel() {
@@ -20,7 +22,8 @@ function PoliticsPanel() {
       return null;
     }
 
-
+    const planetoids = useGameStore(state => state.planetoids.entities);
+    const orgPlanetoids = Object.values(planetoids).filter(planetoid => planetoid.ownerNationId === 1);
 
     let leaderChar;
     if(playerOrg.characters.leaderId){
@@ -38,6 +41,19 @@ function PoliticsPanel() {
         <h3>Leader:</h3>
         {leaderChar ? <p>`{leaderChar.name.firstName} {leaderChar.name.lastName}`</p> : <p>Vacant</p>}
         {isAssignable && <Button onClick={() => openAssignModal("assign_character", {targetId: 1, position: 'leader'})}>Assign new Leader</Button>}
+
+
+        <h3>Planets</h3>
+        <ul>
+        {orgPlanetoids.map(planetoid => {
+          return(
+            <li key={planetoid.id}>
+            <PlanetStatus planetoidId={planetoid.id}/>
+            </li>
+          );
+        })}
+        </ul>
+
       </div>
     );
 

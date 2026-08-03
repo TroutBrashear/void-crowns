@@ -13,9 +13,9 @@ function PlanetStatus({ planetoidId }: { planetoidId: number }) {
 
     return(
         <div>
-        <p>{planetoid.name}</p>
-        <p>{planetoid.government.status}</p>
-        <p>Population: {planetoid.population.total} </p>
+            <p>{planetoid.name}</p>
+            <p>{planetoid.government.status}</p>
+            <p>Population: {planetoid.population.total} </p>
         </div>
     );
 }
