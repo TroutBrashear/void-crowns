@@ -34,8 +34,8 @@ function StatusAssignModal() {
             <h3>Assigning Political Status to {targetPlanetoid.name}</h3>
 
             <Button key={"Core"} className={`${styles.characterButton} ${"Core" === selectedStatus ? styles.selected : ''}`} onClick={() => setSelectedStatus("Core")}>Core</Button>
-            <Button key={"Martial"} className={`${styles.characterButton} ${"Martial" === selectedStatus ? styles.selected : ''}`} onClick={() => setSelectedStatus("Martial")}>Core</Button>
-            <Button key={"Colony"} className={`${styles.characterButton} ${"Colony" === selectedStatus ? styles.selected : ''}`} onClick={() => setSelectedStatus("Colony")}>Core</Button>
+            <Button key={"Martial"} className={`${styles.characterButton} ${"Martial" === selectedStatus ? styles.selected : ''}`} onClick={() => setSelectedStatus("Martial")}>Martial</Button>
+            <Button key={"Colony"} className={`${styles.characterButton} ${"Colony" === selectedStatus ? styles.selected : ''}`} onClick={() => setSelectedStatus("Colony")}>Colony</Button>
 
             <Button  disabled={!selectedStatus} className={styles.characterButton} onClick={() => {if(selectedStatus){
                 assignStatus({planetoidId: targetPlanetoid.id, newStatus: selectedStatus});
