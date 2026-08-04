@@ -26,8 +26,8 @@ export interface Org {
     }
     government: {
         succession: string;
-        leaderTermDuration: number;
-        presentTermEnd: number;
+        leaderTermDuration: number; //semi-fixed number. -1 indicates no term duration
+        presentTermEnd: number; //calculated value of currentTick + leaderTermDuration
         homeSystem: number; //a System.id
     }
 
