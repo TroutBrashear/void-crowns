@@ -43,8 +43,8 @@ export const SYSTEM_NAMES: string[] = [
 "Najmah", "Nasaqan","Naeretaer", "Nelliyalam", "Nyumba",
 "Oolitic", "Osisi", "Onn",
 "Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut",  "Pirtuni",
-"Qaws", "Qayd", "Qanturus", "Qalab", "Qi Guan", "Qaqim", "Quadinar",
-"Risha", "Rijl", "Rogini", "Ravajul", "Russula", "Ruis", "Rawdah",
+"Qaws", "Qayd", "Qanturus", "Qalb", "Quadinar",
+"Risha", "Rijl", "Russula", "Ruis",
 "Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Surrat", "Samak", "Shang Wei", "Shang Cheng", "Shi Lou", "Si Fei", "Suvati", "Sadayam", "Satavis", "Shajarah", "Shu", "Saezhataer", "Shram", "Saffaras", "Summaq", "Saille", "Straif", "Shapash", "Silur",
 "Ta'ir", "Tays", "Thu'ban", "Tarf", "Turafah", "Tuwayba'", "Tiruvadirai", "Thuraya", "Tian Quan", "Tu Si", "Teng She", "Tanuwin", "Tinne", "Tittakudi",
 "Uttiram", "Uhelgoad", "Uath", "Uir", "Uilleann",
@@ -739,6 +739,54 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Constellation",
 		lang: "Arabic",
 		blurb: "The Arabic word for the constellation Centaurus."
+	},
+	"Qalb": {
+		name: "Qalb",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Qalb, or heart, is an Arabic star name."
+	},
+	"Quadinar": {
+		name: "Quadinar",
+		type: "Fiction",
+		lang: "Conlang",
+		blurb: "I'm still upset we never got to see what Ben Quadinaros could do."
+	},
+	"Risha": {
+		name: "Risha",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "al-Risha is a classical Arabic star name."
+	},
+	"Rijl": {
+		name: "Rijl",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Rijl is a classical Arabic star name."
+	},
+	"Russula": {
+		name: "Russula",
+		type: "Plant",
+		lang: "Latin",
+		blurb: "Russula is a variety of mushroom"
+	},
+	"Ruis": {
+		name: "Ruis",
+		type: "Misc",
+		lang: "Ogham",
+		blurb: "Ruis is a letter of the Ogham alphabet representing R. It also means red."
+	},
+	"Sabiq": {
+		name: "Sabiq",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Sabiq is a classical Arabic star name "
+	},
+	"Sayf": {
+		name: "Sayf",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Sayf al-Jabbar, or Sword of the Giant, is an Arabic star name"
 	}
 };
 
