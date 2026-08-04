@@ -307,7 +307,7 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
                  }
 
 
-                 candidateScore[winner].score++;;
+                 candidateScore[winner].score++;
              }
 
              //determine winner

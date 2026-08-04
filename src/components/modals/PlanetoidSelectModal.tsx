@@ -62,6 +62,7 @@ function PlanetoidSelectModal() {
       	  <h3>In the System: {parentSystem.name}</h3>
 
       	  {planetToShow.population &&  <p>Population: {planetToShow.population.total}</p>}
+      	  {planetToShow.government && <p>Status: {planetToShow.government.status}</p>}
       	  <button onClick={() => {changeModal('pops_modal', {type: 'planetoid', id: planetToShow.id}); }}>View Pops</button>
 
 		  {parentSystem.ownerNationId === 1 && (<>
