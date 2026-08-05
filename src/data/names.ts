@@ -45,7 +45,7 @@ export const SYSTEM_NAMES: string[] = [
 "Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut",  "Pirtuni",
 "Qaws", "Qayd", "Qanturus", "Qalb", "Quadinar",
 "Risha", "Rijl", "Russula", "Ruis",
-"Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Surrat", "Samak", "Shang Wei", "Shang Cheng", "Shi Lou", "Si Fei", "Suvati", "Sadayam", "Satavis", "Shajarah", "Shu", "Saezhataer", "Shram", "Saffaras", "Summaq", "Saille", "Straif", "Shapash", "Silur",
+"Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Samak", "Shajarah",  "Saezhataer", "Shram", "Summaq", "Saille", "Straif", "Shapash", "Silur",
 "Ta'ir", "Tays", "Thu'ban", "Tarf", "Turafah", "Tuwayba'", "Tiruvadirai", "Thuraya", "Tian Quan", "Tu Si", "Teng She", "Tanuwin", "Tinne", "Tittakudi",
 "Uttiram", "Uhelgoad", "Uath", "Uir", "Uilleann",
 "Vakarinė", "Vargweq", "Verhob",
@@ -584,11 +584,11 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		lang: "Arabic",
 		blurb: "al-Maraq, or  is a traditional Arabic star name."
 	},
-	 "Maram": {
-		 name:  "Maram",
-		 type: "Plant",
-		 lang: "Tamil",
-		 blurb:  "Maram is the Tamil word for tree."
+	"Maram": {
+		name:  "Maram",
+		type: "Plant",
+		lang: "Tamil",
+		blurb:  "Maram is the Tamil word for tree."
 	},
 	"Martolod": {
 		name: "Martolod",
@@ -787,7 +787,55 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Star",
 		lang: "Arabic",
 		blurb: "Sayf al-Jabbar, or Sword of the Giant, is an Arabic star name"
-	}
+	},
+	"Saq": {
+		name: "Saq",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "as-Saq is a classic Arabic star name"
+	},
+	"Shawlah": {
+		name: "Shawlah",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "ash-Shawlah is a classic Arabic star name"
+	},
+	"Sharatan": {
+		name: "Sharatan",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "ash-Sharatan is a classic Arabic star name"
+	},
+	"Samak": {
+		name: "Samak",
+		type: "Animal",
+		lang: "Arabic",
+		blurb: "Samak is the Arabic word for fish."
+	},
+	"Shajarah": {
+		name: "Shajarah",
+		type: "Plant",
+		lang: "Arabic",
+		blurb: "Shajarah is the Arabic word for tree."
+	},
+	"Saezhataer": {
+		name: "Saezhataer",
+		type: "Constellation",
+		lang: "Breton",
+		blurb: "Saezhataer is the Breton translation of Sagittarius"
+	},
+	"Shram": {
+		name: "Shram",
+		type: "Misc",
+		lang: "Conlang",
+		blurb: "?"
+	},
+	"Summaq": {
+		name: "Summaq",
+		type: "Food",
+		lang: "Arabic",
+		blurb: "Summaq is an Arabic spice"
+	},
 };
 
 
