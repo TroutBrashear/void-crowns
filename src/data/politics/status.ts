@@ -1,6 +1,4 @@
 
-'Core' | 'Colony' | 'Occupied' | 'Anarchy' | 'Martial';
-
 export interface StatusDefinition {
     id: string;
 
