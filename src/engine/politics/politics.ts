@@ -72,6 +72,10 @@ export function governmentSuccession(currentState: GameState, orgId: number): Ga
         characters: {
             ...functionOrg.characters,
             leaderId: nextLeader.id
+        },
+        government: {
+            ...functionOrg.government,
+            presentTermEnd: currentState.meta.turn + functionOrg.government.leaderTermDuration
         }
     };
 
