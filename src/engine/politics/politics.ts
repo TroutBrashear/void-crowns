@@ -93,8 +93,6 @@ export function governmentSuccession(currentState: GameState, orgId: number): Ga
         }
     }
 
-
-
     return nextState;
 }
 
@@ -104,6 +102,7 @@ export function governmentSuccession(currentState: GameState, orgId: number): Ga
 export function processPolitics(currentState: GameState ): EngineResult {
     const planetoids = Object.values(currentState.planetoids.entities);
     const allPoliticsEvents: GameEvent[] = [];
+    const orgs = Object.values(currentState.orgs.entities);
 
      let nextState = { ...currentState };
 
@@ -198,6 +197,20 @@ export function processPolitics(currentState: GameState ): EngineResult {
             entities: newCells
         }
     };
+
+
+
+    //4 - evaluate leader terms
+    for(const org of orgs){
+        if(org.government.leaderTermDuration === -1){
+            continue;
+        }
+
+        if(org.government.presentTermEnd <= currentState.meta.turn){
+            nextState = governmentSuccession(nextState, org.id);
+        }
+    }
+
 
     return { newState: nextState, events: allPoliticsEvents };
 }
