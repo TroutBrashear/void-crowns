@@ -28,7 +28,7 @@ import { CYCLE_CONFIG } from '../constants/cycle_config';
 import { DEFAULT_GOODS} from '../data/goods';
 import { engineAssignStatus, processPolitics } from '../engine/politics/politics';
 import { processMilShips } from '../engine/ships/ships';
-import type { PoliticalStatus } from '../types/govState';
+import type { CustomOrgInfo, PoliticalStatus } from '../types/govState';
 
 
 export const useGameStore = create<GameStoreState>((set, get) => {
@@ -301,7 +301,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     set(engineAssignStatus(get(),payload.planetoidId, payload.newStatus));
   },
 
-  initializeNewGame: (payload: { playerOrgName: string, playerOrgColor: string, playerSpecies: string }) => {
+  initializeNewGame: (payload: { playerOrg: CustomOrgInfo, playerSpecies: string }) => {
     //currently, generate functions are using a set value. This will later be based on game settings.
     const { systems, planetoids, lanes } = generateGalaxy(500);
     const { orgs, chars } = generateStartingOrgs(6);
@@ -309,13 +309,20 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     const pops: Pop[] = [];
     let popId = 0;
 
+
+
+    //insert player customization options
     species[0] = { id: 1, name: payload.playerSpecies, traits: [], baseNeeds: {
       food: 5,
       homeGoods: 5
     } };
 
-    orgs[0].flavor.name = payload.playerOrgName;
-    orgs[0].flavor.color = payload.playerOrgColor;
+    orgs[0].flavor.name = payload.playerOrg.name;
+    orgs[0].flavor.color = payload.playerOrg.color;
+
+    orgs[0].government.leaderTermDuration = payload.playerOrg.termLength;
+    orgs[0].government.presentTermEnd = payload.playerOrg.termLength;
+    orgs[0].government.succession = payload.playerOrg.successionType;
 
     const intelState: Record<number, PlanetoidIntel> = {};
 

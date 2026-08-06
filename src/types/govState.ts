@@ -4,6 +4,12 @@ import type { Resources } from './ecoState';
 
 //state for Governance, politicking, etc
 
+export interface CustomOrgInfo {
+    name: string;
+    color: string;
+    successionType: string;
+    termLength: number;
+}
 
 //-----------ORGS (NATIONS, CORPORATIONS, FACTIONS, ETC)------------------
 export type OrgCategory = 'nationState' | 'corporation';
