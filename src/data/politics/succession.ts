@@ -1,6 +1,7 @@
 import { electabilityScore } from "../../engine/character";
 import type { Character } from "../../types/charState";
 import type { GameState } from "../../types/gameState";
+import { DEFAULT_STATUS_CATALOG } from "./status";
 
 
 
@@ -82,7 +83,7 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
             for(const planetoidId of functionOrg.ownedPlanetoids){
                 const planetoid = currentState.planetoids.entities[planetoidId];
 
-                if(!planetoid.population){
+                if(!planetoid.population || !planetoid.government){
                     continue;
                 }
                 for(const popId of planetoid.population.popIds){
@@ -111,7 +112,7 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
 
                     }
 
-                    candidateScore[currentFavorite].score++;
+                    candidateScore[currentFavorite].score += 1 * DEFAULT_STATUS_CATALOG[planetoid.government.status].votingStrength;
                 }
             }
 
@@ -262,7 +263,7 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
                      planetoidScore[key] = 0;
                 }
 
-                 if(!planetoid.population){
+                 if(!planetoid.population || !planetoid.government){
                      continue;
                  }
                  for(const popId of planetoid.population.popIds){
@@ -291,7 +292,7 @@ export const SUCCESSION_CATALOG: Record<string, SuccessionDefinition> = {
 
                      }
 
-                     planetoidScore[currentFavorite]++;
+                     planetoidScore[currentFavorite] += 1 * DEFAULT_STATUS_CATALOG[planetoid.government.status].votingStrength;
                  }
 
 
