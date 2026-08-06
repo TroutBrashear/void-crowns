@@ -19,8 +19,16 @@ export function OrgCreation() {
 
 
     const startGame = () => {
-        initializeNewGame({playerOrgName: name, playerOrgColor: color, playerSpecies: speciesName});
-        setAppState('in_game');
+        if(selectedSuccession){
+            let playerOrgInfo = {
+                name: name,
+                color: color,
+                successionType: selectedSuccession,
+                termLength: Number(termLength)
+            };
+            initializeNewGame({playerOrg: playerOrgInfo, playerSpecies: speciesName});
+            setAppState('in_game');
+        }
     };
 
 
