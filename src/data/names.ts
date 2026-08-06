@@ -16,7 +16,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 }
 
 export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Person' | 'Misc';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Igbo' | 'Kurdish' | 'Welsh' | 'Swahili' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Latin' | 'Conlang' | 'Machine Generated';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Igbo' | 'Kurdish' | 'Welsh' | 'Swahili' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Latin' | 'Ugaritic' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -45,8 +45,8 @@ export const SYSTEM_NAMES: string[] = [
 "Pomp Aer", "Pempont", "Pholiota", "Pallavaram", "Pernambut",  "Pirtuni",
 "Qaws", "Qayd", "Qanturus", "Qalb", "Quadinar",
 "Risha", "Rijl", "Russula", "Ruis",
-"Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Samak", "Shajarah",  "Saezhataer", "Shram", "Summaq", "Saille", "Straif", "Shapash", "Silur",
-"Ta'ir", "Tays", "Thu'ban", "Tarf", "Turafah", "Tuwayba'", "Tiruvadirai", "Thuraya", "Tian Quan", "Tu Si", "Teng She", "Tanuwin", "Tinne", "Tittakudi",
+"Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Samak", "Shajarah",  "Saezhataer", "Shram", "Summaq", "Saille", "Straif", "Shapash",
+"Ta'ir", "Tays", "Thu'ban", "Tarf", "Thuraya", "Tian Quan", "Tu Si", "Teng She", "Tanuwin", "Tinne", "Tittakudi",
 "Uttiram", "Uhelgoad", "Uath", "Uir", "Uilleann",
 "Vakarinė", "Vargweq", "Verhob",
 "Waqi'", "Wazn", "Wardah", "Wegan", "Wisamèkw",
@@ -836,6 +836,54 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		lang: "Arabic",
 		blurb: "Summaq is an Arabic spice"
 	},
+	"Saille": {
+		name: "Saille",
+		type: "Plant",
+		lang: "Ogham",
+		blurb: "Saille, meaning Willow, is an Ogham letter representing S"
+	},
+	"Straif": {
+		name: "Straif",
+		type: "Misc",
+		lang: "Ogham",
+		blurb: "Saille is an Ogham letter"
+	},
+	"Shapash": {
+		name: "Shapash",
+		type: "Mythology",
+		lang: "Ugaritic",
+		blurb: "Shapash was a sun goddess"
+	},
+	"Ta'ir": {
+		name: "Ta'ir",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "an-Nasr at-Ta'ir is a well-known Arabic star name"
+	},
+	"Tays": {
+		name: "Tays",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "at-Tays is a classical Arabic star name"
+	},
+	"Thu'ban": {
+		name: "Thu'ban",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Thu'ban is a well-known Arabic star name"
+	},
+	"Tarf": {
+		name: "Tarf",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "at-Tarf is a well-known Arabic star name"
+	},
+	"Thuraya": {
+		name: "Thuraya",
+		type: "Constellation",
+		lang: "Arabic",
+		blurb: "ath-Thuraya is the Arabic term for the Pleiades"
+	}
 };
 
 
