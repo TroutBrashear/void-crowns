@@ -32,7 +32,7 @@ export const CASSIGNMENT_CATALOG: Record<string, CellAssignmentDefinition> = {
             if(governorId === null){
                 return currentState;
             }
-            return killCharacter(currentState, governorId);
+            return killCharacter(currentState, governorId).newState;
        }
     },
     "gatherStrength": {

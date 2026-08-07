@@ -511,7 +511,7 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 	for(const id of deadCharacterIds){
 		let killResult = killCharacter(functionState, id);
 		functionState = killResult.newState;
-		allCharEvents = [ ...allCharEvents, killResult.events];
+		allCharEvents = [ ...allCharEvents, ...killResult.events];
 	}
 	
 	return {
