@@ -86,7 +86,8 @@ export function spawnAcademyCharacter(currentState: GameState, buildingId: numbe
 	const building = currentState.buildings.entities[buildingId];
 	const org = currentState.orgs.entities[building.ownerNationId];
 
-	let newCharacter = generateCharacter(nextId, org.flavor.nameList);
+	let genResult = generateCharacter(nextId, org.flavor.nameList);
+	let newCharacter = genResult.newCharacter;
 
 	switch (building.type){
 		case "navalAcademy":

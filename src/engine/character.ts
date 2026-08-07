@@ -305,7 +305,7 @@ export function killCharacter(currentState: GameState, charId: number): GameStat
 
 
 
-export function generateCharacter(nextId: number, nameListId: string): Character {
+export function generateCharacter(nextId: number, nameListId: string): { newCharacter: Character, spawnEvent: GameEvent } {
 	
 	const nameList = NAME_LISTS[nameListId];
 	
@@ -344,16 +344,24 @@ export function generateCharacter(nextId: number, nameListId: string): Character
 			childrenIds: [],
 		},
 	};
+
+	let spawnEvent: GameEvent = {
+		type: 'char_result',
+		message: '${char.name.firstName} ${char.name.lastName} spawned.',
+
+		involvedOrgIds: [0],
+		isPlayerVisible: false,
+	};
 	
-	return newCharacter; 
+	return {newCharacter: newCharacter, spawnEvent: spawnEvent };
 }
 
 export function generateCharacterOffspring(nextId: number, nameListId: string, lastName: string, parentId: number ): Character {
-	let newCharacter = generateCharacter(nextId, nameListId);
-	newCharacter.name.lastName = lastName;
-	newCharacter.history.parentId = parentId;
+	let genResult = generateCharacter(nextId, nameListId);
+	genResult.newCharacter.name.lastName = lastName;
+	genResult.newCharacter.history.parentId = parentId;
 
-	return newCharacter;
+	return genResult.newCharacter;
 }
  
 //processCharacterCycles will be a function handling: ensuring that orgs have pools of eligible characters, and that characters age and die.
@@ -449,16 +457,25 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 			
 			while(currentOrg.characters.characterPool.length < 6){
 				nextCId++;
-				let newCharacter = generateCharacter(nextCId, currentOrg.flavor.nameList);
-				newCharacter = {
-					...newCharacter,
+				let genResult = generateCharacter(nextCId, currentOrg.flavor.nameList);
+				genResult.newCharacter = {
+					...genResult.newCharacter,
 					citizenOrg: orgId
 				};
 				newIds.push(nextCId);
 				const newPool = [...currentOrg.characters.characterPool];
 				newPool.push(nextCId);
 				currentOrg = { ...currentOrg, characters: { ...currentOrg.characters, characterPool: newPool } };
-				newCharacters[nextCId] = newCharacter;
+				newCharacters[nextCId] = genResult.newCharacter;
+
+				genResult.spawnEvent = {
+					...genResult.spawnEvent,
+					message: '${char.name.firstName} ${char.name.lastName} added to pool',
+					involvedOrgIds: [orgId]
+				};
+
+				allCharEvents.push(genResult.spawnEvent);
+
 			}
 			newOrgs[orgId] = currentOrg;
 		}
