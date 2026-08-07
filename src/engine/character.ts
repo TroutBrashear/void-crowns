@@ -252,14 +252,21 @@ export function engineUnassignCharacter(currentState: GameState, charId: number)
 }
 
 
-export function killCharacter(currentState: GameState, charId: number): GameState {
+export function killCharacter(currentState: GameState, charId: number): EngineResult {
 	let functionState = { ...currentState };
 
 	const currentCharacter = functionState.characters.entities[charId];
 
 	if(!currentCharacter){
-		return functionState;
+		return { newState: functionState, events: [] };
 	}
+
+	const charEvent: GameEvent = {
+		type: 'char_result',
+		message: `${currentCharacter.name.firstName} ${currentCharacter.name.lastName} died.`,
+		involvedOrgIds: [currentCharacter.citizenOrg ?? 0],
+		isPlayerVisible: currentCharacter.citizenOrg === 1,
+	};
 
 	const newCharacters = { ...functionState.characters.entities };
 	let newCharacterIds = [ ...functionState.characters.ids ];
@@ -291,6 +298,8 @@ export function killCharacter(currentState: GameState, charId: number): GameStat
 		}
 	};
 
+
+
 	if(currentCharacter.assignment && currentCharacter.assignment.type === 'leader' && currentCharacter.citizenOrg !== null){
 		functionState = governmentSuccession(functionState, currentCharacter.citizenOrg);
 	}
@@ -300,7 +309,7 @@ export function killCharacter(currentState: GameState, charId: number): GameStat
 
 
 
-	return functionState;
+	return { newState: functionState, events: [charEvent] };
 }
 
 
@@ -367,7 +376,7 @@ export function generateCharacterOffspring(nextId: number, nameListId: string, l
 //processCharacterCycles will be a function handling: ensuring that orgs have pools of eligible characters, and that characters age and die.
 export function processCharacterCycles(currentState: GameState): EngineResult {
 	let functionState = { ...currentState };
-	const allCharEvents: GameEvent[] = [];
+	let allCharEvents: GameEvent[] = [];
 	
 	let newCharacters = { ...functionState.characters.entities };
 	const characterIds = functionState.characters.ids;
@@ -500,18 +509,9 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 
 	//resolve character deaths
 	for(const id of deadCharacterIds){
-		const char = functionState.characters.entities[id];
-		if(char.citizenOrg){
-			const charEvent: GameEvent = {
-				type: 'char_result',
-				message: `${char.name} died.`,
-				involvedOrgIds: [char.citizenOrg],
-				isPlayerVisible: char.citizenOrg === 1,
-			};
-
-			allCharEvents.push(charEvent);
-		}
-		functionState = killCharacter(functionState, id);
+		let killResult = killCharacter(functionState, id);
+		functionState = killResult.newState;
+		allCharEvents = [ ...allCharEvents, killResult.events];
 	}
 	
 	return {
