@@ -553,9 +553,9 @@ export function generateStartingOrgs(numOrgs: number): {orgs: Org[], chars: Char
 		};
 
 		//generate org's starting leader
-		const character = generateCharacter(i + 1, nextOrg.flavor.nameList);
-		nextOrg.characters.leaderId = character.id;
-		newChars.push(character);
+		const genResult = generateCharacter(i + 1, nextOrg.flavor.nameList);
+		nextOrg.characters.leaderId = genResult.newCharacter.id;
+		newChars.push(genResult.newCharacter);
 
 
 		const childType = determineChildOrgType(nextOrg);

@@ -48,7 +48,9 @@ export function governmentSuccession(currentState: GameState, orgId: number): Ga
     }
 
     if(!nextLeader){
-        nextLeader = generateCharacter(nextState.meta.lastCharacterId + 1, functionOrg.flavor.nameList);
+        let genResult = generateCharacter(nextState.meta.lastCharacterId + 1, functionOrg.flavor.nameList);
+
+        nextLeader = genResult.newCharacter;
         nextLeader = {
             ...nextLeader,
             citizenOrg: orgId,

@@ -44,7 +44,8 @@ export function spawnCellRandomLeader(currentState: GameState, planetoidId: numb
 
     let nextId = currentState.meta.lastCharacterId + 1;
 
-    let leader = generateCharacter(nextId, 'default');
+    let genResult = generateCharacter(nextId, 'default');
+    let leader = genResult.newCharacter;
 
     let nextState = {
         ...currentState,

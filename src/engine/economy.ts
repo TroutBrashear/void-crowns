@@ -98,7 +98,7 @@ export function spawnAcademyCharacter(currentState: GameState, buildingId: numbe
 					...newCharacter.skills,
 					navalCombat: newCharacter.skills.navalCombat + 2
 				}
-			}
+			};
 			break;
 		case "scienceAcademy":
 			newCharacter = {
@@ -108,7 +108,7 @@ export function spawnAcademyCharacter(currentState: GameState, buildingId: numbe
 					...newCharacter.skills,
 					navalCombat: newCharacter.skills.academics + 2
 				}
-			}
+			};
 			break;
 	}
 
