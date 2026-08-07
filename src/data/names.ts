@@ -27,7 +27,7 @@ export interface StarInfo {
 
 export const SYSTEM_NAMES: string[] = [
 	"'Anaqi", "'Uqdah", "'Aqiq",
-"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Aghnam",
+"Akhir", "A'yn", "Athafi", "Alyah", "Akhbiyah", "Aqarib", "Ailm", "Añañuca", "Aušrinė", "Athshe", "Afank", "Atropia", "Aghnam", "Arianrhod",
 "Bayd", "Bari'", "Bidbid", "Bleiz", "Bandurah", "Blewit", "Beithe", "Bisclavret", "Baydaq", "Bokštas", "Bebras",
 "Corydon", "Cunot", "Coll", "Ceirt", "Cleyre", "Coudre",
 "Dar", "Dabaran", "Dhanab", "Dubb", "Donovia",
@@ -46,8 +46,8 @@ export const SYSTEM_NAMES: string[] = [
 "Qaws", "Qayd", "Qanturus", "Qalb", "Quadinar",
 "Risha", "Rijl", "Russula", "Ruis",
 "Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Samak", "Shajarah",  "Saezhataer", "Shram", "Summaq", "Saille", "Straif", "Shapash",
-"Ta'ir", "Tays", "Thu'ban", "Tarf", "Thuraya", "Tian Quan", "Tu Si", "Teng She", "Tanuwin", "Tinne", "Tittakudi",
-"Uttiram", "Uhelgoad", "Uath", "Uir", "Uilleann",
+"Ta'ir", "Tays", "Thu'ban", "Tarf", "Thuraya", "Tinne", "Tittakudi",
+"Uhelgoad", "Uath", "Úir", "Uilleann",
 "Vakarinė", "Vargweq", "Verhob",
 "Waqi'", "Wazn", "Wardah", "Wegan", "Wisamèkw",
 "Xuan Ge", "Xiang", "Xing Chen", "Xia Tai", "Xin Xiu", "Xi Zhong",
@@ -151,6 +151,12 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Constellation",
 		lang: 'Arabic',
 		blurb: "Aghnam, or Sheep, was part of the old Arabic Pasture represented in the stars."
+	},
+	"Arianrhod": {
+		name: "Arianrhod",
+		type: "Person",
+		lang: "Breton",
+		blurb: "?"
 	},
 	"Bayd": {
 		name: "Bayd",
@@ -883,6 +889,48 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Constellation",
 		lang: "Arabic",
 		blurb: "ath-Thuraya is the Arabic term for the Pleiades"
+	},
+	"Tinne": {
+		name: "Tinne",
+		type: "Misc",
+		lang: "Ogham",
+		blurb: "Tinne is the Ogham letter corresponding to T."
+	},
+	"Tittakudi": {
+		name: "Tittakudi",
+		type: "Place",
+		lang: "Tamil",
+		blurb: "Tittakudi is a town in Tamil Nadu."
+	},
+	"Uhelgoad": {
+		name: "Uhelgoad",
+		type: "Place",
+		lang: "Breton",
+		blurb: "A forest in Breizh"
+	},
+	"Uath": {
+		name: "Uath",
+		type: "Misc",
+		lang: "Ogham",
+		blurb: "Uath is a letter in the Ogham alphabet."
+	},
+	"Úir": {
+		name: "Úir",
+		type: "Misc",
+		lang: "Ogham",
+		blurb: "Úir is a letter in the Ogham alphabet."
+	},
+	"Uilleann": {
+		name: "Uilleann",
+		type: "Misc",
+		lang: "Ogham",
+		blurb: "Uilleann is a letter in the Ogham alphabet."
+	},
+	"Vakarinė": {
+		name: "Vakarinė",
+		type: "Mythology",
+		lang: "Lithuanian",
+		blurb: "The goddess of the evening star."
 	}
 };
 
