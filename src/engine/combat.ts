@@ -288,6 +288,9 @@ export function processCombat(currentState: GameState): EngineResult {
 					break;
 				}
 			}
+			else{
+				break;
+			}
 		}
 	}
 

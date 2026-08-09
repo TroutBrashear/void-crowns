@@ -12,7 +12,7 @@ import { Button } from '../../pure/Button';
 function CharacterAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget);
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
-    const fleetEntities = useGameStore(state => state.fleets.entities); //temporary fix
+    const fleetEntities = useGameStore(state => state.fleets.entities); //TODO: temporary fix - refactor to a composite selector
     const getOrgById = useGameStore(state => state.getOrgById);
     const getShipById = useGameStore(state => state.getShipById);
     const getSystemById = useGameStore(state => state.getSystemById);
