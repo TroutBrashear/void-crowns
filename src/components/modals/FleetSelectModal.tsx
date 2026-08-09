@@ -2,26 +2,22 @@ import { useUiStore } from '../../state/uiStore';
 import { useGameStore } from '../../state/gameStore';
 import styles from './Modal.module.css';
 
+import { getFleetById } from '../../state/selectors';
+
 import { Button } from '../pure/Button';
 
 function FleetSelectModal() {
   const selection = useUiStore(state => state.selection);
-  const closeModal = useUiStore(state => state.closeModal);
-  const openAssignModal = useUiStore(state => state.openAssignModal);
-
-  const getFleetById = useGameStore(state => state.getFleetById);
-  const getCharacterById = useGameStore(state => state.getCharacterById);
-  const getMilShipById = useGameStore(state => state.getMilShipById);
-
   if (!selection) {
     return null;
   }
 
-  const fleetToShow = 
-    (selection?.type === 'fleet') 
-    ? getFleetById(selection.id) 
-    : null;
+  const closeModal = useUiStore(state => state.closeModal);
+  const openAssignModal = useUiStore(state => state.openAssignModal);
 
+  const fleetToShow = useGameStore(state => getFleetById(state, selection.id));
+  const getCharacterById = useGameStore(state => state.getCharacterById);
+  const getMilShipById = useGameStore(state => state.getMilShipById);
 
   if (!fleetToShow) {
     return null; 
