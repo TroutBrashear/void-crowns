@@ -232,6 +232,8 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 		};
 
 		//check for distance to prevent overlap
+		  let overlapCounter = 0;
+
 		while(true){
 			let checkPassed = true;
 
@@ -248,6 +250,13 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 			else{
 				nextSystem.position.x = Math.random() * WIDTH_DEFAULT;
 				nextSystem.position.y = Math.random() * HEIGHT_DEFAULT;
+			}
+
+			overlapCounter++;
+			if(overlapCounter > 30){
+				nextSystem.position.x = Math.random() * WIDTH_DEFAULT;
+				nextSystem.position.y = Math.random() * HEIGHT_DEFAULT;
+				break;
 			}
 		}
 
