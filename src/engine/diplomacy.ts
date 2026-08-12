@@ -13,12 +13,27 @@ import { effectiveSkill } from './character';
 
 export function getRelationship(gameState: GameState, firstOrgId: number, secondOrgId: number): OrgRelation {
 	const firstOrg = gameState.orgs.entities[firstOrgId];
+	const secondOrg = gameState.orgs.entities[secondOrgId];
 
-	if(firstOrg){
+	if(firstOrg && secondOrg){
 		const relations = firstOrg.diplomacy.relations[secondOrgId];
+		const inverseRelations = secondOrg.diplomacy.relations[firstOrgId];
 
-		if(relations){
-			return relations;
+		if(relations && inverseRelations){
+			if(relations.status === inverseRelations.status){
+				return relations;
+			}
+			else{
+				console.error(`Relationship Mismatch Error: Org ${firstOrg.id} relations do not match Org ${secondOrg.id} relations!`);
+
+				if(relations.status === 'war' || inverseRelations.status === 'war'){
+					return {
+						targetOrgId: secondOrgId,
+						status: 'war',
+						opinion: relations.opinion,
+					};
+				}
+			}
 		}
 	}
 
