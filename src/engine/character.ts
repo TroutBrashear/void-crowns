@@ -49,6 +49,7 @@ export function engineApplyCharacterProcess(currentState: GameState, charId: num
 	}
 }
 
+
 export function effectiveSkill(character: Character, skill: SkillName): number {
 	let skillTally = character.skills[skill];
 
