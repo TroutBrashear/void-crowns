@@ -7,10 +7,14 @@ import { Button } from '../pure/Button';
 
 function ShipSelectModal() {
   const selection = useUiStore(state => state.selection);
+  if (!selection) {
+    return null;
+  }
+
   const closeModal = useUiStore(state => state.closeModal);
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
-  const getShipById = useGameStore(state => state.getShipById);
+  const shipToShow = useGameStore(state => state.ships.entities[selection.id]);
   const getHabitablesInSystem  = useGameStore(state => state.getHabitablesInSystem);
   const getPlanetoidsBySystem = useGameStore(state => state.getPlanetoidsBySystem);
 
@@ -24,10 +28,7 @@ function ShipSelectModal() {
     return null;
   }
 
-  const shipToShow = 
-    (selection?.type === 'ship') 
-    ? getShipById(selection.id) 
-    : null;
+
 
   if (!shipToShow) {
     return null; 
