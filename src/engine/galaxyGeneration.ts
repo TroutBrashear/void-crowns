@@ -18,6 +18,32 @@ const HEIGHT_DEFAULT = 2000;
 let lastDepositId = 0;
 
 
+function getConnectedSystems(systems: System[]): Set<number> {
+	const connected = new Set<number>([1]);
+
+	const queue: number[] = [];
+	queue.push(1);
+
+	while(queue.length > 0){
+		const currentSystemId = queue.shift()!;
+		const currentSystem = systems[currentSystemId - 1];
+
+		if(!currentSystem){
+			continue;
+		}
+
+		for(const adjacentId of currentSystem.adjacentSystemIds){
+			if(!connected.has(adjacentId)){
+				queue.push(adjacentId);
+				connected.add(adjacentId);
+			}
+
+		}
+	}
+
+	return connected;
+}
+
 function calcDistance(systemA: System, systemB: System): number {
   const dx = systemA.position.x - systemB.position.x;
   const dy = systemA.position.y - systemB.position.y;

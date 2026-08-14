@@ -12,7 +12,6 @@ import { Button } from '../../pure/Button';
 function CharacterAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget);
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
-    const fleetEntities = useGameStore(state => state.fleets.entities); //TODO: temporary fix - refactor to a composite selector
     const getOrgById = useGameStore(state => state.getOrgById);
     const getSystemById = useGameStore(state => state.getSystemById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
@@ -26,7 +25,7 @@ function CharacterAssignModal() {
     let targetName: string | undefined;
 
     if(characterAssignTarget?.position === 'admiral'){
-       targetEntity = fleetEntities[characterAssignTarget.targetId];
+       targetEntity = useGameStore(state => state.fleets.entities[characterAssignTarget.targetId]);
         if(targetEntity){
             targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
             targetName = targetEntity.name;
