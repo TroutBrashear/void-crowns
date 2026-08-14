@@ -7,6 +7,7 @@ import { CHARACTER_TRAITS } from '../data/traits';
 //constants
 import { CYCLE_CONFIG } from '../constants/cycle_config';
 import { governmentSuccession } from './politics/politics';
+import { characterName } from '../utils/formatters';
 
 
 export function engineApplyCharacterProcess(currentState: GameState, charId: number, process: CharProcess): GameState {
@@ -357,7 +358,7 @@ export function generateCharacter(nextId: number, nameListId: string): { newChar
 
 	let spawnEvent: GameEvent = {
 		type: 'char_result',
-		message: '${char.name.firstName} ${char.name.lastName} spawned.',
+		message: `${characterName(newCharacter)} spawned.`,
 
 		involvedOrgIds: [0],
 		isPlayerVisible: false,

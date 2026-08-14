@@ -185,8 +185,6 @@ export interface GameState {
   getPlanetoidsBySystem: (id: number) => Planetoid[];
   getPlanetoidById: (id: number) => Planetoid | undefined;
   getOrgById: (id: number) => Org | undefined;
-  getShipById: (id: number) => Ship | undefined;
-  getMilShipById: (id: number) => MilShip | undefined;
   getCharacterById: (id: number) => Character | undefined;
   getBuildingById: (id: number) => Building | undefined;
   getGoodById: (id: number) => Good | undefined;
