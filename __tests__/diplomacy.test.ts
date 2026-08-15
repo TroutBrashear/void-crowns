@@ -23,5 +23,23 @@ describe('getRelationship', () => {
 
          expect(result.status).toBe('war');
          expect(result.opinion).toBe(-100);
+    }),
+
+    it('should return a peace result if the target Org cannot be found.', () => {
+        const testState = getNormalizedScenarioState();
+
+        const result = getRelationship(testState, 1, 4);
+
+        expect(result.status).toBe('peace');
+    }),
+
+    it('should return a war result if Org relations are mismatched and one is war', () => {
+        const testState = getNormalizedScenarioState();
+
+        const result = getRelationship(testState, 1, 3)
+        const inverseResult = getRelationship(testState, 3, 1);
+
+        expect(result.status).toBe('war');
+        expect(inverseResult.status).toBe('war');
     })
 })
