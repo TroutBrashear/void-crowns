@@ -6,21 +6,21 @@ import { Button } from '../pure/Button';
 
 function OrgSelectModal() {
 	const selection = useUiStore(state => state.selection);
+	if (!selection) {
+		return null;
+	}
+
+
 	const closeModal = useUiStore(state => state.closeModal);
 	const backModal = useUiStore(state => state.backModal);
 	const openAssignModal = useUiStore(state => state.openAssignModal);
 
-
-	const getOrgById = useGameStore(state => state.getOrgById);
+	const orgs = useGameStore(state => state.orgs.entities);
+	const orgToShow = orgs[selection.id];
 
 	//diplo actions
 	const sendDiploRequest = useGameStore(state => state.sendDiploRequest);
 
-	const orgToShow = useGameStore(state => 
-    	(selection?.type === 'org')
-    	? state.orgs.entities[selection.id] // Go directly to the data
-    	: null
-  	);
 
      if (!orgToShow) {
     	return null; 
@@ -39,7 +39,7 @@ function OrgSelectModal() {
 				<ul>
 					{orgRelations.map(relation => {
 
-						const targetOrg = getOrgById(relation.targetOrgId);
+						const targetOrg = orgs[relation.targetOrgId];
 
 						if(!targetOrg){
 							return null;
@@ -79,7 +79,7 @@ function OrgSelectModal() {
 			<ul>
 				{orgRelations.map(relation => {
 
-					const targetOrg = getOrgById(relation.targetOrgId);
+					const targetOrg = orgs[relation.targetOrgId];
 
 					if(!targetOrg){
 						return null;

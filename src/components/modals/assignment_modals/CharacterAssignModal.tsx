@@ -12,7 +12,7 @@ import { Button } from '../../pure/Button';
 function CharacterAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget);
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
-    const getOrgById = useGameStore(state => state.getOrgById);
+    const orgs = useGameStore(state => state.orgs.entities);
     const getSystemById = useGameStore(state => state.getSystemById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
     const getBuildingById = useGameStore(state => state.getBuildingById);
@@ -27,19 +27,19 @@ function CharacterAssignModal() {
     if(characterAssignTarget?.position === 'admiral'){
        targetEntity = useGameStore(state => state.fleets.entities[characterAssignTarget.targetId]);
         if(targetEntity){
-            targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
+            targetOwnerOrg =  targetEntity.ownerNationId ? orgs[targetEntity.ownerNationId] : undefined;
             targetName = targetEntity.name;
         }
     }
     else if(characterAssignTarget?.position === 'governor'){
         targetEntity = getSystemById(characterAssignTarget.targetId);
         if(targetEntity){
-            targetOwnerOrg =  targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
+            targetOwnerOrg =  targetEntity.ownerNationId ? orgs[targetEntity.ownerNationId] : undefined;
             targetName = targetEntity.name;
         }
     }
     else if(characterAssignTarget?.position === 'leader'){
-        targetEntity = getOrgById(characterAssignTarget.targetId);
+        targetEntity = orgs[characterAssignTarget.targetId];
         if(targetEntity){
             targetOwnerOrg = targetEntity;
             targetName = targetEntity.flavor.name;
@@ -48,28 +48,28 @@ function CharacterAssignModal() {
     else if(characterAssignTarget?.position === 'surveyor'){
         targetEntity = useGameStore(state => state.ships.entities[characterAssignTarget.targetId]);
         if(targetEntity){
-            targetOwnerOrg = targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
+            targetOwnerOrg = targetEntity.ownerNationId ? orgs[targetEntity.ownerNationId] : undefined;
             targetName = targetEntity.name;
         }
     }
     else if(characterAssignTarget?.position === 'scientist'){
         targetEntity = getBuildingById(characterAssignTarget.targetId);
         if(targetEntity){
-            targetOwnerOrg = targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
+            targetOwnerOrg = targetEntity.ownerNationId ? orgs[targetEntity.ownerNationId] : undefined;
             targetName = `${targetEntity.type} : ${targetEntity.id}`;
         }
     }
     else if(characterAssignTarget?.position === 'academyPresident'){
         targetEntity = getBuildingById(characterAssignTarget.targetId);
         if(targetEntity){
-            targetOwnerOrg = targetEntity.ownerNationId ? getOrgById(targetEntity.ownerNationId) : undefined;
+            targetOwnerOrg = targetEntity.ownerNationId ? orgs[targetEntity.ownerNationId] : undefined;
             targetName = `${targetEntity.type} : ${targetEntity.id}`;
         }
     }
     else if(characterAssignTarget?.position === 'diplomat'){
-        targetEntity = getOrgById(characterAssignTarget.targetId);
+        targetEntity = orgs[characterAssignTarget.targetId];
         if(targetEntity){
-            targetOwnerOrg = getOrgById(1);
+            targetOwnerOrg = orgs[1];
             targetName = targetEntity.flavor.name;
         }
     }

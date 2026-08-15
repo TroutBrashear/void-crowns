@@ -9,10 +9,10 @@ function DiplomacyPanel() {
     const changeModal = useUiStore(state => state.changeModal);
     const closePanel = useUiStore(state => state.closePanel);
 
-    const getOrgById = useGameStore(state => state.getOrgById);
+    const orgs = useGameStore(state => state.orgs.entities);
     const processPlayerDiplo = useGameStore(state => state.processPlayerDiplo);
 
-    const playerOrg = getOrgById(1);
+    const playerOrg = orgs[1];
 
     //something is seriously wrong in this case...
     if(!playerOrg){
@@ -30,7 +30,7 @@ function DiplomacyPanel() {
 
             <h3>Incoming requests:</h3>
             {incomingRequests.map(request => {
-                const originOrg = getOrgById(request.originOrgId);
+                const originOrg = orgs[request.originOrgId];
                 if(!originOrg){
                     return null;
                 }
@@ -57,7 +57,7 @@ function DiplomacyPanel() {
             <ul>
             {orgRelations.map(relation => {
 
-                const targetOrg = getOrgById(relation.targetOrgId);
+                const targetOrg = orgs[relation.targetOrgId];
 
                 if(!targetOrg){
                     return null;

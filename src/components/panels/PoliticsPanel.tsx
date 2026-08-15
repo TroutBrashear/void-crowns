@@ -12,10 +12,9 @@ function PoliticsPanel() {
     const openAssignModal = useUiStore(state => state.openAssignModal);
 
 
-    const getOrgById = useGameStore(state => state.getOrgById);
+    const playerOrg = useGameStore(state => state.orgs.entities[1]);
     const getCharacterById = useGameStore(state => state.getCharacterById);
 
-    const playerOrg = getOrgById(1);
 
     //something is seriously wrong in this case...
     if(!playerOrg){

@@ -16,10 +16,11 @@ function SystemSelectModal() {
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
   const planetoids = useGameStore(state => state.planetoids.entities);
+  const orgs = useGameStore(state => state.orgs.entities);
 
   const getSystemById = useGameStore(state => state.getSystemById);
   const getCharacterById = useGameStore(state => state.getCharacterById);
-  const getOrgById = useGameStore(state => state.getOrgById);
+
   const buildShip = useGameStore(state => state.buildShip);
   const buildMilShip = useGameStore(state => state.buildMilShip);
 
@@ -36,10 +37,9 @@ function SystemSelectModal() {
     return null;
   }
 
+  const systemOwnerOrg =  systemToShow?.ownerNationId ? orgs[systemToShow.ownerNationId]: null;
+
   const systemPlanetoids = hierarchizeSystem(planetoids, systemToShow.id);
-  const systemOwnerOrg = systemToShow.ownerNationId
-  ? getOrgById(systemToShow.ownerNationId)
-  : null;
 
   const govCharacter = systemToShow.assignedCharacter
   ? getCharacterById(systemToShow.assignedCharacter)
@@ -66,7 +66,7 @@ function SystemSelectModal() {
 
       const depth = getPlanetoidDepth(planetoids, planetoid.id);
 
-      const owner = planetoid.ownerNationId ? getOrgById(planetoid.ownerNationId) : null;
+      const owner = planetoid.ownerNationId ? orgs[planetoid.ownerNationId] : null;
 
       const buttonStyle = {
         backgroundColor: owner ? owner.flavor.color : '#446',
