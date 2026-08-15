@@ -16,7 +16,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 }
 
 export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Person' | 'Misc';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Igbo' | 'Kurdish' | 'Welsh' | 'Swahili' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Latin' | 'Ugaritic' | 'Conlang' | 'Machine Generated';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Igbo' | 'Kurdish' | 'Lenape' | 'Welsh' | 'Swahili' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Latin' | 'Ugaritic' | 'Conlang' | 'Machine Generated';
 
 export interface StarInfo {
 	name: string;
@@ -48,9 +48,8 @@ export const SYSTEM_NAMES: string[] = [
 "Sabiq", "Sayf", "Saq", "Shawlah", "Sharatan", "Samak", "Shajarah",  "Saezhataer", "Shram", "Summaq", "Saille", "Straif", "Shapash",
 "Ta'ir", "Tays", "Thu'ban", "Tarf", "Thuraya", "Tinne", "Tittakudi",
 "Uhelgoad", "Uath", "Úir", "Uilleann",
-"Vakarinė", "Vargweq", "Verhob",
-"Waqi'", "Wazn", "Wardah", "Wegan", "Wisamèkw",
-"Xuan Ge", "Xiang", "Xing Chen", "Xia Tai", "Xin Xiu", "Xi Zhong",
+"Vakarinė",
+"Waqi'", "Wazn", "Wisamèkw",
 "Yad", "Yaqut", "Yu Heng", "Ye Zhe", "You Geng", "Yeddo", "Yafin", "Yanqul", "Yumen", "Yaanai", "Ysbaddaden",
 "Zawiyah", "Zawraq", "Zuban", "Zao Fu", "Zhu Wang", "Zi Xiu", "Zimbrah", "Zayt", "Zomia"
 ];
@@ -931,6 +930,24 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Mythology",
 		lang: "Lithuanian",
 		blurb: "The goddess of the evening star."
+	},
+	"Waqi'": {
+		name: "Waqi'",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "an-Nasr al-Waqi' is a classical Arabic star name."
+	},
+	"Wazn": {
+		name: "Wazn",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Wazn is a classical Arabic star name."
+	},
+	"Wisamèkw": {
+		name: "Wisamèkw",
+		type: "Animal",
+		lang: "Lenape",
+		blurb: "Wisamèkw means 'fat fish' in the Lenape language."
 	}
 };
 
