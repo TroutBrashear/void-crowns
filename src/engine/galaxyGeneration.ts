@@ -3,7 +3,6 @@ import type {  Org, OrgRelation, OrgCategory } from '../types/govState';
 import type { System, Planetoid, Deposit, Lane } from '../types/geoState';
 import type { Character } from '../types/charState';
 import { shuffle } from '../utils/shuffle';
-import { findPath } from './pathfinding';
 import { generateCharacter } from './character';
 import { colorPicker } from '../utils/colors';
 import { PLANETOID_TAGS } from '../data/tags';
@@ -445,41 +444,25 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 	}
 
 	//ensure everything is connected
-  let disconnectedSystems: System[];
+
 
   while(true){
-  	//temp normalization so we can use pathfinding
-	const tempSystemEntities: { [id: number]: System } = {};
-  	for (const system of newGalaxy) {
-  		tempSystemEntities[system.id] = system;
-  	}
-  	const tempSystems: { entities: { [id: number]: System }, ids: number[] } = {
-  	  entities: tempSystemEntities,
-  	  ids: newGalaxy.map(s => s.id),
-	  };
-
-	const tempLaneEntities: { [id: number]: Lane } = {};
-	  for (const lane of newLanes) {
-		  tempLaneEntities[lane.id] = lane;
-	  }
-
-	const tempLanes: {entities: { [id: number]: Lane}, ids: number[] } = {
-		entities:  tempLaneEntities,
-		ids: newLanes.map(p => p.id),
-	};
-	disconnectedSystems = newGalaxy.filter(system => {
-      if (system.id === 1) return false;
-      const pathToSystem1 = findPath(system.id, 1, tempSystems, tempLanes);
-      return pathToSystem1.length === 0;
-    });
+	const connectedSystemIds = getConnectedSystems(newGalaxy);
+	let connectedSystems: System[] = [];
+	let disconnectedSystems: System[] = [];
+	for(const system of newGalaxy){
+		if (connectedSystemIds.has(system.id)){
+			connectedSystems.push(system);
+		}
+		else{
+			disconnectedSystems.push(system);
+		}
+	}
 
     if (disconnectedSystems.length === 0) {
       console.log("Galaxy is fully connected!");
       break;
     }
-
-  	const connectedSystems = newGalaxy.filter(s => !disconnectedSystems.includes(s));
-
 
   	let minDistance = 1000000;
   	let closestSystem: System | null = null;
@@ -487,6 +470,7 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 
 	for(const currentOrphan of disconnectedSystems){
 		for(const connectedSystem of connectedSystems){
+
 			const distance = calcDistance(currentOrphan, connectedSystem);
 
 			if(distance < minDistance) {
