@@ -47,7 +47,7 @@ export function OrgCreation() {
                     {successionOptions.map(successionKey => {
                         if (!successionKey) return null;
                         return(
-                            <option value={successionKey}>
+                            <option key={successionKey} value={successionKey}>
                                 {successionKey}
                             </option>);
                     })}

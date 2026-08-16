@@ -43,6 +43,38 @@ function getConnectedSystems(systems: System[]): Set<number> {
 	return connected;
 }
 
+function counterClockwise(SystemA: { x: number, y: number}, SystemB: { x: number, y: number}, SystemC: { x: number, y: number}): boolean {
+	return (SystemC.y - SystemA.y) * (SystemB.x - SystemA.x) > (SystemB.y - SystemA.y) * (SystemC.x - SystemA.x);
+}
+
+function checkLaneOverlap(SystemA: { x: number, y: number}, SystemB: { x: number, y: number}, SystemC: { x: number, y: number}, SystemD: { x: number, y: number} ): boolean {
+	return counterClockwise(SystemA, SystemC, SystemD) !== counterClockwise(SystemB, SystemC, SystemD) && counterClockwise(SystemA, SystemB, SystemC) !== counterClockwise(SystemA, SystemB, SystemD) ;
+}
+
+function checkLane(lanes: Lane[], systems: System[], systemAId: number, systemBId: number): boolean {
+	const systemA = systems[systemAId - 1].position;
+	const systemB = systems[systemBId - 1].position;
+
+	for(const lane of lanes){
+		console.log(lane.id);
+		if(systemAId === lane.systemIdA || systemAId === lane.systemIdB || systemBId === lane.systemIdA || systemBId === lane.systemIdB){
+			continue;
+		}
+
+		const systemC = systems[lane.systemIdA - 1].position;
+		const systemD = systems[lane.systemIdB - 1].position
+
+
+
+		const overlap = checkLaneOverlap(systemA, systemB, systemC, systemD);
+		if(overlap){
+			return true;
+		}
+	}
+
+	return false;
+}
+
 function calcDistance(systemA: System, systemB: System): number {
   const dx = systemA.position.x - systemB.position.x;
   const dy = systemA.position.y - systemB.position.y;
@@ -405,12 +437,21 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 			neighbors = neighbors.slice(0, 2);
 		}
 
-		focusSystem.adjacentSystemIds = neighbors.map(nSystem => {
+		let adjacentSystemIds: number[] = [];
+
+		for(const nSystem of neighbors){
 			const systemIdA = Math.min(nSystem.id, focusSystem.id);
 			const systemIdB = Math.max(nSystem.id, focusSystem.id);
 			const laneKey = `${systemIdA}-${systemIdB}`;
 
 			if(!createdLanes.has(laneKey)){
+				const overlapsLanes = checkLane(newLanes, newGalaxy, systemIdA, systemIdB);
+
+				if(overlapsLanes){
+					console.log(nSystem.id);
+					continue;
+				}
+
 				const lane: Lane = {
 					id: nextLaneId++,
 					status: "stable",
@@ -429,8 +470,9 @@ export function generateGalaxy (numSystems: number ): {systems: System[],  plane
 					systemB.adjacentLanes.push(lane.id);
 				}
 			}
-			return nSystem.id;
-		});
+
+			adjacentSystemIds.push(nSystem.id);
+		}
 	}
 
 	//make sure adjacencies reciprocate
