@@ -15,7 +15,7 @@ function PopsInfoModal() {
     const backModal = useUiStore(state => state.backModal);
     const closeModal = useUiStore(state => state.closeModal);
 
-    const getPopById = useGameStore(state => state.getPopById);
+    const allPops = useGameStore(state => state.pops.entities);
 
     const planetToShow = useGameStore(state => state.planetoids.entities[selection.id])
 
@@ -23,7 +23,7 @@ function PopsInfoModal() {
         return null;
     }
 
-    const pops = planetToShow.population.popIds.map(popId => getPopById(popId));
+    const pops = planetToShow.population.popIds.map(popId => allPops[popId]);
 
     return (
         <div className={styles.modal}>
