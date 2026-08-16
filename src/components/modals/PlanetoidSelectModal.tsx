@@ -11,25 +11,23 @@ import { aggregateStockpiles } from '../../utils/system_view';
 
 function PlanetoidSelectModal() {
     const gameState = useGameStore(state => state); 
-	
 	const selection = useUiStore(state => state.selection);
-    //const setSelection = useUiStore(state => state.setSelection);
+	if(!selection){
+		return null;
+	}
+
     const backModal = useUiStore(state => state.backModal);
 	const changeModal = useUiStore(state => state.changeModal);
     const closeModal = useUiStore(state => state.closeModal);
 
     const getSystemById = useGameStore(state => state.getSystemById);
-    const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
 	const getBuildingById = useGameStore(state => state.getBuildingById);
     const getGoodById = useGameStore(state => state.getGoodById);
 	const constructBuilding = useGameStore(state => state.constructBuilding);
 
 	const [selectedBuilding, setSelectedBuilding] = useState<BuildingClass | null>(null);
 
-    const planetToShow = 
-    (selection?.type === 'planetoid') 
-    ? getPlanetoidById(selection.id) 
-    : null;
+    const planetToShow = useGameStore(state => state.planetoids.entities[selection.id])
 
   	if (!planetToShow) {
   	  return null; 

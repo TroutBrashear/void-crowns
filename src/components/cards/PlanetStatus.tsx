@@ -6,9 +6,7 @@ import Button from '../pure/Button';
 function PlanetStatus({ planetoidId }: { planetoidId: number }) {
      const openAssignModal = useUiStore(state => state.openAssignModal);
 
-    const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
-
-    const planetoid = getPlanetoidById(planetoidId);
+    const planetoid = useGameStore(state => state.planetoids.entities[planetoidId]);
 
     if(!planetoid || !planetoid.government || !planetoid.population ){
         return null;

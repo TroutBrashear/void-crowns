@@ -183,7 +183,6 @@ export interface GameState {
   getSystemsByOrg: (id: number) => System[] | undefined;
   getHabitablesInSystem: (id: number) => Planetoid[];
   getPlanetoidsBySystem: (id: number) => Planetoid[];
-  getPlanetoidById: (id: number) => Planetoid | undefined;
   getCharacterById: (id: number) => Character | undefined;
   getBuildingById: (id: number) => Building | undefined;
   getGoodById: (id: number) => Good | undefined;

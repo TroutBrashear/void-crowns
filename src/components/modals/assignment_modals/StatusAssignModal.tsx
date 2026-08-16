@@ -13,8 +13,6 @@ function StatusAssignModal() {
      const characterAssignTarget = useUiStore(state => state.characterAssignTarget); //which should be called simply assignTarget
      const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
-
-     const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
      const assignStatus = useGameStore(state => state.assignStatus);
 
      const [selectedStatus, setSelectedStatus] = useState<PoliticalStatus | null>(null);
@@ -23,7 +21,7 @@ function StatusAssignModal() {
          return null;
      }
 
-     const targetPlanetoid = getPlanetoidById(characterAssignTarget.targetId);
+     const targetPlanetoid = useGameStore(state => state.planetoids.entities[characterAssignTarget.targetId]);
 
      if(!targetPlanetoid){
          return null;

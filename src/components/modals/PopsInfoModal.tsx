@@ -8,16 +8,16 @@ import { Button } from '../pure/Button';
 
 function PopsInfoModal() {
     const selection = useUiStore(state => state.selection);
+    if(!selection){
+        return null;
+    }
+
     const backModal = useUiStore(state => state.backModal);
     const closeModal = useUiStore(state => state.closeModal);
 
     const getPopById = useGameStore(state => state.getPopById);
-    const getPlanetoidById = useGameStore(state => state.getPlanetoidById);
 
-    const planetToShow =
-    (selection?.type === 'planetoid')
-    ? getPlanetoidById(selection.id)
-    : null;
+    const planetToShow = useGameStore(state => state.planetoids.entities[selection.id])
 
     if (!planetToShow || !planetToShow.population) {
         return null;
