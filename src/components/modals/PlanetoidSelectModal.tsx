@@ -22,7 +22,7 @@ function PlanetoidSelectModal() {
 
     const getSystemById = useGameStore(state => state.getSystemById);
 	const getBuildingById = useGameStore(state => state.getBuildingById);
-    const getGoodById = useGameStore(state => state.getGoodById);
+    const goods = useGameStore(state => state.goods.entities);
 	const constructBuilding = useGameStore(state => state.constructBuilding);
 
 	const [selectedBuilding, setSelectedBuilding] = useState<BuildingClass | null>(null);
@@ -94,7 +94,7 @@ function PlanetoidSelectModal() {
 		  <h4>Stockpiles:</h4>
 		  <ul>
 			{Object.entries(planetStockpiles).map( ([goodId, amount]) => {
-				const good = getGoodById(Number(goodId));
+				const good = goods[Number(goodId)];
 				if(!good) return null;
 				return(
 					<li key={good.id}>
