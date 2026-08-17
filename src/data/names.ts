@@ -50,7 +50,7 @@ export const SYSTEM_NAMES: string[] = [
 "Uhelgoad", "Uath", "Úir", "Uilleann",
 "Vakarinė",
 "Waqi'", "Wazn", "Wisamèkw",
-"Yad", "Yaqut", "Yu Heng", "Ye Zhe", "You Geng", "Yeddo", "Yafin", "Yanqul", "Yumen", "Yaanai", "Ysbaddaden",
+"Yad", "Yaqut", "Yeddo", "Yafin", "Yanqul", "Yumen", "Yaanai", "Ysbaddaden",
 "Zawiyah", "Zawraq", "Zuban", "Zao Fu", "Zhu Wang", "Zi Xiu", "Zimbrah", "Zayt", "Zomia"
 ];
 
@@ -948,6 +948,24 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		type: "Animal",
 		lang: "Lenape",
 		blurb: "Wisamèkw means 'fat fish' in the Lenape language."
+	},
+	"Yad": {
+		name: "Yad",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "Yad refers to the Arabic star name Yad al-Jawza'"
+	},
+	"Yaqut": {
+		name: "Yaqut",
+		type: "Jewel",
+		lang: "Arabic",
+		blurb: "Yaqut means Ruby in Arabic."
+	},
+	"Yeddo": {
+		name: "Yeddo",
+		type: "Place",
+		lang: "Hoosier",
+		blurb: "An Indiana town, named for an old English term for Tokyo."
 	}
 };
 
