@@ -13,9 +13,7 @@ function LabCard({ buildingId }: { buildingId: number }) {
 
     const openAssignModal = useUiStore(state => state.openAssignModal);
 
-    const getBuildingById = useGameStore(state => state.getBuildingById);
-
-    const researchLab = getBuildingById (buildingId);
+    const researchLab = useGameStore(state => state.buildings.entities[buildingId]);
 
     if(!researchLab){
         return null;

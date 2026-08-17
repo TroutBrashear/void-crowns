@@ -15,7 +15,6 @@ function CharacterAssignModal() {
     const orgs = useGameStore(state => state.orgs.entities);
     const getSystemById = useGameStore(state => state.getSystemById);
     const getCharacterById = useGameStore(state => state.getCharacterById);
-    const getBuildingById = useGameStore(state => state.getBuildingById);
     const assignCharacter = useGameStore(state => state.assignCharacter);
 
     const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
@@ -53,14 +52,14 @@ function CharacterAssignModal() {
         }
     }
     else if(characterAssignTarget?.position === 'scientist'){
-        targetEntity = getBuildingById(characterAssignTarget.targetId);
+        targetEntity = useGameStore(state => state.buildings.entities[characterAssignTarget.targetId]);
         if(targetEntity){
             targetOwnerOrg = targetEntity.ownerNationId ? orgs[targetEntity.ownerNationId] : undefined;
             targetName = `${targetEntity.type} : ${targetEntity.id}`;
         }
     }
     else if(characterAssignTarget?.position === 'academyPresident'){
-        targetEntity = getBuildingById(characterAssignTarget.targetId);
+        targetEntity = useGameStore(state => state.buildings.entities[characterAssignTarget.targetId]);
         if(targetEntity){
             targetOwnerOrg = targetEntity.ownerNationId ? orgs[targetEntity.ownerNationId] : undefined;
             targetName = `${targetEntity.type} : ${targetEntity.id}`;

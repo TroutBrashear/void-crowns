@@ -6,22 +6,21 @@ import { Button } from '../pure/Button';
 
 
 function BuildingSelectModal() {
-
     const selection = useUiStore(state => state.selection);
-    const backModal = useUiStore(state => state.backModal);
-    const closeModal = useUiStore(state => state.closeModal);
-    const openAssignModal = useUiStore(state => state.openAssignModal);
-
-    const getBuildingById = useGameStore(state => state.getBuildingById);
-    const getCharacterById = useGameStore(state => state.getCharacterById);
-
     if (!selection) {
         return null;
     }
 
+    const backModal = useUiStore(state => state.backModal);
+    const closeModal = useUiStore(state => state.closeModal);
+    const openAssignModal = useUiStore(state => state.openAssignModal);
+    const getCharacterById = useGameStore(state => state.getCharacterById);
+
+
+
     const buildingToShow =
     (selection?.type === 'building')
-    ? getBuildingById(selection.id)
+    ? useGameStore(state=> state.buildings.entities[selection.id])
     : null;
 
 

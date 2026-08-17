@@ -50,7 +50,7 @@ export const SYSTEM_NAMES: string[] = [
 "Uhelgoad", "Uath", "Úir", "Uilleann",
 "Vakarinė",
 "Waqi'", "Wazn", "Wisamèkw",
-"Yad", "Yaqut", "Yeddo", "Yafin", "Yanqul", "Yumen", "Yaanai", "Ysbaddaden",
+"Yad", "Yaqut", "Yeddo", "Yanqul", "Ysbaddaden",
 "Zawiyah", "Zawraq", "Zuban", "Zao Fu", "Zhu Wang", "Zi Xiu", "Zimbrah", "Zayt", "Zomia"
 ];
 
@@ -965,8 +965,21 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		name: "Yeddo",
 		type: "Place",
 		lang: "Hoosier",
-		blurb: "An Indiana town, named for an old English term for Tokyo."
-	}
+		blurb: "An Indiana town, named for an older term for Tokyo."
+	},
+	"Yanqul": {
+		name: "Yanqul",
+		type: "Place",
+		lang: "Arabic",
+		blurb: "A town in Oman"
+	},
+	"Ysbaddaden": {
+		name: "Ysbaddaden",
+		type: "Mythology",
+		lang: "Welsh",
+		blurb: "Chief of Giants"
+	},
+
 };
 
 

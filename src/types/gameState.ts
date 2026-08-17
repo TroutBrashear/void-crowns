@@ -184,7 +184,6 @@ export interface GameState {
   getHabitablesInSystem: (id: number) => Planetoid[];
   getPlanetoidsBySystem: (id: number) => Planetoid[];
   getCharacterById: (id: number) => Character | undefined;
-  getBuildingById: (id: number) => Building | undefined;
 
   intelligence: IntelOverall;
 }
