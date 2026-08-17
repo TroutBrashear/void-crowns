@@ -1,5 +1,6 @@
 import type { EntitiesState, GameState } from '../types/gameState';
 import type { System, Lane } from '../types/geoState';
+import type { Fleet, Ship } from '../types/shipTypes';
 
 export function findPath(startingSystemId: number, endingSystemId: number, systems: EntitiesState<System>, lanes: EntitiesState<Lane>): number[] {
 	const finalPath: number[] = [];
@@ -48,6 +49,54 @@ export function findPath(startingSystemId: number, endingSystemId: number, syste
 	return finalPath.slice(1);
 }
 
+function checkPath(currentState: GameState, pathingEntity: (Ship | Fleet)): number[] {
+	if(!pathingEntity.movementPath){
+		return [];
+	}
+
+	for(let i = 0; i < pathingEntity.movementPath.length; i++){
+		const system = currentState.systems.entities[pathingEntity.movementPath[i]];
+
+		if(!system){
+			return [];
+		}
+
+		let prevSystemId: number;
+		if(i > 0){
+			prevSystemId = pathingEntity.movementPath[i-1];
+		}
+		else{
+			prevSystemId = pathingEntity.locationSystemId;
+		}
+
+		const currentLane = system.adjacentLanes.find(laneId => {
+			const lane = currentState.lanes.entities[laneId];
+			const systemIdA = Math.min(system.id, prevSystemId);
+			const systemIdB = Math.max(system.id, prevSystemId);
+			if(!lane){
+				return false;
+			}
+
+			if(lane.systemIdA === systemIdA && lane.systemIdB === systemIdB){
+				return true;
+			}
+		});
+
+		if(currentLane){
+			const laneEntity = currentState.lanes.entities[currentLane];
+
+			if(laneEntity && laneEntity.status === 'immaterial'){
+				return findPath(pathingEntity.locationSystemId, pathingEntity.movementPath[pathingEntity.movementPath.length - 1], currentState.systems, currentState.lanes);
+			}
+		}
+		else{
+			return [];
+		}
+	}
+
+	return pathingEntity.movementPath;
+}
+
 
 export function reevaluateCurrentPaths(currentState: GameState): GameState {
 	const ships = { ...currentState.ships.entities };
@@ -55,96 +104,17 @@ export function reevaluateCurrentPaths(currentState: GameState): GameState {
 
 	for(const fleetId of currentState.fleets.ids){
 		const fleet = fleets[fleetId];
-		if(!fleet.movementPath){
-			continue;
-		}
-
-		for(let i = 0; i < fleet.movementPath.length; i++){
-			const system = currentState.systems.entities[fleet.movementPath[i]];
-			let prevSystemId: number;
-			if(i > 0){
-				prevSystemId = fleet.movementPath[i-1];
-			}
-			else{
-				prevSystemId = fleet.locationSystemId;
-			}
-
-			const currentLane = system.adjacentLanes.find(laneId => {
-				const lane = currentState.lanes.entities[laneId];
-				const systemIdA = Math.min(system.id, prevSystemId);
-				const systemIdB = Math.max(system.id, prevSystemId);
-
-				if(lane.systemIdA === systemIdA && lane.systemIdB === systemIdB){
-					return true;
-				}
-			});
-
-			if(currentLane){
-				const laneEntity = currentState.lanes.entities[currentLane];
-
-				if(laneEntity && laneEntity.status === 'immaterial'){
-					fleets[fleetId] = {
-						...fleets[fleetId],
-						movementPath: findPath(fleet.locationSystemId, fleet.movementPath[fleet.movementPath.length - 1], currentState.systems, currentState.lanes),
-					};
-					break;
-				}
-			}
-			else{
-				fleets[fleetId] = {
-					...fleets[fleetId],
-					movementPath: [],
-				};
-				break;
-			}
+		fleets[fleetId] = {
+			...fleets[fleetId],
+			movementPath: checkPath(currentState, fleet),
 		}
 	}
 
 	for(const shipId of currentState.ships.ids){
 		const ship = ships[shipId];
-		if(!ship.movementPath){
-			continue;
-		}
-
-		for(let i = 0; i < ship.movementPath.length; i++){
-			const system = currentState.systems.entities[ship.movementPath[i]];
-			let prevSystemId: number;
-			if(i > 0){
-				prevSystemId = ship.movementPath[i-1];
-			}
-			else{
-				prevSystemId = ship.locationSystemId;
-			}
-
-			const currentLane = system.adjacentLanes.find(laneId => {
-				const lane = currentState.lanes.entities[laneId];
-				const systemIdA = Math.min(system.id, prevSystemId);
-				const systemIdB = Math.max(system.id, prevSystemId);
-
-				if(lane.systemIdA === systemIdA && lane.systemIdB === systemIdB){
-					return true;
-				}
-			});
-
-			if(currentLane){
-				const laneEntity = currentState.lanes.entities[currentLane];
-
-				if(laneEntity && laneEntity.status === 'immaterial'){
-					ships[shipId] = {
-						...ships[shipId],
-						movementPath: findPath(ship.locationSystemId, ship.movementPath[ship.movementPath.length - 1], currentState.systems, currentState.lanes),
-					};
-					break;
-				}
-
-			}
-			else{
-				ships[shipId] = {
-					...ships[shipId],
-					movementPath: [],
-				};
-				break;
-			}
+		ships[shipId] = {
+			...ships[shipId],
+			movementPath: checkPath(currentState, ship)
 		}
 	}
 
