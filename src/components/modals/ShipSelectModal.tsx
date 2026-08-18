@@ -3,6 +3,8 @@ import { useGameStore } from '../../state/gameStore';
 import styles from './Modal.module.css';
 import { useState } from 'react';
 
+import { getHabitablesInSystem } from '../../engine/colonization';
+
 import { Button } from '../pure/Button';
 
 function ShipSelectModal() {
@@ -15,7 +17,6 @@ function ShipSelectModal() {
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
   const shipToShow = useGameStore(state => state.ships.entities[selection.id]);
-  const getHabitablesInSystem  = useGameStore(state => state.getHabitablesInSystem);
   const getPlanetoidsBySystem = useGameStore(state => state.getPlanetoidsBySystem);
 
   const characters = useGameStore(state => state.characters.entities);
@@ -35,7 +36,7 @@ function ShipSelectModal() {
   }
 
   const allPlanetoids = getPlanetoidsBySystem(shipToShow.locationSystemId);
-  const colonizablePlanetoids = getHabitablesInSystem(shipToShow.locationSystemId);
+  const colonizablePlanetoids = useGameStore(state => getHabitablesInSystem(state, shipToShow.locationSystemId));
 
   const assignedCharacter = shipToShow.assignedCharacter
   ? characters[shipToShow.assignedCharacter]

@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import { RESEARCH_CATALOG } from '../../../data/research';
 
+import { getAllResearchOptions } from '../../../engine/economy';
+
 import styles from './AssignModal.module.css';
 
 import { Button } from '../../pure/Button';
@@ -12,7 +14,6 @@ function ResearchAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget); //which should be called simply assignTarget
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
-    const getOrgResearchOptions = useGameStore(state => state.getOrgResearchOptions);
     const assignResearch = useGameStore(state => state.assignResearch);
 
     const [selectedResearch, setSelectedResearch] = useState<string | null>(null);
@@ -33,7 +34,7 @@ function ResearchAssignModal() {
         return null;
     }
 
-    const researchOptions = getOrgResearchOptions(targetBuilding.ownerNationId);
+    const researchOptions = useGameStore(state => getAllResearchOptions(state, targetBuilding.ownerNationId));
 
     return(
         <div className={styles.assignModal}>

@@ -9,7 +9,7 @@ import type { Fleet, Ship, ShipType, MilShipType } from '../types/shipTypes';
 //engine imports
 import { processTick } from '../engine/tick';
 import { findPath, reevaluateCurrentPaths } from '../engine/pathfinding';
-import { processEconomy, getAllResearchOptions, engineAssignResearch } from '../engine/economy';
+import { processEconomy, engineAssignResearch } from '../engine/economy';
 import { processCombat } from '../engine/combat';
 import { processAiTurn } from '../engine/ai';
 import { processCharacterCycles } from '../engine/character';
@@ -17,7 +17,7 @@ import { processDiplomacy, enginePlayerDiploResponse, sendDiploRequest } from '.
 import { generateGalaxy, generateStartingOrgs, generateStartingSpecies } from '../engine/galaxyGeneration';
 import { engineBuildBuilding, engineBuildPlanetoid, engineBuildAnchor, engineBuildHabitat } from '../engine/building';
 import { engineBuildShip, engineBuildMilShip } from '../engine/building/shipBuilding';
-import { colonizePlanetoid, beginPlanetoidSurvey, getHabitablesInSystem } from '../engine/colonization';
+import { colonizePlanetoid, beginPlanetoidSurvey } from '../engine/colonization';
 import { engineAssignCharacter } from '../engine/character';
 import { shiftLanes } from '../engine/ecology';
 
@@ -478,14 +478,6 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     const state = get();
     const system = state.systems.entities[id];
     return system.planetoids.map(planetoidId => state.planetoids.entities[planetoidId]);
-  },
-
-  getHabitablesInSystem: (id: number) => {
-    return getHabitablesInSystem(get(), id);
-  },
-
-  getOrgResearchOptions: (orgId: number) => {
-    return getAllResearchOptions(get(), orgId);
   },
 
 
