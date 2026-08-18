@@ -177,14 +177,6 @@ export interface GameState {
   goods: EntitiesState<Good>;
   cells: EntitiesState<Cell>;
   movements: EntitiesState<Movement>;
-
-  getFleetsBySystem: (id: number) => Fleet[] | undefined;
-  getSystemById: (id: number) => System | undefined;
-  getSystemsByOrg: (id: number) => System[] | undefined;
-  getHabitablesInSystem: (id: number) => Planetoid[];
-  getPlanetoidsBySystem: (id: number) => Planetoid[];
-  getCharacterById: (id: number) => Character | undefined;
-
   intelligence: IntelOverall;
 }
 
@@ -209,7 +201,6 @@ export interface GameActions {
   assignCharacter: (payload: {charId: number, assignmentTargetId: number, assignmentType: CharacterAssignment}) => void;
   assignResearch: (payload: {buildingId: number, researchId: string }) => void;
   assignStatus: (payload: {planetoidId: number, newStatus: PoliticalStatus}) => void;
-  getOrgResearchOptions: (orgId: number) => string[];
 }
 
 export type GameStoreState = GameState & GameActions;

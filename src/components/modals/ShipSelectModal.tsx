@@ -3,7 +3,10 @@ import { useGameStore } from '../../state/gameStore';
 import styles from './Modal.module.css';
 import { useState } from 'react';
 
+import { getHabitablesInSystem } from '../../engine/colonization';
+
 import { Button } from '../pure/Button';
+import { getPlanetoidsBySystem } from '../../state/selectors';
 
 function ShipSelectModal() {
   const selection = useUiStore(state => state.selection);
@@ -15,10 +18,8 @@ function ShipSelectModal() {
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
   const shipToShow = useGameStore(state => state.ships.entities[selection.id]);
-  const getHabitablesInSystem  = useGameStore(state => state.getHabitablesInSystem);
-  const getPlanetoidsBySystem = useGameStore(state => state.getPlanetoidsBySystem);
 
-  const getCharacterById = useGameStore(state => state.getCharacterById);
+  const characters = useGameStore(state => state.characters.entities);
 
   const colonizePlanetoid = useGameStore(state => state.colonizePlanetoid);
   const beginPlanetoidSurvey = useGameStore(state => state.beginPlanetoidSurvey);
@@ -34,11 +35,11 @@ function ShipSelectModal() {
     return null; 
   }
 
-  const allPlanetoids = getPlanetoidsBySystem(shipToShow.locationSystemId);
-  const colonizablePlanetoids = getHabitablesInSystem(shipToShow.locationSystemId);
+  const allPlanetoids = useGameStore(state => getPlanetoidsBySystem(state, shipToShow.locationSystemId));
+  const colonizablePlanetoids = useGameStore(state => getHabitablesInSystem(state, shipToShow.locationSystemId));
 
   const assignedCharacter = shipToShow.assignedCharacter
-  ? getCharacterById(shipToShow.assignedCharacter)
+  ? characters[shipToShow.assignedCharacter]
   : null;
 
   return (

@@ -14,7 +14,7 @@ function BuildingSelectModal() {
     const backModal = useUiStore(state => state.backModal);
     const closeModal = useUiStore(state => state.closeModal);
     const openAssignModal = useUiStore(state => state.openAssignModal);
-    const getCharacterById = useGameStore(state => state.getCharacterById);
+    const characters = useGameStore(state => state.characters.entities);
 
 
 
@@ -28,7 +28,7 @@ function BuildingSelectModal() {
         return null;
     }
 
-    const assignedCharacter = buildingToShow.assignedCharacter ? getCharacterById(buildingToShow.assignedCharacter) : null;
+    const assignedCharacter = buildingToShow.assignedCharacter ? characters[buildingToShow.assignedCharacter] : null;
 
 
     return (

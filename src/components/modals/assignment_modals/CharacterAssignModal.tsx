@@ -13,8 +13,7 @@ function CharacterAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget);
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
     const orgs = useGameStore(state => state.orgs.entities);
-    const getSystemById = useGameStore(state => state.getSystemById);
-    const getCharacterById = useGameStore(state => state.getCharacterById);
+    const characters = useGameStore(state => state.characters.entities);
     const assignCharacter = useGameStore(state => state.assignCharacter);
 
     const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
@@ -31,7 +30,7 @@ function CharacterAssignModal() {
         }
     }
     else if(characterAssignTarget?.position === 'governor'){
-        targetEntity = getSystemById(characterAssignTarget.targetId);
+        targetEntity = useGameStore(state => state.systems.entities[characterAssignTarget.targetId]);
         if(targetEntity){
             targetOwnerOrg =  targetEntity.ownerNationId ? orgs[targetEntity.ownerNationId] : undefined;
             targetName = targetEntity.name;
@@ -85,7 +84,7 @@ function CharacterAssignModal() {
         return null;
     }
 
-    const poolCharacters = targetOwnerOrg.characters.characterPool.map(characterId => getCharacterById(characterId));
+    const poolCharacters = targetOwnerOrg.characters.characterPool.map(characterId => characters[characterId]);
 
 
     return(

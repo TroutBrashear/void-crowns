@@ -5,12 +5,12 @@ import { useState } from 'react';
 import styles from './AssignModal.module.css';
 
 import { Button } from '../../pure/Button';
+import { getPlanetoidsBySystem } from '../../../state/selectors';
 
 function HabitatAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget); //which should be called simply assignTarget
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
 
-    const getPlanetoidsBySystem = useGameStore(state => state.getPlanetoidsBySystem);
     const constructHabitat = useGameStore(state => state.constructHabitat);
 
     const [selectedPlanetoid, setselectedPlanetoid] = useState<number | null>(null);
@@ -19,7 +19,7 @@ function HabitatAssignModal() {
         return null;
     }
 
-   let planetoidOptions = getPlanetoidsBySystem(characterAssignTarget.targetId);
+   let planetoidOptions = useGameStore(state => getPlanetoidsBySystem(state, characterAssignTarget.targetId));
 
    planetoidOptions = planetoidOptions.filter(planetoid => planetoid.classification !== 'gravWell' && planetoid.classification !== 'station');
 
