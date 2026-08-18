@@ -20,7 +20,6 @@ function PlanetoidSelectModal() {
 	const changeModal = useUiStore(state => state.changeModal);
     const closeModal = useUiStore(state => state.closeModal);
 
-    const getSystemById = useGameStore(state => state.getSystemById);
 	const allBuildings = useGameStore(state => state.buildings.entities);
     const goods = useGameStore(state => state.goods.entities);
 	const constructBuilding = useGameStore(state => state.constructBuilding);
@@ -33,7 +32,7 @@ function PlanetoidSelectModal() {
   	  return null; 
   	}
 
-  	const parentSystem = getSystemById(planetToShow.locationSystemId);
+  	const parentSystem = useGameStore(state => state.planetoids.entities[planetToShow.locationSystemId]);
 	if (!parentSystem) {
   	  return null; 
   	}

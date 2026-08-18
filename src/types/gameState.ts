@@ -179,7 +179,6 @@ export interface GameState {
   movements: EntitiesState<Movement>;
 
   getFleetsBySystem: (id: number) => Fleet[] | undefined;
-  getSystemById: (id: number) => System | undefined;
   getSystemsByOrg: (id: number) => System[] | undefined;
   getHabitablesInSystem: (id: number) => Planetoid[];
   getPlanetoidsBySystem: (id: number) => Planetoid[];

@@ -10,27 +10,26 @@ import { Button } from '../pure/Button';
 
 function SystemSelectModal() {
   const selection = useUiStore(state => state.selection);
-  //const setSelection = useUiStore(state => state.setSelection);
+  if (!selection) {
+    return null;
+  }
+
   const changeModal = useUiStore(state => state.changeModal);
   const closeModal = useUiStore(state => state.closeModal);
   const openAssignModal = useUiStore(state => state.openAssignModal);
 
   const planetoids = useGameStore(state => state.planetoids.entities);
   const orgs = useGameStore(state => state.orgs.entities);
-
-  const getSystemById = useGameStore(state => state.getSystemById);
   const getCharacterById = useGameStore(state => state.getCharacterById);
 
   const buildShip = useGameStore(state => state.buildShip);
   const buildMilShip = useGameStore(state => state.buildMilShip);
 
-  if (!selection) {
-    return null;
-  }
+
 
   const systemToShow =
   (selection?.type === 'system')
-  ? getSystemById(selection.id)
+  ? useGameStore(state => state.systems.entities[selection.id])
   : null;
 
   if (!systemToShow) {
