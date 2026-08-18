@@ -18,7 +18,7 @@ function ShipSelectModal() {
   const getHabitablesInSystem  = useGameStore(state => state.getHabitablesInSystem);
   const getPlanetoidsBySystem = useGameStore(state => state.getPlanetoidsBySystem);
 
-  const getCharacterById = useGameStore(state => state.getCharacterById);
+  const characters = useGameStore(state => state.characters.entities);
 
   const colonizePlanetoid = useGameStore(state => state.colonizePlanetoid);
   const beginPlanetoidSurvey = useGameStore(state => state.beginPlanetoidSurvey);
@@ -38,7 +38,7 @@ function ShipSelectModal() {
   const colonizablePlanetoids = getHabitablesInSystem(shipToShow.locationSystemId);
 
   const assignedCharacter = shipToShow.assignedCharacter
-  ? getCharacterById(shipToShow.assignedCharacter)
+  ? characters[shipToShow.assignedCharacter]
   : null;
 
   return (

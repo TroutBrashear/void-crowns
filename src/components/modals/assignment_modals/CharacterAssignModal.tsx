@@ -13,7 +13,7 @@ function CharacterAssignModal() {
     const characterAssignTarget = useUiStore(state => state.characterAssignTarget);
     const closeAssignModal = useUiStore(state => state.closeAssignModal);
     const orgs = useGameStore(state => state.orgs.entities);
-    const getCharacterById = useGameStore(state => state.getCharacterById);
+    const characters = useGameStore(state => state.characters.entities);
     const assignCharacter = useGameStore(state => state.assignCharacter);
 
     const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
@@ -84,7 +84,7 @@ function CharacterAssignModal() {
         return null;
     }
 
-    const poolCharacters = targetOwnerOrg.characters.characterPool.map(characterId => getCharacterById(characterId));
+    const poolCharacters = targetOwnerOrg.characters.characterPool.map(characterId => characters[characterId]);
 
 
     return(

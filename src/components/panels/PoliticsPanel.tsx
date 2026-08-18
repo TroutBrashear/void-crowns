@@ -13,7 +13,7 @@ function PoliticsPanel() {
 
 
     const playerOrg = useGameStore(state => state.orgs.entities[1]);
-    const getCharacterById = useGameStore(state => state.getCharacterById);
+    const characters = useGameStore(state => state.characters.entities);
 
 
     //something is seriously wrong in this case...
@@ -26,7 +26,7 @@ function PoliticsPanel() {
 
     let leaderChar;
     if(playerOrg.characters.leaderId){
-      leaderChar = getCharacterById(playerOrg.characters.leaderId);
+      leaderChar = characters[playerOrg.characters.leaderId];
     }
 
     const isAssignable = playerOrg.government.succession !== 'heriditary';

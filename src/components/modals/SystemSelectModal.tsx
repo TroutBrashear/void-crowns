@@ -20,17 +20,14 @@ function SystemSelectModal() {
 
   const planetoids = useGameStore(state => state.planetoids.entities);
   const orgs = useGameStore(state => state.orgs.entities);
-  const getCharacterById = useGameStore(state => state.getCharacterById);
+
+  const characters = useGameStore(state => state.characters.entities);
 
   const buildShip = useGameStore(state => state.buildShip);
   const buildMilShip = useGameStore(state => state.buildMilShip);
 
 
-
-  const systemToShow =
-  (selection?.type === 'system')
-  ? useGameStore(state => state.systems.entities[selection.id])
-  : null;
+  const systemToShow = useGameStore(state => state.systems.entities[selection.id]);
 
   if (!systemToShow) {
     return null;
@@ -40,8 +37,8 @@ function SystemSelectModal() {
 
   const systemPlanetoids = hierarchizeSystem(planetoids, systemToShow.id);
 
-  const govCharacter = systemToShow.assignedCharacter
-  ? getCharacterById(systemToShow.assignedCharacter)
+  const govCharacter = (systemToShow?.assignedCharacter)
+  ? characters[systemToShow.assignedCharacter]
   : null;
 
   const starMetadata = SYSTEM_METADATA[systemToShow.name] ?? { name: systemToShow.name, type: 'Machine Generated', lang: 'Machine Generated', blurb: 'N/A'};
