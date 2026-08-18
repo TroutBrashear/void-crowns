@@ -465,23 +465,5 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       goods: normalize(Object.values(DEFAULT_GOODS)), //load in our default goods from their dict
     });
   },
-
-  //getters
-  getFleetsBySystem: (id: number) => { //good candidate for future optimization.
-    const allFleets = Object.values(get().fleets.entities);
-    return allFleets.filter(fleet => fleet.locationSystemId === id);
-  },
-
-  getSystemsByOrg: (id: number) => Object.values(get().systems.entities).filter(system => system.ownerNationId === id),
-
-  getPlanetoidsBySystem: (id: number) => {
-    const state = get();
-    const system = state.systems.entities[id];
-    return system.planetoids.map(planetoidId => state.planetoids.entities[planetoidId]);
-  },
-
-
-  //removers
-
   };
 });

@@ -177,11 +177,6 @@ export interface GameState {
   goods: EntitiesState<Good>;
   cells: EntitiesState<Cell>;
   movements: EntitiesState<Movement>;
-
-  getFleetsBySystem: (id: number) => Fleet[] | undefined;
-  getSystemsByOrg: (id: number) => System[] | undefined;
-  getPlanetoidsBySystem: (id: number) => Planetoid[];
-
   intelligence: IntelOverall;
 }
 
