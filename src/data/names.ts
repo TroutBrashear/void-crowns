@@ -979,7 +979,18 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		lang: "Welsh",
 		blurb: "Chief of Giants"
 	},
-
+	"Zawiyah": {
+		name: "Zawiyah",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "A classic Arabic star name."
+	},
+	"Zawraq": {
+		name: "Zawraq",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "A classic Arabic star name."
+	},
 };
 
 
