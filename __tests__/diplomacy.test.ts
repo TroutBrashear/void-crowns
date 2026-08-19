@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 
 import { GameState } from '../src/types/gameState';
 import { initialOrgs } from '../src/data/scenarios/diploTest';
-import { getRelationship } from '../src/engine/diplomacy';
+import { engineUpdateRelationship, getRelationship } from '../src/engine/diplomacy';
 
 import { normalize } from '../src/utils/normalize';
 
@@ -41,5 +41,21 @@ describe('getRelationship', () => {
 
         expect(result.status).toBe('war');
         expect(inverseResult.status).toBe('war');
+    })
+})
+
+describe('updateRelationship', () => {
+    const getNormalizedScenarioState = (): GameState => {
+        return {
+            orgs: normalize(initialOrgs),
+        } as unknown as GameState; //unknown maintains type safety while shedding requirement for complete GameState
+    };
+
+    it('should successfully update Org relationship when both Orgs exist', () => {
+        let testState = getNormalizedScenarioState();
+
+        testState = engineUpdateRelationship(testState, 1, 2, 'peace');
+
+        expect(getRelationship(testState, 1, 2).status).toBe('peace');
     })
 })

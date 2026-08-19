@@ -16,7 +16,7 @@ export const NAME_LISTS: Record<string, NameList> = {
 }
 
 export type OriginType = 'Star' | 'Lunar Mansion' | 'Constellation' | 'Plant' | 'Animal' | 'Food' | 'Place' | 'Mythology' | 'Fiction' | 'Machine Generated' | 'Jewel' | 'Person' | 'Misc';
-export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Igbo' | 'Kurdish' | 'Lenape' | 'Welsh' | 'Swahili' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Latin' | 'Ugaritic' | 'Conlang' | 'Machine Generated';
+export type OriginLang = 'Arabic' |  'Tamil' | 'Breton' | 'Chinese' | 'French' | 'Japanese' | 'Igbo' | 'Kurdish' | 'Lenape' | 'Welsh' | 'Swahili' |  'Ogham' |  'German' | 'Spanish' | 'Lithuanian' | 'Finnish' | 'Hoosier' | 'Latin' | 'Ugaritic' | 'Conlang' | 'Machine Generated' | 'Misc';
 
 export interface StarInfo {
 	name: string;
@@ -51,7 +51,7 @@ export const SYSTEM_NAMES: string[] = [
 "Vakarinė",
 "Waqi'", "Wazn", "Wisamèkw",
 "Yad", "Yaqut", "Yeddo", "Yanqul", "Ysbaddaden",
-"Zawiyah", "Zawraq", "Zuban", "Zao Fu", "Zhu Wang", "Zi Xiu", "Zimbrah", "Zayt", "Zomia"
+"Zawiyah", "Zawraq", "Zuban", "Zomia"
 ];
 
 export const SYSTEM_METADATA: Record<string, StarInfo> = {
@@ -991,6 +991,18 @@ export const SYSTEM_METADATA: Record<string, StarInfo> = {
 		lang: "Arabic",
 		blurb: "A classic Arabic star name."
 	},
+	"Zuban": {
+		name: "Zuban",
+		type: "Star",
+		lang: "Arabic",
+		blurb: "A classic Arabic star name."
+	},
+	"Zomia": {
+		name: "Zomia",
+		type: "Place",
+		lang: "Misc",
+		blurb: "A term for the Southeast Asian Massif."
+	}
 };
 
 
