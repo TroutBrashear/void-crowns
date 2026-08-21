@@ -7,7 +7,6 @@ import type { Character } from '../../types/charState';
 import { generateCharacter, engineUnassignCharacter } from '../character';
 import { SUCCESSION_CATALOG } from '../../data/politics/succession';
 import type { PoliticalStatus } from '../../types/govState';
-import { CYCLE_CONFIG } from '../../constants/cycle_config';
 
 
 export function engineAssignStatus(currentState: GameState, planetoidId: number, newStatus: PoliticalStatus){
