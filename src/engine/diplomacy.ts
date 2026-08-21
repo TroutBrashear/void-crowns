@@ -255,6 +255,7 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 					message: `${request.type} between ${currentOrg.flavor.name} and ${nextState.orgs.entities[request.originOrgId].flavor.name}`,
 					involvedOrgIds: [orgId, request.originOrgId],
 					isPlayerVisible: evaluatePlayerVisible,
+					urgent: false
 				};
 
 				allDiploEvents.push(diploEvent);
@@ -265,6 +266,7 @@ export function processDiplomacy(currentState: GameState): EngineResult {
 					message: `${request.type} DECLINED between ${currentOrg.flavor.name} and ${nextState.orgs.entities[request.originOrgId].flavor.name}`,
 					involvedOrgIds: [orgId, request.originOrgId],
 					isPlayerVisible: evaluatePlayerVisible,
+					urgent: false
 				};
 
 				allDiploEvents.push(diploEvent);

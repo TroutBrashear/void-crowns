@@ -148,6 +148,7 @@ export function resolveCharacterSpawns(currentState: GameState, spawnedCharacter
 			locationId: building.locationId,
 			involvedOrgIds: [building.ownerNationId],
 			isPlayerVisible: building.ownerNationId === 1,
+			urgent: false
 		};
 
 		events.push(charGenEvent);
@@ -629,6 +630,7 @@ export function processEconomy(currentState: GameState): EngineResult {
 			locationId: resObj.labLocationId,
 			involvedOrgIds: [resObj.orgId],
 			isPlayerVisible: resObj.orgId === 1,
+			urgent: true
 		};
 
 		events.push(researchCompleteEvent);

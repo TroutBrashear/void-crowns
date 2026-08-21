@@ -223,6 +223,7 @@ function resolveBattle(currentState: GameState, fleetsInSystemFactionA: Fleet[],
     	locationId: fleetsInSystemFactionA[0]?.locationSystemId, 
     	involvedOrgIds: participatingFactions,
     	isPlayerVisible: participatingFactions.includes(1),
+    	urgent: true
  	};
 
   	events.push(battleResultEvent);

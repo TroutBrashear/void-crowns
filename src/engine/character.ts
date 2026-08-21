@@ -268,6 +268,7 @@ export function killCharacter(currentState: GameState, charId: number): EngineRe
 		message: `${currentCharacter.name.firstName} ${currentCharacter.name.lastName} died.`,
 		involvedOrgIds: [currentCharacter.citizenOrg ?? 0],
 		isPlayerVisible: currentCharacter.citizenOrg === 1,
+		urgent: false
 	};
 
 	const newCharacters = { ...functionState.characters.entities };
@@ -362,6 +363,7 @@ export function generateCharacter(nextId: number, nameListId: string): { newChar
 
 		involvedOrgIds: [0],
 		isPlayerVisible: false,
+		urgent: false,
 	};
 	
 	return {newCharacter: newCharacter, spawnEvent: spawnEvent };

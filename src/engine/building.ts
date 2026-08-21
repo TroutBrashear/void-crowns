@@ -99,6 +99,7 @@ export function engineBuildBuilding(currentState: GameState, planetoidId: number
 	involvedOrgIds: [ownerId],
 	isPlayerVisible: ownerId===1, 
 	locationId: planetoid.locationSystemId,
+    urgent: false
   };
   
   return {
