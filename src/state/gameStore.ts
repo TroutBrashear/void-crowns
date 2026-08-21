@@ -320,7 +320,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     orgs[0].flavor.name = payload.playerOrg.name;
     orgs[0].flavor.color = payload.playerOrg.color;
 
-    orgs[0].government.leaderTermDuration = payload.playerOrg.termLength;
+    orgs[0].government.leaderTermDuration = payload.playerOrg.termLength * (CYCLE_CONFIG.YEAR_LENGTH);
     orgs[0].government.presentTermEnd = payload.playerOrg.termLength;
     orgs[0].government.succession = payload.playerOrg.successionType;
 

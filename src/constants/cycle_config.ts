@@ -1,6 +1,7 @@
 //presently, just intervals for evaluating each subject area every x ticks
 
 export const CYCLE_CONFIG = {
+    YEAR_LENGTH: 50,
     SURVEY: {
          SURVEY_INTERVAL: 20,
     },

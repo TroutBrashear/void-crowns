@@ -398,7 +398,7 @@ export function processCharacterCycles(currentState: GameState): EngineResult {
 
 			//handle aging and death
 			let newAge = currentCharacter.age;
-			if(functionState.meta.turn % CYCLE_CONFIG.CHARACTER.AGING_INTERVAL === 0) {
+			if(functionState.meta.turn % CYCLE_CONFIG.YEAR_LENGTH === 0) {
 				newAge +=1;
 			}
 			if(newAge >= 100){
