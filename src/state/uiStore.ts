@@ -17,11 +17,14 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 	activePanel: null,
 
 	//logic for notifications
-	notification: {
-		notificationType: null,
-  		notificationMessage: null,
-  		isOpen: false,
-  		timeOutId: null,
+	notifications: {
+		notification: {
+			notificationType: null,
+			notificationMessage: null,
+			isOpen: false,
+			timeOutId: null,
+		},
+		notStack: []
 	},
 
 
@@ -100,7 +103,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
   	}),
 
   	showNotification: (payload: ShowNotificationPayload) => {
-		const { notification } = get(); 
+		const { notification } = get().notifications;
 		if (notification.timeOutId) {
   			clearTimeout(notification.timeOutId);
 		}
@@ -111,17 +114,20 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 
 		set((state) => ({
       		...state,
-      		notification: {
-        		isOpen: true,
-        		notificationType: payload.type, 
-        		notificationMessage: payload.message,
-        		timeOutId: newTimeoutId,
+      		notifications: {
+				...state.notifications,
+					notification: {
+					isOpen: true,
+					notificationType: payload.type,
+					notificationMessage: payload.message,
+					timeOutId: newTimeoutId,
+				}
      		}
     	}));
 	},
 
 	hideNotification: () => {
-		const notification = get().notification;
+		const notification = get().notifications.notification;
  
 		if (notification.timeOutId) {
   			clearTimeout(notification.timeOutId);

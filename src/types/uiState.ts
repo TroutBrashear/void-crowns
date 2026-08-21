@@ -28,7 +28,11 @@ export interface UiState {
   characterAssignTarget: CharacterAssignTarget | null;
   activePanel: PanelType | null;
   selection: Selection | null;
-  notification: NotificationData;
+  notifications: {
+      notification: NotificationData;
+      notStack: NotificationData[];
+  }
+
   navStack: HistoryStep[];
 }
 
