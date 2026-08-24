@@ -168,14 +168,40 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
   			clearTimeout(notification.timeOutId);
 		}
 
-		set((state) => ({
-      		...state,
-      		notification: {
-        		isOpen: false,
-        		notificationMessage: null,
-        		notificationType: null,
-        		timeOutId: null,
-      		}
-    	}));
+		let notStack = get().notifications.notStack;
+
+		if(notStack[0]){
+			let noti = {...notStack[0]};
+			const newTimeoutId = setTimeout(() => {
+				get().hideNotification();
+			}, 4000);
+
+			noti.timeOutId = newTimeoutId;
+			noti.isOpen = true;
+			notStack = notStack.slice(1);
+			set((state) => ({
+				...state,
+				notifications: {
+					...state.notifications,
+					notification: noti,
+					notStack: notStack
+				}
+			}));
+		}
+		else{
+			set((state) => ({
+				...state,
+				notifications: {
+					...state.notifications,
+					notification: {
+						isOpen: false,
+						notificationType: null,
+						notificationMessage: null,
+						timeOutId: null,
+						isUrgent: false
+					}
+				}
+			}));
+		}
 	},
 }));
