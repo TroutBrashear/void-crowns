@@ -13,6 +13,7 @@ export interface NotificationData {
   notificationType: string | null;
   notificationMessage: string | null;
   isOpen: boolean;
+  isUrgent: boolean;
   timeOutId: number | null;
 }
 
@@ -39,6 +40,7 @@ export interface UiState {
 export interface ShowNotificationPayload {
   message: string;
   type: 'info' | 'success' | 'error';
+  isUrgent: boolean;
 }
 
 export interface UiStoreMethods {

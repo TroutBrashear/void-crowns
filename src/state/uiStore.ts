@@ -23,6 +23,7 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 			notificationMessage: null,
 			isOpen: false,
 			timeOutId: null,
+			isUrgent: false
 		},
 		notStack: []
 	},
@@ -104,26 +105,60 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 
   	showNotification: (payload: ShowNotificationPayload) => {
 		const { notification } = get().notifications;
-		if (notification.timeOutId) {
-  			clearTimeout(notification.timeOutId);
-		}
 
-		const newTimeoutId = setTimeout(() => {
-			get().hideNotification();
-		}, 4000);
 
-		set((state) => ({
-      		...state,
-      		notifications: {
-				...state.notifications,
-					notification: {
-					isOpen: true,
-					notificationType: payload.type,
-					notificationMessage: payload.message,
-					timeOutId: newTimeoutId,
+		//notification is up, push new notification to stack
+		if(notification.isOpen){
+			let notStack = get().notifications.notStack;
+
+			let newNot = {
+				isOpen: false,
+				notificationType: payload.type,
+				notificationMessage: payload.message,
+				timeOutId: null,
+				isUrgent: payload.isUrgent
+			};
+
+			if (payload.isUrgent){
+				notStack = [newNot, ...notStack];
+			}
+			else{
+				let index = notStack.findIndex(not => !not.isUrgent);
+				if(index >= 0){
+					notStack = [...notStack.slice(0, index), newNot, ...notStack.slice(index)];
 				}
-     		}
-    	}));
+				else{
+					notStack = [...notStack, newNot];
+				}
+			}
+
+			set((state) => ({
+				...state,
+				notifications: {
+					...state.notifications,
+					notStack: notStack
+				}
+			}));
+		}
+		else{
+			const newTimeoutId = setTimeout(() => {
+				get().hideNotification();
+			}, 4000);
+
+			set((state) => ({
+				...state,
+				notifications: {
+					...state.notifications,
+					notification: {
+						isOpen: true,
+						notificationType: payload.type,
+						notificationMessage: payload.message,
+						timeOutId: newTimeoutId,
+						isUrgent: payload.isUrgent
+					}
+				}
+			}));
+		}
 	},
 
 	hideNotification: () => {

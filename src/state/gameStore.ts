@@ -151,6 +151,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
       showNotification({
         type: 'info',
         message: playerEvents[0].message,
+        isUrgent: playerEvents[0].urgent
       });
 
     }
@@ -248,6 +249,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         showNotification({
           type: 'info',
           message: buildEvent.message,
+          isUrgent: false
         });
 	}
   },
