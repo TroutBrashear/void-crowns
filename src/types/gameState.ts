@@ -136,6 +136,8 @@ export interface GameEvent {
 
   //supplementary info may be needed later
   locationId?: number;
+
+  urgent: boolean;
 }
 
 //return from game engine functions - supports notification through GameEvent[]

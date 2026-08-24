@@ -13,6 +13,7 @@ export interface NotificationData {
   notificationType: string | null;
   notificationMessage: string | null;
   isOpen: boolean;
+  isUrgent: boolean;
   timeOutId: number | null;
 }
 
@@ -28,13 +29,18 @@ export interface UiState {
   characterAssignTarget: CharacterAssignTarget | null;
   activePanel: PanelType | null;
   selection: Selection | null;
-  notification: NotificationData;
+  notifications: {
+      notification: NotificationData;
+      notStack: NotificationData[];
+  }
+
   navStack: HistoryStep[];
 }
 
 export interface ShowNotificationPayload {
   message: string;
   type: 'info' | 'success' | 'error';
+  isUrgent: boolean;
 }
 
 export interface UiStoreMethods {

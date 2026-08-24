@@ -3,7 +3,7 @@ import styles from './Notification.module.css';
 import { Button } from './pure/Button';
 
 function Notification() {
-	const notification = useUiStore((state) => state.notification);
+	const notification = useUiStore((state) => state.notifications.notification);
 	const hideNotification = useUiStore((state) => state.hideNotification);
 
 

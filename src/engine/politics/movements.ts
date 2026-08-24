@@ -19,6 +19,7 @@ export function spawnMovement(currentState: GameState, planetoidId: number, ideo
         locationId: planetoidId,
         involvedOrgIds: [],
         isPlayerVisible: false,
+        urgent: false
     };
 
     if(!originatingPlanetoid){

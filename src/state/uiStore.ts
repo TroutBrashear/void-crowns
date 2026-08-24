@@ -17,11 +17,15 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
 	activePanel: null,
 
 	//logic for notifications
-	notification: {
-		notificationType: null,
-  		notificationMessage: null,
-  		isOpen: false,
-  		timeOutId: null,
+	notifications: {
+		notification: {
+			notificationType: null,
+			notificationMessage: null,
+			isOpen: false,
+			timeOutId: null,
+			isUrgent: false
+		},
+		notStack: []
 	},
 
 
@@ -100,41 +104,104 @@ export const useUiStore = create<UiStoreState>((set, get) => ({
   	}),
 
   	showNotification: (payload: ShowNotificationPayload) => {
-		const { notification } = get(); 
-		if (notification.timeOutId) {
-  			clearTimeout(notification.timeOutId);
+		const { notification } = get().notifications;
+
+
+		//notification is up, push new notification to stack
+		if(notification.isOpen){
+			let notStack = get().notifications.notStack;
+
+			let newNot = {
+				isOpen: false,
+				notificationType: payload.type,
+				notificationMessage: payload.message,
+				timeOutId: null,
+				isUrgent: payload.isUrgent
+			};
+
+			if (payload.isUrgent){
+				notStack = [newNot, ...notStack];
+			}
+			else{
+				let index = notStack.findIndex(not => !not.isUrgent);
+				if(index >= 0){
+					notStack = [...notStack.slice(0, index), newNot, ...notStack.slice(index)];
+				}
+				else{
+					notStack = [...notStack, newNot];
+				}
+			}
+
+			set((state) => ({
+				...state,
+				notifications: {
+					...state.notifications,
+					notStack: notStack
+				}
+			}));
 		}
+		else{
+			const newTimeoutId = setTimeout(() => {
+				get().hideNotification();
+			}, 4000);
 
-		const newTimeoutId = setTimeout(() => {
-			get().hideNotification();
-		}, 4000);
-
-		set((state) => ({
-      		...state,
-      		notification: {
-        		isOpen: true,
-        		notificationType: payload.type, 
-        		notificationMessage: payload.message,
-        		timeOutId: newTimeoutId,
-     		}
-    	}));
+			set((state) => ({
+				...state,
+				notifications: {
+					...state.notifications,
+					notification: {
+						isOpen: true,
+						notificationType: payload.type,
+						notificationMessage: payload.message,
+						timeOutId: newTimeoutId,
+						isUrgent: payload.isUrgent
+					}
+				}
+			}));
+		}
 	},
 
 	hideNotification: () => {
-		const notification = get().notification;
+		const notification = get().notifications.notification;
  
 		if (notification.timeOutId) {
   			clearTimeout(notification.timeOutId);
 		}
 
-		set((state) => ({
-      		...state,
-      		notification: {
-        		isOpen: false,
-        		notificationMessage: null,
-        		notificationType: null,
-        		timeOutId: null,
-      		}
-    	}));
+		let notStack = get().notifications.notStack;
+
+		if(notStack[0]){
+			let noti = {...notStack[0]};
+			const newTimeoutId = setTimeout(() => {
+				get().hideNotification();
+			}, 4000);
+
+			noti.timeOutId = newTimeoutId;
+			noti.isOpen = true;
+			notStack = notStack.slice(1);
+			set((state) => ({
+				...state,
+				notifications: {
+					...state.notifications,
+					notification: noti,
+					notStack: notStack
+				}
+			}));
+		}
+		else{
+			set((state) => ({
+				...state,
+				notifications: {
+					...state.notifications,
+					notification: {
+						isOpen: false,
+						notificationType: null,
+						notificationMessage: null,
+						timeOutId: null,
+						isUrgent: false
+					}
+				}
+			}));
+		}
 	},
 }));
