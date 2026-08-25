@@ -15,7 +15,7 @@ function CharacterCard({ characterId }: { characterId: number }) {
     return(
         <div>
             <h3>{name}</h3>
-            { targetCharacter.assignment?.type ??  <p>targetCharacter.assignment.type</p>}
+            { targetCharacter.assignment?.type && <p>{targetCharacter.assignment.type}</p>}
             <p>Age: {targetCharacter.age} </p>
             <ul>
             { targetCharacter.traits.map(trait =>
