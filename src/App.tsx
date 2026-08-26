@@ -9,6 +9,7 @@ import { OrgCreation } from './components/OrgCreation';
 import { SessionSettings } from './components/SessionSettings';
 import Notification  from './components/Notification';
 import styles from './App.module.css';
+import  { MenuLayout } from './components/pure/layouts/MenuLayout';
 
 function App() {
 
@@ -51,11 +52,11 @@ function App() {
 
    if (appState === 'main_menu') {
     return (
-      <div className={styles.menuContainer}>
+      <MenuLayout>
         <h1 className={styles.title}>VOID CROWNS</h1>
         <Button onClick= {initOrg}>Start New Game</Button>
         <Button onClick= {settings}>Settings</Button>
-      </div>
+      </MenuLayout>
     );
   }
   else if(appState === 'org_creation') {

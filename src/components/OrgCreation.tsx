@@ -4,6 +4,7 @@ import { useGameStore } from '../state/gameStore';
 
 import { Button } from './pure/Button';
 import { SUCCESSION_CATALOG } from '../data/politics/succession';
+import { MenuLayout } from './pure/layouts/MenuLayout';
 
 export function OrgCreation() {
 
@@ -35,7 +36,7 @@ export function OrgCreation() {
     const successionOptions = Object.keys(SUCCESSION_CATALOG);
 
     return (
-        <div>
+        <MenuLayout>
             <label htmlFor="orgName">Name: </label>
             <input type="text" id="orgName" value={name} onChange={(e) => setName(e.target.value)} />
             <label htmlFor="orgColor">Color: </label>
@@ -64,7 +65,7 @@ export function OrgCreation() {
                 <input type="text" id="speciesName" value={speciesName} onChange={(e) => setSpeciesName(e.target.value)}/>
             </div>
             <Button onClick= {startGame}>Submit</Button>
-        </div>
+        </MenuLayout>
     );
 }
 
