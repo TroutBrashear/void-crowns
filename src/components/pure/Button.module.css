@@ -1,3 +1,10 @@
 .button {
     background-color: #446;
 }
+
+
+
+.button:disabled {
+    color: #111111;
+    background-color: #111111;
+}

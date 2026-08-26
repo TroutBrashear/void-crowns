@@ -64,7 +64,7 @@ export function OrgCreation() {
                 <label htmlFor="speciesName">Name: </label>
                 <input type="text" id="speciesName" value={speciesName} onChange={(e) => setSpeciesName(e.target.value)}/>
             </div>
-            <Button onClick= {startGame}>Submit</Button>
+            <Button disabled={!selectedSuccession} onClick= {startGame}>Submit</Button>
         </MenuLayout>
     );
 }
