@@ -8,6 +8,7 @@ import { ModalManager } from './components/modals/ModalManager';
 import { OrgCreation } from './components/OrgCreation';
 import { SessionSettings } from './components/SessionSettings';
 import Notification  from './components/Notification';
+import styles from './App.module.css';
 
 function App() {
 
@@ -50,8 +51,8 @@ function App() {
 
    if (appState === 'main_menu') {
     return (
-      <div>
-        <h1>VOID CROWNS (Main Menu)</h1>
+      <div className={styles.menuContainer}>
+        <h1 className={styles.title}>VOID CROWNS</h1>
         <Button onClick= {initOrg}>Start New Game</Button>
         <Button onClick= {settings}>Settings</Button>
       </div>
