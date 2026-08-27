@@ -18,8 +18,12 @@ import ResearchPanel from '../panels/ResearchPanel';
 import HabitatAssignModal from './assignment_modals/HabitatAssignModal';
 import StatusAssignModal from './assignment_modals/StatusAssignModal';
 
+import styles from './Modal.module.css';
+
 export function ModalManager() {
 	const activeModal = useUiStore(state => state.activeModal);
+	const closeModal = useUiStore(state => state.closeModal);
+	const closeAssignModal = useUiStore(state => state.closeAssignModal);
 	const childAssignModal = useUiStore(state => state.childAssignModal);
 	const activePanel = useUiStore(state => state.activePanel);
 
@@ -70,11 +74,15 @@ export function ModalManager() {
 			panel = <ResearchPanel/>; break;
 	}
 
+	if(!panel && !modal && !assignModal){
+		return null;
+	}
+
 	return(
-		<div>
-			{modal}
-			{assignModal}
-			{panel}
+	 <div  className={styles.modalBackdrop} onClick={(e) => { console.log("Attempt modal close"); if (e.target === e.currentTarget) {closeAssignModal(); closeModal();}}}>
+				{modal}
+				{assignModal}
+				{panel}
 		</div>
 	);
 }

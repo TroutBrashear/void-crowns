@@ -18,7 +18,15 @@
   /* --- The "Appearance" Properties --- */
   background-color: rgba(30, 30, 30, 0.9); /* Dark, slightly transparent background */
   border: 1px solid #555;
-  border-radius: 8px; /* Slightly rounded corners */
-  padding: 1rem;      /* Internal spacing */
-  color: #eee;         /* Light text color for contrast */
+  border-radius: 8px;
+  padding: 1rem;
+  color: #eee;
+}
+
+.modalBackdrop {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
 }
