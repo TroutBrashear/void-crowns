@@ -7,11 +7,14 @@ import { Button } from '../pure/Button';
 import { RESEARCH_CATALOG } from '../../data/research';
 import type { ResearchDefinition } from '../../data/research';
 
-import type { Character } from '../../types/charState';
+import { characterName } from '../../utils/formatters';
+
 
 function LabCard({ buildingId }: { buildingId: number }) {
 
     const openAssignModal = useUiStore(state => state.openAssignModal);
+
+    const characters = useGameStore(state => state.characters.entities);
 
     const researchLab = useGameStore(state => state.buildings.entities[buildingId]);
 
@@ -24,7 +27,7 @@ function LabCard({ buildingId }: { buildingId: number }) {
         researchProject = RESEARCH_CATALOG[researchLab.research.project];
     }
 
-    let assignedCharacter: Character | undefined;
+    let assignedCharacter = researchLab.assignedCharacter ? characters[researchLab.assignedCharacter] : null;
 
     return(
         <div>
@@ -33,7 +36,7 @@ function LabCard({ buildingId }: { buildingId: number }) {
             <Button onClick={() => openAssignModal("assign_research", { targetId: researchLab.id, position: "scientist"})}>Assign Research Project</Button>
 
 
-            { assignedCharacter ? <p> Scientist: {`${assignedCharacter.name.firstName} ${assignedCharacter.name.lastName}` }</p> : <p> No Scientist </p>}
+            { assignedCharacter ? <p> Scientist: {`${characterName(assignedCharacter)}` }</p> : <p> No Scientist </p>}
             <Button onClick={() => openAssignModal("assign_character", { targetId: researchLab.id, position: "scientist"})}>Assign Scientist</Button>
         </div>
     );

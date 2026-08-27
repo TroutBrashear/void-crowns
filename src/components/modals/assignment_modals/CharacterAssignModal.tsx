@@ -96,7 +96,7 @@ function CharacterAssignModal() {
                     if (!character) return null;
                     return(
                         <button key={character.id} className={`${styles.characterButton} ${character.id === selectedCharacter ? styles.selected : ''}`} onClick={() => setSelectedCharacter(character.id)}>
-                        `${character.name.firstName} ${character.name.lastName}`
+                        `{character.name.firstName} {character.name.lastName}`
                         </button>);
                 })}
             </div>

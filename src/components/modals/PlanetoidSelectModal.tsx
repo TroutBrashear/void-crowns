@@ -109,7 +109,7 @@ function PlanetoidSelectModal() {
 				if (!deposit) return null;
 				if (!deposit.isVisible) return null;
 				return(
-					<li key={`Deposit${deposit.id}`}>
+					<li key={`Deposit{deposit.id}`}>
 						<p>{deposit.type} : {deposit.amount}</p>
 					</li>
 				);
